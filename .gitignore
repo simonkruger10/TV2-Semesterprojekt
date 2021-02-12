@@ -1,3 +1,9 @@
+# IDEA Workspace filles
+/.idea/
+
+#Gradle Workspace files
+/.gradle/
+
 # Compiled class file
 *.class
 
