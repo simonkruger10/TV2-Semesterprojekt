@@ -1,8 +1,6 @@
 package com.company;
 
-import com.company.data.Database;
-import com.company.data.JsonDatabase;
-import com.company.data.Production;
+import com.company.data.*;
 
 public class DBController implements Database{
     private Database database;
