@@ -8,4 +8,5 @@ public interface ProductionEntity {
     String getDescription();
     File getImage();
     Credit[] getCredits();
+    int gedId();
 }
