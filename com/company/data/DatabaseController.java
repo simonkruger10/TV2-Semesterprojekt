@@ -1,3 +1,4 @@
+package com.company.data;
 package com.company;
 
 import com.company.data.*;

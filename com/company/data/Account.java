@@ -1,6 +1,6 @@
 package com.company.data;
 
-public class Konto {
+public class Account {
     private String name;
     private String email;
     private String password;
