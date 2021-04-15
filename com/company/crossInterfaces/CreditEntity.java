@@ -1,9 +1,23 @@
 package com.company.crossInterfaces;
 
-import com.company.data.Creditgroup;
-
 public interface CreditEntity {
-    String getFullName();
     int getId();
-    Creditgroup getCreditGroup();
+
+    String getFullName();
+
+    CreditGroupEntity getCreditgroup();
+
+    String getFirstName();
+
+    String getLastName();
+
+    String getMiddleName();
+
+    String setFirstName();
+
+    String setLastName();
+
+    String setMiddleName();
+
+    CreditGroupEntity setCreditGroup();
 }
