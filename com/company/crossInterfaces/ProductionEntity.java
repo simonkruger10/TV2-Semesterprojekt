@@ -1,5 +1,11 @@
 package com.company.crossInterfaces;
 
-public interface ProductionEntity {
+import com.company.data.Credit;
+import java.io.File;
 
+public interface ProductionEntity {
+    String getName();
+    String getDescription();
+    File getImage();
+    Credit[] getCredits();
 }
