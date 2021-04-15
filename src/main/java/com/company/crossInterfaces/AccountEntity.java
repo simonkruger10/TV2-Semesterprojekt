@@ -1,7 +1,7 @@
 package com.company.crossInterfaces;
 
 public interface AccountEntity {
-    int gedId();
+    int getId();
 
     String getFullName();
 
@@ -15,13 +15,13 @@ public interface AccountEntity {
 
     String getMiddleName();
 
-    String setFirstName();
+    void setFirstName(String firstName);
 
-    String setLastName();
+    void setLastName(String lastName);
 
-    String setMiddleName();
+    void setMiddleName(String middleName);
 
-    String setEmail();
+    void setEmail(String email);
 
-    int setAccesLevel();
+    void setAccessLevel(int accessLevel);
 }

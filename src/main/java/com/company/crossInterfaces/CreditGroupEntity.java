@@ -1,7 +1,9 @@
 package com.company.crossInterfaces;
 
 public interface CreditGroupEntity {
-    int gedId();
+    int getId();
+
     String getName();
-    String setName();
+
+    void setName(String name);
 }

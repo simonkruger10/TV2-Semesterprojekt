@@ -1,40 +1,97 @@
 package com.company.data;
 
-public class Account {
-    private String name;
+import com.company.crossInterfaces.AccountEntity;
+
+public class Account implements AccountEntity {
+    private final int id;
+    private String firstName;
+    private String middleName;
+    private String lastName;
     private String email;
-    private String password;
-    private int acessLevel;
+    private int accessLevel;
 
-    public String getName() {
-        return name;
+    public Account(String firstName, String middleName, String lastName, String email, int accessLevel) {
+        this(-1, firstName, middleName, lastName, email, accessLevel);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Account(int id, String firstName, String middleName, String lastName, String email, int accessLevel) {
+        this.id = id;
+        this.firstName = firstName;
+        this.email = middleName;
+        this.lastName = lastName;
+        this.email = email;
+        this.accessLevel = accessLevel;
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public String getFullName() {
+        String fullName = "";
+
+        if (firstName != null) {
+            fullName = firstName;
+        }
+        if (middleName != null && !middleName.trim().isEmpty()) {
+            fullName += " " + middleName;
+        }
+        if (lastName != null) {
+            fullName = " " + lastName;
+        }
+
+        return fullName.trim();
+    }
+
+    @Override
+    public String getFirstName() {
+        return firstName;
+    }
+
+    @Override
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Override
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    @Override
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    @Override
+    public String getLastName() {
+        return lastName;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    @Override
+    public int getAccessLevel() {
+        return accessLevel;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getAcessLevel() {
-        return acessLevel;
-    }
-
-    public void setAcessLevel(int acessLevel) {
-        this.acessLevel = acessLevel;
+    @Override
+    public void setAccessLevel(int accessLevel) {
+        this.accessLevel = accessLevel;
     }
 }

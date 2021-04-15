@@ -4,10 +4,16 @@ import org.json.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class JsonDatabase implements Database {
+import com.company.crossInterfaces.AccountEntity;
+import com.company.crossInterfaces.CreditEntity;
+import com.company.crossInterfaces.CreditGroupEntity;
+import com.company.crossInterfaces.ProductionEntity;
+
+public class JsonDatabase implements DatabaseFacade {
     JSONObject jsonProductionTable;
     ArrayList<Production> productions;
 
@@ -27,12 +33,17 @@ public class JsonDatabase implements Database {
             JSONArray productions = jsonProductionTable.getJSONArray("productions");
             for (int i = 0; i < productions.length(); i++) {
                 JSONObject prod = productions.getJSONObject(i);
-                Production p = new Production(prod.getString("productionName"));
-                System.out.println(p.getProductionName());
+
+                String id = prod.getString("id");
+                String productionName = prod.getString("productionName");
+                File image = new File(prod.getString("Image"));
+                Production p = new Production(id, productionName, image);
+                System.out.println(p.getName());
+
                 JSONArray creditsJsonArray = prod.getJSONArray("credits");
                 for (int c = 0; c < creditsJsonArray.length(); c++) {
                     JSONObject jsonCredit = creditsJsonArray.getJSONObject(c);
-                    Creditgroup creditgroup = new Creditgroup(jsonCredit.getString("creditgroup"));
+                    CreditGroup creditgroup = new CreditGroup(jsonCredit.getString("creditgroup"));
                     String firstName = jsonCredit.getString("firstName");
                     String middleName = null;
                     try {
@@ -46,7 +57,7 @@ public class JsonDatabase implements Database {
                     }
                     String lastName = jsonCredit.getString("lastName");
                     int personID = jsonCredit.getInt("personID");
-                    Credit credit = new Credit(creditgroup, firstName, middleName, lastName, personID);
+                    Credit credit = new Credit(personID, firstName, middleName, lastName, creditgroup);
                     p.addCredit(credit);
                     System.out.println(credit.toJSONString());
                 }
@@ -60,35 +71,97 @@ public class JsonDatabase implements Database {
     }
 
     @Override
-    public void getProductions() {
+    public boolean checkAccess() {
+        return false;
+    }
+
+    @Override
+    public ProductionEntity[] getProductions() {
+        return new ProductionEntity[0];
+    }
+
+    @Override
+    public ProductionEntity getProduction(int id) {
+        return null;
+    }
+
+    @Override
+    public void addProduction(ProductionEntity productionInfo) {
 
     }
 
     @Override
-    public void addProduction(Production production) {
+    public void updateProduction(ProductionEntity productionInfo) {
 
     }
 
     @Override
-    public void getCredits(Production production) {
+    public CreditEntity[] getCredits() {
+        return new CreditEntity[0];
+    }
+
+    @Override
+    public CreditEntity getCredit(int id) {
+        return null;
+    }
+
+    @Override
+    public void addCredit(CreditEntity creditInfo) {
 
     }
 
     @Override
-    public void addCredit(Production production) {
+    public void updateCredit(CreditEntity creditInfo) {
 
     }
 
     @Override
-    public boolean validLogin(String username, String password) {
+    public CreditGroupEntity[] getCreditGroups() {
+        return new CreditGroupEntity[0];
+    }
+
+    @Override
+    public CreditGroupEntity getCreditGroup(int id) {
+        return null;
+    }
+
+    @Override
+    public void addCreditGroup(CreditGroupEntity creditGroupInfo) {
+
+    }
+
+    @Override
+    public void updateCreditGroup(CreditGroupEntity creditGroupInfo) {
+
+    }
+
+    @Override
+    public AccountEntity[] getAccounts() {
+        return new AccountEntity[0];
+    }
+
+    @Override
+    public AccountEntity getAccount(int id) {
+        return null;
+    }
+
+    @Override
+    public void addAccount(AccountEntity accountInfo) {
+
+    }
+
+    @Override
+    public void updateAccount(AccountEntity accountInfo) {
+
+    }
+
+    @Override
+    public boolean login(String email, String password) {
         return false;
     }
 
     public static File loadFile(String fileName) {
-        String path = System.getProperty("user.dir");
-        if (path.endsWith("TV2-Semesterprojekt")) {
-            return new File(path + "\\com\\company\\data\\json\\" + fileName);
-        }
-        return new File(path + "\\TV2-Semesterprojekt\\com\\company\\data\\json\\" + fileName);
+        URL jsonFile = JsonDatabase.class.getResource(fileName);
+        return new File(jsonFile.getFile());
     }
 }

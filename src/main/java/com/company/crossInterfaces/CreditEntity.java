@@ -5,7 +5,7 @@ public interface CreditEntity {
 
     String getFullName();
 
-    CreditGroupEntity getCreditgroup();
+    CreditGroupEntity getCreditGroup();
 
     String getFirstName();
 
@@ -13,11 +13,11 @@ public interface CreditEntity {
 
     String getMiddleName();
 
-    String setFirstName();
+    void setFirstName(String firstName);
 
-    String setLastName();
+    void setLastName(String lastName);
 
-    String setMiddleName();
+    void setMiddleName(String middleName);
 
-    CreditGroupEntity setCreditGroup();
+    void setCreditGroup(CreditGroupEntity creditGroup);
 }

@@ -1,15 +1,19 @@
 package com.company.crossInterfaces;
 
-import com.company.data.Credit;
-
 import java.io.File;
 
 public interface ProductionEntity {
-    int gedId();
+    int getId();
+
     String getName();
+
     String getDescription();
+
     File getImage();
-    String setName();
-    String setDescription();
-    File setImage();
+
+    void setName(String name);
+
+    void setDescription(String description);
+
+    void setImage(File image);
 }

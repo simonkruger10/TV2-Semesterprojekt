@@ -1,80 +1,107 @@
 package com.company.data;
 
-public class Credit {
+import com.company.crossInterfaces.CreditEntity;
+import com.company.crossInterfaces.CreditGroupEntity;
 
-
-    private Creditgroup creditgroup;
+public class Credit implements CreditEntity {
+    private final int id;
     private String firstName;
-    private String lastName;
     private String middleName;
-    private int personID;
+    private String lastName;
+    private CreditGroupEntity creditGroup;
 
-    public Credit(Creditgroup creditgroup, String firstName, String middleName, String lastName, int personID) {
-        this.creditgroup = creditgroup;
+    public Credit(String firstName, String middleName, String lastName, CreditGroupEntity creditGroup) {
+        this(-1, firstName, middleName, lastName, creditGroup);
+    }
+
+    public Credit(int id, String firstName, String lastName, String middleName, CreditGroupEntity creditGroup) {
+        this.id = id;
         this.firstName = firstName;
-        this.middleName = middleName;
         this.lastName = lastName;
-        this.personID = personID;
+        this.middleName = middleName;
+        this.creditGroup = creditGroup;
     }
 
-    public Creditgroup getCreditgroup() {
-        return creditgroup;
+    @Override
+    public int getId() {
+        return id;
     }
 
-    public void setCreditgroup(Creditgroup creditgroup) {
-        this.creditgroup = creditgroup;
+    @Override
+    public String getFullName() {
+        String fullName = "";
+
+        if (firstName != null) {
+            fullName = firstName + " ";
+        }
+        if (middleName != null && !middleName.trim().isEmpty()) {
+            fullName += middleName + " ";
+        }
+        if (lastName != null) {
+            fullName = lastName;
+        }
+
+        return fullName.trim();
     }
 
+    @Override
     public String getFirstName() {
         return firstName;
     }
 
+    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
+    @Override
     public String getMiddleName() {
         return middleName;
     }
 
+    @Override
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
 
-    public int getPersonID() {
-        return personID;
+    @Override
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setPersonID(int personID) {
-        this.personID = personID;
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Override
+    public CreditGroupEntity getCreditGroup() {
+        return creditGroup;
+    }
+
+    @Override
+    public void setCreditGroup(CreditGroupEntity creditGroup) {
+        this.creditGroup = creditGroup;
     }
 
     @Override
     public String toString() {
         return "Credit{" +
-                "creditgroup=" + creditgroup +
+                "creditGroup=" + creditGroup +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", middleName='" + middleName + '\'' +
-                ", personID=" + personID +
+                ", personID=" + id +
                 '}';
     }
 
     public String toJSONString() {
         return "{" +
-                "\"creditgroup\": " + "\"" + creditgroup + "\", "+
+                "\"creditGroup\": " + "\"" + creditGroup + "\", " +
                 "\"firstName\": " + "\"" + firstName + "\", " +
                 "\"lastName\": " + "\"" + lastName + "\", " +
                 "\"middleName\": " + "\"" + middleName + "\", " +
-                "\"personID\": " + "\"" + personID + "\"" +
+                "\"personID\": " + "\"" + id + "\"" +
                 "}";
     }
 }

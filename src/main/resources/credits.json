@@ -1,6 +1,6 @@
 {
 	"productions": [
-	{"productionName": "Shawshank Redemption", "Image": "shawshankredemption.img", "credits":  [
+	{"id":  1, "productionName": "Shawshank Redemption", "Image": "shawshankredemption.img", "credits":  [
 		{"creditgroup": "Director", "firstName":  "Frank", "middleName":  null, "lastName": "Darabont", "personID": 1},
 		{"creditgroup": "Writer", "firstName":  "Stephen", "middleName":  null, "lastName": "King", "personID": 2},
 		{"creditgroup": "Writer", "firstName":  "Frank", "middleName":  null, "lastName": "Darabont", "personID": 1},
@@ -12,7 +12,7 @@
 		{"creditgroup": "Film Editing by", "firstName":  "Richard", "middleName":  null, "lastName": "Francis-Bruce", "personID": 8},
 		{"creditgroup": "Casting By", "firstName":  "Deborah", "middleName":  null, "lastName": "Aquila", "personID": 9}
 	]},
-	{"productionName": "Godfather", "Image": "godfather.img", "credits":  [
+	{"id":  1, "productionName": "Godfather", "Image": "godfather.img", "credits":  [
 		{"creditgroup": "Director", "firstName":  "Francis", "middleName":  "Ford", "lastName": "Coppola", "personID": 10},
 		{"creditgroup": "Writer", "firstName":  "Mario", "middleName":  null, "lastName": "Puzo", "personID": 11},
 		{"creditgroup": "Writer", "firstName":  "Francis", "middleName":  "Ford", "lastName": "Coppola", "personID": 10},
@@ -24,7 +24,7 @@
 		{"creditgroup": "Film Editing by", "firstName":  "William", "middleName":  null, "lastName": "Reynolds", "personID": 18},
 		{"creditgroup": "Casting By", "firstName":  "Louis", "middleName":  null, "lastName": "DiGiaimo", "personID": 19}
 	]},
-	{"productionName": "Shrek", "Image": "shrek.img", "credits":  [
+	{"id":  1, "productionName": "Shrek", "Image": "shrek.img", "credits":  [
 		{"creditgroup": "Director", "firstName":  "Andrew", "middleName":  null, "lastName": "Adamson", "personID": 20},
 		{"creditgroup": "Director", "firstName":  "Vicky", "middleName":  null, "lastName": "Jenson", "personID": 21},
 		{"creditgroup": "Based upon the book by", "firstName":  "William", "middleName":  null, "lastName": "Steig", "personID": 22},

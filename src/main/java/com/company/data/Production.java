@@ -1,41 +1,61 @@
 package com.company.data;
 
+import com.company.crossInterfaces.ProductionEntity;
+
 import java.io.File;
 import java.util.ArrayList;
 
-public class Production {
-    private String  productionName;
-    private String Description;
-    private File Image;
+public class Production implements ProductionEntity {
+    private final int id;
+    private String name;
+    private String description;
+    private File image;
     private ArrayList<Credit> credit;
 
-    public Production(String productionName) {
-        this.productionName = productionName;
-        this.credit = new ArrayList<>();
+    public Production(String name, String description, File image) {
+        this(-1, name, description, image);
     }
 
-    public String getProductionName() {
-        return productionName;
+    public Production(int id, String name, String description, File image) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.image = image;
     }
 
-    public void setProductionName(String productionName) {
-        this.productionName = productionName;
+    @Override
+    public int getId() {
+        return this.id;
     }
 
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
     public String getDescription() {
-        return Description;
+        return this.description;
     }
 
+    @Override
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
+    @Override
     public File getImage() {
-        return Image;
+        return this.image;
     }
 
+    @Override
     public void setImage(File image) {
-        Image = image;
+        this.image = image;
     }
 
     public ArrayList<Credit> getCredit() {
@@ -53,18 +73,18 @@ public class Production {
     @Override
     public String toString() {
         return "Production{" +
-                "productionName='" + productionName + '\'' +
-                ", Description='" + Description + '\'' +
-                ", Image=" + Image +
+                "productionName='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", image=" + image +
                 ", credit=" + credit +
                 '}';
     }
 
     public String toJSONString() {
         return "{" +
-                "\"productionName\" :" + "\"" +productionName + "\"," +
-                //"\"Description='" + Description + '\'' +
-                //"\"Image=" + Image +
+                "\"productionName\" :" + "\"" + name + "\"," +
+                //"\"description='" + description + '\'' +
+                //"\"image=" + image +
                 "\"credits\" :" + "[" + credit + "]" +
                 '}';
     }
