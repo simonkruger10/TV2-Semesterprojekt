@@ -1,19 +1,18 @@
 package com.company.data;
-package com.company;
 
 import com.company.data.*;
 
-public class DBController implements Database{
+public class DatabaseController implements Database{
     private Database database;
-    private DBController instance;
+    private DatabaseController instance;
 
-    private DBController() {
+    private DatabaseController() {
         database = new JsonDatabase();
     }
 
-    public DBController getInstance() {
+    public DatabaseController getInstance() {
         if(this.instance == null) {
-            this.instance = new DBController();
+            this.instance = new DatabaseController();
         }
         return this.instance;
     }
