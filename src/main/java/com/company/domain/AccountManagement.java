@@ -1,4 +1,4 @@
-package com.company.Domain;
+package com.company.domain;
 
-public class AccoutManagement {
+public class AccountManagement {
 }

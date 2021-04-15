@@ -1,6 +1,6 @@
 package com.company.data;
 
-public interface Database {
+public interface DatabaseFacade {
 
     void getProductions();
 

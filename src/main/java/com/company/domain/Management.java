@@ -1,4 +1,4 @@
-package com.company.Domain;
+package com.company.domain;
 
 import com.company.crossInterfaces.CreditEntity;
 import com.company.crossInterfaces.CreditGroupEntity;
@@ -21,7 +21,7 @@ public interface Management {
         return null;
     }
 
-    default CreditManagement addCreditGroup(CreditGroupEntity groupinfo) {
+    default CreditManagement addCreditGroup(CreditGroupEntity creditinfo) {
         return null;
     }
 

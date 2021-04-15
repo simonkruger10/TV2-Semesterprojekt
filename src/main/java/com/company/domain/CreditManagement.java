@@ -1,11 +1,11 @@
-package com.company.Domain;
+package com.company.domain;
 
 import com.company.crossInterfaces.AccountEntity;
 
 public class CreditManagement implements Account {
     AccountEntity currentUser;
 
-    AccountEntity accountManagemen() {
+    AccountEntity accountManagement() {
         return null;
     }
 

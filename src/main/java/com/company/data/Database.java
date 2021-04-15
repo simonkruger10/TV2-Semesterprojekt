@@ -2,15 +2,15 @@ package com.company.data;
 
 import com.company.data.*;
 
-public class DatabaseController implements Database{
+public class Database implements DatabaseFacade {
     private Database database;
     private DatabaseController instance;
 
-    private DatabaseController() {
+    private Database() {
         database = new JsonDatabase();
     }
 
-    public DatabaseController getInstance() {
+    public Database getInstance() {
         if(this.instance == null) {
             this.instance = new DatabaseController();
         }
