@@ -1,7 +1,4 @@
-package com.company;
-
-import com.company.data.Database;
-import com.company.data.JsonDatabase;
+package com.company.data;
 
 public class DBController {
     private Database database;
