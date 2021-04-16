@@ -3,7 +3,21 @@ package com.company.crossInterfaces;
 public interface AccountEntity {
     int getId();
 
-    String getFullName();
+    default String getFullName() {
+        String fullName = "";
+
+        if (getFirstName() != null) {
+            fullName = getFirstName();
+        }
+        if (getMiddleName() != null && !getMiddleName().trim().isEmpty()) {
+            fullName += " " + getMiddleName();
+        }
+        if (getLastName() != null) {
+            fullName = " " + getLastName();
+        }
+
+        return fullName.trim();
+    }
 
     String getEmail();
 
