@@ -3,16 +3,16 @@ plugins {
 }
 
 group 'com.company'
-version '0.1'
+version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/org.json/json
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     implementation group: 'org.json', name: 'json', version: '20210307'
-
 }
 
 sourceSets {
