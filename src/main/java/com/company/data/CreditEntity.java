@@ -1,20 +1,19 @@
 package com.company.data;
 
-import com.company.crossInterfaces.CreditEntity;
-import com.company.crossInterfaces.CreditGroupEntity;
+import com.company.crossInterfaces.ICreditGroup;
 
-public class Credit implements CreditEntity {
+public class CreditEntity implements com.company.crossInterfaces.ICredit {
     private final int id;
     private String firstName;
     private String middleName;
     private String lastName;
-    private CreditGroupEntity creditGroup;
+    private ICreditGroup creditGroup;
 
-    public Credit(String firstName, String middleName, String lastName, CreditGroupEntity creditGroup) {
+    public CreditEntity(String firstName, String middleName, String lastName, ICreditGroup creditGroup) {
         this(-1, firstName, middleName, lastName, creditGroup);
     }
 
-    public Credit(int id, String firstName, String lastName, String middleName, CreditGroupEntity creditGroup) {
+    public CreditEntity(int id, String firstName, String lastName, String middleName, ICreditGroup creditGroup) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,12 +74,12 @@ public class Credit implements CreditEntity {
     }
 
     @Override
-    public CreditGroupEntity getCreditGroup() {
+    public ICreditGroup getCreditGroup() {
         return creditGroup;
     }
 
     @Override
-    public void setCreditGroup(CreditGroupEntity creditGroup) {
+    public void setCreditGroup(ICreditGroup creditGroup) {
         this.creditGroup = creditGroup;
     }
 

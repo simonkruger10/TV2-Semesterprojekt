@@ -1,6 +1,6 @@
 package com.company.crossInterfaces;
 
-public interface AccountEntity {
+public interface IAccount {
     int getId();
 
     String getFullName();

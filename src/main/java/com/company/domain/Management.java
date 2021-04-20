@@ -1,31 +1,31 @@
 package com.company.domain;
 
-import com.company.crossInterfaces.CreditEntity;
-import com.company.crossInterfaces.CreditGroupEntity;
-import com.company.crossInterfaces.ProductionEntity;
+import com.company.crossInterfaces.ICredit;
+import com.company.crossInterfaces.ICreditGroup;
+import com.company.crossInterfaces.IProduction;
 
 public interface Management {
-    default CreditManagement addProduction(ProductionEntity productionInfo) {
+    default CreditManagement addProduction(IProduction productionInfo) {
         return null;
     }
 
-    default ProductionEntity getProduction(int id) {
+    default IProduction getProduction(int id) {
         return null;
     }
 
-    default CreditManagement addCredit(CreditEntity creditinfo, ProductionEntity production) {
+    default CreditManagement addCredit(ICredit creditinfo, IProduction production) {
         return null;
     }
 
-    default CreditEntity getCredit(int id) {
+    default ICredit getCredit(int id) {
         return null;
     }
 
-    default CreditManagement addCreditGroup(CreditGroupEntity creditinfo) {
+    default CreditManagement addCreditGroup(ICreditGroup creditinfo) {
         return null;
     }
 
-    default CreditGroupEntity getCreditGroup(int id) {
+    default ICreditGroup getCreditGroup(int id) {
         return null;
     }
 }

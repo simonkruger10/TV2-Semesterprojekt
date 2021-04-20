@@ -1,9 +1,9 @@
 package com.company.domain;
 
-import com.company.crossInterfaces.AccountEntity;
+import com.company.crossInterfaces.IAccount;
 
 public interface Account {
-    default void addAccount(AccountEntity accountinfo, String password) {
+    default void addAccount(IAccount accountinfo, String password) {
 
     }
 

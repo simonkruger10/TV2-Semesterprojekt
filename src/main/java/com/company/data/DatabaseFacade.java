@@ -1,9 +1,9 @@
 package com.company.data;
 
-import com.company.crossInterfaces.AccountEntity;
-import com.company.crossInterfaces.CreditEntity;
-import com.company.crossInterfaces.CreditGroupEntity;
-import com.company.crossInterfaces.ProductionEntity;
+import com.company.crossInterfaces.IAccount;
+import com.company.crossInterfaces.ICredit;
+import com.company.crossInterfaces.ICreditGroup;
+import com.company.crossInterfaces.IProduction;
 
 public interface DatabaseFacade {
     @SuppressWarnings("SameReturnValue")
@@ -13,37 +13,37 @@ public interface DatabaseFacade {
 
     boolean checkAccess();
 
-    ProductionEntity[] getProductions();
+    IProduction[] getProductions();
 
-    ProductionEntity getProduction(int id);
+    IProduction getProduction(int id);
 
-    void addProduction(ProductionEntity productionInfo);
+    void addProduction(IProduction productionInfo);
 
-    void updateProduction(ProductionEntity productionInfo);
+    void updateProduction(IProduction productionInfo);
 
-    CreditEntity[] getCredits();
+    ICredit[] getCredits();
 
-    CreditEntity getCredit(int id);
+    ICredit getCredit(int id);
 
-    void addCredit(CreditEntity creditInfo);
+    void addCredit(ICredit creditInfo);
 
-    void updateCredit(CreditEntity creditInfo);
+    void updateCredit(ICredit creditInfo);
 
-    CreditGroupEntity[] getCreditGroups();
+    ICreditGroup[] getCreditGroups();
 
-    CreditGroupEntity getCreditGroup(int id);
+    ICreditGroup getCreditGroup(int id);
 
-    void addCreditGroup(CreditGroupEntity creditGroupInfo);
+    void addCreditGroup(ICreditGroup creditGroupInfo);
 
-    void updateCreditGroup(CreditGroupEntity creditGroupInfo);
+    void updateCreditGroup(ICreditGroup creditGroupInfo);
 
-    AccountEntity[] getAccounts();
+    IAccount[] getAccounts();
 
-    AccountEntity getAccount(int id);
+    IAccount getAccount(int id);
 
-    void addAccount(AccountEntity accountInfo);
+    void addAccount(IAccount accountInfo);
 
-    void updateAccount(AccountEntity accountInfo);
+    void updateAccount(IAccount accountInfo);
 
     /**
      * Searches through the database for a matching username password pair.

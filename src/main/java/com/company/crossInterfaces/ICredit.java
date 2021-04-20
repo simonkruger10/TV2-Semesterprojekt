@@ -1,11 +1,11 @@
 package com.company.crossInterfaces;
 
-public interface CreditEntity {
+public interface ICredit {
     int getId();
 
     String getFullName();
 
-    CreditGroupEntity getCreditGroup();
+    ICreditGroup getCreditGroup();
 
     String getFirstName();
 
@@ -19,5 +19,5 @@ public interface CreditEntity {
 
     void setMiddleName(String middleName);
 
-    void setCreditGroup(CreditGroupEntity creditGroup);
+    void setCreditGroup(ICreditGroup creditGroup);
 }
