@@ -1,4 +1,4 @@
-package com.company.crossInterfaces;
+package com.company.common;
 
 import java.io.File;
 

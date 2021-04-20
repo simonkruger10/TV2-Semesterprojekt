@@ -8,10 +8,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.company.crossInterfaces.IAccount;
-import com.company.crossInterfaces.ICredit;
-import com.company.crossInterfaces.ICreditGroup;
-import com.company.crossInterfaces.IProduction;
+import com.company.common.IAccount;
+import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
+import com.company.common.IProduction;
 
 public class JsonDatabase implements DatabaseFacade {
     JSONObject jsonProductionTable;

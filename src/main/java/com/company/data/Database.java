@@ -1,9 +1,9 @@
 package com.company.data;
 
-import com.company.crossInterfaces.IAccount;
-import com.company.crossInterfaces.ICredit;
-import com.company.crossInterfaces.ICreditGroup;
-import com.company.crossInterfaces.IProduction;
+import com.company.common.IAccount;
+import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
+import com.company.common.IProduction;
 
 public class Database implements DatabaseFacade {
     private static DatabaseFacade instance;

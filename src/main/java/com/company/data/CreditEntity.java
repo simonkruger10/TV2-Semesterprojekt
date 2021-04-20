@@ -1,8 +1,8 @@
 package com.company.data;
 
-import com.company.crossInterfaces.ICreditGroup;
+import com.company.common.ICreditGroup;
 
-public class CreditEntity implements com.company.crossInterfaces.ICredit {
+public class CreditEntity implements com.company.common.ICredit {
     private final int id;
     private String firstName;
     private String middleName;

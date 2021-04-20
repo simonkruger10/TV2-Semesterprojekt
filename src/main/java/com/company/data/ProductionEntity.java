@@ -3,7 +3,7 @@ package com.company.data;
 import java.io.File;
 import java.util.ArrayList;
 
-public class ProductionEntity implements com.company.crossInterfaces.IProduction {
+public class ProductionEntity implements com.company.common.IProduction {
     private final int id;
     private String name;
     private String description;

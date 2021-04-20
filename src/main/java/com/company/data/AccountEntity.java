@@ -1,6 +1,6 @@
 package com.company.data;
 
-public class AccountEntity implements com.company.crossInterfaces.IAccount {
+public class AccountEntity implements com.company.common.IAccount {
     private final int id;
     private String firstName;
     private String middleName;

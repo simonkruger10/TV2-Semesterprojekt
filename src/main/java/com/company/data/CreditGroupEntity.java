@@ -1,6 +1,6 @@
 package com.company.data;
 
-public class CreditGroupEntity implements com.company.crossInterfaces.ICreditGroup {
+public class CreditGroupEntity implements com.company.common.ICreditGroup {
     private final int id;
     private String name;
 
