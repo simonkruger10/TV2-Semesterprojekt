@@ -1,4 +1,4 @@
 package com.company.domain;
 
-public class AccountManagement {
+public class AccountManagement implements IAccountManagement {
 }
