@@ -1,17 +1,21 @@
 package com.company.domain;
 
-import com.company.common.AccountEntity;
+import com.company.common.IAccount;
+import com.company.common.IAccessLevel;
 
 public interface IAccountManagement {
-    default void addAccount(AccountEntity accountinfo, String password) {
+    IAccount create(String firstName, String email);
+    IAccount create(String firstName, String email, IAccessLevel accessLevel);
+    IAccount create(String firstName, String lastName, String email);
+    IAccount create(String firstName, String lastName, String email, IAccessLevel accessLevel);
+    IAccount create(String firstName, String middleName, String lastName, String email);
+    IAccount create(String firstName, String middleName, String lastName, String email, IAccessLevel accessLevel);
 
-    }
+    IAccount[] search(String[] words);
 
-    default boolean login(String email, String password) {
-        return false;
-    }
+    IAccount[] getByName(String name);
+    IAccount[] getByName(String firstName, String lastName);
+    IAccount[] getByName(String firstName, String middleName, String lastName);
 
-    default IAccountManagement getInstance() {
-        return null;
-    }
+    IAccount[] getByEmail(String email);
 }

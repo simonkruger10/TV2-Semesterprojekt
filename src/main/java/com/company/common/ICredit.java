@@ -1,23 +1,21 @@
 package com.company.common;
 
 public interface ICredit {
-    int getId();
-
     String getFullName();
-
-    ICreditGroup getCreditGroup();
 
     String getFirstName();
 
-    String getLastName();
-
-    String getMiddleName();
-
     void setFirstName(String firstName);
+
+    String getLastName();
 
     void setLastName(String lastName);
 
+    String getMiddleName();
+
     void setMiddleName(String middleName);
+
+    ICreditGroup getCreditGroup();
 
     void setCreditGroup(ICreditGroup creditGroup);
 }

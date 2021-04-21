@@ -1,11 +1,18 @@
 package com.company.domain;
 
-public interface ICreditManagement {
-    CreditDTO createCredit(String firstName);
-    CreditDTO createCredit(String firstName, String lastName);
-    CreditDTO createCredit(String firstName, String middleName, String lastName);
+import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
 
-    CreditDTO[] getCreditByName(String name);
-    CreditDTO[] getCreditByName(String firstName, String lastName);
-    CreditDTO[] getCreditByName(String firstName, String middleName, String lastName);
+public interface ICreditManagement {
+    ICredit create(String firstName, ICreditGroup creditGroup);
+    ICredit create(String firstName, String lastName, ICreditGroup creditGroup);
+    ICredit create(String firstName, String middleName, String lastName, ICreditGroup creditGroup);
+
+    ICredit[] search(String[] words);
+
+    ICredit[] getByName(String firstName);
+    ICredit[] getByName(String firstName, String lastName);
+    ICredit[] getByName(String firstName, String middleName, String lastName);
+
+    ICredit[] getByGroup(String groupName);
 }

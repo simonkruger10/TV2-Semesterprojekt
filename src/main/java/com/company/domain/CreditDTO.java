@@ -1,39 +1,33 @@
 package com.company.domain;
 
-public class CreditDTO {
-    public String getUUID() {
-        return null;
+import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
+
+public class CreditDTO extends PersonDTO implements ICredit {
+    private CreditGroupDTO creditGroup;
+
+    public CreditDTO(String firstName, ICreditGroup creditGroup) {
+        super(firstName);
+        this.creditGroup = (CreditGroupDTO) creditGroup;
     }
 
-    String getFullName() {
-        return null;
+    public CreditDTO(String firstName, String lastName, ICreditGroup creditGroup) {
+        super(firstName, lastName);
+        this.creditGroup = (CreditGroupDTO) creditGroup;
     }
 
-    String getFirstName() {
-        return null;
+    public CreditDTO(String firstName, String middleName, String lastName, ICreditGroup creditGroup) {
+        super(firstName, middleName, lastName);
+        this.creditGroup = (CreditGroupDTO) creditGroup;
     }
 
-    void setFirstName(String firstName) {
+    @Override
+    public ICreditGroup getCreditGroup() {
+        return creditGroup;
     }
 
-    String getLastName() {
-        return null;
-    }
-
-    void setLastName(String lastName) {
-    }
-
-    String getMiddleName() {
-        return null;
-    }
-
-    void setMiddleName(String middleName) {
-    }
-
-    CreditGroupDTO getCreditGroup() {
-        return null;
-    }
-
-    void setCreditGroup(CreditGroupDTO creditGroup) {
+    @Override
+    public void setCreditGroup(ICreditGroup creditGroup) {
+        this.creditGroup = (CreditGroupDTO) creditGroup;
     }
 }

@@ -1,27 +1,25 @@
 package com.company.common;
 
 public interface IAccount {
-    int getId();
-
     String getFullName();
 
-    String getEmail();
-
-    int getAccessLevel();
-
     String getFirstName();
-
-    String getLastName();
-
-    String getMiddleName();
 
     void setFirstName(String firstName);
 
     void setLastName(String lastName);
 
+    String getLastName();
+
     void setMiddleName(String middleName);
+
+    String getMiddleName();
+
+    String getEmail();
 
     void setEmail(String email);
 
-    void setAccessLevel(int accessLevel);
+    IAccessLevel getAccessLevel();
+
+    void setAccessLevel(IAccessLevel accessLevel);
 }
