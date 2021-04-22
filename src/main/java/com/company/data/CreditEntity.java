@@ -21,7 +21,6 @@ public class CreditEntity implements com.company.common.ICredit {
         this.creditGroup = creditGroup;
     }
 
-    @Override
     public int getId() {
         return id;
     }
@@ -48,7 +47,6 @@ public class CreditEntity implements com.company.common.ICredit {
         return firstName;
     }
 
-    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -58,7 +56,6 @@ public class CreditEntity implements com.company.common.ICredit {
         return middleName;
     }
 
-    @Override
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
@@ -68,7 +65,6 @@ public class CreditEntity implements com.company.common.ICredit {
         return lastName;
     }
 
-    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -78,7 +74,6 @@ public class CreditEntity implements com.company.common.ICredit {
         return creditGroup;
     }
 
-    @Override
     public void setCreditGroup(ICreditGroup creditGroup) {
         this.creditGroup = creditGroup;
     }

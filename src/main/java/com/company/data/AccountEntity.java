@@ -1,18 +1,20 @@
 package com.company.data;
 
+import com.company.common.IAccessLevel;
+
 public class AccountEntity implements com.company.common.IAccount {
     private final int id;
     private String firstName;
     private String middleName;
     private String lastName;
     private String email;
-    private int accessLevel;
+    private IAccessLevel accessLevel;
 
-    public AccountEntity(String firstName, String middleName, String lastName, String email, int accessLevel) {
+    public AccountEntity(String firstName, String middleName, String lastName, String email, IAccessLevel accessLevel) {
         this(-1, firstName, middleName, lastName, email, accessLevel);
     }
 
-    public AccountEntity(int id, String firstName, String middleName, String lastName, String email, int accessLevel) {
+    public AccountEntity(int id, String firstName, String middleName, String lastName, String email, IAccessLevel accessLevel) {
         this.id = id;
         this.firstName = firstName;
         this.email = middleName;
@@ -21,7 +23,6 @@ public class AccountEntity implements com.company.common.IAccount {
         this.accessLevel = accessLevel;
     }
 
-    @Override
     public int getId() {
         return id;
     }
@@ -48,7 +49,6 @@ public class AccountEntity implements com.company.common.IAccount {
         return firstName;
     }
 
-    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -58,7 +58,6 @@ public class AccountEntity implements com.company.common.IAccount {
         return middleName;
     }
 
-    @Override
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
@@ -68,7 +67,6 @@ public class AccountEntity implements com.company.common.IAccount {
         return lastName;
     }
 
-    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -78,18 +76,16 @@ public class AccountEntity implements com.company.common.IAccount {
         return email;
     }
 
-    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
     @Override
-    public int getAccessLevel() {
+    public IAccessLevel getAccessLevel() {
         return accessLevel;
     }
 
-    @Override
-    public void setAccessLevel(int accessLevel) {
+    public void setAccessLevel(IAccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
 }
