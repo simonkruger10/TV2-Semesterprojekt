@@ -3,7 +3,7 @@ package com.company.data;
 import java.io.File;
 import java.util.ArrayList;
 
-public class ProductionEntity implements com.company.common.IProduction {
+public class ProductionEntity {
     private final int id;
     private String name;
     private String description;
@@ -21,37 +21,30 @@ public class ProductionEntity implements com.company.common.IProduction {
         this.image = image;
     }
 
-    @Override
     public int getId() {
         return this.id;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     public String getDescription() {
         return this.description;
     }
 
-    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
-    @Override
     public File getImage() {
         return this.image;
     }
 
-    @Override
     public void setImage(File image) {
         this.image = image;
     }

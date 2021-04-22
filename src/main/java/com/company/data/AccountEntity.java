@@ -1,6 +1,8 @@
 package com.company.data;
 
-public class AccountEntity implements com.company.common.IAccount {
+import com.company.common.IAccount;
+
+public class AccountEntity {
     private final int id;
     private String firstName;
     private String middleName;
@@ -21,12 +23,10 @@ public class AccountEntity implements com.company.common.IAccount {
         this.accessLevel = accessLevel;
     }
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public String getFullName() {
         String fullName = "";
 
@@ -43,52 +43,42 @@ public class AccountEntity implements com.company.common.IAccount {
         return fullName.trim();
     }
 
-    @Override
     public String getFirstName() {
         return firstName;
     }
 
-    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    @Override
     public String getMiddleName() {
         return middleName;
     }
 
-    @Override
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
 
-    @Override
     public String getLastName() {
         return lastName;
     }
 
-    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    @Override
     public String getEmail() {
         return email;
     }
 
-    @Override
     public void setEmail(String email) {
         this.email = email;
     }
 
-    @Override
     public int getAccessLevel() {
         return accessLevel;
     }
 
-    @Override
     public void setAccessLevel(int accessLevel) {
         this.accessLevel = accessLevel;
     }

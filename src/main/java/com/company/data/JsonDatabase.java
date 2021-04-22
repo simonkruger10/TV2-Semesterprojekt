@@ -57,7 +57,7 @@ public class JsonDatabase implements DatabaseFacade {
                     }
                     String lastName = jsonCredit.getString("lastName");
                     int personID = jsonCredit.getInt("personID");
-                    CreditEntity credit = new CreditEntity(personID, firstName, middleName, lastName, creditgroup);
+                    CreditEntity credit = new CreditEntity(personID, firstName, middleName, lastName, (ICreditGroup) creditgroup);
                     p.addCredit(credit);
                     System.out.println(credit.toJSONString());
                 }

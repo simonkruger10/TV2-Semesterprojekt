@@ -2,7 +2,7 @@ package com.company.data;
 
 import com.company.common.ICreditGroup;
 
-public class CreditEntity implements com.company.common.ICredit {
+public class CreditEntity {
     private final int id;
     private String firstName;
     private String middleName;
@@ -21,12 +21,10 @@ public class CreditEntity implements com.company.common.ICredit {
         this.creditGroup = creditGroup;
     }
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public String getFullName() {
         String fullName = "";
 
@@ -43,42 +41,34 @@ public class CreditEntity implements com.company.common.ICredit {
         return fullName.trim();
     }
 
-    @Override
     public String getFirstName() {
         return firstName;
     }
 
-    @Override
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    @Override
     public String getMiddleName() {
         return middleName;
     }
 
-    @Override
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
     }
 
-    @Override
     public String getLastName() {
         return lastName;
     }
 
-    @Override
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    @Override
     public ICreditGroup getCreditGroup() {
         return creditGroup;
     }
 
-    @Override
     public void setCreditGroup(ICreditGroup creditGroup) {
         this.creditGroup = creditGroup;
     }
