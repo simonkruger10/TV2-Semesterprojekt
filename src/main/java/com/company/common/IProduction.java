@@ -1,8 +1,8 @@
-package com.company.crossInterfaces;
+package com.company.common;
 
 import java.io.File;
 
-public interface ProductionEntity {
+public interface IProduction {
     int getId();
 
     String getName();

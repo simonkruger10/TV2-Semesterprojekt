@@ -1,8 +1,6 @@
 package com.company.data;
 
-import com.company.crossInterfaces.AccountEntity;
-
-public class Account implements AccountEntity {
+public class AccountEntity implements com.company.common.IAccount {
     private final int id;
     private String firstName;
     private String middleName;
@@ -10,11 +8,11 @@ public class Account implements AccountEntity {
     private String email;
     private int accessLevel;
 
-    public Account(String firstName, String middleName, String lastName, String email, int accessLevel) {
+    public AccountEntity(String firstName, String middleName, String lastName, String email, int accessLevel) {
         this(-1, firstName, middleName, lastName, email, accessLevel);
     }
 
-    public Account(int id, String firstName, String middleName, String lastName, String email, int accessLevel) {
+    public AccountEntity(int id, String firstName, String middleName, String lastName, String email, int accessLevel) {
         this.id = id;
         this.firstName = firstName;
         this.email = middleName;

@@ -1,11 +1,9 @@
 package com.company.data;
 
-import com.company.data.*;
-
-import com.company.crossInterfaces.AccountEntity;
-import com.company.crossInterfaces.CreditEntity;
-import com.company.crossInterfaces.CreditGroupEntity;
-import com.company.crossInterfaces.ProductionEntity;
+import com.company.common.IAccount;
+import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
+import com.company.common.IProduction;
 
 public class Database implements DatabaseFacade {
     private static DatabaseFacade instance;
@@ -28,82 +26,82 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
-    public ProductionEntity[] getProductions() {
+    public IProduction[] getProductions() {
         return this.database.getProductions();
     }
 
     @Override
-    public ProductionEntity getProduction(int id) {
+    public IProduction getProduction(int id) {
         return this.database.getProduction(id);
     }
 
     @Override
-    public void addProduction(ProductionEntity productionInfo) {
+    public void addProduction(IProduction productionInfo) {
         this.database.addProduction(productionInfo);
     }
 
     @Override
-    public void updateProduction(ProductionEntity productionInfo) {
+    public void updateProduction(IProduction productionInfo) {
         this.database.updateProduction(productionInfo);
     }
 
     @Override
-    public CreditEntity[] getCredits() {
+    public ICredit[] getCredits() {
         return this.database.getCredits();
     }
 
     @Override
-    public CreditEntity getCredit(int id) {
+    public ICredit getCredit(int id) {
         return this.database.getCredit(id);
     }
 
     @Override
-    public void addCredit(CreditEntity creditInfo) {
+    public void addCredit(ICredit creditInfo) {
         this.database.addCredit(creditInfo);
     }
 
     @Override
-    public void updateCredit(CreditEntity creditInfo) {
+    public void updateCredit(ICredit creditInfo) {
         this.database.updateCredit(creditInfo);
     }
 
     @Override
-    public CreditGroupEntity[] getCreditGroups() {
+    public ICreditGroup[] getCreditGroups() {
         return this.database.getCreditGroups();
     }
 
     @Override
-    public CreditGroupEntity getCreditGroup(int id) {
+    public ICreditGroup getCreditGroup(int id) {
         return this.database.getCreditGroup(id);
     }
 
     @Override
-    public void addCreditGroup(CreditGroupEntity creditGroupInfo) {
+    public void addCreditGroup(ICreditGroup creditGroupInfo) {
         this.database.addCreditGroup(creditGroupInfo);
     }
 
     @Override
-    public void updateCreditGroup(CreditGroupEntity creditGroupInfo) {
+    public void updateCreditGroup(ICreditGroup creditGroupInfo) {
         this.database.updateCreditGroup(creditGroupInfo);
     }
 
     @Override
-    public AccountEntity[] getAccounts() {
+    public IAccount[] getAccounts() {
         return this.database.getAccounts();
     }
 
     @Override
-    public AccountEntity getAccount(int id) {
+    public IAccount getAccount(int id) {
         return this.database.getAccount(id);
     }
 
     @Override
-    public void addAccount(AccountEntity accountInfo) {
+    public void addAccount(IAccount accountInfo) {
         this.database.addAccount(accountInfo);
     }
 
     @Override
-    public void updateAccount(AccountEntity accountInfo) {
+    public void updateAccount(IAccount accountInfo) {
         this.database.updateAccount(accountInfo);
     }
 

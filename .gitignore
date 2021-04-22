@@ -9,6 +9,9 @@ gradlew
 gradlew.bat
 /build/
 
+#Maven Workspace files
+/target/
+
 # Compiled class file
 *.class
 

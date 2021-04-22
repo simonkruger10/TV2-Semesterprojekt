@@ -1,6 +1,6 @@
-package com.company.crossInterfaces;
+package com.company.common;
 
-public interface CreditGroupEntity {
+public interface ICreditGroup {
     int getId();
 
     String getName();

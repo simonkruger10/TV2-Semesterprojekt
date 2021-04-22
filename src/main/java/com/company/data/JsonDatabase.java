@@ -8,14 +8,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.company.crossInterfaces.AccountEntity;
-import com.company.crossInterfaces.CreditEntity;
-import com.company.crossInterfaces.CreditGroupEntity;
-import com.company.crossInterfaces.ProductionEntity;
+import com.company.common.IAccount;
+import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
+import com.company.common.IProduction;
 
 public class JsonDatabase implements DatabaseFacade {
     JSONObject jsonProductionTable;
-    ArrayList<Production> productions;
+    ArrayList<ProductionEntity> productions;
 
     public JsonDatabase() {
         try {
@@ -37,13 +37,13 @@ public class JsonDatabase implements DatabaseFacade {
                 String id = prod.getString("id");
                 String productionName = prod.getString("productionName");
                 File image = new File(prod.getString("Image"));
-                Production p = new Production(id, productionName, image);
+                ProductionEntity p = new ProductionEntity(id, productionName, image);
                 System.out.println(p.getName());
 
                 JSONArray creditsJsonArray = prod.getJSONArray("credits");
                 for (int c = 0; c < creditsJsonArray.length(); c++) {
                     JSONObject jsonCredit = creditsJsonArray.getJSONObject(c);
-                    CreditGroup creditgroup = new CreditGroup(jsonCredit.getString("creditgroup"));
+                    CreditGroupEntity creditgroup = new CreditGroupEntity(jsonCredit.getString("creditgroup"));
                     String firstName = jsonCredit.getString("firstName");
                     String middleName = null;
                     try {
@@ -57,7 +57,7 @@ public class JsonDatabase implements DatabaseFacade {
                     }
                     String lastName = jsonCredit.getString("lastName");
                     int personID = jsonCredit.getInt("personID");
-                    Credit credit = new Credit(personID, firstName, middleName, lastName, creditgroup);
+                    CreditEntity credit = new CreditEntity(personID, firstName, middleName, lastName, creditgroup);
                     p.addCredit(credit);
                     System.out.println(credit.toJSONString());
                 }
@@ -76,82 +76,82 @@ public class JsonDatabase implements DatabaseFacade {
     }
 
     @Override
-    public ProductionEntity[] getProductions() {
-        return new ProductionEntity[0];
+    public IProduction[] getProductions() {
+        return new IProduction[0];
     }
 
     @Override
-    public ProductionEntity getProduction(int id) {
+    public IProduction getProduction(int id) {
         return null;
     }
 
     @Override
-    public void addProduction(ProductionEntity productionInfo) {
+    public void addProduction(IProduction productionInfo) {
 
     }
 
     @Override
-    public void updateProduction(ProductionEntity productionInfo) {
+    public void updateProduction(IProduction productionInfo) {
 
     }
 
     @Override
-    public CreditEntity[] getCredits() {
-        return new CreditEntity[0];
+    public ICredit[] getCredits() {
+        return new ICredit[0];
     }
 
     @Override
-    public CreditEntity getCredit(int id) {
+    public ICredit getCredit(int id) {
         return null;
     }
 
     @Override
-    public void addCredit(CreditEntity creditInfo) {
+    public void addCredit(ICredit creditInfo) {
 
     }
 
     @Override
-    public void updateCredit(CreditEntity creditInfo) {
+    public void updateCredit(ICredit creditInfo) {
 
     }
 
     @Override
-    public CreditGroupEntity[] getCreditGroups() {
-        return new CreditGroupEntity[0];
+    public ICreditGroup[] getCreditGroups() {
+        return new ICreditGroup[0];
     }
 
     @Override
-    public CreditGroupEntity getCreditGroup(int id) {
+    public ICreditGroup getCreditGroup(int id) {
         return null;
     }
 
     @Override
-    public void addCreditGroup(CreditGroupEntity creditGroupInfo) {
+    public void addCreditGroup(ICreditGroup creditGroupInfo) {
 
     }
 
     @Override
-    public void updateCreditGroup(CreditGroupEntity creditGroupInfo) {
+    public void updateCreditGroup(ICreditGroup creditGroupInfo) {
 
     }
 
     @Override
-    public AccountEntity[] getAccounts() {
-        return new AccountEntity[0];
+    public IAccount[] getAccounts() {
+        return new IAccount[0];
     }
 
     @Override
-    public AccountEntity getAccount(int id) {
+    public IAccount getAccount(int id) {
         return null;
     }
 
     @Override
-    public void addAccount(AccountEntity accountInfo) {
+    public void addAccount(IAccount accountInfo) {
 
     }
 
     @Override
-    public void updateAccount(AccountEntity accountInfo) {
+    public void updateAccount(IAccount accountInfo) {
 
     }
 

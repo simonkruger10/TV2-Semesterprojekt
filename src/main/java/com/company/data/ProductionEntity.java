@@ -1,22 +1,20 @@
 package com.company.data;
 
-import com.company.crossInterfaces.ProductionEntity;
-
 import java.io.File;
 import java.util.ArrayList;
 
-public class Production implements ProductionEntity {
+public class ProductionEntity implements com.company.common.IProduction {
     private final int id;
     private String name;
     private String description;
     private File image;
-    private ArrayList<Credit> credit;
+    private ArrayList<CreditEntity> credit;
 
-    public Production(String name, String description, File image) {
+    public ProductionEntity(String name, String description, File image) {
         this(-1, name, description, image);
     }
 
-    public Production(int id, String name, String description, File image) {
+    public ProductionEntity(int id, String name, String description, File image) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -58,15 +56,15 @@ public class Production implements ProductionEntity {
         this.image = image;
     }
 
-    public ArrayList<Credit> getCredit() {
+    public ArrayList<CreditEntity> getCredit() {
         return credit;
     }
 
-    public void addCredit(Credit credit) {
+    public void addCredit(CreditEntity credit) {
         this.credit.add(credit);
     }
 
-    public boolean removeCredit(Credit credit) {
+    public boolean removeCredit(CreditEntity credit) {
         return this.credit.remove(credit);
     }
 
