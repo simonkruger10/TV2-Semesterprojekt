@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.gui.HomepageController">
+  <children>
+      <HBox prefHeight="60.0" prefWidth="802.0" style="-fx-background-color: #D21E1E;">
+         <children>
+            <AnchorPane prefHeight="60.0" prefWidth="103.0">
+               <children>
+                  <ImageView fx:id="homeBtn" fitHeight="75.0" fitWidth="100.0" onMouseClicked="#goToHomepage" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@TV_2_Hvid_RGB.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <Pane prefHeight="60.0" prefWidth="1180.0">
+               <children>
+                  <Group layoutX="788.0" layoutY="33.0">
+                     <children>
+                        <Text fill="WHITE" layoutY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi, Admin">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="logOutBtn" fill="#1690f0" layoutX="62.0" onMouseClicked="#logOut" strokeType="OUTSIDE" strokeWidth="0.0" text="Log out" underline="true">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="changePasswordBtn" fill="#1690f0" layoutX="114.0" layoutY="1.13671875" onMouseClicked="#changePassword" strokeType="OUTSIDE" strokeWidth="0.0" text="Change Password" underline="true">
+                           <font>
+                              <Font name="Arial" size="12.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Group>
+                  <TextField fx:id="searchBarField" layoutX="1016.0" layoutY="18.0" onKeyPressed="#searchProduction" promptText="Search for film" text="Search..." />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+    <SplitPane focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <items>
+            <Pane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="637.0" layoutX="63.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1152.0" />
+                  <Group layoutX="90.0" layoutY="36.0">
+                     <children>
+                        <Text fx:id="backToOverviewBtn" layoutX="20.14392852783203" layoutY="6.001522064208984" onMouseClicked="#backToOverview" strokeType="OUTSIDE" strokeWidth="0.0" text="Tilbage til oversigten">
+                           <font>
+                              <Font name="Arial" size="15.0" />
+                           </font>
+                        </Text>
+                        <Polygon fill="#545454" layoutX="69.0" layoutY="12.0" points="-59.0, 0.0, -74.0, -11.0, -59.0, -23.0" stroke="#2e2b2b00" strokeType="OUTSIDE" />
+                     </children>
+                  </Group>
+                  <Group layoutX="95.0" layoutY="91.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="280.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
+                        <ImageView fitHeight="280.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </Group>
+                  <Text fx:id="titleID" layoutX="509.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shrek (2001)">
+                     <font>
+                        <Font name="Arial" size="45.0" />
+                     </font>
+                  </Text>
+                  <Group layoutX="316.0" layoutY="91.3681640625">
+                     <children>
+                        <Text fx:id="producerID" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Produced by:">
+                           <font>
+                              <Font name="Arial" size="25.0" />
+                           </font>
+                        </Text>
+                        <TextArea cache="true" layoutY="27.6318359375" prefHeight="238.0" prefWidth="863.0" promptText="Producers" text="Steven Spielberg                    executive producer (uncredited)&#10;Jeffrey Katzenberg                 producer&#10;Ted Elliott                               co-producer&#10;Penney Finkelman Cox          executive producer&#10;Jane Hartwell                         associate producer&#10;David Lipman´                        co-executive producer&#10;Sandra Rabins                       executive producer&#10;Terry Rossio                           co-producer&#10;Aron Warner                          producer&#10;John H. Williams                    producer&#10;Linda Olszewski                     assistant producer (uncredited) ">
+                           <font>
+                              <Font name="Arial" size="15.0" />
+                           </font>
+                        </TextArea>
+                     </children>
+                  </Group>
+                  <Group layoutX="98.0" layoutY="379.0">
+                     <children>
+                        <Pane>
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dd0202" height="41.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1082.0" />
+                              <Text fx:id="directorID" fill="WHITE" layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Instruktør">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="41.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="41.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1082.0" />
+                              <Text fill="#5b5b5b" layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temp">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="82.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dddddd" height="41.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1082.0" />
+                              <Text fill="#5b5b5b" layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temp">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="123.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="41.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1082.0" />
+                              <Text fill="#5b5b5b" layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temp">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                        <Pane layoutY="164.0">
+                           <children>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dddddd" height="41.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1082.0" />
+                              <Text fill="#5b5b5b" layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Temp">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </Pane>
+                     </children>
+                  </Group>
+                  <Pane layoutX="98.0" layoutY="584.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dd0202" height="41.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1082.0" />
+                        <Text fx:id="actorID" fill="WHITE" layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Skuespillere">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </items>
+    </SplitPane>
+    <HBox id="HBox" alignment="CENTER" spacing="5.0" style="-fx-background-color: #D21E1E;" VBox.vgrow="NEVER">
+      <children>
+        <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="TV 2 2021© - Alle rettigheder forbeholdes" textFill="WHITE" HBox.hgrow="ALWAYS">
+          <font>
+            <Font name="Arial Bold Italic" size="12.0" fx:id="x3" />
+          </font>
+        </Label>
+      </children>
+      <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+      </padding>
+    </HBox>
+  </children>
+</VBox>
