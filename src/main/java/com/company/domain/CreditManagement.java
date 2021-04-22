@@ -1,16 +1,12 @@
 package com.company.domain;
 
-import com.company.common.IAccount;
 import com.company.common.ICredit;
-import com.company.common.ICreditGroup;
 import javafx.util.Pair;
 
 import java.security.AccessControlException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 
 import static com.company.tools.*;
 

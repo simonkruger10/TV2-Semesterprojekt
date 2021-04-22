@@ -1,6 +1,5 @@
 package com.company.domain;
 
-import com.company.common.IAccount;
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
