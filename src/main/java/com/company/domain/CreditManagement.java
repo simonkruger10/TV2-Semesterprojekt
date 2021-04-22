@@ -158,6 +158,7 @@ public class CreditManagement implements ICreditManagement {
 
 
     private void controlsAccess() {
+        // TODO: Hvem har adgang???
         if (aMgt.getCurrentUser().getAccessLevel() != AccessLevel.PRODUCER && !aMgt.isAdmin()) {
             throw new AccessControlException("The user is not allowed to create accounts.");
         }
@@ -169,7 +170,7 @@ public class CreditManagement implements ICreditManagement {
         }
 
         if (!(credit.getCreditGroup() instanceof CreditDTO)) {
-            throw new RuntimeException("The credit group must be an instance of CreditDTO class");
+            throw new RuntimeException("The credit group must be an instance of the CreditDTO class");
         }
     }
 }
