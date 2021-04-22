@@ -4,8 +4,8 @@ import com.company.common.ICreditGroup;
 
 public class CreditGroupDTO implements ICreditGroup {
     @Override
-    public int getId() {
-        return 0;
+    public String getUUID() {
+        return null;
     }
 
     @Override

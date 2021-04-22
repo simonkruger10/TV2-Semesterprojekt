@@ -6,6 +6,11 @@ import java.io.File;
 
 public class ProductionDTO implements IProduction {
     @Override
+    public String getUUID() {
+        return null;
+    }
+
+    @Override
     public String getName() {
         return null;
     }

@@ -3,7 +3,7 @@ package com.company.common;
 import java.io.File;
 
 public interface IProduction {
-    int getId();
+    String getUUID();
 
     String getName();
 
