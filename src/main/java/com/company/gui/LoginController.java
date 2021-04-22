@@ -17,7 +17,7 @@ public class LoginController {
     public void loginAccount(MouseEvent mouseEvent) {
         System.out.println("Email: " + emailPanel.getText());
         System.out.println("Password: " + passwordPanel.getText());
-        gui.setScene("/Forside.fxml");
+        gui.setScene("/Homepage.fxml");
     }
 
     //Get gui object so scene can be changed

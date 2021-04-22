@@ -7,7 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
-public class FrontPageController {
+public class CreditCreationController {
 
     @FXML
     private Text logOutBtn;
