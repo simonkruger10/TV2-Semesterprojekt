@@ -1,20 +1,20 @@
 package com.company.data;
 
-import com.company.common.IAccessLevel;
+import com.company.common.IAccount;
 
-public class AccountEntity implements com.company.common.IAccount {
+public class AccountEntity {
     private final int id;
     private String firstName;
     private String middleName;
     private String lastName;
     private String email;
-    private IAccessLevel accessLevel;
+    private int accessLevel;
 
-    public AccountEntity(String firstName, String middleName, String lastName, String email, IAccessLevel accessLevel) {
+    public AccountEntity(String firstName, String middleName, String lastName, String email, int accessLevel) {
         this(-1, firstName, middleName, lastName, email, accessLevel);
     }
 
-    public AccountEntity(int id, String firstName, String middleName, String lastName, String email, IAccessLevel accessLevel) {
+    public AccountEntity(int id, String firstName, String middleName, String lastName, String email, int accessLevel) {
         this.id = id;
         this.firstName = firstName;
         this.email = middleName;
@@ -27,7 +27,6 @@ public class AccountEntity implements com.company.common.IAccount {
         return id;
     }
 
-    @Override
     public String getFullName() {
         String fullName = "";
 
@@ -44,7 +43,6 @@ public class AccountEntity implements com.company.common.IAccount {
         return fullName.trim();
     }
 
-    @Override
     public String getFirstName() {
         return firstName;
     }
@@ -53,7 +51,6 @@ public class AccountEntity implements com.company.common.IAccount {
         this.firstName = firstName;
     }
 
-    @Override
     public String getMiddleName() {
         return middleName;
     }
@@ -62,7 +59,6 @@ public class AccountEntity implements com.company.common.IAccount {
         this.middleName = middleName;
     }
 
-    @Override
     public String getLastName() {
         return lastName;
     }
@@ -71,7 +67,6 @@ public class AccountEntity implements com.company.common.IAccount {
         this.lastName = lastName;
     }
 
-    @Override
     public String getEmail() {
         return email;
     }
@@ -80,12 +75,11 @@ public class AccountEntity implements com.company.common.IAccount {
         this.email = email;
     }
 
-    @Override
-    public IAccessLevel getAccessLevel() {
+    public int getAccessLevel() {
         return accessLevel;
     }
 
-    public void setAccessLevel(IAccessLevel accessLevel) {
+    public void setAccessLevel(int accessLevel) {
         this.accessLevel = accessLevel;
     }
 }

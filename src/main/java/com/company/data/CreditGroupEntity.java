@@ -1,6 +1,6 @@
 package com.company.data;
 
-public class CreditGroupEntity implements com.company.common.ICreditGroup {
+public class CreditGroupEntity {
     private final int id;
     private String name;
 
@@ -13,17 +13,14 @@ public class CreditGroupEntity implements com.company.common.ICreditGroup {
         this.name = name;
     }
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
