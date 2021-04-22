@@ -5,17 +5,9 @@ public interface ICredit {
 
     String getFirstName();
 
-    void setFirstName(String firstName);
-
     String getLastName();
-
-    void setLastName(String lastName);
 
     String getMiddleName();
 
-    void setMiddleName(String middleName);
-
     ICreditGroup getCreditGroup();
-
-    void setCreditGroup(ICreditGroup creditGroup);
 }
