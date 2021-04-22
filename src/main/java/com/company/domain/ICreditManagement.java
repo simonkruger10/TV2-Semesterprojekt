@@ -14,4 +14,6 @@ public interface ICreditManagement {
     ICredit[] getByGroup(String groupName);
 
     ICredit create(ICredit credit);
+
+    void update(ICredit credit);
 }

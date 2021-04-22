@@ -125,6 +125,8 @@ public class CreditManagement implements ICreditManagement {
         return newCredit;
     }
 
+
+    @Override
     public void update(ICredit credit) {
         controlsAccess();
 
@@ -132,6 +134,7 @@ public class CreditManagement implements ICreditManagement {
 
         //credits.get(0).copyCredit(credit);
     }
+
 
     private void controlsAccess() {
         if (aMgt.getCurrentUser().getAccessLevel() != AccessLevel.PRODUCER && !aMgt.isAdmin()) {
