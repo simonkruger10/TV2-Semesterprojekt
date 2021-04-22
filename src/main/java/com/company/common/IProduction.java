@@ -10,10 +10,4 @@ public interface IProduction {
     String getDescription();
 
     File getImage();
-
-    void setName(String name);
-
-    void setDescription(String description);
-
-    void setImage(File image);
 }

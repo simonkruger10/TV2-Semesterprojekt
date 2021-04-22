@@ -13,7 +13,6 @@ public class CreditGroupDTO implements ICreditGroup {
         return null;
     }
 
-    @Override
     public void setName(String name) {
 
     }
