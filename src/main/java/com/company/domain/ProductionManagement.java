@@ -131,7 +131,7 @@ public class ProductionManagement implements IProductionManagement {
     private void controlsAccess() {
         // TODO: Hvem har adgang???
         if (aMgt.getCurrentUser().getAccessLevel() != AccessLevel.PRODUCER && !aMgt.isAdmin()) {
-            throw new AccessControlException("The user is not allowed to create accounts.");
+            throw new AccessControlException("The user is not allowed to create production.");
         }
     }
 
