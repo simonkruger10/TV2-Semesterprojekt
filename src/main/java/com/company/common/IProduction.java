@@ -10,4 +10,6 @@ public interface IProduction {
     String getDescription();
 
     File getImage();
+
+    ICredit[] getCredits();
 }
