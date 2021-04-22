@@ -194,7 +194,7 @@ public class AccountManagement implements IAccountManagement {
 
         AccountDTO accountDTO = (AccountDTO) getByEmail(email);
         if (accountDTO == null) {
-            throw new RuntimeException("Could not find any user by the specified email address.");
+            throw new RuntimeException("Could not find the account by the specified email address.");
         }
 
         if (account != null) {
