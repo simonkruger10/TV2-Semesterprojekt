@@ -24,6 +24,8 @@ public class CreditDTO extends PersonDTO implements ICredit {
     }
 
     public void copyCredit(ICredit credit) {
+        assert credit != null;
+
         this.setFirstName(credit.getFirstName());
         this.setMiddleName(credit.getMiddleName());
         this.setLastName(credit.getLastName());

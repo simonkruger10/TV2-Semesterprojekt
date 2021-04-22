@@ -55,6 +55,8 @@ public class ProductionDTO implements IProduction {
 
 
     public void copyProduction(IProduction production) {
+        assert production != null;
+
         setName(production.getName());
         setDescription(production.getDescription());
         setImage(production.getImage());
