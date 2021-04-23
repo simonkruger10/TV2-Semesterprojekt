@@ -13,44 +13,33 @@ public interface DatabaseFacade {
 
     boolean checkAccess();
 
+
     IProduction[] getProductions();
 
-    IProduction getProduction(int id);
+    IProduction addProduction(IProduction production);
 
-    void addProduction(IProduction productionInfo);
+    void updateProduction(IProduction production);
 
-    void updateProduction(IProduction productionInfo);
 
     ICredit[] getCredits();
 
-    ICredit getCredit(int id);
+    ICredit addCredit(ICredit credit);
 
-    void addCredit(ICredit creditInfo);
+    void updateCredit(ICredit credit);
 
-    void updateCredit(ICredit creditInfo);
 
     ICreditGroup[] getCreditGroups();
 
-    ICreditGroup getCreditGroup(int id);
+    ICreditGroup addCreditGroup(ICreditGroup creditGroup);
 
-    void addCreditGroup(ICreditGroup creditGroupInfo);
+    void updateCreditGroup(ICreditGroup creditGroup);
 
-    void updateCreditGroup(ICreditGroup creditGroupInfo);
 
     IAccount[] getAccounts();
 
-    IAccount getAccount(int id);
+    IAccount addAccount(IAccount account, String hashedPassword);
 
-    void addAccount(IAccount accountInfo);
+    void updateAccount(IAccount account);
 
-    void updateAccount(IAccount accountInfo);
-
-    /**
-     * Searches through the database for a matching username password pair.
-     *
-     * @param email    is saved as a string in the database
-     * @param password is saved as a sha256, plaintext password should never be used as an argument here.
-     * @return true if the username password pair exists.
-     */ //Can maybe later return a security token instead of true
-    boolean login(String email, String password);
+    void updateAccount(IAccount account, String hashedPassword);
 }

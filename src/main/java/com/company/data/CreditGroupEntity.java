@@ -1,21 +1,10 @@
 package com.company.data;
 
-public class CreditGroupEntity {
-    private final int id;
+import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
+
+public class CreditGroupEntity extends MainEntity implements ICreditGroup {
     private String name;
-
-    public CreditGroupEntity(String name) {
-        this(-1, name);
-    }
-
-    public CreditGroupEntity(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -26,8 +15,16 @@ public class CreditGroupEntity {
     }
 
 
-    @Override
-    public String toString() {
-        return name;
+    public void copyCreditGroup(ICreditGroup creditGroup) {
+        assert creditGroup != null;
+
+        this.setName(creditGroup.getName());
+    }
+
+    public String toJsonString() {
+        return "{" +
+                "\"_uuid\":\"" + getUUID() + "\"," +
+                "\"name\":\"" + name + "\"" +
+                '}';
     }
 }

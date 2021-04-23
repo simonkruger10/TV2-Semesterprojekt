@@ -5,6 +5,8 @@ import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 import com.company.common.IProduction;
 
+import java.io.FileNotFoundException;
+
 public class Database implements DatabaseFacade {
     private static DatabaseFacade instance;
     private final DatabaseFacade database;
@@ -20,10 +22,12 @@ public class Database implements DatabaseFacade {
         return instance;
     }
 
+
     @Override
     public boolean checkAccess() {
         return this.database.checkAccess();
     }
+
 
     @Override
     public IProduction[] getProductions() {
@@ -31,19 +35,15 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
-    public IProduction getProduction(int id) {
-        return this.database.getProduction(id);
+    public IProduction addProduction(IProduction production) {
+        return this.database.addProduction(production);
     }
 
     @Override
-    public void addProduction(IProduction productionInfo) {
-        this.database.addProduction(productionInfo);
+    public void updateProduction(IProduction production) {
+        this.database.updateProduction(production);
     }
 
-    @Override
-    public void updateProduction(IProduction productionInfo) {
-        this.database.updateProduction(productionInfo);
-    }
 
     @Override
     public ICredit[] getCredits() {
@@ -51,19 +51,15 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
-    public ICredit getCredit(int id) {
-        return this.database.getCredit(id);
+    public ICredit addCredit(ICredit credit) {
+        return this.database.addCredit(credit);
     }
 
     @Override
-    public void addCredit(ICredit creditInfo) {
-        this.database.addCredit(creditInfo);
+    public void updateCredit(ICredit credit) {
+        this.database.updateCredit(credit);
     }
 
-    @Override
-    public void updateCredit(ICredit creditInfo) {
-        this.database.updateCredit(creditInfo);
-    }
 
     @Override
     public ICreditGroup[] getCreditGroups() {
@@ -71,19 +67,15 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
-    public ICreditGroup getCreditGroup(int id) {
-        return this.database.getCreditGroup(id);
+    public ICreditGroup addCreditGroup(ICreditGroup creditGroup) {
+        return this.database.addCreditGroup(creditGroup);
     }
 
     @Override
-    public void addCreditGroup(ICreditGroup creditGroupInfo) {
-        this.database.addCreditGroup(creditGroupInfo);
+    public void updateCreditGroup(ICreditGroup creditGroup) {
+        this.database.updateCreditGroup(creditGroup);
     }
 
-    @Override
-    public void updateCreditGroup(ICreditGroup creditGroupInfo) {
-        this.database.updateCreditGroup(creditGroupInfo);
-    }
 
     @Override
     public IAccount[] getAccounts() {
@@ -91,22 +83,17 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
-    public IAccount getAccount(int id) {
-        return this.database.getAccount(id);
+    public IAccount addAccount(IAccount account, String hashedPassword) {
+        return this.database.addAccount(account, hashedPassword);
     }
 
     @Override
-    public void addAccount(IAccount accountInfo) {
-        this.database.addAccount(accountInfo);
+    public void updateAccount(IAccount account) {
+        this.database.updateAccount(account);
     }
 
     @Override
-    public void updateAccount(IAccount accountInfo) {
-        this.database.updateAccount(accountInfo);
-    }
-
-    @Override
-    public boolean login(String email, String password) {
-        return this.database.login(email, password);
+    public void updateAccount(IAccount account, String hashedPassword) {
+        this.database.updateAccount(account, hashedPassword);
     }
 }

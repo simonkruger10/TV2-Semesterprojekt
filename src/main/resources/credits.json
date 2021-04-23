@@ -1,40 +1,195 @@
 {
-	"productions": [
-	{"id":  1, "productionName": "Shawshank Redemption", "Image": "shawshankredemption.img", "credits":  [
-		{"creditgroup": "Director", "firstName":  "Frank", "middleName":  null, "lastName": "Darabont", "personID": 1},
-		{"creditgroup": "Writer", "firstName":  "Stephen", "middleName":  null, "lastName": "King", "personID": 2},
-		{"creditgroup": "Writer", "firstName":  "Frank", "middleName":  null, "lastName": "Darabont", "personID": 1},
-		{"creditgroup": "Produced by", "firstName":  "Liz", "middleName":  null, "lastName": "Glotzer", "personID": 3},
-		{"creditgroup": "Produced by", "firstName":  "David", "middleName":  "V.", "lastName": "Lester", "personID": 4},
-		{"creditgroup": "Produced by", "firstName":  "Niki", "middleName":  null, "lastName": "Marvin", "personID": 5},
-		{"creditgroup": "Music by", "firstName":  "Thomas", "middleName":  null, "lastName": "Newman", "personID": 6},
-		{"creditgroup": "Cinematography by", "firstName":  "Roger", "middleName":  null, "lastName": "Deakins", "personID": 7},
-		{"creditgroup": "Film Editing by", "firstName":  "Richard", "middleName":  null, "lastName": "Francis-Bruce", "personID": 8},
-		{"creditgroup": "Casting By", "firstName":  "Deborah", "middleName":  null, "lastName": "Aquila", "personID": 9}
-	]},
-	{"id":  1, "productionName": "Godfather", "Image": "godfather.img", "credits":  [
-		{"creditgroup": "Director", "firstName":  "Francis", "middleName":  "Ford", "lastName": "Coppola", "personID": 10},
-		{"creditgroup": "Writer", "firstName":  "Mario", "middleName":  null, "lastName": "Puzo", "personID": 11},
-		{"creditgroup": "Writer", "firstName":  "Francis", "middleName":  "Ford", "lastName": "Coppola", "personID": 10},
-		{"creditgroup": "Produced by", "firstName":  "Robert", "middleName":  null, "lastName": "Evans", "personID": 13},
-		{"creditgroup": "Produced by", "firstName":  "Gray", "middleName":  null, "lastName": "Frederickson", "personID": 14},
-		{"creditgroup": "Produced by", "firstName":  "Albert", "middleName":  "S.", "lastName": "Ruddy", "personID": 15},
-		{"creditgroup": "Music by", "firstName":  "Nino", "middleName":  null, "lastName": "Rota", "personID": 16},
-		{"creditgroup": "Cinematography by", "firstName":  "Gordon", "middleName":  null, "lastName": "Willis", "personID": 17},
-		{"creditgroup": "Film Editing by", "firstName":  "William", "middleName":  null, "lastName": "Reynolds", "personID": 18},
-		{"creditgroup": "Casting By", "firstName":  "Louis", "middleName":  null, "lastName": "DiGiaimo", "personID": 19}
-	]},
-	{"id":  1, "productionName": "Shrek", "Image": "shrek.img", "credits":  [
-		{"creditgroup": "Director", "firstName":  "Andrew", "middleName":  null, "lastName": "Adamson", "personID": 20},
-		{"creditgroup": "Director", "firstName":  "Vicky", "middleName":  null, "lastName": "Jenson", "personID": 21},
-		{"creditgroup": "Based upon the book by", "firstName":  "William", "middleName":  null, "lastName": "Steig", "personID": 22},
-		{"creditgroup": "Written by", "firstName":  "Ted", "middleName":  null, "lastName": "Elliott", "personID": 23},
-		{"creditgroup": "Written by", "firstName":  "Terry", "middleName":  null, "lastName": "Rossio", "personID": 24},
-		{"creditgroup": "Written by", "firstName":  "Joe", "middleName":  null, "lastName": "Stillman", "personID": 25},
-		{"creditgroup": "Written by", "firstName":  "Roger", "middleName":  "S.H.", "lastName": "Schulman", "personID": 26},
-		{"creditgroup": "Additional dialogue by", "firstName":  "Cody", "middleName":  null, "lastName": "Cameron", "personID": 27},
-		{"creditgroup": "Additional dialogue by", "firstName":  "Chris", "middleName":  null, "lastName": "Miller", "personID": 28},
-		{"creditgroup": "Additional dialogue by", "firstName":  "Conrad", "middleName":  null, "lastName": "Vernon", "personID": 29}
-	]}
-	]
+  "productions": [
+    {
+      "_uuid": "8701e366-a3c4-11eb-bcbc-0242ac130002",
+      "name": "Shawshank Redemption",
+      "description": null,
+      "image": "shawshankredemption.png",
+      "credits": [
+        {
+          "_uuid": "8701e5d2-a3c4-11eb-bcbc-0242ac130002",
+          "firstName": "Frank",
+          "middleName": null,
+          "lastName": "Darabont",
+          "creditGroup": {
+            "_uuid": "8701fbc6-a3c4-11eb-bcbc-0242ac130002",
+            "name": "Director"
+          }
+        },
+        {
+          "_uuid": "8701e988-a3c4-11eb-bcbc-0242ac130002",
+          "firstName": "Stephen",
+          "middleName": null,
+          "lastName": "King",
+          "creditGroup": {
+            "_uuid": "8701fcf2-a3c4-11eb-bcbc-0242ac130002",
+            "name": "Writer"
+          }
+        }
+      ]
+    },
+    {
+      "_uuid": "8701ea78-a3c4-11eb-bcbc-0242ac130002",
+      "name": "Godfather",
+      "description": null,
+      "image": "godfather.png",
+      "credits": [
+        {
+          "_uuid": "8701eb36-a3c4-11eb-bcbc-0242ac130002",
+          "firstName": "Francis",
+          "middleName": "Ford",
+          "lastName": "Coppola",
+          "creditGroup": {
+            "_uuid": "8701fbc6-a3c4-11eb-bcbc-0242ac130002",
+            "name": "Director"
+          }
+        },
+        {
+          "_uuid": "8701ebea-a3c4-11eb-bcbc-0242ac130002",
+          "firstName": "Mario",
+          "middleName": null,
+          "lastName": "Puzo",
+          "creditGroup": {
+            "_uuid": "8701fcf2-a3c4-11eb-bcbc-0242ac130002",
+            "name": "Writer"
+          }
+        }
+      ]
+    },
+    {
+      "_uuid": "8701f50e-a3c4-11eb-bcbc-0242ac130002",
+      "name": "Shrek",
+      "description": null,
+      "image": "shrek.png",
+      "credits": [
+        {
+          "_uuid": "8701f5f4-a3c4-11eb-bcbc-0242ac130002",
+          "firstName": "Andrew",
+          "middleName": null,
+          "lastName": "Adamson",
+          "creditGroup": {
+            "_uuid": "8701fbc6-a3c4-11eb-bcbc-0242ac130002",
+            "name": "Director"
+          }
+        },
+        {
+          "_uuid": "8701f6a8-a3c4-11eb-bcbc-0242ac130002",
+          "firstName": "Vicky",
+          "middleName": null,
+          "lastName": "Jenson",
+          "creditGroup": {
+            "_uuid": "8701fbc6-a3c4-11eb-bcbc-0242ac130002",
+            "name": "Director"
+          }
+        },
+        {
+          "_uuid": "8701f75c-a3c4-11eb-bcbc-0242ac130002",
+          "firstName": "William",
+          "middleName": null,
+          "lastName": "Steig",
+          "creditGroup": {
+            "_uuid": "8701fe00-a3c4-11eb-bcbc-0242ac130002",
+            "name": "Based upon the book by"
+          }
+        }
+      ]
+    }
+  ],
+  "credits": [
+    {
+      "_uuid": "8701e5d2-a3c4-11eb-bcbc-0242ac130002",
+      "firstName": "Frank",
+      "middleName": null,
+      "lastName": "Darabont",
+      "creditGroup": {
+        "_uuid": "8701fbc6-a3c4-11eb-bcbc-0242ac130002",
+        "name": "Director"
+      }
+    },
+    {
+      "_uuid": "8701e988-a3c4-11eb-bcbc-0242ac130002",
+      "firstName": "Stephen",
+      "middleName": null,
+      "lastName": "King",
+      "creditGroup": {
+        "_uuid": "8701fcf2-a3c4-11eb-bcbc-0242ac130002",
+        "name": "Writer"
+      }
+    },
+    {
+      "_uuid": "8701eb36-a3c4-11eb-bcbc-0242ac130002",
+      "firstName": "Francis",
+      "middleName": "Ford",
+      "lastName": "Coppola",
+      "creditGroup": {
+        "_uuid": "8701fbc6-a3c4-11eb-bcbc-0242ac130002",
+        "name": "Director"
+      }
+    },
+    {
+      "_uuid": "8701ebea-a3c4-11eb-bcbc-0242ac130002",
+      "firstName": "Mario",
+      "middleName": null,
+      "lastName": "Puzo",
+      "creditGroup": {
+        "_uuid": "8701fcf2-a3c4-11eb-bcbc-0242ac130002",
+        "name": "Writer"
+      }
+    },
+    {
+      "_uuid": "8701f5f4-a3c4-11eb-bcbc-0242ac130002",
+      "firstName": "Andrew",
+      "middleName": null,
+      "lastName": "Adamson",
+      "creditGroup": {
+        "_uuid": "8701fbc6-a3c4-11eb-bcbc-0242ac130002",
+        "name": "Director"
+      }
+    },
+    {
+      "_uuid": "8701f6a8-a3c4-11eb-bcbc-0242ac130002",
+      "firstName": "Vicky",
+      "middleName": null,
+      "lastName": "Jenson",
+      "creditGroup": {
+        "_uuid": "8701fbc6-a3c4-11eb-bcbc-0242ac130002",
+        "name": "Director"
+      }
+    },
+    {
+      "_uuid": "8701f75c-a3c4-11eb-bcbc-0242ac130002",
+      "firstName": "William",
+      "middleName": null,
+      "lastName": "Steig",
+      "creditGroup": {
+        "_uuid": "8701fe00-a3c4-11eb-bcbc-0242ac130002",
+        "name": "Based upon the book by"
+      }
+    }
+  ],
+  "creditGroups": [
+    {
+      "_uuid": "8701fbc6-a3c4-11eb-bcbc-0242ac130002",
+      "name": "Director"
+    },
+    {
+      "_uuid": "8701fcf2-a3c4-11eb-bcbc-0242ac130002",
+      "name": "Writer"
+    },
+    {
+      "_uuid": "8701fe00-a3c4-11eb-bcbc-0242ac130002",
+      "name": "Based upon the book by"
+    }
+  ],
+  "accounts": [
+    {
+      "_uuid": "87020346-a3c4-11eb-bcbc-0242ac130002",
+      "firstName": "Admin",
+      "middleName": null,
+      "lastName": null,
+      "email": "admin@system.tld",
+      "hashedPassword": "83b1c2b4acd1c91f65dd9148d10b990b9ffbf1fce15831250d81e48cf87aa70fac9ebc651757b8f6e8d5c93d6d5310060e8a14a9020e583bf968f8b4b320dae0",
+      "accessLevel": "System Administrator"
+    }
+  ]
 }

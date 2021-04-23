@@ -1,7 +1,6 @@
 package com.company.domain;
 
 import com.company.common.IAccount;
-import com.company.common.IAccessLevel;
 
 import java.security.NoSuchAlgorithmException;
 

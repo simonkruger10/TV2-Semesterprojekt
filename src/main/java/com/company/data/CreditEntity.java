@@ -1,69 +1,10 @@
 package com.company.data;
 
+import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
-public class CreditEntity {
-    private final int id;
-    private String firstName;
-    private String middleName;
-    private String lastName;
+public class CreditEntity extends PersonEntity implements ICredit {
     private ICreditGroup creditGroup;
-
-    public CreditEntity(String firstName, String middleName, String lastName, ICreditGroup creditGroup) {
-        this(-1, firstName, middleName, lastName, creditGroup);
-    }
-
-    public CreditEntity(int id, String firstName, String lastName, String middleName, ICreditGroup creditGroup) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.creditGroup = creditGroup;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFullName() {
-        String fullName = "";
-
-        if (firstName != null) {
-            fullName = firstName + " ";
-        }
-        if (middleName != null && !middleName.trim().isEmpty()) {
-            fullName += middleName + " ";
-        }
-        if (lastName != null) {
-            fullName = lastName;
-        }
-
-        return fullName.trim();
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public ICreditGroup getCreditGroup() {
         return creditGroup;
@@ -73,24 +14,23 @@ public class CreditEntity {
         this.creditGroup = creditGroup;
     }
 
-    @Override
-    public String toString() {
-        return "Credit{" +
-                "creditGroup=" + creditGroup +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", personID=" + id +
-                '}';
+
+    public void copyCredit(ICredit credit) {
+        assert credit != null;
+
+        this.setFirstName(credit.getFirstName());
+        this.setMiddleName(credit.getMiddleName());
+        this.setLastName(credit.getLastName());
+        this.setCreditGroup(credit.getCreditGroup());
     }
 
-    public String toJSONString() {
+    public String toJsonString() {
         return "{" +
-                "\"creditGroup\": " + "\"" + creditGroup + "\", " +
-                "\"firstName\": " + "\"" + firstName + "\", " +
-                "\"lastName\": " + "\"" + lastName + "\", " +
-                "\"middleName\": " + "\"" + middleName + "\", " +
-                "\"personID\": " + "\"" + id + "\"" +
-                "}";
+                "\"_uuid\":\"" + getUUID() + "\"," +
+                "\"firstName\":\"" + getFirstName() + "\"," +
+                "\"middleName\":\"" + getMiddleName() + "\"," +
+                "\"lastName\":\"" + getLastName() + "\"," +
+                "\"creditGroup\":\"" + creditGroup.getName() + "\"" +
+                '}';
     }
 }

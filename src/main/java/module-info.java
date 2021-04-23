@@ -6,4 +6,5 @@ module com.company {
     requires org.json;
     opens com.company.gui to javafx.graphics, javafx.fxml;
     opens com.company;
+    opens com.company.common;
 }

@@ -1,167 +1,230 @@
 package com.company.data;
 
+import com.company.common.*;
 import org.json.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
-import com.company.common.IAccount;
-import com.company.common.ICredit;
-import com.company.common.ICreditGroup;
-import com.company.common.IProduction;
+import static com.company.common.Tools.*;
 
 public class JsonDatabase implements DatabaseFacade {
-    JSONObject jsonProductionTable;
-    ArrayList<ProductionEntity> productions;
+    private final Map<String, ProductionEntity> productions = new HashMap<>();
+    private final Map<String, CreditEntity> credits = new HashMap<>();
+    private final Map<String, CreditGroupEntity> creditGroups = new HashMap<>();
+    private final Map<String, AccountEntity> accounts = new HashMap<>();
+    private boolean access;
 
     public JsonDatabase() {
         try {
-            Scanner fileReader = new Scanner(loadFile("credits.json"));
-            StringBuilder text = new StringBuilder();
-            while (fileReader.hasNext()) {
-                text.append(fileReader.nextLine());
-                text.append("\n");
+            String jsonAsText = readFileAsString(getResourceAsFile("credits.json"));
+            JSONObject jsonObject = new JSONObject(jsonAsText);
+
+            JSONArray jsonArray = jsonObject.getJSONArray("creditGroups");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                parseCreditGroup(jsonArray.getJSONObject(i));
             }
-            System.out.println(text);
-            jsonProductionTable = new JSONObject(text.toString());
-            System.out.println(jsonProductionTable.toString());
 
-            productions = new ArrayList<>();
-            JSONArray productions = jsonProductionTable.getJSONArray("productions");
-            for (int i = 0; i < productions.length(); i++) {
-                JSONObject prod = productions.getJSONObject(i);
-
-                String id = prod.getString("id");
-                String productionName = prod.getString("productionName");
-                File image = new File(prod.getString("Image"));
-                ProductionEntity p = new ProductionEntity(id, productionName, image);
-                System.out.println(p.getName());
-
-                JSONArray creditsJsonArray = prod.getJSONArray("credits");
-                for (int c = 0; c < creditsJsonArray.length(); c++) {
-                    JSONObject jsonCredit = creditsJsonArray.getJSONObject(c);
-                    CreditGroupEntity creditgroup = new CreditGroupEntity(jsonCredit.getString("creditgroup"));
-                    String firstName = jsonCredit.getString("firstName");
-                    String middleName = null;
-                    try {
-                        middleName = jsonCredit.getString("middleName");
-                    } catch (JSONException jsonException) {
-                        if (jsonException.getMessage().equals("JSONObject[\"middleName\"] is not a string.")) {
-                            //Apparently the package cant accept the null value as a string value.
-                        } else {
-                            jsonException.printStackTrace();
-                        }
-                    }
-                    String lastName = jsonCredit.getString("lastName");
-                    int personID = jsonCredit.getInt("personID");
-                    CreditEntity credit = new CreditEntity(personID, firstName, middleName, lastName, (ICreditGroup) creditgroup);
-                    p.addCredit(credit);
-                    System.out.println(credit.toJSONString());
-                }
+            jsonArray = jsonObject.getJSONArray("credits");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                parseCredit(jsonArray.getJSONObject(i));
             }
-            //System.out.println(productions.getJSONObject(1));
 
-        } catch (FileNotFoundException fileNotFoundException) {
+            jsonArray = jsonObject.getJSONArray("productions");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                parseProduction(jsonArray.getJSONObject(i));
+            }
+
+            jsonArray = jsonObject.getJSONArray("accounts");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                parseAccount(jsonArray.getJSONObject(i));
+            }
+        } catch (FileNotFoundException e) {
             System.err.println("File not found: \"credits.json\"");
-            System.out.println(fileNotFoundException.toString());
+            e.printStackTrace();
+
+            access = false;
         }
+
+        access = true;
     }
+
+    private ProductionEntity parseProduction(JSONObject productionJson) {
+        String uuid = productionJson.getString("_uuid");
+
+        ProductionEntity production = productions.get(uuid);
+        if (production == null) {
+            production = new ProductionEntity();
+            production.setUUID(uuid);
+            production.setName(productionJson.getString("name"));
+            production.setDescription(productionJson.getString("description"));
+            production.setImage(new File(productionJson.getString("image")));
+
+            JSONArray creditsJson = productionJson.getJSONArray("credits");
+            for (int c = 0; c < creditsJson.length(); c++) {
+                production.addCredits(parseCredit(creditsJson.getJSONObject(c)));
+            }
+
+            productions.put(uuid, production);
+        }
+
+        return production;
+    }
+
+    private CreditEntity parseCredit(JSONObject creditJson) {
+        String uuid = creditJson.getString("_uuid");
+
+        CreditEntity credit = credits.get(uuid);
+        if (credit == null) {
+            credit = new CreditEntity();
+            credit.setUUID(uuid);
+            credit.setFirstName(creditJson.getString("firstName"));
+            credit.setMiddleName(creditJson.getString("middleName"));
+            credit.setLastName(creditJson.getString("lastName"));
+            credit.setCreditGroup(parseCreditGroup(creditJson.getJSONObject("creditGroup")));
+
+            credits.put(uuid, credit);
+        }
+
+        return credit;
+    }
+
+    private CreditGroupEntity parseCreditGroup(JSONObject creditGroupJson) {
+        String uuid = creditGroupJson.getString("_uuid");
+
+        CreditGroupEntity creditGroup = creditGroups.get(uuid);
+        if (creditGroup == null) {
+            creditGroup = new CreditGroupEntity();
+            creditGroup.setUUID(uuid);
+            creditGroup.setName(creditGroupJson.getString("name"));
+
+            creditGroups.put(uuid, creditGroup);
+        }
+
+        return creditGroup;
+    }
+
+    private AccountEntity parseAccount(JSONObject accountJson) {
+        AccountEntity account = new AccountEntity();
+
+        account.setUUID(accountJson.getString("_uuid"));
+
+        account.setFirstName(accountJson.getString("firstName"));
+        account.setMiddleName(accountJson.getString("middleName"));
+        account.setLastName(accountJson.getString("lastName"));
+
+        account.setEmail(accountJson.getString("email"));
+        account.setPassword(accountJson.getString("hashedPassword"));
+
+        String accessLevelName = accountJson.getString("accessLevel");
+        for (AccessLevel accessLevel : AccessLevel.values()) {
+            if (accessLevel.toString().equals(accessLevelName)) {
+                account.setAccessLevel(accessLevel);
+            }
+        }
+
+        accounts.put(account.getUUID(), account);
+
+        return account;
+    }
+
 
     @Override
     public boolean checkAccess() {
-        return false;
+        return access;
     }
+
 
     @Override
     public IProduction[] getProductions() {
-        return new IProduction[0];
+        return productions.values().toArray(new IProduction[0]);
     }
 
     @Override
-    public IProduction getProduction(int id) {
-        return null;
+    public IProduction addProduction(IProduction production) {
+        ProductionEntity productionEntity = new ProductionEntity();
+        productionEntity.copyProduction(production);
+
+        productions.put(productionEntity.getUUID(), productionEntity);
+
+        return productionEntity;
     }
 
     @Override
-    public void addProduction(IProduction productionInfo) {
-
+    public void updateProduction(IProduction production) {
+        productions.get(production.getUUID()).copyProduction(production);
     }
 
-    @Override
-    public void updateProduction(IProduction productionInfo) {
-
-    }
 
     @Override
     public ICredit[] getCredits() {
-        return new ICredit[0];
+        return credits.values().toArray(new ICredit[0]);
     }
 
     @Override
-    public ICredit getCredit(int id) {
-        return null;
+    public ICredit addCredit(ICredit credit) {
+        CreditEntity creditEntity = new CreditEntity();
+        creditEntity.copyCredit(credit);
+
+        credits.put(creditEntity.getUUID(), creditEntity);
+
+        return creditEntity;
     }
 
     @Override
-    public void addCredit(ICredit creditInfo) {
-
+    public void updateCredit(ICredit credit) {
+        credits.get(credit.getUUID()).copyCredit(credit);
     }
 
-    @Override
-    public void updateCredit(ICredit creditInfo) {
-
-    }
 
     @Override
     public ICreditGroup[] getCreditGroups() {
-        return new ICreditGroup[0];
+        return creditGroups.values().toArray(new ICreditGroup[0]);
     }
 
     @Override
-    public ICreditGroup getCreditGroup(int id) {
-        return null;
+    public ICreditGroup addCreditGroup(ICreditGroup creditGroup) {
+        CreditGroupEntity creditGroupEntity = new CreditGroupEntity();
+        creditGroupEntity.copyCreditGroup(creditGroup);
+
+        creditGroups.put(creditGroupEntity.getUUID(), creditGroupEntity);
+
+        return creditGroupEntity;
     }
 
     @Override
-    public void addCreditGroup(ICreditGroup creditGroupInfo) {
-
+    public void updateCreditGroup(ICreditGroup creditGroup) {
+        creditGroups.get(creditGroup.getUUID()).copyCreditGroup(creditGroup);
     }
 
-    @Override
-    public void updateCreditGroup(ICreditGroup creditGroupInfo) {
-
-    }
 
     @Override
     public IAccount[] getAccounts() {
-        return new IAccount[0];
+        return accounts.values().toArray(new IAccount[0]);
     }
 
     @Override
-    public IAccount getAccount(int id) {
-        return null;
-    }
+    public IAccount addAccount(IAccount account, String hashedPassword) {
+        AccountEntity accountEntity = new AccountEntity();
+        accountEntity.copyAccount(account);
+        accountEntity.setPassword(hashedPassword);
 
-    @Override
-    public void addAccount(IAccount accountInfo) {
+        accounts.put(accountEntity.getUUID(), accountEntity);
 
-    }
-
-    @Override
-    public void updateAccount(IAccount accountInfo) {
+        return accountEntity;
 
     }
 
     @Override
-    public boolean login(String email, String password) {
-        return false;
+    public void updateAccount(IAccount account) {
+        accounts.get(account.getUUID()).copyAccount(account);
     }
 
-    public static File loadFile(String fileName) {
-        URL jsonFile = JsonDatabase.class.getResource(fileName);
-        return new File(jsonFile.getFile());
+    @Override
+    public void updateAccount(IAccount account, String hashedPassword) {
+        updateAccount(account);
+        accounts.get(account.getUUID()).setPassword(hashedPassword);
     }
 }

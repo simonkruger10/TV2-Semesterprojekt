@@ -1,72 +1,14 @@
 package com.company.data;
 
+import com.company.common.AccessLevel;
 import com.company.common.IAccount;
 
-public class AccountEntity {
-    private final int id;
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private String email;
-    private int accessLevel;
+public class AccountEntity extends PersonEntity implements IAccount {
+    private String email = null;
+    private String hashedPassword = null;
+    private AccessLevel accessLevel = null;
 
-    public AccountEntity(String firstName, String middleName, String lastName, String email, int accessLevel) {
-        this(-1, firstName, middleName, lastName, email, accessLevel);
-    }
-
-    public AccountEntity(int id, String firstName, String middleName, String lastName, String email, int accessLevel) {
-        this.id = id;
-        this.firstName = firstName;
-        this.email = middleName;
-        this.lastName = lastName;
-        this.email = email;
-        this.accessLevel = accessLevel;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getFullName() {
-        String fullName = "";
-
-        if (firstName != null) {
-            fullName = firstName;
-        }
-        if (middleName != null && !middleName.trim().isEmpty()) {
-            fullName += " " + middleName;
-        }
-        if (lastName != null) {
-            fullName = " " + lastName;
-        }
-
-        return fullName.trim();
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
+    @Override
     public String getEmail() {
         return email;
     }
@@ -75,11 +17,45 @@ public class AccountEntity {
         this.email = email;
     }
 
-    public int getAccessLevel() {
+
+    @Override
+    public AccessLevel getAccessLevel() {
         return accessLevel;
     }
 
-    public void setAccessLevel(int accessLevel) {
+    public void setAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
+    }
+
+
+    public String getPassword() {
+        return hashedPassword;
+    }
+
+    public void setPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
+    }
+
+
+    public void copyAccount(IAccount account) {
+        assert account != null;
+
+        this.setFirstName(account.getFirstName());
+        this.setMiddleName(account.getMiddleName());
+        this.setLastName(account.getLastName());
+        this.setEmail(account.getEmail());
+        this.setAccessLevel(account.getAccessLevel());
+    }
+
+    public String toJsonString() {
+        return "{" +
+                "\"_uuid\":\"" + getUUID() + "\"," +
+                "\"firstName\":\"" + getFirstName() + "\"," +
+                "\"middleName\":\"" + getMiddleName() + "\"," +
+                "\"lastName\":\"" + getLastName() + "\"," +
+                "\"email\":\"" + email + "\"," +
+                "\"hashedPassword\":\"" + hashedPassword + "\"," +
+                "\"accessLevel\":\"" + accessLevel + "\"" +
+                '}';
     }
 }

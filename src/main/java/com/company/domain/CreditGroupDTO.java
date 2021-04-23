@@ -4,14 +4,8 @@ import com.company.common.ICreditGroup;
 
 import java.util.UUID;
 
-public class CreditGroupDTO implements ICreditGroup {
+public class CreditGroupDTO extends MainDTO implements ICreditGroup {
     private String name = null;
-    private String uuid = UUID.randomUUID().toString();
-
-    @Override
-    public String getUUID() {
-        return uuid;
-    }
 
     @Override
     public String getName() {
@@ -25,6 +19,7 @@ public class CreditGroupDTO implements ICreditGroup {
     public void copyCreditGroup(ICreditGroup creditGroup) {
         assert creditGroup != null;
 
+        this.setUUID(creditGroup.getUUID());
         this.setName(creditGroup.getName());
     }
 }
