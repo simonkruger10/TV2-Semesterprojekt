@@ -12,6 +12,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.IntFunction;
+import java.util.stream.Stream;
 
 import static com.company.common.Tools.*;
 
@@ -49,26 +52,17 @@ public class AccountManagement implements IAccountManagement {
 
             if (matchCount > 0) {
                 result.add(new Pair<>(account, matchCount));
-
+                //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
                     break;
                 }
             }
         }
 
-        result.sort(new Comparator<Pair<AccountDTO, Integer>>() {
-            @Override
-            public int compare(Pair<AccountDTO, Integer> pair1, Pair<AccountDTO, Integer> pair2) {
-                // -1 - less than, 1 - greater than, 0 - equal
-                return pair1.getValue().compareTo(pair2.getValue());
-            }
-        });
-
-        IAccount[] list = new IAccount[result.size()];
-        for (int i = 0; i < result.size(); i++) {
-            list[i] = result.get(i).getKey();
-        }
-        return list;
+        return result.stream()                                      //Iterate
+                .sorted((Comparator.comparing(Pair::getValue)))     //Sort after Value -> machCount
+                .map(Pair::getKey)                                  //Convert Pair<Key, Value> to Key
+                .toArray(value -> new IAccount[0]);                 //Convert the List<Key> into Key[]
     }
 
 
