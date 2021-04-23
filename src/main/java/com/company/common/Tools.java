@@ -23,7 +23,8 @@ public class Tools {
 
     public static File getResourceAsFile(String fileName) {
         assert fileName != null;
-        URL file = Tools.class.getResource(fileName);
+        URL file = Tools.class.getClassLoader().getResource(fileName);
+        System.out.println(file);
 
         assert file != null;
         return new File(file.getFile());
