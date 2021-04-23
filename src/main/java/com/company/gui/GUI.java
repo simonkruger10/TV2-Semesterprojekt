@@ -19,12 +19,12 @@ public class GUI extends Application {
 
         try {
             //Create loader and load fxml
-            URL fxml = GUI.class.getResource("/Login.fxml");
+            URL fxml = GUI.class.getResource("/ProductionsOverview.fxml");
             FXMLLoader loader = new FXMLLoader(fxml);
             Parent root = loader.load();
 
             //Load data (GUI object) into controller object
-            LoginController controller = loader.<LoginController>getController();
+            GuiController controller = loader.getController();
             controller.loadGui(this);
 
             //Create and show window
