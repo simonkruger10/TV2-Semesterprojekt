@@ -35,6 +35,8 @@ public class AccountDTO extends PersonDTO implements IAccount {
     }
 
     public void copyAccount(IAccount account) {
+        assert account != null;
+
         this.setFirstName(account.getFirstName());
         this.setMiddleName(account.getMiddleName());
         this.setLastName(account.getLastName());

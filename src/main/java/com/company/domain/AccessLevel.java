@@ -26,18 +26,26 @@ public enum AccessLevel implements IAccessLevel {
     }
 
     public boolean equals(AccessLevel accessLevel) {
+        assert accessLevel != null;
+
         return accessLevel.getLevel() == level;
     }
 
     public boolean notEquals(AccessLevel accessLevel) {
+        assert accessLevel != null;
+
         return accessLevel.getLevel() != level;
     }
 
     public boolean greater(AccessLevel accessLevel) {
+        assert accessLevel != null;
+
         return accessLevel.getLevel() < level;
     }
 
     public boolean less(AccessLevel accessLevel) {
+        assert accessLevel != null;
+
         return accessLevel.getLevel() > level;
     }
 }

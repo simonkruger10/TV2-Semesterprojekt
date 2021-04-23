@@ -1,6 +1,8 @@
 package com.company.common;
 
 public interface ICredit {
+    String getUUID();
+
     String getFullName();
 
     String getFirstName();
