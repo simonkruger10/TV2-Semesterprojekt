@@ -1,7 +1,9 @@
 package com.company.domain;
 
 import com.company.common.AccessLevel;
+import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
+import com.company.data.Database;
 import javafx.util.Pair;
 
 import java.security.AccessControlException;
@@ -10,11 +12,32 @@ import java.util.Comparator;
 import java.util.List;
 
 import static com.company.common.Tools.*;
-import static com.company.common.Tools.trueContains;
 
 public class CreditGroupManagement implements ICreditGroupManagement {
     private final AccountManagement aMgt = new AccountManagement();
-    private final List<CreditGroupDTO> creditGroups = new ArrayList<>();
+
+    @Override
+    public ICreditGroup[] list() {
+        return list(0, 20);
+    }
+
+    @Override
+    public ICreditGroup[] list(int start) {
+        return list(start, 20);
+    }
+
+    @Override
+    public ICreditGroup[] list(int start, int max) {
+        ICreditGroup[] creditGroups = Database.getInstance().getCreditGroups();
+
+        final List<ICreditGroup> list = new ArrayList<>();
+        for (int i = start; i < creditGroups.length && list.size() < max; i++) {
+            list.add(new CreditGroupDTO(creditGroups[i]));
+        }
+
+        return list.toArray(new ICreditGroup[0]);
+    }
+
 
     @Override
     public ICreditGroup[] search(String[] words) {
@@ -25,45 +48,41 @@ public class CreditGroupManagement implements ICreditGroupManagement {
     public ICreditGroup[] search(String[] words, int maxResults) {
         final List<Pair<CreditGroupDTO, Integer>> result = new ArrayList<>();
 
-        for (CreditGroupDTO credit : creditGroups) {
+        for (ICreditGroup creditGroup : Database.getInstance().getCreditGroups()) {
+            // TODO: Investigate whether linear search is the right one to use
             int matchCount = 0;
 
             for (String word : words) {
-                if (trueContains(credit.getName(), word)) {
+                // TODO: Investigate whether linear search is the right one to use
+                if (trueContains(creditGroup.getName(), word)) {
                     matchCount += 1;
                 }
             }
 
             if (matchCount > 0) {
-                result.add(new Pair<>(credit, matchCount));
+                result.add(new Pair<>(new CreditGroupDTO(creditGroup), matchCount));
 
+                //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
                     break;
                 }
             }
         }
 
-        result.sort(new Comparator<Pair<CreditGroupDTO, Integer>>() {
-            @Override
-            public int compare(Pair<CreditGroupDTO, Integer> pair1, Pair<CreditGroupDTO, Integer> pair2) {
-                // -1 - less than, 1 - greater than, 0 - equal
-                return pair1.getValue().compareTo(pair2.getValue());
-            }
-        });
-
-        ICreditGroup[] list = new ICreditGroup[result.size()];
-        for (int i = 0; i < result.size(); i++) {
-            list[i] = result.get(i).getKey();
-        }
-        return list;
+        return result.stream()                                      //Iterate
+                .sorted((Comparator.comparing(Pair::getValue)))     //Sort after Value -> machCount
+                .map(Pair::getKey)                                  //Convert Pair<Key, Value> to Key
+                .toArray(ICreditGroup[]::new);                      //Convert the List<Key> into Key[]
     }
 
 
     @Override
     public ICreditGroup getByName(String name) {
-        for (CreditGroupDTO creditGroup : creditGroups) {
+        assert name != null;
+
+        for (ICreditGroup creditGroup : Database.getInstance().getCreditGroups()) {
             if (trueEquals(creditGroup.getName(), name)) {
-                return creditGroup;
+                return new CreditGroupDTO(creditGroup);
             }
         }
         return null;
@@ -71,20 +90,29 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
 
     @Override
+    public ICreditGroup getByUUID(String uuid) {
+        assert uuid != null;
+
+        return new CreditGroupDTO(Database.getInstance().getCreditGroup(uuid));
+    }
+
+
+    @Override
     public ICreditGroup create(ICreditGroup creditGroup) {
-        // TODO: Hvem har adgang???
+        // TODO: Check the access is correct
         if (aMgt.getCurrentUser().getAccessLevel() != AccessLevel.PRODUCER && !aMgt.isAdmin()) {
-            throw new AccessControlException("The user is not allowed to create credit groups.");
+            throw new AccessControlException("Insufficient permission.");
         }
 
         controlsRequirements(creditGroup);
 
-        CreditGroupDTO newCreditGroup = new CreditGroupDTO();
-        newCreditGroup.setCopyOf(creditGroup);
+        if (getByName(creditGroup.getName()) != null) {
+            throw new RuntimeException("The credit group name is in use.");
+        }
 
-        creditGroups.add(newCreditGroup);
+        creditGroup = Database.getInstance().addCreditGroup(creditGroup);
 
-        return newCreditGroup;
+        return new CreditGroupDTO(creditGroup);
     }
 
 
@@ -92,29 +120,30 @@ public class CreditGroupManagement implements ICreditGroupManagement {
     public void update(ICreditGroup creditGroup) {
         assert creditGroup != null;
 
-        update(creditGroup.getName(), creditGroup);
-    }
-
-    @Override
-    public void update(String name, ICreditGroup creditGroup) {
-        // TODO: Hvem har adgang???
+        // TODO: Check the access is correct
         if (!aMgt.isAdmin()) {
-            throw new AccessControlException("The user is not allowed to create credit groups.");
+            throw new AccessControlException("Insufficient permission.");
+        }
+
+        CreditGroupDTO oldCreditGroup = (CreditGroupDTO) getByUUID(creditGroup.getUUID());
+        if (oldCreditGroup == null) {
+            throw new RuntimeException("Could not find credit group with specified uuid.");
+        }
+
+        if (!trueEquals(oldCreditGroup.getName(), creditGroup.getName())
+                && getByName(creditGroup.getName()) != null) {
+            throw new RuntimeException("The credit group name is in use.");
         }
 
         controlsRequirements(creditGroup);
 
-        CreditGroupDTO creditGroupDTO = (CreditGroupDTO) getByName(name);
-        if (creditGroupDTO == null) {
-            throw new RuntimeException("Could not the credit group by the specified uuid.");
-        }
-        creditGroupDTO.setCopyOf(creditGroup);
+        Database.getInstance().updateCreditGroup(creditGroup);
     }
 
 
     private void controlsRequirements(ICreditGroup creditGroup) {
         if (creditGroup == null || isNullOrEmpty(creditGroup.getName())) {
-            throw new RuntimeException("Group name are required.");
+            throw new RuntimeException("Credit group name is required.");
         }
     }
 }

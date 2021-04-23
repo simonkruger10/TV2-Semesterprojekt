@@ -5,6 +5,10 @@ import com.company.common.IAccount;
 import java.security.NoSuchAlgorithmException;
 
 public interface IAccountManagement {
+    IAccount[] list();
+    IAccount[] list(int start);
+    IAccount[] list(int start, int max);
+
     IAccount[] search(String[] words);
     IAccount[] search(String[] words, int maxResults);
 
@@ -13,6 +17,8 @@ public interface IAccountManagement {
     IAccount[] getByName(String firstName, String middleName, String lastName);
 
     IAccount getByEmail(String email);
+
+    IAccount getByUUID(String uuid);
 
     void login(String email, String password) throws NoSuchAlgorithmException;
     void logout();
@@ -23,7 +29,4 @@ public interface IAccountManagement {
 
     void update(IAccount account) throws NoSuchAlgorithmException;
     void update(IAccount account, String password) throws NoSuchAlgorithmException;
-    void update(String email, String password) throws NoSuchAlgorithmException;
-    void update(String email, IAccount account) throws NoSuchAlgorithmException;
-    void update(String email, IAccount account, String password) throws NoSuchAlgorithmException;
 }

@@ -1,7 +1,9 @@
 package com.company.domain;
 
 import com.company.common.AccessLevel;
+import com.company.common.IAccount;
 import com.company.common.IProduction;
+import com.company.data.Database;
 import javafx.util.Pair;
 
 import java.security.AccessControlException;
@@ -13,8 +15,29 @@ import static com.company.common.Tools.*;
 
 public class ProductionManagement implements IProductionManagement {
     private final AccountManagement aMgt = new AccountManagement();
-    private final CreditManagement cMgt = new CreditManagement();
-    private final List<ProductionDTO> productions = new ArrayList<>();
+
+    @Override
+    public IProduction[] list() {
+        return list(0, 20);
+    }
+
+    @Override
+    public IProduction[] list(int start) {
+        return list(start, 20);
+    }
+
+    @Override
+    public IProduction[] list(int start, int max) {
+        IProduction[] productions = Database.getInstance().getProductions();
+
+        final List<IProduction> list = new ArrayList<>();
+        for (int i = start; i < productions.length && list.size() < max; i++) {
+            list.add(new ProductionDTO(productions[i]));
+        }
+
+        return list.toArray(new IProduction[0]);
+    }
+
 
     @Override
     public IProduction[] search(String[] words) {
@@ -25,40 +48,35 @@ public class ProductionManagement implements IProductionManagement {
     public IProduction[] search(String[] words, int maxResults) {
         final List<Pair<ProductionDTO, Integer>> result = new ArrayList<>();
 
-        for (ProductionDTO production : productions) {
+        for (IProduction production : Database.getInstance().getProductions()) {
+            // TODO: Investigate whether linear search is the right one to use
             int matchCount = 0;
 
             for (String word : words) {
+                // TODO: Investigate whether linear search is the right one to use
                 if (trueContains(production.getName(), word)) {
                     matchCount += 1;
                 }
                 if (trueContains(production.getDescription(), word)) {
+                    // TODO: Count the number of matches in the entire description instead of counting 1 match
                     matchCount += 1;
                 }
             }
 
             if (matchCount > 0) {
-                result.add(new Pair<>(production, matchCount));
+                result.add(new Pair<>(new ProductionDTO(production), matchCount));
 
+                //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
                     break;
                 }
             }
         }
 
-        result.sort(new Comparator<Pair<ProductionDTO, Integer>>() {
-            @Override
-            public int compare(Pair<ProductionDTO, Integer> pair1, Pair<ProductionDTO, Integer> pair2) {
-                // -1 - less than, 1 - greater than, 0 - equal
-                return pair1.getValue().compareTo(pair2.getValue());
-            }
-        });
-
-        IProduction[] list = new IProduction[result.size()];
-        for (int i = 0; i < result.size(); i++) {
-            list[i] = result.get(i).getKey();
-        }
-        return list;
+        return result.stream()                                      //Iterate
+                .sorted((Comparator.comparing(Pair::getValue)))     //Sort after Value -> machCount
+                .map(Pair::getKey)                                  //Convert Pair<Key, Value> to Key
+                .toArray(IProduction[]::new);                       //Convert the List<Key> into Key[]
     }
 
 
@@ -66,11 +84,11 @@ public class ProductionManagement implements IProductionManagement {
     public IProduction[] getByName(String name) {
         assert name != null;
 
-        final List<IProduction> result = new ArrayList<>();
+        final List<ProductionDTO> result = new ArrayList<>();
 
-        for (IProduction production : productions) {
+        for (IProduction production : Database.getInstance().getProductions()) {
             if (trueEquals(production.getName(), name)) {
-                result.add(production);
+                result.add(new ProductionDTO(production));
             }
         }
 
@@ -82,13 +100,7 @@ public class ProductionManagement implements IProductionManagement {
     public IProduction getByUUID(String uuid) {
         assert uuid != null;
 
-        for (IProduction production : productions) {
-            if (production.getUUID().equals(uuid)) {
-                return production;
-            }
-        }
-
-        return null;
+        return new ProductionDTO(Database.getInstance().getProduction(uuid));
     }
 
 
@@ -98,50 +110,40 @@ public class ProductionManagement implements IProductionManagement {
 
         controlsRequirements(production);
 
-        ProductionDTO newProduction = new ProductionDTO();
-        newProduction.setCopyOf(production);
+        // TODO: Check for duplicates
 
-        productions.add(newProduction);
+        production = Database.getInstance().addProduction(production);
 
-        return newProduction;
+        return new ProductionDTO(production);
     }
 
 
     @Override
     public void update(IProduction production) {
-        assert production != null;
-
-        update(production.getUUID(), production);
-    }
-
-    @Override
-    public void update(String uuid, IProduction production) {
         controlsAccess();
+
+        if (getByUUID(production.getUUID()) == null) {
+            throw new RuntimeException("Could not find production with specified uuid.");
+        }
 
         controlsRequirements(production);
 
-        ProductionDTO productionDTO = (ProductionDTO) getByUUID(uuid);
-        if (productionDTO == null) {
-            throw new RuntimeException("Could not the credit by the specified uuid.");
-        }
-        productionDTO.setCopyOf(production);
+        // TODO: Check for duplicates
+
+        Database.getInstance().updateProduction(production);
     }
 
 
     private void controlsAccess() {
-        // TODO: Hvem har adgang???
+        // TODO: Check the access is correct
         if (aMgt.getCurrentUser().getAccessLevel() != AccessLevel.PRODUCER && !aMgt.isAdmin()) {
-            throw new AccessControlException("The user is not allowed to create production.");
+            throw new AccessControlException("Insufficient permission.");
         }
     }
 
     private void controlsRequirements(IProduction production) {
         if (production == null || isNullOrEmpty(production.getName()) || production.getCredits() == null) {
-            throw new RuntimeException("Production name and one credit are required.");
-        }
-
-        if (!(production.getCredits() instanceof CreditDTO[])) {
-            throw new RuntimeException("The credit list must be an instance of the CreditDTO class");
+            throw new RuntimeException("Production name and one credit is required.");
         }
     }
 }

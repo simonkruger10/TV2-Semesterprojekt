@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Tools {
+    // TODO: Find out where Tools should be located
     public static boolean trueContains(String phrase, String keyword) {
         return phrase != null && keyword != null && !keyword.trim().isEmpty()
                 && Pattern.compile(Pattern.quote(keyword), Pattern.CASE_INSENSITIVE).matcher(phrase).find();
@@ -24,7 +25,6 @@ public class Tools {
     public static File getResourceAsFile(String fileName) {
         assert fileName != null;
         URL file = Tools.class.getClassLoader().getResource(fileName);
-        System.out.println(file);
 
         assert file != null;
         return new File(file.getFile());
@@ -38,5 +38,21 @@ public class Tools {
             text.append("\n");
         }
         return text.toString();
+    }
+
+    public static String createFullName(String firstName, String middleName, String lastName) {
+        String fullName = "";
+
+        if (firstName != null) {
+            fullName += firstName;
+        }
+        if (middleName != null && middleName.trim().isEmpty()) {
+            fullName += " " + middleName;
+        }
+        if (lastName != null) {
+            fullName += " " + lastName;
+        }
+
+        return fullName.trim();
     }
 }

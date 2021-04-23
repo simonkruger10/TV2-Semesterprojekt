@@ -2,6 +2,7 @@ package com.company.domain;
 
 import com.company.common.AccessLevel;
 import com.company.common.IAccount;
+import com.company.data.Database;
 import javafx.util.Pair;
 
 import java.math.BigInteger;
@@ -9,19 +10,37 @@ import java.nio.charset.StandardCharsets;
 import java.security.AccessControlException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.function.IntFunction;
-import java.util.stream.Stream;
+import java.util.*;
 
 import static com.company.common.Tools.*;
 
 public class AccountManagement implements IAccountManagement {
-    private final List<AccountDTO> accounts = new ArrayList<>();
     private static AccountDTO currentUser = new AccountDTO();
+    @SuppressWarnings("FieldCanBeLocal")
     private final String saltValue = "qOfzSKTYGNhmf4bT73ZMxmHe5C3FR756HANUIOmejTLs5PZb6mqAlVJPyOXeEwJ23NyySubPx51YILZWqdDG6BvB3XNYCJpw8HJXJ4Wh5lM8DcWiDqjnQRqeyf8nUshPmiDt38RDlQGQ";
+
+    @Override
+    public IAccount[] list() {
+        return list(0, 20);
+    }
+
+    @Override
+    public IAccount[] list(int start) {
+        return list(start, 20);
+    }
+
+    @Override
+    public IAccount[] list(int start, int max) {
+        IAccount[] accounts = Database.getInstance().getAccounts();
+
+        final List<IAccount> list = new ArrayList<>();
+        for (int i = start; i < accounts.length && list.size() < max; i++) {
+            list.add(new AccountDTO(accounts[i]));
+        }
+
+        return list.toArray(new IAccount[0]);
+    }
+
 
     @Override
     public IAccount[] search(String[] words) {
@@ -32,10 +51,12 @@ public class AccountManagement implements IAccountManagement {
     public IAccount[] search(String[] words, int maxResults) {
         final List<Pair<AccountDTO, Integer>> result = new ArrayList<>();
 
-        for (AccountDTO account : accounts) {
+        for (IAccount account : Database.getInstance().getAccounts()) {
+            // TODO: Investigate whether linear search is the right one to use
             int matchCount = 0;
 
             for (String word : words) {
+                // TODO: Investigate whether linear search is the right one to use
                 if (trueContains(account.getFirstName(), word)) {
                     matchCount += 1;
                 }
@@ -51,7 +72,8 @@ public class AccountManagement implements IAccountManagement {
             }
 
             if (matchCount > 0) {
-                result.add(new Pair<>(account, matchCount));
+                result.add(new Pair<>(new AccountDTO(account), matchCount));
+
                 //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
                     break;
@@ -62,7 +84,7 @@ public class AccountManagement implements IAccountManagement {
         return result.stream()                                      //Iterate
                 .sorted((Comparator.comparing(Pair::getValue)))     //Sort after Value -> machCount
                 .map(Pair::getKey)                                  //Convert Pair<Key, Value> to Key
-                .toArray(value -> new IAccount[0]);                 //Convert the List<Key> into Key[]
+                .toArray(IAccount[]::new);                          //Convert the List<Key> into Key[]
     }
 
 
@@ -82,11 +104,11 @@ public class AccountManagement implements IAccountManagement {
 
         final List<AccountDTO> result = new ArrayList<>();
 
-        for (AccountDTO account : accounts) {
+        for (IAccount account : Database.getInstance().getAccounts()) {
             if ((firstName == null || trueEquals(account.getFirstName(), firstName))
                     && (middleName == null || trueEquals(account.getMiddleName(), middleName))
                     && (lastName == null || trueEquals(account.getLastName(), lastName))) {
-                result.add(account);
+                result.add(new AccountDTO(account));
             }
         }
 
@@ -98,9 +120,9 @@ public class AccountManagement implements IAccountManagement {
     public IAccount getByEmail(String email) {
         assert email != null;
 
-        for (AccountDTO account : accounts) {
+        for (IAccount account : Database.getInstance().getAccounts()) {
             if (account.getEmail().equalsIgnoreCase(email)) {
-                return account;
+                return new AccountDTO(account);
             }
         }
 
@@ -109,15 +131,25 @@ public class AccountManagement implements IAccountManagement {
 
 
     @Override
-    public void login(String email, String password) throws NoSuchAlgorithmException {
-        assert email != null;
+    public IAccount getByUUID(String uuid) {
+        assert uuid != null;
 
-        AccountDTO accountDTO = (AccountDTO) getByEmail(email);
-        if (accountDTO == null || !accountDTO.getPassword().equalsIgnoreCase(hashPassword(password))) {
+        return new AccountDTO(Database.getInstance().getAccount(uuid));
+    }
+
+
+    @Override
+    public void login(String email, String password) throws NoSuchAlgorithmException {
+        IAccount account = getByEmail(email);
+        if (account == null) {
+            throw new RuntimeException("Could not find the user.");
+        }
+        account = Database.getInstance().login(account, hashPassword(password));
+        if (account == null) {
             throw new RuntimeException("Could not find the user.");
         }
 
-        currentUser = accountDTO;
+        currentUser = new AccountDTO(account);
     }
 
     @Override
@@ -135,92 +167,67 @@ public class AccountManagement implements IAccountManagement {
     @Override
     public IAccount create(IAccount account, String password) throws NoSuchAlgorithmException {
         if (!isAdmin()) {
-            throw new AccessControlException("The user is not allowed to create accounts.");
+            throw new AccessControlException("Insufficient permission.");
         }
 
-        if (hasRequirements(account) || isNullOrEmpty(password)) {
-            throw new RuntimeException("First name, email, access level and password are required.");
+        controlsRequirements(account);
+        if (isNullOrEmpty(password)) {
+            throw new RuntimeException("Password is required.");
         }
 
         if (getByEmail(account.getEmail()) != null) {
-            throw new RuntimeException("The user already exists.");
+            throw new RuntimeException("The email is in use.");
         }
 
-        AccountDTO newAccount = new AccountDTO();
-        newAccount.setCopyOf(account);
-        newAccount.setPassword(hashPassword(password));
+        account = Database.getInstance().addAccount(account, hashPassword(password));
 
-        accounts.add(newAccount);
-
-        return newAccount;
+        return new AccountDTO(account);
     }
 
 
     @Override
     public void update(IAccount account) throws NoSuchAlgorithmException {
-        assert account != null;
-        update(account.getEmail(), account, null);
+        update(account, null);
     }
 
     @Override
     public void update(IAccount account, String password) throws NoSuchAlgorithmException {
         assert account != null;
-        update(account.getEmail(), account, password);
-    }
 
-    @Override
-    public void update(String email, String password) throws NoSuchAlgorithmException {
-        assert email != null;
-        update(email, null, password);
-    }
-
-    @Override
-    public void update(String email, IAccount account) throws NoSuchAlgorithmException {
-        update(email, account, null);
-    }
-
-    @Override
-    public void update(String email, IAccount account, String password) throws NoSuchAlgorithmException {
-        assert email != null;
-
-        if (currentUser != getByEmail(email) && !isAdmin()) {
-            throw new AccessControlException("The user is not allowed to update the account.");
+        AccountDTO oldAccount = (AccountDTO) getByUUID(account.getUUID());
+        if (oldAccount == null) {
+            throw new RuntimeException("Could not find account with specified uuid.");
         }
 
-        AccountDTO accountDTO = (AccountDTO) getByEmail(email);
-        if (accountDTO == null) {
-            throw new RuntimeException("Could not find the account by the specified email address.");
+        if (trueEquals(currentUser.getUUID(), oldAccount.getUUID()) && !isAdmin()) {
+            throw new AccessControlException("Insufficient permission.");
         }
 
-        if (account != null) {
-            if (hasRequirements(account)) {
-                throw new RuntimeException("First name, email and access level are required.");
-            }
+        controlsRequirements(account);
 
-            String newEmail = account.getEmail();
-            if (!trueEquals(newEmail, email) && getByEmail(newEmail) != null) {
-                throw new RuntimeException("The email address is already in use.");
-            }
-
-            accountDTO.setCopyOf(account);
+        if (!trueEquals(oldAccount.getEmail(), account.getEmail()) && getByEmail(account.getEmail()) != null) {
+            throw new RuntimeException("The email is in use.");
         }
 
-        if (!isNullOrEmpty(password)) {
-            accountDTO.setPassword(hashPassword(password));
+        if (isNullOrEmpty(password)) {
+            Database.getInstance().updateAccount(account, null);
+        } else {
+            Database.getInstance().updateAccount(account, hashPassword(password));
         }
     }
 
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isAdmin() {
         return currentUser.getAccessLevel().equals(AccessLevel.ADMINISTRATOR);
     }
 
-    private boolean hasRequirements(IAccount account) {
-        assert account != null;
-
+    private void controlsRequirements(IAccount account) {
         AccessLevel accessLevel = account.getAccessLevel();
-        return !isNullOrEmpty(account.getFirstName()) && !isNullOrEmpty(account.getEmail())
-                && accessLevel != null && accessLevel.greater(AccessLevel.GUEST);
+        if (!isNullOrEmpty(account.getFirstName()) && !isNullOrEmpty(account.getEmail())
+                && accessLevel != null && accessLevel.greater(AccessLevel.GUEST)) {
+            throw new RuntimeException("First name, email and access level is required.");
+        }
     }
 
     private String hashPassword(String password) throws NoSuchAlgorithmException {

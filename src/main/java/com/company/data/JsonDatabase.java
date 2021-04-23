@@ -9,6 +9,7 @@ import java.util.*;
 
 import static com.company.common.Tools.*;
 
+@SuppressWarnings("UnusedReturnValue")
 public class JsonDatabase implements DatabaseFacade {
     private final Map<String, ProductionEntity> productions = new HashMap<>();
     private final Map<String, CreditEntity> credits = new HashMap<>();
@@ -50,16 +51,17 @@ public class JsonDatabase implements DatabaseFacade {
         access = true;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     private ProductionEntity parseProduction(JSONObject productionJson) {
-        String uuid = getJsonString(productionJson,"_uuid");
+        String uuid = getJsonString(productionJson, "_uuid");
 
         ProductionEntity production = productions.get(uuid);
         if (production == null) {
             production = new ProductionEntity();
             production.setUUID(uuid);
-            production.setName(getJsonString(productionJson,"name"));
-            production.setDescription(getJsonString(productionJson,"description"));
-            production.setImage(new File(getJsonString(productionJson,"image")));
+            production.setName(getJsonString(productionJson, "name"));
+            production.setDescription(getJsonString(productionJson, "description"));
+            production.setImage(new File(getJsonString(productionJson, "image")));
 
             JSONArray creditsJson = productionJson.getJSONArray("credits");
             for (int c = 0; c < creditsJson.length(); c++) {
@@ -73,15 +75,15 @@ public class JsonDatabase implements DatabaseFacade {
     }
 
     private CreditEntity parseCredit(JSONObject creditJson) {
-        String uuid = getJsonString(creditJson,"_uuid");
+        String uuid = getJsonString(creditJson, "_uuid");
 
         CreditEntity credit = credits.get(uuid);
         if (credit == null) {
             credit = new CreditEntity();
             credit.setUUID(uuid);
-            credit.setFirstName(getJsonString(creditJson,"firstName"));
-            credit.setMiddleName(getJsonString(creditJson,"middleName"));
-            credit.setLastName(getJsonString(creditJson,"lastName"));
+            credit.setFirstName(getJsonString(creditJson, "firstName"));
+            credit.setMiddleName(getJsonString(creditJson, "middleName"));
+            credit.setLastName(getJsonString(creditJson, "lastName"));
             credit.setCreditGroup(parseCreditGroup(creditJson.getJSONObject("creditGroup")));
 
             credits.put(uuid, credit);
@@ -108,14 +110,14 @@ public class JsonDatabase implements DatabaseFacade {
     private AccountEntity parseAccount(JSONObject accountJson) {
         AccountEntity account = new AccountEntity();
 
-        account.setUUID(getJsonString(accountJson,"_uuid"));
-        account.setFirstName(getJsonString(accountJson,"firstName"));
-        account.setMiddleName(getJsonString(accountJson,"middleName"));
+        account.setUUID(getJsonString(accountJson, "_uuid"));
+        account.setFirstName(getJsonString(accountJson, "firstName"));
+        account.setMiddleName(getJsonString(accountJson, "middleName"));
         account.setLastName(getJsonString(accountJson, "lastName"));
-        account.setEmail(getJsonString(accountJson,"email"));
-        account.setPassword(getJsonString(accountJson,"hashedPassword"));
-        String accessLevelName = getJsonString(accountJson,"accessLevel");
-        
+        account.setEmail(getJsonString(accountJson, "email"));
+        account.setPassword(getJsonString(accountJson, "hashedPassword"));
+        String accessLevelName = getJsonString(accountJson, "accessLevel");
+
         for (AccessLevel accessLevel : AccessLevel.values()) {
             if (accessLevel.toString().equals(accessLevelName)) {
                 account.setAccessLevel(accessLevel);
@@ -131,7 +133,8 @@ public class JsonDatabase implements DatabaseFacade {
         String value = null;
         try {
             value = jsonObject.getString(key);
-        } catch (JSONException jsonException) {}
+        } catch (JSONException ignored) {
+        }
         return value;
     }
 
@@ -145,6 +148,11 @@ public class JsonDatabase implements DatabaseFacade {
     @Override
     public IProduction[] getProductions() {
         return productions.values().toArray(new IProduction[0]);
+    }
+
+    @Override
+    public IProduction getProduction(String uuid) {
+        return productions.get(uuid);
     }
 
     @Override
@@ -169,6 +177,11 @@ public class JsonDatabase implements DatabaseFacade {
     }
 
     @Override
+    public ICredit getCredit(String uuid) {
+        return credits.get(uuid);
+    }
+
+    @Override
     public ICredit addCredit(ICredit credit) {
         CreditEntity creditEntity = new CreditEntity();
         creditEntity.setCopyOf(credit);
@@ -187,6 +200,11 @@ public class JsonDatabase implements DatabaseFacade {
     @Override
     public ICreditGroup[] getCreditGroups() {
         return creditGroups.values().toArray(new ICreditGroup[0]);
+    }
+
+    @Override
+    public ICreditGroup getCreditGroup(String uuid) {
+        return creditGroups.get(uuid);
     }
 
     @Override
@@ -211,6 +229,11 @@ public class JsonDatabase implements DatabaseFacade {
     }
 
     @Override
+    public IAccount getAccount(String uuid) {
+        return accounts.get(uuid);
+    }
+
+    @Override
     public IAccount addAccount(IAccount account, String hashedPassword) {
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setCopyOf(account);
@@ -231,5 +254,15 @@ public class JsonDatabase implements DatabaseFacade {
     public void updateAccount(IAccount account, String hashedPassword) {
         updateAccount(account);
         accounts.get(account.getUUID()).setPassword(hashedPassword);
+    }
+
+
+    @Override
+    public IAccount login(IAccount account, String password) {
+        AccountEntity accountEntity = accounts.get(account.getUUID());
+        if (trueEquals(accountEntity.getPassword(), password)) {
+            return accountEntity;
+        }
+        return null;
     }
 }

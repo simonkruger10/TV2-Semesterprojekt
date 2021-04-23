@@ -1,24 +1,14 @@
 package com.company.data;
 
+import com.company.common.Tools;
+
 public class PersonEntity extends MainEntity {
     private String firstName = null;
     private String middleName = null;
     private String lastName = null;
 
     public String getFullName() {
-        String fullName = "";
-
-        if (firstName != null) {
-            fullName += firstName;
-        }
-        if (middleName != null && middleName.trim().isEmpty()) {
-            fullName += " " + middleName;
-        }
-        if (lastName != null) {
-            fullName += " " + lastName;
-        }
-
-        return fullName.trim();
+        return Tools.createFullName(firstName, middleName, lastName);
     }
 
     public String getFirstName() {

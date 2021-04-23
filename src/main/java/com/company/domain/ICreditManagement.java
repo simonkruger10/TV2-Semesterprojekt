@@ -1,9 +1,12 @@
 package com.company.domain;
 
 import com.company.common.ICredit;
-import com.company.common.ICreditGroup;
 
 public interface ICreditManagement {
+    ICredit[] list();
+    ICredit[] list(int start);
+    ICredit[] list(int start, int max);
+
     ICredit[] search(String[] words);
     ICredit[] search(String[] words, int maxResults);
 
@@ -18,6 +21,4 @@ public interface ICreditManagement {
     ICredit create(ICredit credit);
 
     void update(ICredit credit);
-
-    void update(String uuid, ICredit credit);
 }

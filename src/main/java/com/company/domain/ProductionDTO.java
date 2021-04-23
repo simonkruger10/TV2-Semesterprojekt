@@ -4,12 +4,21 @@ import com.company.common.ICredit;
 import com.company.common.IProduction;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductionDTO extends MainDTO implements IProduction {
     private String name = null;
     private String description = null;
     private File image = null;
     private ICredit[] credits = null;
+
+    public ProductionDTO() {
+    }
+
+    public ProductionDTO(IProduction production) {
+        setCopyOf(production);
+    }
 
     @Override
     public String getName() {
@@ -55,6 +64,11 @@ public class ProductionDTO extends MainDTO implements IProduction {
         setName(production.getName());
         setDescription(production.getDescription());
         setImage(production.getImage());
-        setCredits(production.getCredits());
+
+        final List<ICredit> credits = new ArrayList<>();
+        for (ICredit credit : production.getCredits()) {
+            credits.add(new CreditDTO(credit));
+        }
+        setCredits(credits.toArray(new ICredit[0]));
     }
 }

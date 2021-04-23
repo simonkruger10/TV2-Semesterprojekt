@@ -5,8 +5,13 @@ import com.company.common.IAccount;
 
 public class AccountDTO extends PersonDTO implements IAccount {
     private String email = null;
-    private String hashedPassword = null;
     private AccessLevel accessLevel = AccessLevel.GUEST;
+
+    AccountDTO() {}
+
+    AccountDTO(IAccount account) {
+        setCopyOf(account);
+    }
 
     @Override
     public String getEmail() {
@@ -24,14 +29,6 @@ public class AccountDTO extends PersonDTO implements IAccount {
 
     public void setAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
-    }
-
-    public String getPassword() {
-        return hashedPassword;
-    }
-
-    public void setPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
     }
 
     public void setCopyOf(IAccount account) {

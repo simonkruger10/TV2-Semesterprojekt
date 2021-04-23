@@ -5,8 +5,6 @@ import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 import com.company.common.IProduction;
 
-import java.io.FileNotFoundException;
-
 public class Database implements DatabaseFacade {
     private static DatabaseFacade instance;
     private final DatabaseFacade database;
@@ -35,6 +33,11 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
+    public IProduction getProduction(String uuid) {
+        return this.database.getProduction(uuid);
+    }
+
+    @Override
     public IProduction addProduction(IProduction production) {
         return this.database.addProduction(production);
     }
@@ -48,6 +51,11 @@ public class Database implements DatabaseFacade {
     @Override
     public ICredit[] getCredits() {
         return this.database.getCredits();
+    }
+
+    @Override
+    public ICredit getCredit(String uuid) {
+        return this.database.getCredit(uuid);
     }
 
     @Override
@@ -67,6 +75,11 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
+    public ICreditGroup getCreditGroup(String uuid) {
+        return this.database.getCreditGroup(uuid);
+    }
+
+    @Override
     public ICreditGroup addCreditGroup(ICreditGroup creditGroup) {
         return this.database.addCreditGroup(creditGroup);
     }
@@ -83,6 +96,11 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
+    public IAccount getAccount(String uuid) {
+        return this.database.getAccount(uuid);
+    }
+
+    @Override
     public IAccount addAccount(IAccount account, String hashedPassword) {
         return this.database.addAccount(account, hashedPassword);
     }
@@ -95,5 +113,11 @@ public class Database implements DatabaseFacade {
     @Override
     public void updateAccount(IAccount account, String hashedPassword) {
         this.database.updateAccount(account, hashedPassword);
+    }
+
+
+    @Override
+    public IAccount login(IAccount account, String password) {
+        return this.database.login(account, password);
     }
 }

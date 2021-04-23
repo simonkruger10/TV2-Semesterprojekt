@@ -1,7 +1,5 @@
 package com.company.data;
 
-import com.company.common.ICreditGroup;
-
 import java.util.UUID;
 
 public class MainEntity {

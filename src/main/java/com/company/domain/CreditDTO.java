@@ -3,10 +3,15 @@ package com.company.domain;
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
-import java.util.UUID;
-
 public class CreditDTO extends PersonDTO implements ICredit {
     private CreditGroupDTO creditGroup;
+
+    CreditDTO() {
+    }
+
+    CreditDTO(ICredit credit) {
+        setCopyOf(credit);
+    }
 
     @Override
     public ICreditGroup getCreditGroup() {
@@ -25,6 +30,6 @@ public class CreditDTO extends PersonDTO implements ICredit {
         this.setFirstName(credit.getFirstName());
         this.setMiddleName(credit.getMiddleName());
         this.setLastName(credit.getLastName());
-        this.setCreditGroup(credit.getCreditGroup());
+        this.setCreditGroup(new CreditGroupDTO(credit.getCreditGroup()));
     }
 }
