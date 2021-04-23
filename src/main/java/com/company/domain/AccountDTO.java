@@ -34,7 +34,7 @@ public class AccountDTO extends PersonDTO implements IAccount {
         this.hashedPassword = hashedPassword;
     }
 
-    public void copyAccount(IAccount account) {
+    public void setCopyOf(IAccount account) {
         assert account != null;
 
         this.setUUID(account.getUUID());

@@ -16,7 +16,7 @@ public class CreditGroupDTO extends MainDTO implements ICreditGroup {
         this.name = name;
     }
 
-    public void copyCreditGroup(ICreditGroup creditGroup) {
+    public void setCopyOf(ICreditGroup creditGroup) {
         assert creditGroup != null;
 
         this.setUUID(creditGroup.getUUID());

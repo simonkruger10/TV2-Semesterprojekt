@@ -80,7 +80,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
         controlsRequirements(creditGroup);
 
         CreditGroupDTO newCreditGroup = new CreditGroupDTO();
-        newCreditGroup.copyCreditGroup(creditGroup);
+        newCreditGroup.setCopyOf(creditGroup);
 
         creditGroups.add(newCreditGroup);
 
@@ -108,7 +108,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
         if (creditGroupDTO == null) {
             throw new RuntimeException("Could not the credit group by the specified uuid.");
         }
-        creditGroupDTO.copyCreditGroup(creditGroup);
+        creditGroupDTO.setCopyOf(creditGroup);
     }
 
 

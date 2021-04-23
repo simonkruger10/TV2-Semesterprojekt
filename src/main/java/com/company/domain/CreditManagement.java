@@ -129,7 +129,7 @@ public class CreditManagement implements ICreditManagement {
         controlsRequirements(credit);
 
         CreditDTO newCredit = new CreditDTO();
-        newCredit.copyCredit(credit);
+        newCredit.setCopyOf(credit);
 
         credits.add(newCredit);
 
@@ -154,7 +154,7 @@ public class CreditManagement implements ICreditManagement {
         if (creditDTO == null) {
             throw new RuntimeException("Could not the credit by the specified uuid.");
         }
-        creditDTO.copyCredit(credit);
+        creditDTO.setCopyOf(credit);
     }
 
 

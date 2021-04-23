@@ -99,7 +99,7 @@ public class ProductionManagement implements IProductionManagement {
         controlsRequirements(production);
 
         ProductionDTO newProduction = new ProductionDTO();
-        newProduction.copyProduction(production);
+        newProduction.setCopyOf(production);
 
         productions.add(newProduction);
 
@@ -124,7 +124,7 @@ public class ProductionManagement implements IProductionManagement {
         if (productionDTO == null) {
             throw new RuntimeException("Could not the credit by the specified uuid.");
         }
-        productionDTO.copyProduction(production);
+        productionDTO.setCopyOf(production);
     }
 
 
