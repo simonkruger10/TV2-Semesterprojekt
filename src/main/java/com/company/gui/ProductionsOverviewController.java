@@ -46,6 +46,7 @@ import java.util.ResourceBundle;
 
         @FXML
         void goToHomepage(MouseEvent event) {
+            super.gui.setScene("/Homepage.fxml");
 
         }
 

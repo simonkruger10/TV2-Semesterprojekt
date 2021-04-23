@@ -59,11 +59,13 @@ public class HomepageController extends GuiController {
 
     @FXML
     void changePassword(MouseEvent event) {
+        super.gui.setScene("/Temp.fxml");
 
     }
 
     @FXML
     void goToHomepage(MouseEvent event) {
+        super.gui.setScene("/Homepage.fxml");
 
     }
 
@@ -74,31 +76,37 @@ public class HomepageController extends GuiController {
 
     @FXML
     void searchProduction(KeyEvent event) {
+        super.gui.setScene("/Temp.fxml");
 
     }
 
     @FXML
     void showDatabase(MouseEvent event) {
+        super.gui.setScene("/Temp.fxml");
 
     }
 
     @FXML
     void showProducers(MouseEvent event) {
+        super.gui.setScene("/Temp.fxml");
 
     }
 
     @FXML
     void showProductions(MouseEvent event) {
+        super.gui.setScene("/ProductionsOverview.fxml");
 
     }
 
     @FXML
     void showSettings(MouseEvent event) {
+        super.gui.setScene("/Temp.fxml");
 
     }
 
     @FXML
     void showUsers(MouseEvent event) {
+        super.gui.setScene("/Temp.fxml");
 
     }
 
