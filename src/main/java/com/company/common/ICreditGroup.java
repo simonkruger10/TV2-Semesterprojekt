@@ -1,9 +1,7 @@
 package com.company.common;
 
 public interface ICreditGroup {
-    int getId();
+    String getUUID();
 
     String getName();
-
-    void setName(String name);
 }

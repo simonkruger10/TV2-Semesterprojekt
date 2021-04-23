@@ -108,6 +108,20 @@ public class CreditManagement implements ICreditManagement {
 
 
     @Override
+    public ICredit getByUUID(String uuid) {
+        assert uuid != null;
+
+        for (CreditDTO credit : credits) {
+            if (credit.getUUID().equals(uuid)) {
+                return credit;
+            }
+        }
+
+        return null;
+    }
+
+
+    @Override
     public ICredit create(ICredit credit) {
         controlsAccess();
 
@@ -124,17 +138,29 @@ public class CreditManagement implements ICreditManagement {
 
     @Override
     public void update(ICredit credit) {
+        assert credit != null;
+
+        update(credit.getUUID(), credit);
+    }
+
+    @Override
+    public void update(String uuid, ICredit credit) {
         controlsAccess();
 
         controlsRequirements(credit);
 
-        //credits.get(0).copyCredit(credit);
+        CreditDTO creditDTO = (CreditDTO) getByUUID(uuid);
+        if (creditDTO == null) {
+            throw new RuntimeException("Could not the credit by the specified uuid.");
+        }
+        creditDTO.copyCredit(credit);
     }
 
 
     private void controlsAccess() {
+        // TODO: Hvem har adgang???
         if (aMgt.getCurrentUser().getAccessLevel() != AccessLevel.PRODUCER && !aMgt.isAdmin()) {
-            throw new AccessControlException("The user is not allowed to create accounts.");
+            throw new AccessControlException("The user is not allowed to create credits.");
         }
     }
 
@@ -144,7 +170,7 @@ public class CreditManagement implements ICreditManagement {
         }
 
         if (!(credit.getCreditGroup() instanceof CreditDTO)) {
-            throw new RuntimeException("The credit group must be an instance of CreditDTO class");
+            throw new RuntimeException("The credit group must be an instance of the CreditDTO class.");
         }
     }
 }

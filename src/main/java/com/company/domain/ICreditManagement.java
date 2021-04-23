@@ -13,7 +13,11 @@ public interface ICreditManagement {
 
     ICredit[] getByGroup(String groupName);
 
+    ICredit getByUUID(String uuid);
+
     ICredit create(ICredit credit);
 
     void update(ICredit credit);
+
+    void update(String uuid, ICredit credit);
 }
