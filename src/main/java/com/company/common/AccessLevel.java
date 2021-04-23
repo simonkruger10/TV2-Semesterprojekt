@@ -1,13 +1,11 @@
-package com.company.domain;
+package com.company.common;
 
-import com.company.common.IAccessLevel;
-
-public enum AccessLevel implements IAccessLevel {
+public enum AccessLevel {
     GUEST("Guest", -1),
     CONSUMER("Consumer", 1),
     PRODUCER("Producer", 2),
-    EMPLOYEES("Employees", 3),
-    ADMINISTRATOR("System Administrator", 4);
+    EMPLOYEES("Employees", 4),
+    ADMINISTRATOR("System Administrator", 8);
 
     private final String levelString;
     private final int level;
@@ -17,6 +15,7 @@ public enum AccessLevel implements IAccessLevel {
         this.level = level;
     }
 
+    @Override
     public String toString() {
         return levelString;
     }

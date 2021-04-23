@@ -1,6 +1,6 @@
 package com.company.domain;
 
-import com.company.common.ICredit;
+import com.company.common.AccessLevel;
 import com.company.common.IProduction;
 import javafx.util.Pair;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.company.tools.*;
+import static com.company.common.Tools.*;
 
 public class ProductionManagement implements IProductionManagement {
     private final AccountManagement aMgt = new AccountManagement();

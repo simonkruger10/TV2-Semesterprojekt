@@ -5,17 +5,11 @@ import com.company.common.IProduction;
 
 import java.io.File;
 
-public class ProductionDTO implements IProduction {
-    private String uuid = null;
+public class ProductionDTO extends MainDTO implements IProduction {
     private String name = null;
     private String description = null;
     private File image = null;
     private ICredit[] credits = null;
-
-    @Override
-    public String getUUID() {
-        return uuid;
-    }
 
     @Override
     public String getName() {
@@ -57,6 +51,7 @@ public class ProductionDTO implements IProduction {
     public void copyProduction(IProduction production) {
         assert production != null;
 
+        setUUID(production.getUUID());
         setName(production.getName());
         setDescription(production.getDescription());
         setImage(production.getImage());

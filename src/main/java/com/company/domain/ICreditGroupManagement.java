@@ -9,10 +9,7 @@ public interface ICreditGroupManagement {
     ICreditGroup[] search(String[] words, int maxResults);
 
 
-    ICreditGroup[] getByName(String firstName);
-
-
-    ICreditGroup getByUUID(String uuid);
+    ICreditGroup getByName(String name);
 
 
     ICreditGroup create(ICreditGroup credit);

@@ -1,5 +1,6 @@
 package com.company.domain;
 
+import com.company.common.AccessLevel;
 import com.company.common.IAccount;
 import javafx.util.Pair;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.company.tools.*;
+import static com.company.common.Tools.*;
 
 public class AccountManagement implements IAccountManagement {
     private final List<AccountDTO> accounts = new ArrayList<>();
@@ -223,7 +224,7 @@ public class AccountManagement implements IAccountManagement {
     private boolean hasRequirements(IAccount account) {
         assert account != null;
 
-        AccessLevel accessLevel = (AccessLevel) account.getAccessLevel();
+        AccessLevel accessLevel = account.getAccessLevel();
         return !isNullOrEmpty(account.getFirstName()) && !isNullOrEmpty(account.getEmail())
                 && accessLevel != null && accessLevel.greater(AccessLevel.GUEST);
     }

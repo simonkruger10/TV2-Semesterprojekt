@@ -1,7 +1,7 @@
 package com.company.domain;
 
+import com.company.common.AccessLevel;
 import com.company.common.IAccount;
-import com.company.common.IAccessLevel;
 
 public class AccountDTO extends PersonDTO implements IAccount {
     private String email = null;
@@ -22,8 +22,8 @@ public class AccountDTO extends PersonDTO implements IAccount {
         return accessLevel;
     }
 
-    public void setAccessLevel(IAccessLevel accessLevel) {
-        this.accessLevel = (AccessLevel) accessLevel;
+    public void setAccessLevel(AccessLevel accessLevel) {
+        this.accessLevel = accessLevel;
     }
 
     public String getPassword() {
@@ -37,6 +37,7 @@ public class AccountDTO extends PersonDTO implements IAccount {
     public void copyAccount(IAccount account) {
         assert account != null;
 
+        this.setUUID(account.getUUID());
         this.setFirstName(account.getFirstName());
         this.setMiddleName(account.getMiddleName());
         this.setLastName(account.getLastName());

@@ -1,30 +1,18 @@
 package com.company.data;
 
+import com.company.common.ICredit;
+import com.company.common.IProduction;
+
 import java.io.File;
-import java.util.ArrayList;
+import java.util.*;
 
-public class ProductionEntity {
-    private final int id;
-    private String name;
-    private String description;
-    private File image;
-    private ArrayList<CreditEntity> credit;
+public class ProductionEntity extends MainEntity implements IProduction {
+    private String name = null;
+    private String description = null;
+    private File image = null;
+    private final Map<String, CreditEntity> credits = new HashMap<>();
 
-    public ProductionEntity(String name, String description, File image) {
-        this(-1, name, description, image);
-    }
-
-    public ProductionEntity(int id, String name, String description, File image) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.image = image;
-    }
-
-    public int getId() {
-        return this.id;
-    }
-
+    @Override
     public String getName() {
         return this.name;
     }
@@ -33,6 +21,8 @@ public class ProductionEntity {
         this.name = name;
     }
 
+
+    @Override
     public String getDescription() {
         return this.description;
     }
@@ -41,6 +31,8 @@ public class ProductionEntity {
         this.description = description;
     }
 
+
+    @Override
     public File getImage() {
         return this.image;
     }
@@ -49,41 +41,53 @@ public class ProductionEntity {
         this.image = image;
     }
 
-    public ArrayList<CreditEntity> getCredit() {
-        return credit;
-    }
-
-    public void addCredit(CreditEntity credit) {
-        this.credit.add(credit);
-    }
-
-    public boolean removeCredit(CreditEntity credit) {
-        return this.credit.remove(credit);
-    }
 
     @Override
-    public String toString() {
-        return "Production{" +
-                "productionName='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", image=" + image +
-                ", credit=" + credit +
-                '}';
+    public ICredit[] getCredits() {
+        return credits.values().toArray(new ICredit[0]);
     }
 
-    public String toJSONString() {
+    public void setCredits(ICredit[] credits) {
+        assert credits != null;
+        for (ICredit credit : credits) {
+            this.credits.put(credit.getUUID(), (CreditEntity) credit);
+        }
+    }
+
+    public void addCredits(ICredit credit) {
+        assert credit != null;
+        this.credits.put(credit.getUUID(), (CreditEntity) credit);
+    }
+
+    public void removeCredits(String uuid) {
+        this.credits.remove(uuid);
+    }
+
+
+    public void copyProduction(IProduction production) {
+        assert production != null;
+
+        setName(production.getName());
+        setDescription(production.getDescription());
+        setImage(production.getImage());
+        setCredits(production.getCredits());
+    }
+
+    public String toJsonString() {
         return "{" +
-                "\"productionName\" :" + "\"" + name + "\"," +
-                //"\"description='" + description + '\'' +
-                //"\"image=" + image +
-                "\"credits\" :" + "[" + credit + "]" +
+                "\"_uuid\":\"" + getUUID() + "\"," +
+                "\"productionName\":\"" + name + "\"," +
+                "\"description\":\"" + description + "\"," +
+                "\"image\":\"" + image.getPath() + "\"," +
+                "\"credits\":" + creditsAsJsonString() +
                 '}';
     }
 
-    private String creditJsonString() {
-        StringBuilder stringBuilder = new StringBuilder();
-
-
-        return stringBuilder.toString();
+    private String creditsAsJsonString() {
+        StringJoiner jsonString = new StringJoiner(",");
+        for (CreditEntity credit : this.credits.values()) {
+            jsonString.add(credit.toJsonString());
+        }
+        return "[" + jsonString + "]";
     }
 }

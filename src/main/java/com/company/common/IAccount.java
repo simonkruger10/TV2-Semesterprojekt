@@ -1,6 +1,8 @@
 package com.company.common;
 
 public interface IAccount {
+    String getUUID();
+
     String getFullName();
 
     String getFirstName();
@@ -11,5 +13,5 @@ public interface IAccount {
 
     String getEmail();
 
-    IAccessLevel getAccessLevel();
+    AccessLevel getAccessLevel();
 }

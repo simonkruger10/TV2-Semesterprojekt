@@ -1,6 +1,6 @@
 package com.company.domain;
 
-import com.company.common.ICredit;
+import com.company.common.AccessLevel;
 import com.company.common.ICreditGroup;
 import javafx.util.Pair;
 
@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.company.tools.*;
-import static com.company.tools.trueContains;
+import static com.company.common.Tools.*;
+import static com.company.common.Tools.trueContains;
 
 public class CreditGroupManagement implements ICreditGroupManagement {
     private final AccountManagement aMgt = new AccountManagement();
@@ -60,27 +60,12 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
 
     @Override
-    public ICreditGroup[] getByName(String name) {
-        final List<CreditGroupDTO> result = new ArrayList<>();
-
+    public ICreditGroup getByName(String name) {
         for (CreditGroupDTO creditGroup : creditGroups) {
             if (trueEquals(creditGroup.getName(), name)) {
-                result.add(creditGroup);
-            }
-        }
-
-        return result.toArray(new ICreditGroup[0]);
-    }
-
-
-    @Override
-    public ICreditGroup getByUUID(String uuid) {
-        for (CreditGroupDTO creditGroup : creditGroups) {
-            if (trueEquals(creditGroup.getUUID(), uuid)) {
                 return creditGroup;
             }
         }
-
         return null;
     }
 
@@ -107,11 +92,11 @@ public class CreditGroupManagement implements ICreditGroupManagement {
     public void update(ICreditGroup creditGroup) {
         assert creditGroup != null;
 
-        update(creditGroup.getUUID(), creditGroup);
+        update(creditGroup.getName(), creditGroup);
     }
 
     @Override
-    public void update(String uuid, ICreditGroup creditGroup) {
+    public void update(String name, ICreditGroup creditGroup) {
         // TODO: Hvem har adgang???
         if (!aMgt.isAdmin()) {
             throw new AccessControlException("The user is not allowed to create credit groups.");
@@ -119,12 +104,13 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
         controlsRequirements(creditGroup);
 
-        CreditGroupDTO creditGroupDTO = (CreditGroupDTO) getByUUID(uuid);
+        CreditGroupDTO creditGroupDTO = (CreditGroupDTO) getByName(name);
         if (creditGroupDTO == null) {
             throw new RuntimeException("Could not the credit group by the specified uuid.");
         }
         creditGroupDTO.copyCreditGroup(creditGroup);
     }
+
 
     private void controlsRequirements(ICreditGroup creditGroup) {
         if (creditGroup == null || isNullOrEmpty(creditGroup.getName())) {

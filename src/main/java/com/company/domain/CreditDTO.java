@@ -7,12 +7,6 @@ import java.util.UUID;
 
 public class CreditDTO extends PersonDTO implements ICredit {
     private CreditGroupDTO creditGroup;
-    private String uuid = UUID.randomUUID().toString();
-
-    @Override
-    public String getUUID() {
-        return uuid;
-    }
 
     @Override
     public ICreditGroup getCreditGroup() {
@@ -23,9 +17,11 @@ public class CreditDTO extends PersonDTO implements ICredit {
         this.creditGroup = (CreditGroupDTO) creditGroup;
     }
 
+
     public void copyCredit(ICredit credit) {
         assert credit != null;
 
+        this.setUUID(credit.getUUID());
         this.setFirstName(credit.getFirstName());
         this.setMiddleName(credit.getMiddleName());
         this.setLastName(credit.getLastName());

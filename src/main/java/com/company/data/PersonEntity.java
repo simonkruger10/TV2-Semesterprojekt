@@ -1,6 +1,6 @@
-package com.company.domain;
+package com.company.data;
 
-public class PersonDTO extends MainDTO {
+public class PersonEntity extends MainEntity {
     private String firstName = null;
     private String middleName = null;
     private String lastName = null;
