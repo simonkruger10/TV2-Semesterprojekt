@@ -69,7 +69,7 @@ public class HomepageController extends GuiController {
 
     @FXML
     void logOut(MouseEvent event) {
-
+        super.gui.setScene("/Login.fxml");
     }
 
     @FXML
