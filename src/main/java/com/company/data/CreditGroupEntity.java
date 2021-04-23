@@ -15,7 +15,7 @@ public class CreditGroupEntity extends MainEntity implements ICreditGroup {
     }
 
 
-    public void copyCreditGroup(ICreditGroup creditGroup) {
+    public void setCopyOf(ICreditGroup creditGroup) {
         assert creditGroup != null;
 
         this.setName(creditGroup.getName());

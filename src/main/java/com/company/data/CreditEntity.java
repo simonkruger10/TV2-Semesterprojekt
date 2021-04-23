@@ -15,7 +15,7 @@ public class CreditEntity extends PersonEntity implements ICredit {
     }
 
 
-    public void copyCredit(ICredit credit) {
+    public void setCopyOf(ICredit credit) {
         assert credit != null;
 
         this.setFirstName(credit.getFirstName());

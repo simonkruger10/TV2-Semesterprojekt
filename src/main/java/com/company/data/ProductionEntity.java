@@ -64,7 +64,7 @@ public class ProductionEntity extends MainEntity implements IProduction {
     }
 
 
-    public void copyProduction(IProduction production) {
+    public void setCopyOf(IProduction production) {
         assert production != null;
 
         setName(production.getName());

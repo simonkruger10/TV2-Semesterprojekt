@@ -37,7 +37,7 @@ public class AccountEntity extends PersonEntity implements IAccount {
     }
 
 
-    public void copyAccount(IAccount account) {
+    public void setCopyOf(IAccount account) {
         assert account != null;
 
         this.setFirstName(account.getFirstName());

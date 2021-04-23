@@ -5,7 +5,6 @@ import org.json.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
 import java.util.*;
 
 import static com.company.common.Tools.*;
@@ -145,7 +144,7 @@ public class JsonDatabase implements DatabaseFacade {
     @Override
     public IProduction addProduction(IProduction production) {
         ProductionEntity productionEntity = new ProductionEntity();
-        productionEntity.copyProduction(production);
+        productionEntity.setCopyOf(production);
 
         productions.put(productionEntity.getUUID(), productionEntity);
 
@@ -154,7 +153,7 @@ public class JsonDatabase implements DatabaseFacade {
 
     @Override
     public void updateProduction(IProduction production) {
-        productions.get(production.getUUID()).copyProduction(production);
+        productions.get(production.getUUID()).setCopyOf(production);
     }
 
 
@@ -166,7 +165,7 @@ public class JsonDatabase implements DatabaseFacade {
     @Override
     public ICredit addCredit(ICredit credit) {
         CreditEntity creditEntity = new CreditEntity();
-        creditEntity.copyCredit(credit);
+        creditEntity.setCopyOf(credit);
 
         credits.put(creditEntity.getUUID(), creditEntity);
 
@@ -175,7 +174,7 @@ public class JsonDatabase implements DatabaseFacade {
 
     @Override
     public void updateCredit(ICredit credit) {
-        credits.get(credit.getUUID()).copyCredit(credit);
+        credits.get(credit.getUUID()).setCopyOf(credit);
     }
 
 
@@ -187,7 +186,7 @@ public class JsonDatabase implements DatabaseFacade {
     @Override
     public ICreditGroup addCreditGroup(ICreditGroup creditGroup) {
         CreditGroupEntity creditGroupEntity = new CreditGroupEntity();
-        creditGroupEntity.copyCreditGroup(creditGroup);
+        creditGroupEntity.setCopyOf(creditGroup);
 
         creditGroups.put(creditGroupEntity.getUUID(), creditGroupEntity);
 
@@ -196,7 +195,7 @@ public class JsonDatabase implements DatabaseFacade {
 
     @Override
     public void updateCreditGroup(ICreditGroup creditGroup) {
-        creditGroups.get(creditGroup.getUUID()).copyCreditGroup(creditGroup);
+        creditGroups.get(creditGroup.getUUID()).setCopyOf(creditGroup);
     }
 
 
@@ -208,7 +207,7 @@ public class JsonDatabase implements DatabaseFacade {
     @Override
     public IAccount addAccount(IAccount account, String hashedPassword) {
         AccountEntity accountEntity = new AccountEntity();
-        accountEntity.copyAccount(account);
+        accountEntity.setCopyOf(account);
         accountEntity.setPassword(hashedPassword);
 
         accounts.put(accountEntity.getUUID(), accountEntity);
@@ -219,7 +218,7 @@ public class JsonDatabase implements DatabaseFacade {
 
     @Override
     public void updateAccount(IAccount account) {
-        accounts.get(account.getUUID()).copyAccount(account);
+        accounts.get(account.getUUID()).setCopyOf(account);
     }
 
     @Override
