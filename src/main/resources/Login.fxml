@@ -50,8 +50,11 @@
   <children>
       <ImageView fitHeight="84.0" fitWidth="159.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../resources/TV_2_RGB.png" />
+            <Image url="@TV_2_RGB.png" />
          </image>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
       </ImageView>
       <HBox alignment="CENTER" prefHeight="685.0" prefWidth="1900.0">
          <children>
