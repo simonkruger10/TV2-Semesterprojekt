@@ -48,7 +48,7 @@ public class ProductionDTO extends MainDTO implements IProduction {
     }
 
 
-    public void copyProduction(IProduction production) {
+    public void setCopyOf(IProduction production) {
         assert production != null;
 
         setUUID(production.getUUID());

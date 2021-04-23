@@ -153,7 +153,7 @@ public class AccountManagement implements IAccountManagement {
         }
 
         AccountDTO newAccount = new AccountDTO();
-        newAccount.copyAccount(account);
+        newAccount.setCopyOf(account);
         newAccount.setPassword(hashPassword(password));
 
         accounts.add(newAccount);
@@ -208,7 +208,7 @@ public class AccountManagement implements IAccountManagement {
                 throw new RuntimeException("The email address is already in use.");
             }
 
-            accountDTO.copyAccount(account);
+            accountDTO.setCopyOf(account);
         }
 
         if (!isNullOrEmpty(password)) {

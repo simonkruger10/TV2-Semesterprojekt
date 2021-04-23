@@ -18,7 +18,7 @@ public class CreditDTO extends PersonDTO implements ICredit {
     }
 
 
-    public void copyCredit(ICredit credit) {
+    public void setCopyOf(ICredit credit) {
         assert credit != null;
 
         this.setUUID(credit.getUUID());
