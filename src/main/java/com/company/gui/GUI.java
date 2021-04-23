@@ -25,7 +25,7 @@ public class GUI extends Application {
 
             //Load data (GUI object) into controller object
             LoginController controller = loader.<LoginController>getController();
-            controller.loadData(this);
+            controller.loadGui(this);
 
             //Create and show window
             primaryStage.setTitle("Credit Management System");

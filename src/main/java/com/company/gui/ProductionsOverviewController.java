@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-    public class ProductionsOverviewController {
+    public class ProductionsOverviewController extends GuiController {
 
         @FXML
         private ResourceBundle resources;
