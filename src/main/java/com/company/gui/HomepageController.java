@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class HomepageController {
+public class HomepageController extends GuiController {
 
     @FXML
     private ResourceBundle resources;
@@ -69,7 +69,7 @@ public class HomepageController {
 
     @FXML
     void logOut(MouseEvent event) {
-
+        super.gui.setScene("/Login.fxml");
     }
 
     @FXML

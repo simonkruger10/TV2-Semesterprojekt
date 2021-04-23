@@ -7,9 +7,8 @@ import javafx.scene.input.MouseEvent;
 
 
 
-public class LoginController {
+public class LoginController extends GuiController{
 
-    private GUI gui;
     @FXML private TextField emailPanel;
     @FXML private PasswordField passwordPanel;
 
@@ -17,11 +16,7 @@ public class LoginController {
     public void loginAccount(MouseEvent mouseEvent) {
         System.out.println("Email: " + emailPanel.getText());
         System.out.println("Password: " + passwordPanel.getText());
-        gui.setScene("/Homepage.fxml");
+        super.gui.setScene("/Homepage.fxml");
     }
 
-    //Get gui object so scene can be changed
-    public void loadData(GUI g)  {
-        gui = g;
-    }
 }

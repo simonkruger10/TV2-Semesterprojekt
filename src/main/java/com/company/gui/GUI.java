@@ -25,7 +25,7 @@ public class GUI extends Application {
 
             //Load data (GUI object) into controller object
             LoginController controller = loader.<LoginController>getController();
-            controller.loadData(this);
+            controller.loadGui(this);
 
             //Create and show window
             primaryStage.setTitle("Credit Management System");
@@ -39,7 +39,14 @@ public class GUI extends Application {
     //Set scene from fxml file
     public void setScene(String file)  {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(file));
+            URL fxml = GUI.class.getResource(file);
+            FXMLLoader loader = new FXMLLoader(fxml);
+            Parent root = loader.load();
+
+            //Load data (GUI object) into controller object
+            GuiController controller = loader.getController();
+            controller.loadGui(this);
+
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (IOException ioException) {
