@@ -7,6 +7,7 @@ import com.company.common.IProduction;
 import com.company.domain.IProductionManagement;
 import com.company.domain.ProductionManagement;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;

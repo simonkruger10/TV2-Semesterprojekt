@@ -53,9 +53,9 @@
          <children>
             <AnchorPane prefHeight="60.0" prefWidth="103.0">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="homeBtn" fitHeight="75.0" fitWidth="100.0" onMouseClicked="#goToHomePage" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../resources/TV_2_Hvid_RGB.png" />
+                        <Image url="@TV_2_Hvid_RGB.png" />
                      </image>
                   </ImageView>
                </children>
@@ -114,7 +114,7 @@
                         </TextField>
                      </children>
                   </VBox>
-                  <Button fx:id="addCreditBtn" layoutX="613.0" layoutY="350.0" mnemonicParsing="false" text="Add credit">
+                  <Button fx:id="addCreditToSystemBtn" layoutX="613.0" layoutY="350.0" mnemonicParsing="false" onMouseClicked="#addCreditToSystem" text="Add credit">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
