@@ -111,6 +111,7 @@ public class HomepageController extends GuiController {
 
     ICreditGroupManagement cGMgt = new CreditGroupManagement();
     IProductionManagement pMgt = new ProductionManagement();
+    ICreditManagement cMgt = new CreditManagement();
 
     @FXML
     void showUsers(MouseEvent event) {
@@ -126,7 +127,10 @@ public class HomepageController extends GuiController {
         creditGroup.setName("Actor");
         ICreditGroup cg = cGMgt.create(creditGroup);
         credit.setCreditGroup(cg);
-        ICredit[] credits = {(ICredit) credit};
+
+        ICredit newCredit = cMgt.create(credit);
+
+        ICredit[] credits = {newCredit};
         production.setCredits(credits);
 
         pMgt.create(production);
