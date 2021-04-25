@@ -56,7 +56,7 @@ public class CreditCreationController extends GuiController {
         TempProduction.creditLastName = lastNameText.getText();
         TempProduction.creditGroup = creditGroupText.getText();
 
-        super.gui.setScene("/ProductionsOverview.fxml");
+        super.gui.setScene("/CreditOverview.fxml");
         //Made for test purposes, will be deleted l8ter
         System.out.println("Credit added");
     }
