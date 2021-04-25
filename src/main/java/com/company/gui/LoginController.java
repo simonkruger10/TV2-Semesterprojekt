@@ -25,8 +25,8 @@ public class LoginController extends GuiController{
         String email = emailPanel.getText();
         String password = passwordPanel.getText();
 
-        System.out.println("Email: " + emailPanel.getText());
-        System.out.println("Password: " + passwordPanel.getText());
+        System.out.println("Email: " + email);
+        System.out.println("Password: " + password);
 
         /*
         try {
@@ -34,7 +34,7 @@ public class LoginController extends GuiController{
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-         */
+        */
 
         super.gui.setScene("/Homepage.fxml");
     }
