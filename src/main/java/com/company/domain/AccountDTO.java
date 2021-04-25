@@ -5,7 +5,7 @@ import com.company.common.IAccount;
 
 public class AccountDTO extends PersonDTO implements IAccount {
     private String email = null;
-    private AccessLevel accessLevel = AccessLevel.GUEST;
+    private AccessLevel accessLevel = AccessLevel.ADMINISTRATOR;    //Set to admin for testing
 
     AccountDTO() {}
 

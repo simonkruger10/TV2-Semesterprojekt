@@ -3,9 +3,10 @@ package com.company.gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
 import com.company.common.IProduction;
-import com.company.domain.IProductionManagement;
-import com.company.domain.ProductionManagement;
+import com.company.domain.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -108,6 +109,7 @@ public class HomepageController extends GuiController {
 
     }
 
+    ICreditGroupManagement cGMgt = new CreditGroupManagement();
     IProductionManagement pMgt = new ProductionManagement();
 
     @FXML
@@ -116,9 +118,19 @@ public class HomepageController extends GuiController {
         production.setName("Test");
         production.setDescription("This is a test");
 
+        CreditGTO credit = new CreditGTO();
+        credit.setFirstName("Bob");
+        credit.setFirstName("Bib");
+
+        CreditGroupGTO creditGroup = new CreditGroupGTO();
+        creditGroup.setName("Actor");
+        ICreditGroup cg = cGMgt.create(creditGroup);
+        credit.setCreditGroup(cg);
+        ICredit[] credits = {(ICredit) credit};
+        production.setCredits(credits);
+
         pMgt.create(production);
         super.gui.setScene("/Temp.fxml");
-
     }
 
     @FXML
