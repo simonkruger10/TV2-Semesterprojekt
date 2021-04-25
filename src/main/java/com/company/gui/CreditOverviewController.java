@@ -111,8 +111,13 @@ public class CreditOverviewController extends GuiController {
 
         titleID.setText("Shrek");
         producerID.setText("Credits");
-        directorID.setText("Test3");
-        actorID.setText("Test4");
-        creditsID.setText("Director: bob\r\nProducer: bib");
+        //directorID.setText("Test3");
+        //actorID.setText("Test4");
+        if(!TempProduction.creditFirstName.equals(""))    {
+            creditsID.setText(TempProduction.creditGroup + ": " + TempProduction.getFullName());
+        }   else    {
+            creditsID.setText("");
+        }
+
     }
 }
