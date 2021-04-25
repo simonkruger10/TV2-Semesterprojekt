@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -56,6 +57,9 @@ public class CreditOverviewController extends GuiController {
     private Font x3;
 
     @FXML
+    private TextArea creditsID;
+
+    @FXML
     void addCredits(MouseEvent event) {
         super.gui.setScene("/CreditCreation.fxml");
     }
@@ -105,5 +109,10 @@ public class CreditOverviewController extends GuiController {
         assert addCreditsBtn != null : "fx:id=\"addCreditsBtn\" was not injected: check your FXML file 'CreditOverview.fxml'.";
         assert x3 != null : "fx:id=\"x3\" was not injected: check your FXML file 'CreditOverview.fxml'.";
 
+        titleID.setText("Shrek");
+        producerID.setText("Credits");
+        directorID.setText("Test3");
+        actorID.setText("Test4");
+        creditsID.setText("Director: bob\r\nProducer: bib");
     }
 }
