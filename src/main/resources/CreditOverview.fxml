@@ -32,24 +32,15 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Polygon?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<VBox prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.gui.HomepageController">
+<VBox prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.gui.CreditOverviewController">
   <children>
       <HBox prefHeight="60.0" prefWidth="802.0" style="-fx-background-color: #D21E1E;">
          <children>
@@ -95,12 +86,12 @@
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="637.0" layoutX="63.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1152.0" />
                   <Group layoutX="90.0" layoutY="36.0">
                      <children>
-                        <Text fx:id="backToOverviewBtn" layoutX="20.14392852783203" layoutY="6.001522064208984" onMouseClicked="#backToOverview" strokeType="OUTSIDE" strokeWidth="0.0" text="Tilbage til oversigten">
+                        <Text fx:id="backToProductionOverviewBtn" layoutX="20.14392852783203" layoutY="6.001522064208984" onMouseClicked="#backToProductionOverview" strokeType="OUTSIDE" strokeWidth="0.0" text="Tilbage til oversigten">
                            <font>
                               <Font name="Arial" size="15.0" />
                            </font>
                         </Text>
-                        <Polygon fill="#545454" layoutX="69.0" layoutY="12.0" points="-59.0, 0.0, -74.0, -11.0, -59.0, -23.0" stroke="#2e2b2b00" strokeType="OUTSIDE" />
+                        <Polygon fill="#545454" layoutX="69.0" layoutY="12.0" onMouseClicked="#backToProductionOverview" points="-59.0, 0.0, -74.0, -11.0, -59.0, -23.0" stroke="#2e2b2b00" strokeType="OUTSIDE" />
                      </children>
                   </Group>
                   <Group layoutX="95.0" layoutY="91.0">
@@ -121,7 +112,7 @@
                               <Font name="Arial" size="25.0" />
                            </font>
                         </Text>
-                        <TextArea cache="true" layoutY="27.6318359375" prefHeight="238.0" prefWidth="863.0" promptText="Producers" text="Steven Spielberg                    executive producer (uncredited)&#10;Jeffrey Katzenberg                 producer&#10;Ted Elliott                               co-producer&#10;Penney Finkelman Cox          executive producer&#10;Jane Hartwell                         associate producer&#10;David Lipman´                        co-executive producer&#10;Sandra Rabins                       executive producer&#10;Terry Rossio                           co-producer&#10;Aron Warner                          producer&#10;John H. Williams                    producer&#10;Linda Olszewski                     assistant producer (uncredited) ">
+                        <TextArea fx:id="creditsID" cache="true" editable="false" layoutY="27.6318359375" prefHeight="238.0" prefWidth="863.0" promptText="Producers" text="Steven Spielberg                    executive producer (uncredited)&#10;Jeffrey Katzenberg                 producer&#10;Ted Elliott                               co-producer&#10;Penney Finkelman Cox          executive producer&#10;Jane Hartwell                         associate producer&#10;David Lipman´                        co-executive producer&#10;Sandra Rabins                       executive producer&#10;Terry Rossio                           co-producer&#10;Aron Warner                          producer&#10;John H. Williams                    producer&#10;Linda Olszewski                     assistant producer (uncredited) ">
                            <font>
                               <Font name="Arial" size="15.0" />
                            </font>
@@ -182,6 +173,11 @@
                         </Pane>
                      </children>
                   </Group>
+                  <Button fx:id="editCreditsBtn" layoutX="1079.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#editCredits" text="EDIT CREDITS">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Button>
                   <Pane layoutX="98.0" layoutY="584.0">
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#dd0202" height="41.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1082.0" />
@@ -192,6 +188,11 @@
                         </Text>
                      </children>
                   </Pane>
+                  <Button fx:id="addCreditsBtn" layoutX="965.0" layoutY="25.0" mnemonicParsing="false" onMouseClicked="#addCredits" text="ADD CREDITS">
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
+                  </Button>
                </children>
             </Pane>
          </items>

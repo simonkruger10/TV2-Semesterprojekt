@@ -106,12 +106,12 @@
                   <Group>
                      <children>
                         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8f8f8" height="75.0" layoutX="125.0" layoutY="72.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1028.0" />
-                        <ImageView fitHeight="75.0" fitWidth="50.0" layoutX="125.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="75.0" fitWidth="50.0" layoutX="125.0" layoutY="72.0" onMouseClicked="#goToCreditOverview" pickOnBounds="true" preserveRatio="true">
                            <effect>
                               <ImageInput />
                            </effect>
                         </ImageView>
-                        <Text layoutX="187.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Shrek (2001)" wrappingWidth="952.0">
+                        <Text layoutX="187.0" layoutY="118.0" onMouseClicked="#goToCreditOverview" strokeType="OUTSIDE" strokeWidth="0.0" text="Shrek (2001)" wrappingWidth="952.0">
                            <font>
                               <Font name="Arial" size="24.0" />
                            </font>

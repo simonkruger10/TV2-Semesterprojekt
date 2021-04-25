@@ -36,7 +36,12 @@ public class LoginController extends GuiController{
         }
         */
 
-        super.gui.setScene("/Homepage.fxml");
+        if(password.equals("1") && email.equals("1"))    {
+            super.gui.setScene("/Homepage.fxml");
+        }   else    {
+            System.out.println("Wrong password and/or email (its 1 & 1");
+        }
+
     }
 
 }

@@ -8,6 +8,7 @@ import com.company.common.ICreditGroup;
 import com.company.common.IProduction;
 import com.company.domain.*;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -135,6 +136,7 @@ public class HomepageController extends GuiController {
 
         pMgt.create(production);
         super.gui.setScene("/Temp.fxml");
+
     }
 
     @FXML
