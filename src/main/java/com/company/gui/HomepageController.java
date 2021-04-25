@@ -3,9 +3,6 @@ package com.company.gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.company.common.IProduction;
-import com.company.domain.IProductionManagement;
-import com.company.domain.ProductionManagement;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -109,15 +106,8 @@ public class HomepageController extends GuiController {
 
     }
 
-    IProductionManagement pMgt = new ProductionManagement();
-
     @FXML
     void showUsers(MouseEvent event) {
-        ProductionGTO production = new ProductionGTO();
-        production.setName("Test");
-        production.setDescription("This is a test");
-
-        pMgt.create(production);
         super.gui.setScene("/Temp.fxml");
 
     }
