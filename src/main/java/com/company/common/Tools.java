@@ -7,6 +7,10 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Tools {
+    // https://www.regular-expressions.info/email.html
+    private static final Pattern EMAIL_PATTERN =
+            Pattern.compile("^(?=[A-Z0-9][A-Z0-9@._%+-]{5,253}+$)[A-Z0-9._%+-]{1,64}+@(?:(?=[A-Z0-9-]{1,63}+\\.)[A-Z0-9]++(?:-[A-Z0-9]++)*+\\.){1,8}+[A-Z]{2,63}+$");
+
     // TODO: Find out where Tools should be located
     public static boolean trueContains(String phrase, String keyword) {
         return phrase != null && keyword != null && !keyword.trim().isEmpty()
@@ -20,6 +24,10 @@ public class Tools {
 
     public static boolean isNullOrEmpty(String string) {
         return string == null || string.trim().isEmpty();
+    }
+
+    public static boolean isEmailValid(String email) {
+        return EMAIL_PATTERN.matcher(email).find();
     }
 
     public static File getResourceAsFile(String fileName) {

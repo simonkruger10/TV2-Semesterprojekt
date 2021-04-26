@@ -1,8 +1,9 @@
 package com.company.gui;
 
-import java.io.IOException;
-
+import com.company.common.ICredit;
 import com.company.common.IProduction;
+import com.company.domain.CreditManagement;
+import com.company.domain.ICreditManagement;
 import com.company.domain.IProductionManagement;
 import com.company.domain.ProductionManagement;
 import javafx.fxml.FXML;
@@ -14,7 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class ProductionsOverviewController extends VBox {
+import java.io.IOException;
+
+public class CreditsOverviewController extends VBox {
     @FXML
     private VBox main;
 
@@ -23,13 +26,13 @@ public class ProductionsOverviewController extends VBox {
 
     private ImageRowHandler handler;
 
-    private IProductionManagement productionManagement = new ProductionManagement();
+    private ICreditManagement creditManagement = new CreditManagement();
 
-    ProductionsOverviewController(ImageRowHandler handler) {
+    CreditsOverviewController(ImageRowHandler handler) {
         this.handler = handler;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ProductionsOverview.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/CreditsOverview.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -37,13 +40,13 @@ public class ProductionsOverviewController extends VBox {
             throw new RuntimeException(e);
         }
 
-        showList(productionManagement.list());
+        showList(creditManagement.list());
     }
 
-    void showList(IProduction[] productions) {
+    void showList(ICredit[] credits) {
         int i = 1;
-        for (IProduction production : productions) {
-            ImageRowController cRow = new ImageRowController(production.getUUID(), new ImageRowHandler() {
+        for (ICredit credit : credits) {
+            ImageRowController cRow = new ImageRowController(credit.getUUID(), new ImageRowHandler() {
                 @Override
                 public void showCreditOverview(String uuid) {
                     handler.showCreditOverview(uuid);
@@ -52,7 +55,7 @@ public class ProductionsOverviewController extends VBox {
 
             ImageView imageView = (ImageView) cRow.getChildren().get(0);
             Text text = (Text) cRow.getChildren().get(1);
-            text.setText(production.getName());
+            text.setText(credit.getFullName());
 
             if (i % 2 == 0) {
                 cRow.setStyle("-fx-background-color: #FFFFFF;");
@@ -65,27 +68,6 @@ public class ProductionsOverviewController extends VBox {
             main.getChildren().add(i, cRow);
             i++;
         }
-    }
-
-    /*
-    void test() {
-        for (int i = 0; i < 5; i++) {
-            ImageRow r = new ImageRow();
-
-            ImageView iV = (ImageView) r.getChildren().get(0);
-            iV.setImage(new Image("TV_2_RGB.png"));
-            Text t = (Text) r.getChildren().get(1);
-            t.setText("Shrek " + i);
-
-            main.getChildren().add(i+1, r);
-        }
-    }
-     */
-
-
-    @FXML
-    void goToCreditOverview(MouseEvent event) {
-        System.out.println("test");
     }
 
     @FXML

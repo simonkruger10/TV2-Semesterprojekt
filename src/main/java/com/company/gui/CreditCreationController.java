@@ -51,7 +51,12 @@ public class CreditCreationController extends GuiController {
 
     @FXML
     void addCreditToSystem(MouseEvent event) {
-        super.gui.setScene("/Homepage.fxml");
+        TempProduction.creditFirstName = firstNameText.getText();
+        TempProduction.creditMiddleName = middleNameText.getText();
+        TempProduction.creditLastName = lastNameText.getText();
+        TempProduction.creditGroup = creditGroupText.getText();
+
+        super.gui.setScene("/CreditOverview.fxml");
         //Made for test purposes, will be deleted l8ter
         System.out.println("Credit added");
     }

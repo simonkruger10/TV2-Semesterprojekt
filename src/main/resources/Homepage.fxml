@@ -32,287 +32,188 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Group?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.gui.HomepageController">
-  <children>
-      <HBox prefHeight="60.0" prefWidth="802.0" style="-fx-background-color: #D21E1E;">
-         <children>
-            <AnchorPane prefHeight="60.0" prefWidth="103.0">
-               <children>
-                  <ImageView fx:id="homeBtn" fitHeight="75.0" fitWidth="100.0" onMouseClicked="#goToHomepage" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@TV_2_Hvid_RGB.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <Pane prefHeight="60.0" prefWidth="1180.0">
-               <children>
-                  <Group layoutX="788.0" layoutY="33.0">
-                     <children>
-                        <Text fill="WHITE" layoutY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi, Admin">
-                           <font>
-                              <Font name="Arial" size="12.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="logOutBtn" fill="#1690f0" layoutX="62.0" layoutY="1.0" onMouseClicked="#logOut" strokeType="OUTSIDE" strokeWidth="0.0" text="Log out" underline="true">
-                           <font>
-                              <Font name="Arial" size="12.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="changePasswordBtn" fill="#1690f0" layoutX="114.0" layoutY="1.13671875" onMouseClicked="#changePassword" strokeType="OUTSIDE" strokeWidth="0.0" text="Change Password" underline="true">
-                           <font>
-                              <Font name="Arial" size="12.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </Group>
-                  <TextField fx:id="searchBarField" layoutX="1016.0" layoutY="18.0" onKeyPressed="#searchProduction" promptText="Search for film" text="Search..." />
-               </children>
-            </Pane>
-         </children>
-      </HBox>
-      <HBox fillHeight="false" style="-fx-background-color: #F1F1F1#F1F1F1;" VBox.vgrow="ALWAYS">
-         <children>
-            <VBox alignment="CENTER">
-               <children>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Button fx:id="productionBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#showProductions" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Production" textFill="WHITE">
-                           <font>
-                              <Font name="Arial" size="13.0" />
-                           </font>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </Button>
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Button fx:id="producerBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#showProducers" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Producers" textFill="WHITE" />
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Button fx:id="databaseBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#showDatabase" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Database" textFill="WHITE" />
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Button fx:id="userBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#showUsers" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Users" textFill="WHITE" />
-                     </children>
-                  </VBox>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <Button fx:id="settingsBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#showSettings" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Settings" textFill="WHITE" />
-                     </children>
-                  </VBox>
-               </children>
-               <HBox.margin>
-                  <Insets bottom="30.0" left="20.0" top="30.0" />
-               </HBox.margin>
-            </VBox>
-            <VBox fx:id="recentContentBox" alignment="CENTER" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets left="40.0" top="65.0" />
-               </HBox.margin>
-               <children>
-                  <VBox alignment="CENTER" prefHeight="53.0" prefWidth="1080.0">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recently added credits">
-                           <font>
-                              <Font name="Arial" size="25.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="30.0" />
-                           </VBox.margin>
-                        </Text>
-                        <HBox fx:id="latestCreditsSlider" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@TV_2_RGB.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="24.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@TV_2_RGB.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="24.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@TV_2_RGB.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asd">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="24.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@TV_2_RGB.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="18 black nigar balls">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="24.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credits for review">
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="40.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font name="Arial" size="25.0" />
-                           </font>
-                        </Text>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@TV_2_RGB.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="24.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@TV_2_RGB.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="24.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@TV_2_RGB.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asd">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="24.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </VBox>
-                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@TV_2_RGB.png" />
-                                       </image>
-                                    </ImageView>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="18 black nigar balls">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="24.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                                 <padding>
-                                    <Insets left="20.0" right="20.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-    <HBox id="HBox" alignment="CENTER" spacing="5.0" style="-fx-background-color: #D21E1E;" VBox.vgrow="NEVER">
-      <children>
-        <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="TV 2 2021© - Alle rettigheder forbeholdes" textFill="WHITE" HBox.hgrow="ALWAYS">
-          <font>
-            <Font name="Arial Bold Italic" size="12.0" fx:id="x3" />
-          </font>
-        </Label>
-      </children>
+<fx:root prefHeight="720.0" prefWidth="1280.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <HBox alignment="CENTER_LEFT" style="-fx-background-color: #D21E1E;">
       <padding>
-        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
       </padding>
-    </HBox>
-  </children>
-</VBox>
+      <ImageView fx:id="homeBtn" fitHeight="50.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@TV_2_Hvid_RGB.png" />
+         </image>
+      </ImageView>
+      <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
+         <Text fx:id="helloMessage" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi, Guest">
+            <font>
+               <Font name="Arial" size="12.0" />
+            </font>
+         </Text>
+         <Text fx:id="loginBtn" fill="#1690f0" onMouseClicked="#login" strokeType="OUTSIDE" strokeWidth="0.0" text="Log out" underline="true">
+            <font>
+               <Font name="Arial" size="12.0" />
+            </font>
+         </Text>
+         <TextField fx:id="searchBarField" onKeyPressed="#search" promptText="Search for film" text="Search..." />
+      </HBox>
+   </HBox>
+   <HBox fx:id="contentHolder" fillHeight="false" spacing="40.0" VBox.vgrow="ALWAYS">
+      <VBox.margin>
+         <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+      </VBox.margin>
+      <VBox alignment="CENTER" minWidth="100.0" prefWidth="100.0" spacing="20.0">
+         <Button fx:id="productionsBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showProductions" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Productions" textFill="WHITE" />
+         <Button fx:id="creditsBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showCredits" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Credits" textFill="WHITE" />
+         <Button fx:id="producersBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showProducers" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Producers" textFill="WHITE" />
+         <Button fx:id="accountsBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showAccounts" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Accounts" textFill="WHITE" />
+         <Button fx:id="accountBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Account" textFill="WHITE" />
+      </VBox>
+      <ScrollPane fx:id="scrollBar" fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+         <content>
+            <VBox fx:id="content">
+               <children>
+                  <VBox fx:id="defaultContent" alignment="CENTER">
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recently added credits">
+                        <font>
+                           <Font name="Arial" size="25.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets bottom="30.0" />
+                        </VBox.margin>
+                     </Text>
+                     <HBox fx:id="latestAddedSlider" alignment="CENTER" spacing="20.0">
+                        <padding>
+                           <Insets left="20.0" right="20.0" />
+                        </padding>
+                        <VBox alignment="CENTER">
+                           <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@TV_2_RGB.png" />
+                              </image>
+                           </ImageView>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
+                              <font>
+                                 <Font name="Arial Bold Italic" size="24.0" />
+                              </font>
+                           </Text>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@TV_2_RGB.png" />
+                              </image>
+                           </ImageView>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
+                              <font>
+                                 <Font name="Arial Bold Italic" size="24.0" />
+                              </font>
+                           </Text>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@TV_2_RGB.png" />
+                              </image>
+                           </ImageView>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
+                              <font>
+                                 <Font name="Arial Bold Italic" size="24.0" />
+                              </font>
+                           </Text>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@TV_2_RGB.png" />
+                              </image>
+                           </ImageView>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
+                              <font>
+                                 <Font name="Arial Bold Italic" size="24.0" />
+                              </font>
+                           </Text>
+                        </VBox>
+                     </HBox>
+                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credits for review">
+                        <VBox.margin>
+                           <Insets bottom="30.0" top="30.0" />
+                        </VBox.margin>
+                        <font>
+                           <Font name="Arial" size="25.0" />
+                        </font>
+                     </Text>
+                     <HBox fx:id="latestReviewSlider" alignment="CENTER" spacing="20.0">
+                        <padding>
+                           <Insets left="20.0" right="20.0" />
+                        </padding>
+                        <VBox alignment="CENTER">
+                           <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@TV_2_RGB.png" />
+                              </image>
+                           </ImageView>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
+                              <font>
+                                 <Font name="Arial Bold Italic" size="24.0" />
+                              </font>
+                           </Text>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@TV_2_RGB.png" />
+                              </image>
+                           </ImageView>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
+                              <font>
+                                 <Font name="Arial Bold Italic" size="24.0" />
+                              </font>
+                           </Text>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@TV_2_RGB.png" />
+                              </image>
+                           </ImageView>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
+                              <font>
+                                 <Font name="Arial Bold Italic" size="24.0" />
+                              </font>
+                           </Text>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@TV_2_RGB.png" />
+                              </image>
+                           </ImageView>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
+                              <font>
+                                 <Font name="Arial Bold Italic" size="24.0" />
+                              </font>
+                           </Text>
+                        </VBox>
+                     </HBox>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </HBox>
+   <HBox id="HBox" alignment="CENTER" spacing="5.0" style="-fx-background-color: #D21E1E;" VBox.vgrow="NEVER">
+      <padding>
+         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+      </padding>
+      <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="TV 2 2021© - Alle rettigheder forbeholdes" textFill="WHITE" HBox.hgrow="ALWAYS">
+         <font>
+            <Font name="Arial Bold Italic" size="12.0" />
+         </font>
+      </Label>
+   </HBox>
+</fx:root>

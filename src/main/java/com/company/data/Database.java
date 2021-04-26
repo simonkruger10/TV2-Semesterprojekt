@@ -5,8 +5,6 @@ import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 import com.company.common.IProduction;
 
-import java.io.FileNotFoundException;
-
 public class Database implements DatabaseFacade {
     private static DatabaseFacade instance;
     private final DatabaseFacade database;
