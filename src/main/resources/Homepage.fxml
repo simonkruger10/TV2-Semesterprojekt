@@ -39,7 +39,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.company.gui.HomepageController">
+<fx:root type="javafx.scene.layout.VBox" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
   <children>
       <HBox prefHeight="60.0" prefWidth="802.0" style="-fx-background-color: #D21E1E;">
          <children>
@@ -308,4 +308,4 @@
       </padding>
     </HBox>
   </children>
-</VBox>
+</fx:root>

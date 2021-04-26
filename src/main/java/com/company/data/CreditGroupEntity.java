@@ -1,6 +1,5 @@
 package com.company.data;
 
-import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
 public class CreditGroupEntity extends MainEntity implements ICreditGroup {
