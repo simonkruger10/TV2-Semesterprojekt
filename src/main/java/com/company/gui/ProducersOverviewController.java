@@ -34,7 +34,7 @@ public class ProducersOverviewController extends VBox {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        //TODO Replace with producers from data layer
         showList(new String[]{"Steven Spielberg", "Quentin Tarantino", "Bob Johnson", "Sum Guy"});
     }
 
