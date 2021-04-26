@@ -1,6 +1,7 @@
 package com.company.gui;
 
 import com.company.common.IProduction;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -24,7 +25,13 @@ public class ImageRow extends HBox {
     @FXML
     private Text text;
 
-    ImageRow() {
+    private ImageRowHandler imageRowHandler;
+    private String uuid;
+
+    ImageRow(ImageRowHandler imageRowHandler, String uuid) {
+        this.imageRowHandler = imageRowHandler;
+        this.uuid = uuid;
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ImageRow.fxml"));
             fxmlLoader.setRoot(this);
@@ -44,7 +51,7 @@ public class ImageRow extends HBox {
     }
 
     @FXML
-    void goToCreditOverview()   {
-
+    public void goToCreditOverview(MouseEvent event) {
+        imageRowHandler.showCreditOverview(uuid);
     }
 }
