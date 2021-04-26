@@ -135,6 +135,8 @@ public class HomepageController extends VBox {
 
     @FXML
     void showProductions(MouseEvent event) {
+        defaultLayout = (VBox) recentContentBox.getChildren().get(0);
+        recentContentBox.getChildren().set(0, new ProductionsOverviewController());
         System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
         //super.gui.setScene("/ProductionsOverview.fxml");
 
