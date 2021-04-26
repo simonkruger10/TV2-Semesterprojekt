@@ -142,15 +142,15 @@ public class AccountManagement implements IAccountManagement {
     public void login(String email, String password) {
         IAccount account = getByEmail(email);
         if (account == null) {
-            throw new RuntimeException("Could not find the user.");
+            throw new RuntimeException("Could not find the user");
         }
         try {
             account = Database.getInstance().login(account, hashPassword(password));
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Failed to log user inside due to technical error.");
+            throw new RuntimeException("Unable to login due to a technical error.");
         }
         if (account == null) {
-            throw new RuntimeException("Could not find the user.");
+            throw new RuntimeException("Could not find the user");
         }
 
         currentUser = new AccountDTO(account);

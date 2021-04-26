@@ -20,7 +20,7 @@ public interface IAccountManagement {
 
     IAccount getByUUID(String uuid);
 
-    void login(String email, String password) throws NoSuchAlgorithmException;
+    void login(String email, String password);
     void logout();
 
     IAccount getCurrentUser();

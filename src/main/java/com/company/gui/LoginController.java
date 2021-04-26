@@ -7,15 +7,19 @@ import com.company.domain.AccountManagement;
 import com.company.domain.IAccountManagement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
+import static com.company.common.Tools.isEmailValid;
+import static com.company.common.Tools.isNullOrEmpty;
 
 public class LoginController extends VBox {
 
@@ -24,9 +28,6 @@ public class LoginController extends VBox {
 
     @FXML
     private PasswordField passwordPanel;
-
-    @FXML
-    private Button loginBtn;
 
     private final IAccountManagement aMgt = new AccountManagement();
     private final HomepageController parent;
@@ -49,25 +50,27 @@ public class LoginController extends VBox {
         String email = emailPanel.getText();
         String password = passwordPanel.getText();
 
-        System.out.println("Email: " + email);
-        System.out.println("Password: " + password);
+        if (isNullOrEmpty(email)) {
+            new MessageDialog(AlertType.INFORMATION, "User is required!");
+        }
 
-        // TODO: Tjek om brugernavn og kodeord er tomt.
-        //       Tjek brugernavn om det er en mail adrasse
+        if (isNullOrEmpty(password)) {
+            new MessageDialog(AlertType.INFORMATION, "Password is required!");
+        }
+
+        if (isEmailValid(email)) {
+            new MessageDialog(AlertType.INFORMATION, "The username must be an email address!");
+        }
 
         try {
             aMgt.login(email, password);
             parent.onSucLogin();
-        } catch (NoSuchAlgorithmException | RuntimeException e) {
-            if (!e.toString().equals("Could not find the user.")) {
-                // message.setText("Could not find the user.");
+        } catch (RuntimeException e) {
+            if (e.toString().equals("Could not find the user")) {
+                new MessageDialog(AlertType.INFORMATION, e.toString() + "!");
+            } else {
+                new MessageDialog(AlertType.ERROR, e.toString());
             }
-            e.printStackTrace();
-            parent.goBack();
         }
-    }
-
-    public void getThis() {
-
     }
 }

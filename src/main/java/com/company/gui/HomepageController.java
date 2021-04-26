@@ -24,6 +24,9 @@ public class HomepageController extends VBox {
     private ImageView homeBtn;
 
     @FXML
+    private Text helloMessage;
+
+    @FXML
     private Text logOutBtn;
 
     @FXML
@@ -73,6 +76,7 @@ public class HomepageController extends VBox {
 
 
         logOutBtn.setText("Log in");
+        helloMessage.setText("Hi, " + AccessLevel.GUEST);
     }
 
     @FXML
@@ -93,16 +97,17 @@ public class HomepageController extends VBox {
         if (logOutBtn.getText().equals("Log out")) {
             aMgt.logout();
             logOutBtn.setText("Log in");
+            helloMessage.setText("Hi, " + AccessLevel.GUEST);
         } else {
             defaultLayout = (VBox) recentContentBox.getChildren().get(0);
             recentContentBox.getChildren().set(0, new LoginController(this));
-            logOutBtn.setText("Log out");
         }
     }
 
     void onSucLogin() {
         System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
         logOutBtn.setText("Log out");
+        helloMessage.setText("Hi, " + aMgt.getCurrentUser().getFirstName());
         recentContentBox.getChildren().set(0, defaultLayout);
     }
 
