@@ -53,23 +53,26 @@ public class LoginController extends VBox {
 
         if (isNullOrEmpty(email)) {
             new MessageDialog(AlertType.INFORMATION, "E-mail is required!");
-        }
-
-        if (isNullOrEmpty(password)) {
-            new MessageDialog(AlertType.INFORMATION, "Password is required!");
+            return;
         }
 
         if (isEmailValid(email)) {
             new MessageDialog(AlertType.INFORMATION, "The e-mail is invalid.");
+            return;
+        }
+
+        if (isNullOrEmpty(password)) {
+            new MessageDialog(AlertType.INFORMATION, "Password is required!");
+            return;
         }
 
         try {
             aMgt.login(email, password);
             handler.onSuccessfulLogin();
         } catch (RuntimeException e) {
-            new MessageDialog(AlertType.INFORMATION, e + "!");
+            new MessageDialog(AlertType.INFORMATION, e.getMessage() + "!");
         } catch (NoSuchAlgorithmException e) {
-            new MessageDialog(AlertType.ERROR, e.toString());
+            new MessageDialog(AlertType.ERROR, e.getMessage());
         }
     }
 }

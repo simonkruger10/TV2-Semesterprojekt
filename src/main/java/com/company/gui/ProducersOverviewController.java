@@ -1,8 +1,5 @@
 package com.company.gui;
 
-import com.company.common.ICredit;
-import com.company.domain.CreditManagement;
-import com.company.domain.ICreditManagement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -20,10 +17,10 @@ public class ProducersOverviewController extends VBox {
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private ImageRowHandler handler;
+    private CallbackHandler handler;
 
 
-    ProducersOverviewController(ImageRowHandler handler) {
+    ProducersOverviewController(CallbackHandler handler) {
         this.handler = handler;
 
         try {
@@ -42,10 +39,10 @@ public class ProducersOverviewController extends VBox {
     void showList(String[] producers) {
         int i = 1;
         for (String s : producers) {
-            ImageRowController cRow = new ImageRowController("1", new ImageRowHandler() {
+            ImageRowController cRow = new ImageRowController("1", new CallbackHandler() {
                 @Override
-                public void showCreditOverview(String uuid) {
-                    handler.showCreditOverview(s);
+                public void show(String uuid) {
+                    handler.show(s);
                 }
             });
             ImageView imageView = (ImageView) cRow.getChildren().get(0);

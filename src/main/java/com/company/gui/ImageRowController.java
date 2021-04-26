@@ -1,22 +1,14 @@
 package com.company.gui;
 
-import com.company.common.IProduction;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class ImageRowController extends HBox {
     @FXML
@@ -25,10 +17,10 @@ public class ImageRowController extends HBox {
     @FXML
     private Text text;
 
-    private ImageRowHandler imageRowHandler;
+    private CallbackHandler imageRowHandler;
     private String uuid;
 
-    ImageRowController(String uuid, ImageRowHandler imageRowHandler) {
+    ImageRowController(String uuid, CallbackHandler imageRowHandler) {
         this.uuid = uuid;
         this.imageRowHandler = imageRowHandler;
 
@@ -52,6 +44,6 @@ public class ImageRowController extends HBox {
 
     @FXML
     public void goToCreditOverview(MouseEvent event) {
-        imageRowHandler.showCreditOverview(uuid);
+        imageRowHandler.show(uuid);
     }
 }

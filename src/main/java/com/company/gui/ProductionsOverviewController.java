@@ -21,11 +21,11 @@ public class ProductionsOverviewController extends VBox {
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private ImageRowHandler handler;
+    private CallbackHandler handler;
 
     private IProductionManagement productionManagement = new ProductionManagement();
 
-    ProductionsOverviewController(ImageRowHandler handler) {
+    ProductionsOverviewController(CallbackHandler handler) {
         this.handler = handler;
 
         try {
@@ -43,10 +43,10 @@ public class ProductionsOverviewController extends VBox {
     void showList(IProduction[] productions) {
         int i = 1;
         for (IProduction production : productions) {
-            ImageRowController cRow = new ImageRowController(production.getUUID(), new ImageRowHandler() {
+            ImageRowController cRow = new ImageRowController(production.getUUID(), new CallbackHandler() {
                 @Override
-                public void showCreditOverview(String uuid) {
-                    handler.showCreditOverview(uuid);
+                public void show(String uuid) {
+                    handler.show(uuid);
                 }
             });
 

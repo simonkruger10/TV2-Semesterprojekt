@@ -1,8 +1,6 @@
 package com.company.gui;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import com.company.common.*;
 import com.company.domain.*;
@@ -10,10 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -21,7 +16,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class HomepageController extends VBox {
@@ -150,9 +144,9 @@ public class HomepageController extends VBox {
 
     @FXML
     void showProductions(MouseEvent event) {
-        content.getChildren().set(0, new ProductionsOverviewController(new ImageRowHandler() {
+        content.getChildren().set(0, new ProductionsOverviewController(new CallbackHandler() {
             @Override
-            public void showCreditOverview(String uuid) {
+            public void show(String uuid) {
                 content.getChildren().set(0, new ProductViewController(uuid));
             }
         }));
@@ -161,9 +155,9 @@ public class HomepageController extends VBox {
 
     @FXML
     void showCredits(MouseEvent event) {
-        content.getChildren().set(0, new CreditsOverviewController(new ImageRowHandler() {
+        content.getChildren().set(0, new CreditsOverviewController(new CallbackHandler() {
             @Override
-            public void showCreditOverview(String uuid) {
+            public void show(String uuid) {
                 content.getChildren().set(0, new CreditViewController(uuid));
                 System.out.println("UUID is: " + uuid);
             }

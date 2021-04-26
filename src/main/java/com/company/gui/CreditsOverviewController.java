@@ -1,17 +1,13 @@
 package com.company.gui;
 
 import com.company.common.ICredit;
-import com.company.common.IProduction;
 import com.company.domain.CreditManagement;
 import com.company.domain.ICreditManagement;
-import com.company.domain.IProductionManagement;
-import com.company.domain.ProductionManagement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -24,11 +20,11 @@ public class CreditsOverviewController extends VBox {
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private ImageRowHandler handler;
+    private CallbackHandler handler;
 
     private ICreditManagement creditManagement = new CreditManagement();
 
-    CreditsOverviewController(ImageRowHandler handler) {
+    CreditsOverviewController(CallbackHandler handler) {
         this.handler = handler;
 
         try {
@@ -46,10 +42,10 @@ public class CreditsOverviewController extends VBox {
     void showList(ICredit[] credits) {
         int i = 1;
         for (ICredit credit : credits) {
-            ImageRowController cRow = new ImageRowController(credit.getUUID(), new ImageRowHandler() {
+            ImageRowController cRow = new ImageRowController(credit.getUUID(), new CallbackHandler() {
                 @Override
-                public void showCreditOverview(String uuid) {
-                    handler.showCreditOverview(uuid);
+                public void show(String uuid) {
+                    handler.show(uuid);
                 }
             });
 
