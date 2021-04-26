@@ -123,7 +123,12 @@ public class HomepageController extends VBox {
 
     @FXML
     void showProducers(MouseEvent event) {
-
+        content.getChildren().set(0, new ProducersOverviewController(new ImageRowHandler() {
+            @Override
+            public void showCreditOverview(String uuid) {
+                System.out.println("UUID is: " + uuid);
+            }
+        }));
     }
 
     @FXML
