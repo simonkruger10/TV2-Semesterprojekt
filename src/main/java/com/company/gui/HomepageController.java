@@ -124,7 +124,13 @@ public class HomepageController extends VBox {
 
     @FXML
     void showProductions(MouseEvent event) {
-
+        content.getChildren().set(0, new ProductionsOverviewController(new ImageRowHandler() {
+            @Override
+            public void showCreditOverview(String uuid) {
+                content.getChildren().set(0, new ProductViewController(uuid));
+            }
+        }));
+        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
     }
 
     @FXML
