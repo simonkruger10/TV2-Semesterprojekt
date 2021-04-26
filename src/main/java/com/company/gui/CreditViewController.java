@@ -8,10 +8,12 @@ import com.company.common.ICredit;
 import com.company.domain.CreditManagement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 
-public class CreditViewController {
+public class CreditViewController extends GridPane {
 
     @FXML
     private Text firstName1;

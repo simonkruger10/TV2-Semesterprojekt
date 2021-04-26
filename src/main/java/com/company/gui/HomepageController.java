@@ -147,6 +147,7 @@ public class HomepageController extends VBox {
         content.getChildren().set(0, new CreditsOverviewController(new ImageRowHandler() {
             @Override
             public void showCreditOverview(String uuid) {
+                content.getChildren().set(0, new CreditViewController(uuid));
                 System.out.println("UUID is: " + uuid);
             }
         }));
