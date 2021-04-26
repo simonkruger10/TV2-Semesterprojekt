@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.company.common.IProduction;
+import com.company.domain.IProductionManagement;
+import com.company.domain.ProductionManagement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -29,8 +31,8 @@ public class ProductionsOverviewController extends VBox {
     @FXML
     private ComboBox<?> sortByBtn;
 
+    IProductionManagement productionManagement = new ProductionManagement();
 
-    //ProductionsOverviewController(IProduction[] productions)
     ProductionsOverviewController() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ProductionsOverview.fxml"));
@@ -40,7 +42,7 @@ public class ProductionsOverviewController extends VBox {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        test();
+        showList(productionManagement.list());
 
     }
 
@@ -49,17 +51,19 @@ public class ProductionsOverviewController extends VBox {
         for (IProduction production : productions) {
             ImageRow cRow = new ImageRow();
             ImageView imageView = (ImageView) cRow.getChildren().get(0);
-            imageView.setImage(new Image(String.valueOf(production.getImage())));
             Text text = (Text) cRow.getChildren().get(1);
             text.setText(production.getName());
 
             if(i % 2 == 0)  {
                 cRow.setStyle("-fx-background-color: #FFFFFF;");
+                imageView.setImage(new Image("TV_2_RGB.png"));
             }   else {
-                cRow.setStyle("-fx-background-color: #EBE9E9;");
+                cRow.setStyle("-fx-background-color: #dcdcdc;");
+                imageView.setImage(new Image("TV_2_Hvid_RGB.png"));
             }
 
-            main.getChildren().set(i, cRow);
+            main.getChildren().add(i, cRow);
+            i++;
         }
     }
 
