@@ -24,7 +24,7 @@ public class ImageRow extends HBox {
     @FXML
     private Text text;
 
-    ImageRow(IProduction[] productions) {
+    ImageRow() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ImageRow.fxml"));
             fxmlLoader.setRoot(this);
@@ -41,5 +41,10 @@ public class ImageRow extends HBox {
 
     void setText(String text) {
         this.text.setText(text);
+    }
+
+    @FXML
+    void goToCreditOverview()   {
+
     }
 }

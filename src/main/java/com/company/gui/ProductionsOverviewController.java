@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -23,16 +24,11 @@ import java.util.ResourceBundle;
 
 public class ProductionsOverviewController extends VBox {
     @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
+    private VBox main;
 
     @FXML
     private ComboBox<?> sortByBtn;
 
-    @FXML
-    private HBox row;
 
     //ProductionsOverviewController(IProduction[] productions)
     ProductionsOverviewController() {
@@ -44,28 +40,51 @@ public class ProductionsOverviewController extends VBox {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        test();
 
-        /*
-        for (IProduction production: productions) {
-            production.getName();
-            row.getChildren().get(0).
-            row.setStyle("-fx-background-color: #FFFFFF;");
-            row.setStyle("-fx-background-color: #EBE9E9;");
+    }
+
+    void showList(IProduction[] productions) {
+        int i = 1;
+        for (IProduction production : productions) {
+            ImageRow cRow = new ImageRow();
+            ImageView imageView = (ImageView) cRow.getChildren().get(0);
+            imageView.setImage(new Image(String.valueOf(production.getImage())));
+            Text text = (Text) cRow.getChildren().get(1);
+            text.setText(production.getName());
+
+            if(i % 2 == 0)  {
+                cRow.setStyle("-fx-background-color: #FFFFFF;");
+            }   else {
+                cRow.setStyle("-fx-background-color: #EBE9E9;");
+            }
+
+            main.getChildren().set(i, cRow);
         }
+    }
 
-         */
+    void test() {
+        for (int i = 0; i < 5; i++) {
+            ImageRow r = new ImageRow();
+
+            ImageView iV = (ImageView) r.getChildren().get(0);
+            iV.setImage(new Image("TV_2_RGB.png"));
+            Text t = (Text) r.getChildren().get(1);
+            t.setText("Shrek " + i);
+
+            main.getChildren().add(i+1, r);
+        }
     }
 
 
     @FXML
     void goToCreditOverview(MouseEvent event) {
-
+        System.out.println("test");
     }
 
     @FXML
     void initialize() {
         assert sortByBtn != null : "fx:id=\"sortByBtn\" was not injected: check your FXML file 'ProductionsOverview.fxml'.";
-        assert row != null : "fx:id=\"row\" was not injected: check your FXML file 'ProductionsOverview.fxml'.";
 
     }
 }

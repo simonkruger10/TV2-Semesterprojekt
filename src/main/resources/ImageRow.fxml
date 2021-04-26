@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<fx:root alignment="CENTER_LEFT" style="-fx-background-color: #ebe9e9;" type="HBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" onMouseClicked="#goToCreditOverview">
+<fx:root alignment="CENTER_LEFT" style="-fx-background-color: #ebe9e9;" type="HBox" xmlns="http://javafx.com/javafx/12.0.1" xmlns:fx="http://javafx.com/fxml/1" onMouseClicked="#goToCreditOverview">
     <ImageView fx:id="image"  fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
         <HBox.margin>
           <Insets right="10.0"/>
