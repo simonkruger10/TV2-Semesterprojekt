@@ -58,19 +58,17 @@ public class ProductViewController extends VBox {
         title.setText(production.getName());
         //image.setImage(new Image(String.valueOf(production.getImage())));
 
-        int i = 0;
+        rows.getChildren().clear();
+
         ICreditGroup creditGroup = null;
         for (ICredit credit : production.getCredits()) {
-            if (creditGroup == null || credit.getCreditGroup().getName() != creditGroup.getName()) {
-                rows.getChildren().add(i, new HeaderRowController(credit.getCreditGroup().getName()));
+            if (creditGroup == null || !credit.getCreditGroup().getName().equals(creditGroup.getName())) {
+                rows.getChildren().add(new HeaderRowController(credit.getCreditGroup().getName()));
                 creditGroup = credit.getCreditGroup();
-                i++;
             }
-            rows.getChildren().add(i, new TextRowController(credit.getFullName()));
-            i++;
+            rows.getChildren().add(new TextRowController(credit.getFullName()));
         }
     }
-
 
     @FXML
     void addCredits(MouseEvent event) {
@@ -81,9 +79,6 @@ public class ProductViewController extends VBox {
     void editCredits(MouseEvent event) {
 
     }
-
-
-
 
 
     @FXML

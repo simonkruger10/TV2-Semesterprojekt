@@ -16,16 +16,16 @@ import javafx.scene.text.Text;
 public class CreditViewController extends GridPane {
 
     @FXML
-    private Text firstName1;
+    private Text firstName;
 
     @FXML
-    private Text middleName1;
+    private Text middleName;
 
     @FXML
-    private Text groupName1;
+    private Text groupName;
 
     @FXML
-    private Text lastName1;
+    private Text lastName;
 
     public CreditViewController(String UUID) {
 
@@ -43,18 +43,17 @@ public class CreditViewController extends GridPane {
 
     public void viewCredit(String UUID) {
         ICredit credit = new CreditManagement().getByUUID(UUID);
-        firstName1.setText(credit.getFirstName());
-        middleName1.setText(credit.getMiddleName());
-        lastName1.setText(credit.getLastName());
-        groupName1.setText(credit.getCreditGroup().getName());
+        firstName.setText(credit.getFirstName());
+        middleName.setText(credit.getMiddleName());
+        lastName.setText(credit.getLastName());
+        groupName.setText(credit.getCreditGroup().getName());
     }
 
     @FXML
     void initialize() {
-        assert firstName1 != null : "fx:id=\"firstName1\" was not injected: check your FXML file 'Untitled'.";
-        assert middleName1 != null : "fx:id=\"middleName1\" was not injected: check your FXML file 'Untitled'.";
-        assert groupName1 != null : "fx:id=\"groupName1\" was not injected: check your FXML file 'Untitled'.";
-        assert lastName1 != null : "fx:id=\"lastName1\" was not injected: check your FXML file 'Untitled'.";
-
+        assert firstName != null : "fx:id=\"firstName\" was not injected: check your FXML file 'Untitled'.";
+        assert middleName != null : "fx:id=\"middleName\" was not injected: check your FXML file 'Untitled'.";
+        assert groupName != null : "fx:id=\"groupName\" was not injected: check your FXML file 'Untitled'.";
+        assert lastName != null : "fx:id=\"lastName\" was not injected: check your FXML file 'Untitled'.";
     }
 }

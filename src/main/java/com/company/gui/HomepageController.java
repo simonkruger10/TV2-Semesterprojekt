@@ -6,10 +6,15 @@ import java.util.ResourceBundle;
 
 import com.company.common.*;
 import com.company.domain.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -30,9 +35,6 @@ public class HomepageController extends VBox {
     private Text loginBtn;
 
     @FXML
-    private Text changePasswordBtn;
-
-    @FXML
     private TextField searchBarField;
 
     @FXML
@@ -42,10 +44,19 @@ public class HomepageController extends VBox {
     private Button creditsBtn;
 
     @FXML
-    private Button producerBtn;
+    private Button producersBtn;
 
     @FXML
     private Button accountsBtn;
+
+    @FXML
+    private Button accountBtn;
+
+    @FXML
+    private HBox contentHolder;
+
+    @FXML
+    private ScrollPane scrollBar;
 
     @FXML
     private VBox content;
@@ -71,29 +82,43 @@ public class HomepageController extends VBox {
             throw new RuntimeException(e);
         }
 
+        initSetup();
+    }
+
+    void initSetup() {
+        onUserChanges(); // init guest
+
+        contentHolder.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                scrollBar.setPrefHeight((Double) newValue);
+            }
+        });
+    }
+
+    void onUserChanges() {
         AccessLevel accessLevel = aMgt.getCurrentUser().getAccessLevel();
 
+        // Menu
+        accountBtn.setVisible(accessLevel.greater(AccessLevel.GUEST));
 
-        loginBtn.setText("Log in");
-        helloMessage.setText("Hi, " + AccessLevel.GUEST);
+        boolean state = accessLevel == AccessLevel.ADMINISTRATOR;
+        producersBtn.setVisible(state);
+        accountsBtn.setVisible(state);
+
+        // Login bar
+        if (aMgt.getCurrentUser().getAccessLevel().greater(AccessLevel.GUEST)){
+            loginBtn.setText("Log out");
+            helloMessage.setText("Hi, " + aMgt.getCurrentUser().getFirstName());
+        } else {
+            loginBtn.setText("Log in");
+            helloMessage.setText("Hi, " + AccessLevel.GUEST);
+        }
     }
 
 
-
-
-
     @FXML
-    void changePassword(MouseEvent event) {
-
-    }
-
-    @FXML
-    void goToHomepage(MouseEvent event) {
-
-    }
-
-    @FXML
-    void logOut(MouseEvent event) {
+    void goHome(MouseEvent event) {
 
     }
 
@@ -101,15 +126,12 @@ public class HomepageController extends VBox {
     void login(MouseEvent event) {
         if (loginBtn.getText().equals("Log out")) {
             aMgt.logout();
-
-            loginBtn.setText("Log in");
-            helloMessage.setText("Hi, " + AccessLevel.GUEST);
+            onUserChanges();
         } else {
             content.getChildren().set(0, new LoginController(new LoginHandler() {
                 @Override
                 public void onSuccessfulLogin() {
-                    loginBtn.setText("Log out");
-                    helloMessage.setText("Hi, " + aMgt.getCurrentUser().getFirstName());
+                    onUserChanges();
                     content.getChildren().set(0, defaultContent);
                 }
             }));
@@ -117,18 +139,13 @@ public class HomepageController extends VBox {
     }
 
     @FXML
-    void searchProduction(KeyEvent event) {
+    void search(KeyEvent event) {
 
     }
 
     @FXML
     void showProducers(MouseEvent event) {
-        content.getChildren().set(0, new ProducersOverviewController(new ImageRowHandler() {
-            @Override
-            public void showCreditOverview(String uuid) {
-                System.out.println("UUID is: " + uuid);
-            }
-        }));
+
     }
 
     @FXML
@@ -155,25 +172,29 @@ public class HomepageController extends VBox {
     }
 
     @FXML
-    void showUsers(MouseEvent event) {
+    void showAccounts(MouseEvent event) {
+
+    }
+
+    @FXML
+    void showAccount(MouseEvent event) {
 
     }
 
     @FXML
     void initialize() {
-        assert homeBtn != null : "fx:id=\"homeBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert homeBtn != null : "fx:id=\"home\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert helloMessage != null : "fx:id=\"helloMessage\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert loginBtn != null : "fx:id=\"loginBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert changePasswordBtn != null : "fx:id=\"changePasswordBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert searchBarField != null : "fx:id=\"searchBarField\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert productionsBtn != null : "fx:id=\"productionsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert creditsBtn != null : "fx:id=\"creditsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert producerBtn != null : "fx:id=\"producerBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert producersBtn != null : "fx:id=\"producersBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert accountsBtn != null : "fx:id=\"accountsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert accountBtn != null : "fx:id=\"accountBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert content != null : "fx:id=\"content\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert defaultContent != null : "fx:id=\"defaultContent\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert latestAddedSlider != null : "fx:id=\"latestAddedSlider\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert latestReviewSlider != null : "fx:id=\"latestReviewSlider\" was not injected: check your FXML file 'Homepage.fxml'.";
-
     }
 }

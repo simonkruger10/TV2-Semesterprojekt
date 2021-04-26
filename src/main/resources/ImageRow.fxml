@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.image.Image?>
+<?import javafx.scene.effect.ImageInput?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<fx:root alignment="CENTER_LEFT" onMouseClicked="#goToCreditOverview" style="-fx-background-color: #ebe9e9;" type="HBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+
+<fx:root alignment="CENTER_LEFT" style="-fx-background-color: #ebe9e9;" type="HBox" xmlns="http://javafx.com/javafx/12.0.1" xmlns:fx="http://javafx.com/fxml/1" onMouseClicked="#goToCreditOverview">
     <ImageView fx:id="image" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
         <HBox.margin>
-          <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
+          <Insets right="10.0"/>
         </HBox.margin>
-      <image>
-         <Image url="@Shrek_small.jpg" />
-      </image>
     </ImageView>
     <Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Shrek (2001)" wrappingWidth="952.0">
         <font>
-            <Font name="Arial" size="24.0" />
+            <Font name="Arial" size="24.0"/>
         </font>
     </Text>
 </fx:root>
