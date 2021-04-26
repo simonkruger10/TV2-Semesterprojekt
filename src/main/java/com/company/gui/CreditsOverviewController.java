@@ -26,7 +26,6 @@ public class CreditsOverviewController extends VBox {
 
     private ImageRowHandler handler;
 
-    private IProductionManagement productionManagement = new ProductionManagement();
     private ICreditManagement creditManagement = new CreditManagement();
 
     CreditsOverviewController(ImageRowHandler handler) {
@@ -69,11 +68,6 @@ public class CreditsOverviewController extends VBox {
             main.getChildren().add(i, cRow);
             i++;
         }
-    }
-
-    @FXML
-    void goToCreditOverview(MouseEvent event) {
-        System.out.println("test");
     }
 
     @FXML

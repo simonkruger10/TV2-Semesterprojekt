@@ -142,7 +142,7 @@ public class HomepageController extends VBox {
         content.getChildren().set(0, new CreditsOverviewController(new ImageRowHandler() {
             @Override
             public void showCreditOverview(String uuid) {
-                System.out.println("test");
+                System.out.println("UUID is: " + uuid);
             }
         }));
         System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
