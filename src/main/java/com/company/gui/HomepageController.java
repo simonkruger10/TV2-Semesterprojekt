@@ -78,6 +78,10 @@ public class HomepageController extends VBox {
         helloMessage.setText("Hi, " + AccessLevel.GUEST);
     }
 
+
+
+
+
     @FXML
     void changePassword(MouseEvent event) {
 
