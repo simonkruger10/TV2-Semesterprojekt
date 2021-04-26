@@ -27,22 +27,5 @@
             <Insets bottom="10.0" />
          </padding>
       </HBox>
-      <HBox fx:id="row" alignment="CENTER_LEFT" style="-fx-background-color: #ebe9e9;" VBox.vgrow="ALWAYS">
-         <children>
-            <ImageView fitHeight="75.0" fitWidth="75.0" onMouseClicked="#goToCreditOverview" pickOnBounds="true" preserveRatio="true">
-               <effect>
-                  <ImageInput />
-               </effect>
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-            </ImageView>
-                   <Text onMouseClicked="#goToCreditOverview" strokeType="OUTSIDE" strokeWidth="0.0" text="Shrek (2001)" wrappingWidth="952.0">
-               <font>
-                  <Font name="Arial" size="24.0" />
-               </font>
-            </Text>
-         </children>
-      </HBox>
   </children>
 </fx:root>
