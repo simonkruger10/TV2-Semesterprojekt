@@ -27,7 +27,7 @@ public class HomepageController extends VBox {
     private Text helloMessage;
 
     @FXML
-    private Text logOutBtn;
+    private Text loginBtn;
 
     @FXML
     private Text changePasswordBtn;
@@ -36,31 +36,30 @@ public class HomepageController extends VBox {
     private TextField searchBarField;
 
     @FXML
-    private Button productionBtn;
+    private Button productionsBtn;
+
+    @FXML
+    private Button creditsBtn;
 
     @FXML
     private Button producerBtn;
 
     @FXML
-    private Button databaseBtn;
+    private Button accountsBtn;
 
     @FXML
-    private Button userBtn;
+    private VBox content;
 
     @FXML
-    private Button settingsBtn;
+    private VBox defaultContent;
 
     @FXML
-    private VBox recentContentBox;
+    private HBox latestAddedSlider;
 
     @FXML
-    private HBox latestCreditsSlider;
-
-    @FXML
-    private Font x3;
+    private HBox latestReviewSlider;
 
     private final IAccountManagement aMgt = new AccountManagement();
-    private VBox defaultLayout;
 
     HomepageController() {
         try {
@@ -75,129 +74,84 @@ public class HomepageController extends VBox {
         AccessLevel accessLevel = aMgt.getCurrentUser().getAccessLevel();
 
 
-        logOutBtn.setText("Log in");
+        loginBtn.setText("Log in");
         helloMessage.setText("Hi, " + AccessLevel.GUEST);
     }
 
     @FXML
     void changePassword(MouseEvent event) {
-        //super.gui.setScene("/Temp.fxml");
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
+
     }
 
     @FXML
     void goToHomepage(MouseEvent event) {
-        //super.gui.setScene("/Homepage.fxml");
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
+
     }
 
     @FXML
     void logOut(MouseEvent event) {
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
-        if (logOutBtn.getText().equals("Log out")) {
+
+    }
+
+    @FXML
+    void login(MouseEvent event) {
+        if (loginBtn.getText().equals("Log out")) {
             aMgt.logout();
-            logOutBtn.setText("Log in");
+
+            loginBtn.setText("Log in");
             helloMessage.setText("Hi, " + AccessLevel.GUEST);
         } else {
-            defaultLayout = (VBox) recentContentBox.getChildren().get(0);
-            recentContentBox.getChildren().set(0, new LoginController(this));
+            content.getChildren().set(0, new LoginController(new LoginHandler() {
+                @Override
+                public void onSuccessfulLogin() {
+                    loginBtn.setText("Log out");
+                    helloMessage.setText("Hi, " + aMgt.getCurrentUser().getFirstName());
+                    content.getChildren().set(0, defaultContent);
+                }
+            }));
         }
     }
 
-    void onSucLogin() {
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
-        logOutBtn.setText("Log out");
-        helloMessage.setText("Hi, " + aMgt.getCurrentUser().getFirstName());
-        recentContentBox.getChildren().set(0, defaultLayout);
-    }
-
-    void goBack() {
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
-        recentContentBox.getChildren().set(0, defaultLayout);
-    }
-
-
     @FXML
     void searchProduction(KeyEvent event) {
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
-        //super.gui.setScene("/Temp.fxml");
-
-    }
-
-    @FXML
-    void showDatabase(MouseEvent event) {
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
-        //super.gui.setScene("/Temp.fxml");
 
     }
 
     @FXML
     void showProducers(MouseEvent event) {
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
-        //super.gui.setScene("/Temp.fxml");
 
     }
 
     @FXML
     void showProductions(MouseEvent event) {
-        defaultLayout = (VBox) recentContentBox.getChildren().get(0);
-        recentContentBox.getChildren().set(0, new ProductionsOverviewController());
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
-        //super.gui.setScene("/ProductionsOverview.fxml");
 
     }
 
     @FXML
-    void showSettings(MouseEvent event) {
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
-        //super.gui.setScene("/Temp.fxml");
+    void showCredits(MouseEvent event) {
 
     }
-
-    //ICreditGroupManagement cGMgt = new CreditGroupManagement();
-    //IProductionManagement pMgt = new ProductionManagement();
-    //ICreditManagement cMgt = new CreditManagement();
 
     @FXML
     void showUsers(MouseEvent event) {
-        /*
-        ProductionGTO production = new ProductionGTO();
-        production.setName("Test");
-        production.setDescription("This is a test");
 
-        CreditGTO credit = new CreditGTO();
-        credit.setFirstName("Bob");
-        credit.setFirstName("Bib");
-
-        CreditGroupGTO creditGroup = new CreditGroupGTO();
-        creditGroup.setName("Actor");
-        ICreditGroup cg = cGMgt.create(creditGroup);
-        credit.setCreditGroup(cg);
-
-        ICredit newCredit = cMgt.create(credit);
-
-        ICredit[] credits = {newCredit};
-        production.setCredits(credits);
-
-        pMgt.create(production);
-        //super.gui.setScene("/Temp.fxml");
-        */
     }
 
     @FXML
     void initialize() {
         assert homeBtn != null : "fx:id=\"homeBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert logOutBtn != null : "fx:id=\"logOutBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert helloMessage != null : "fx:id=\"helloMessage\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert loginBtn != null : "fx:id=\"loginBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert changePasswordBtn != null : "fx:id=\"changePasswordBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert searchBarField != null : "fx:id=\"searchBarField\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert productionBtn != null : "fx:id=\"productionBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert productionsBtn != null : "fx:id=\"productionsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert creditsBtn != null : "fx:id=\"creditsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert producerBtn != null : "fx:id=\"producerBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert databaseBtn != null : "fx:id=\"databaseBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert userBtn != null : "fx:id=\"userBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert settingsBtn != null : "fx:id=\"settingsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert recentContentBox != null : "fx:id=\"recentContentBox\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert latestCreditsSlider != null : "fx:id=\"latestCreditsSlider\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert x3 != null : "fx:id=\"x3\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert accountsBtn != null : "fx:id=\"accountsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert content != null : "fx:id=\"content\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert defaultContent != null : "fx:id=\"defaultContent\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert latestAddedSlider != null : "fx:id=\"latestAddedSlider\" was not injected: check your FXML file 'Homepage.fxml'.";
+        assert latestReviewSlider != null : "fx:id=\"latestReviewSlider\" was not injected: check your FXML file 'Homepage.fxml'.";
 
     }
 }
