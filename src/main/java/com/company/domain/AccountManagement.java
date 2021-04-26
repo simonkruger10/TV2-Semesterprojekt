@@ -139,16 +139,12 @@ public class AccountManagement implements IAccountManagement {
 
 
     @Override
-    public void login(String email, String password) {
+    public void login(String email, String password) throws NoSuchAlgorithmException {
         IAccount account = getByEmail(email);
         if (account == null) {
             throw new RuntimeException("Could not find the user");
         }
-        try {
-            account = Database.getInstance().login(account, hashPassword(password));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Unable to login due to a technical error.");
-        }
+        account = Database.getInstance().login(account, hashPassword(password));
         if (account == null) {
             throw new RuntimeException("Could not find the user");
         }

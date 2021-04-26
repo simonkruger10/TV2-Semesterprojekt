@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import static com.company.common.Tools.isEmailValid;
 import static com.company.common.Tools.isNullOrEmpty;
@@ -30,10 +31,10 @@ public class LoginController extends VBox {
     private PasswordField passwordPanel;
 
     private final IAccountManagement aMgt = new AccountManagement();
-    private final HomepageController parent;
+    private final LoginHandler handler;
 
-    LoginController(HomepageController parent) {
-        this.parent = parent;
+    LoginController(LoginHandler handler) {
+        this.handler = handler;
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
@@ -51,7 +52,7 @@ public class LoginController extends VBox {
         String password = passwordPanel.getText();
 
         if (isNullOrEmpty(email)) {
-            new MessageDialog(AlertType.INFORMATION, "User is required!");
+            new MessageDialog(AlertType.INFORMATION, "E-mail is required!");
         }
 
         if (isNullOrEmpty(password)) {
@@ -59,18 +60,16 @@ public class LoginController extends VBox {
         }
 
         if (isEmailValid(email)) {
-            new MessageDialog(AlertType.INFORMATION, "The username must be an email address!");
+            new MessageDialog(AlertType.INFORMATION, "The e-mail is invalid.");
         }
 
         try {
             aMgt.login(email, password);
-            parent.onSucLogin();
+            handler.onSuccessfulLogin();
         } catch (RuntimeException e) {
-            if (e.toString().equals("Could not find the user")) {
-                new MessageDialog(AlertType.INFORMATION, e.toString() + "!");
-            } else {
-                new MessageDialog(AlertType.ERROR, e.toString());
-            }
+            new MessageDialog(AlertType.INFORMATION, e + "!");
+        } catch (NoSuchAlgorithmException e) {
+            new MessageDialog(AlertType.ERROR, e.toString());
         }
     }
 }
