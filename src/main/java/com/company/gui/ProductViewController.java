@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -55,22 +56,22 @@ public class ProductViewController extends VBox {
     public void loadProduction(String UUID) {
         IProduction production = new ProductionManagement().getByUUID(UUID);
         title.setText(production.getName());
-        image.setImage(new Image(String.valueOf(production.getImage())));
+        //image.setImage(new Image(String.valueOf(production.getImage())));
 
         int i = 0;
         ICreditGroup creditGroup = null;
         for (ICredit credit : production.getCredits()) {
             if (creditGroup == null || credit.getCreditGroup().getName() != creditGroup.getName()) {
-                rows.getChildren().set(i, new HeaderRowController(credit.getCreditGroup().getName()));
+                rows.getChildren().add(i, new HeaderRowController(credit.getCreditGroup().getName()));
                 creditGroup = credit.getCreditGroup();
                 i++;
             }
-            rows.getChildren().set(i, new TextRowController(credit.getFullName()));
+            rows.getChildren().add(i, new TextRowController(credit.getFullName()));
             i++;
         }
     }
 
-    /*
+
     @FXML
     void addCredits(MouseEvent event) {
 
@@ -80,9 +81,9 @@ public class ProductViewController extends VBox {
     void editCredits(MouseEvent event) {
 
     }
-    *\
 
-     */
+
+
 
 
     @FXML

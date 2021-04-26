@@ -139,7 +139,13 @@ public class HomepageController extends VBox {
 
     @FXML
     void showCredits(MouseEvent event) {
-
+        content.getChildren().set(0, new CreditsOverviewController(new ImageRowHandler() {
+            @Override
+            public void showCreditOverview(String uuid) {
+                System.out.println("test");
+            }
+        }));
+        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
     }
 
     @FXML

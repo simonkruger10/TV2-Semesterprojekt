@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ImageRow extends HBox {
+public class ImageRowController extends HBox {
     @FXML
     private ImageView image;
 
@@ -28,7 +28,7 @@ public class ImageRow extends HBox {
     private ImageRowHandler imageRowHandler;
     private String uuid;
 
-    ImageRow(String uuid, ImageRowHandler imageRowHandler) {
+    ImageRowController(String uuid, ImageRowHandler imageRowHandler) {
         this.uuid = uuid;
         this.imageRowHandler = imageRowHandler;
 
