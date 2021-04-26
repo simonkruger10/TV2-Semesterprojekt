@@ -21,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -31,9 +32,13 @@ public class ProductionsOverviewController extends VBox {
     @FXML
     private ComboBox<?> sortByBtn;
 
-    IProductionManagement productionManagement = new ProductionManagement();
+    private ImageRowHandler handler;
 
-    ProductionsOverviewController() {
+    private IProductionManagement productionManagement = new ProductionManagement();
+
+    ProductionsOverviewController(ImageRowHandler handler) {
+        this.handler = handler;
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ProductionsOverview.fxml"));
             fxmlLoader.setRoot(this);
@@ -42,22 +47,28 @@ public class ProductionsOverviewController extends VBox {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        showList(productionManagement.list());
 
+        showList(productionManagement.list());
     }
 
     void showList(IProduction[] productions) {
         int i = 1;
         for (IProduction production : productions) {
-            ImageRow cRow = new ImageRow();
+            ImageRow cRow = new ImageRow(production.getUUID(), new ImageRowHandler() {
+                @Override
+                public void showCreditOverview(String uuid) {
+                    handler.showCreditOverview(uuid);
+                }
+            });
+
             ImageView imageView = (ImageView) cRow.getChildren().get(0);
             Text text = (Text) cRow.getChildren().get(1);
             text.setText(production.getName());
 
-            if(i % 2 == 0)  {
+            if (i % 2 == 0) {
                 cRow.setStyle("-fx-background-color: #FFFFFF;");
                 imageView.setImage(new Image("TV_2_RGB.png"));
-            }   else {
+            } else {
                 cRow.setStyle("-fx-background-color: #dcdcdc;");
                 imageView.setImage(new Image("TV_2_Hvid_RGB.png"));
             }
@@ -67,6 +78,7 @@ public class ProductionsOverviewController extends VBox {
         }
     }
 
+    /*
     void test() {
         for (int i = 0; i < 5; i++) {
             ImageRow r = new ImageRow();
@@ -79,6 +91,7 @@ public class ProductionsOverviewController extends VBox {
             main.getChildren().add(i+1, r);
         }
     }
+     */
 
 
     @FXML
@@ -91,4 +104,5 @@ public class ProductionsOverviewController extends VBox {
         assert sortByBtn != null : "fx:id=\"sortByBtn\" was not injected: check your FXML file 'ProductionsOverview.fxml'.";
 
     }
+
 }

@@ -28,9 +28,9 @@ public class ImageRow extends HBox {
     private ImageRowHandler imageRowHandler;
     private String uuid;
 
-    ImageRow(ImageRowHandler imageRowHandler, String uuid) {
-        this.imageRowHandler = imageRowHandler;
+    ImageRow(String uuid, ImageRowHandler imageRowHandler) {
         this.uuid = uuid;
+        this.imageRowHandler = imageRowHandler;
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ImageRow.fxml"));
