@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class CreditCreationController extends GuiController {
+public class CreditCreationController {
 
     @FXML
     private ResourceBundle resources;
@@ -51,34 +51,29 @@ public class CreditCreationController extends GuiController {
 
     @FXML
     void addCreditToSystem(MouseEvent event) {
-        TempProduction.creditFirstName = firstNameText.getText();
-        TempProduction.creditMiddleName = middleNameText.getText();
-        TempProduction.creditLastName = lastNameText.getText();
-        TempProduction.creditGroup = creditGroupText.getText();
 
-        super.gui.setScene("/Layouts/CreditOverview.fxml");
         //Made for test purposes, will be deleted l8ter
         System.out.println("Credit added");
     }
 
     @FXML
     void changePassword(MouseEvent event) {
-        super.gui.setScene("/Layouts/Temp.fxml");
+
     }
 
     @FXML
     void goToHomePage(MouseEvent event) {
-        super.gui.setScene("/Layouts/Homepage.fxml");
+
     }
 
     @FXML
     void logOut(MouseEvent event) {
-        super.gui.setScene("/Layouts/Login.fxml");
+
     }
 
     @FXML
     void searchProduction(KeyEvent event) {
-        super.gui.setScene("/Layouts/Temp.fxml");
+
     }
 
     @FXML
