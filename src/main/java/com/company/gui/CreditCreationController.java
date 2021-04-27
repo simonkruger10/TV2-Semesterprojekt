@@ -63,9 +63,10 @@ public class CreditCreationController extends VBox {
         String creditGroupName = firstNameText.getText();
         ICreditGroup creditGroup = cMgt.getByName(creditGroupName);
         if (creditGroup == null) {
-            creditGroup = cMgt.create(new CreditGroup(creditGroupName));
+            credit.setCreditGroup(new CreditGroup(creditGroupName));
+        } else {
+            credit.setCreditGroup(new CreditGroup(creditGroup));
         }
-        credit.setCreditGroup(creditGroup);
 
         this.handler.show(new CreditManagement().create(credit).getUUID());
     }

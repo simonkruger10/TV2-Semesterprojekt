@@ -4,9 +4,10 @@ module com.company {
     requires javafx.graphics;
     requires javafx.base;
     requires org.json;
-    opens com.company.gui to javafx.graphics, javafx.fxml;
+    opens com.company.gui;
     opens com.company;
     opens com.company.common;
-    opens com.company.gui.parts to javafx.fxml, javafx.graphics;
-    opens com.company.gui.entity to javafx.fxml, javafx.graphics;
+    opens com.company.domain;
+    opens com.company.gui.entity;
+    opens com.company.gui.parts;
 }
