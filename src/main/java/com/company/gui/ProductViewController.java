@@ -5,7 +5,6 @@ import java.util.*;
 
 import com.company.common.Colors;
 import com.company.common.ICredit;
-import com.company.common.ICreditGroup;
 import com.company.common.IProduction;
 import com.company.domain.ProductionManagement;
 import com.company.gui.parts.HeaderRowController;
@@ -21,7 +20,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import static com.company.common.Tools.isEven;
-import static com.company.common.Tools.isNullOrEmpty;
 
 public class ProductViewController extends VBox {
 
@@ -44,7 +42,7 @@ public class ProductViewController extends VBox {
     @FXML
     private VBox rows;
 
-    public ProductViewController(String UUID, CallbackHandler handler) {
+    public ProductViewController(String UUID, OnShowHandler handler) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/ProductView.fxml"));
             fxmlLoader.setRoot(this);
@@ -57,7 +55,7 @@ public class ProductViewController extends VBox {
         loadProduction(UUID, handler);
     }
 
-    public void loadProduction(String UUID, CallbackHandler handler) {
+    public void loadProduction(String UUID, OnShowHandler handler) {
         IProduction production = new ProductionManagement().getByUUID(UUID);
         title.setText(production.getName());
         Image image = production.getImage();
@@ -88,7 +86,7 @@ public class ProductViewController extends VBox {
             int i = 0;
             rows.getChildren().add(headerRowController);
             for (ICredit credit: grouped.get(groupName)) {
-                TextRowController cRow = new TextRowController(credit.getUUID(), new CallbackHandler() {
+                TextRowController cRow = new TextRowController(credit.getUUID(), new OnShowHandler() {
                     @Override
                     public void show(String uuid) {
                         handler.show(uuid);

@@ -1,16 +1,15 @@
-package com.company.gui;
+package com.company.gui.entity;
 
 import com.company.common.AccessLevel;
 import com.company.common.IAccount;
-import com.company.domain.PersonDTO;
 
-public class AccountGTO extends PersonDTO implements IAccount {
+public class Account extends Person implements IAccount {
     private String email = null;
     private AccessLevel accessLevel = AccessLevel.GUEST;
 
-    AccountGTO() {}
+    Account() {}
 
-    AccountGTO(IAccount account) {
+    Account(IAccount account) {
         setCopyOf(account);
     }
 

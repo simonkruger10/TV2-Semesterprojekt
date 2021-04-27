@@ -1,14 +1,17 @@
-package com.company.gui;
+package com.company.gui.entity;
 
 import com.company.common.ICreditGroup;
-import com.company.domain.MainDTO;
 
-public class CreditGroupGTO extends MainDTO implements ICreditGroup {
+public class CreditGroup extends Main implements ICreditGroup {
     private String name = null;
 
-    CreditGroupGTO() {}
+    public CreditGroup() {}
 
-    CreditGroupGTO(ICreditGroup creditGroup) {
+    public CreditGroup(String name) {
+        setName(name);
+    }
+
+    public CreditGroup(ICreditGroup creditGroup) {
         setCopyOf(creditGroup);
     }
 

@@ -25,7 +25,10 @@ public class CreditViewController extends GridPane {
     @FXML
     private Text lastName;
 
-    public CreditViewController(String UUID) {
+    private OnAddHandler handler;
+
+    public CreditViewController(String UUID, OnAddHandler handler) {
+        this.handler = handler;
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/CreditView.fxml"));
@@ -49,12 +52,11 @@ public class CreditViewController extends GridPane {
 
     @FXML
     void addCredits(MouseEvent event) {
-
+        handler.showAdd();
     }
 
     @FXML
     void editCredits(MouseEvent event) {
-
     }
 
     @FXML

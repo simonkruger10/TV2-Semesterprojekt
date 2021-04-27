@@ -16,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -103,7 +102,7 @@ public class HomepageController extends VBox {
         accountsBtn.setVisible(state);
 
         // Login bar
-        if (aMgt.getCurrentUser().getAccessLevel().greater(AccessLevel.GUEST)){
+        if (aMgt.getCurrentUser().getAccessLevel().greater(AccessLevel.GUEST)) {
             loginBtn.setText("Log out");
             helloMessage.setText("Hi, " + aMgt.getCurrentUser().getFirstName());
         } else {
@@ -146,13 +145,18 @@ public class HomepageController extends VBox {
 
     @FXML
     void showProductions(MouseEvent event) {
-        setContent(new ProductionsOverviewController(new CallbackHandler() {
+        setContent(new ProductionsOverviewController(new OnShowHandler() {
             @Override
             public void show(String uuid) {
-                setContent(new ProductViewController(uuid, new CallbackHandler() {
+                setContent(new ProductViewController(uuid, new OnShowHandler() {
                     @Override
                     public void show(String uuid) {
-                        setContent(new CreditViewController(uuid));
+                        setContent(new CreditViewController(uuid, new OnAddHandler() {
+                            @Override
+                            public void showAdd() {
+                                setContent(new CreditCreationController());
+                            }
+                        }));
                     }
                 }));
             }
@@ -161,10 +165,15 @@ public class HomepageController extends VBox {
 
     @FXML
     void showCredits(MouseEvent event) {
-        setContent(new CreditsOverviewController(new CallbackHandler() {
+        setContent(new CreditsOverviewController(new OnShowHandler() {
             @Override
             public void show(String uuid) {
-                setContent(new CreditViewController(uuid));
+                setContent(new CreditViewController(uuid, new OnAddHandler() {
+                    @Override
+                    public void showAdd() {
+                        setContent(new CreditCreationController());
+                    }
+                }));
             }
         }));
     }
