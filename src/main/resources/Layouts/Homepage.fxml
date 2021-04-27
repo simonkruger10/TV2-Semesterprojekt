@@ -74,47 +74,47 @@
             <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
         </VBox.margin>
         <VBox alignment="CENTER" minWidth="100.0" prefWidth="100.0" spacing="20.0">
-            <Button fx:id="productionsBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showProductions" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Productions" textFill="WHITE">
+            <Button fx:id="productionsBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showProductions" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Productions" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="addProductionBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#addProduction" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Production" textFill="WHITE">
+            <Button fx:id="addProductionBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addProduction" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Production" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="creditsBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showCredits" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Credits" textFill="WHITE">
+            <Button fx:id="creditsBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showCredits" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Credits" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="addCreditBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#addCredit" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Credit" textFill="WHITE">
+            <Button fx:id="addCreditBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addCredit" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Credit" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="producersBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showProducers" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Producers" textFill="WHITE">
+            <Button fx:id="producersBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showProducers" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Producers" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="addProducerBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#addProducer" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Producer" textFill="WHITE">
+            <Button fx:id="addProducerBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addProducer" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Producer" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="accountsBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showAccounts" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Accounts" textFill="WHITE">
+            <Button fx:id="accountsBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showAccounts" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Accounts" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="addAccountBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#addAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Account" textFill="WHITE">
+            <Button fx:id="addAccountBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Account" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="accountBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Account" textFill="WHITE">
+            <Button fx:id="accountBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Account" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>

@@ -21,7 +21,7 @@ public class GUI extends Application {
         primaryStage.setTitle("Credit Management System");
         primaryStage.setScene(new Scene(new HomepageController()));
         primaryStage.setMinWidth(1024);
-        primaryStage.setMinHeight(576);
+        primaryStage.setMinHeight(630);
         primaryStage.show();
     }
 
