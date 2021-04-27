@@ -36,7 +36,13 @@ public class HomepageController extends VBox {
     private Button productionsBtn;
 
     @FXML
+    private Button addProductionBtn;
+
+    @FXML
     private Button creditsBtn;
+
+    @FXML
+    private Button addCreditBtn;
 
     @FXML
     private Button producersBtn;
@@ -95,11 +101,22 @@ public class HomepageController extends VBox {
         AccessLevel accessLevel = aMgt.getCurrentUser().getAccessLevel();
 
         // Menu
-        accountBtn.setVisible(accessLevel.greater(AccessLevel.GUEST));
+        boolean state = accessLevel.greater(AccessLevel.GUEST);
 
-        boolean state = accessLevel == AccessLevel.ADMINISTRATOR;
+        accountBtn.setVisible(state);
+        accountBtn.setManaged(state);
+
+        state = accessLevel.greater(AccessLevel.CONSUMER);
+        addProductionBtn.setVisible(state);
+        addProductionBtn.setManaged(state);
+        addCreditBtn.setVisible(state);
+        addCreditBtn.setManaged(state);
+
+        state = accessLevel == AccessLevel.ADMINISTRATOR;
         producersBtn.setVisible(state);
+        producersBtn.setManaged(state);
         accountsBtn.setVisible(state);
+        accountsBtn.setManaged(state);
 
         // Login bar
         if (aMgt.getCurrentUser().getAccessLevel().greater(AccessLevel.GUEST)) {
@@ -151,12 +168,7 @@ public class HomepageController extends VBox {
                 setContent(new ProductViewController(uuid, new OnShowHandler() {
                     @Override
                     public void show(String uuid) {
-                        setContent(new CreditViewController(uuid, new OnAddHandler() {
-                            @Override
-                            public void showAdd() {
-                                setContent(new CreditCreationController());
-                            }
-                        }));
+                        setContent(new CreditViewController(uuid));
                     }
                 }));
             }
@@ -164,16 +176,25 @@ public class HomepageController extends VBox {
     }
 
     @FXML
+    void addProduction(MouseEvent event) {
+    }
+
+    @FXML
     void showCredits(MouseEvent event) {
         setContent(new CreditsOverviewController(new OnShowHandler() {
             @Override
             public void show(String uuid) {
-                setContent(new CreditViewController(uuid, new OnAddHandler() {
-                    @Override
-                    public void showAdd() {
-                        setContent(new CreditCreationController());
-                    }
-                }));
+                setContent(new CreditViewController(uuid));
+            }
+        }));
+    }
+
+    @FXML
+    void addCredit(MouseEvent event) {
+        setContent(new CreditCreationController(new OnShowHandler() {
+            @Override
+            public void show(String uuid) {
+                setContent(new CreditViewController(uuid));
             }
         }));
     }

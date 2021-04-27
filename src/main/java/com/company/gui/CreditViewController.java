@@ -2,10 +2,13 @@ package com.company.gui;
 
 import java.io.IOException;
 
+import com.company.common.AccessLevel;
 import com.company.common.ICredit;
+import com.company.domain.AccountManagement;
 import com.company.domain.CreditManagement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -25,11 +28,13 @@ public class CreditViewController extends GridPane {
     @FXML
     private Text lastName;
 
-    private OnAddHandler handler;
+    @FXML
+    private Button addCreditBtn;
 
-    public CreditViewController(String UUID, OnAddHandler handler) {
-        this.handler = handler;
+    @FXML
+    private Button editCreditBtn;
 
+    public CreditViewController(String UUID) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/CreditView.fxml"));
             fxmlLoader.setRoot(this);
@@ -37,6 +42,10 @@ public class CreditViewController extends GridPane {
             fxmlLoader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+        if (new AccountManagement().getCurrentUser().getAccessLevel().equals(AccessLevel.GUEST)) {
+            editCreditBtn.setVisible(false);
         }
 
         viewCredit(UUID);
@@ -51,12 +60,7 @@ public class CreditViewController extends GridPane {
     }
 
     @FXML
-    void addCredits(MouseEvent event) {
-        handler.showAdd();
-    }
-
-    @FXML
-    void editCredits(MouseEvent event) {
+    void editCredit(MouseEvent event) {
     }
 
     @FXML

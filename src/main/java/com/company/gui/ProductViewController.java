@@ -103,12 +103,7 @@ public class ProductViewController extends VBox {
     }
 
     @FXML
-    void addCredits(MouseEvent event) {
-
-    }
-
-    @FXML
-    void editCredits(MouseEvent event) {
+    void editProduction(MouseEvent event) {
 
     }
 

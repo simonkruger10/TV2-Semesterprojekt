@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
+import com.company.domain.CreditGroupManagement;
 import com.company.domain.CreditManagement;
 import com.company.gui.entity.Credit;
 import com.company.gui.entity.CreditGroup;
@@ -35,7 +37,11 @@ public class CreditCreationController extends VBox {
     @FXML
     private Button addCreditBtn;
 
-    CreditCreationController() {
+    private OnShowHandler handler;
+
+    CreditCreationController(OnShowHandler handler) {
+        this.handler = handler;
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/CreditCreation.fxml"));
             fxmlLoader.setRoot(this);
@@ -52,10 +58,16 @@ public class CreditCreationController extends VBox {
         credit.setFirstName(firstNameText.getText());
         credit.setMiddleName(middleNameText.getText());
         credit.setLastName(lastNameText.getText());
-        credit.setCreditGroup(new CreditGroup(firstNameText.getText()));
 
-        ICredit credit2 = new CreditManagement().create(credit);
-        //new CreditViewController(uuid);
+        CreditGroupManagement cMgt = new CreditGroupManagement();
+        String creditGroupName = firstNameText.getText();
+        ICreditGroup creditGroup = cMgt.getByName(creditGroupName);
+        if (creditGroup == null) {
+            creditGroup = cMgt.create(new CreditGroup(creditGroupName));
+        }
+        credit.setCreditGroup(creditGroup);
+
+        this.handler.show(new CreditManagement().create(credit).getUUID());
     }
 
     @FXML

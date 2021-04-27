@@ -78,7 +78,15 @@
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Button>
+         <Button fx:id="addProductionBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#addProduction" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Production" textFill="WHITE">
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor></Button>
          <Button fx:id="creditsBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#showCredits" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Credits" textFill="WHITE">
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor></Button>
+         <Button fx:id="addCreditBtn" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onMouseClicked="#addCredit" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Credit" textFill="WHITE">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Button>
