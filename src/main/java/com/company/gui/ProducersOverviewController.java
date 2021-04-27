@@ -1,5 +1,7 @@
 package com.company.gui;
 
+import com.company.common.Colors;
+import com.company.gui.parts.ImageRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -9,6 +11,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+
+import static com.company.common.Tools.getResourceAsImage;
+import static com.company.common.Tools.isEven;
 
 public class ProducersOverviewController extends VBox {
     @FXML
@@ -24,7 +29,7 @@ public class ProducersOverviewController extends VBox {
         this.handler = handler;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ProducersOverview.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/ProducersOverview.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -37,7 +42,9 @@ public class ProducersOverviewController extends VBox {
 
 
     void showList(String[] producers) {
-        int i = 1;
+        // Start the count from the number of children
+        int i = main.getChildren().size();
+
         for (String s : producers) {
             ImageRowController cRow = new ImageRowController("1", new CallbackHandler() {
                 @Override
@@ -49,43 +56,16 @@ public class ProducersOverviewController extends VBox {
             Text text = (Text) cRow.getChildren().get(1);
             text.setText(s);
 
-            if (i % 2 == 0) {
-                cRow.setStyle("-fx-background-color: #FFFFFF;");
-                imageView.setImage(new Image("TV_2_RGB.png"));
+            if (isEven(i)) {
+                imageView.setImage(getResourceAsImage("/images/TV_2_RGB.png"));
             } else {
-                cRow.setStyle("-fx-background-color: #dcdcdc;");
-                imageView.setImage(new Image("TV_2_Hvid_RGB.png"));
+                cRow.setBackground(Colors.ODD_COLOR);
+                imageView.setImage(getResourceAsImage("/images/TV_2_Hvid_RGB.png"));
             }
 
             main.getChildren().add(i, cRow);
             i++;
         }
-
-        /*
-        for (ICredit credit : credits) {
-            ImageRowController cRow = new ImageRowController(credit.getUUID(), new ImageRowHandler() {
-                @Override
-                public void showCreditOverview(String uuid) {
-                    handler.showCreditOverview(uuid);
-                }
-            });
-
-            ImageView imageView = (ImageView) cRow.getChildren().get(0);
-            Text text = (Text) cRow.getChildren().get(1);
-            text.setText(credit.getFullName());
-
-            if (i % 2 == 0) {
-                cRow.setStyle("-fx-background-color: #FFFFFF;");
-                imageView.setImage(new Image("TV_2_RGB.png"));
-            } else {
-                cRow.setStyle("-fx-background-color: #dcdcdc;");
-                imageView.setImage(new Image("TV_2_Hvid_RGB.png"));
-            }
-
-            main.getChildren().add(i, cRow);
-            i++;
-        }
-         */
     }
 
     @FXML

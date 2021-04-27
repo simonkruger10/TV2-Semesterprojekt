@@ -48,7 +48,7 @@
                <children>
                   <ImageView fx:id="homeBtn" fitHeight="75.0" fitWidth="100.0" onMouseClicked="#goToHomepage" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@TV_2_Hvid_RGB.png" />
+                        <Image url="@../images/TV_2_Hvid_RGB.png" />
                      </image>
                   </ImageView>
                </children>

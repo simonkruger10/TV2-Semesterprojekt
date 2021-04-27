@@ -19,7 +19,7 @@ public class JsonDatabase implements DatabaseFacade {
 
     public JsonDatabase() {
         try {
-            String jsonAsText = readFileAsString(getResourceAsFile("credits.json"));
+            String jsonAsText = readFileAsString(getResourceAsFile("/credits.json"));
             JSONObject jsonObject = new JSONObject(jsonAsText);
 
             JSONArray jsonArray = jsonObject.getJSONArray("creditGroups");
@@ -61,7 +61,10 @@ public class JsonDatabase implements DatabaseFacade {
             production.setUUID(uuid);
             production.setName(getJsonString(productionJson, "name"));
             production.setDescription(getJsonString(productionJson, "description"));
-            production.setImage(new File(getJsonString(productionJson, "image")));
+            String image = getJsonString(productionJson, "image");
+            if (!isNullOrEmpty(image)) {
+                production.setImage(getResourceAsImage(image));
+            }
 
             JSONArray creditsJson = productionJson.getJSONArray("credits");
             for (int c = 0; c < creditsJson.length(); c++) {

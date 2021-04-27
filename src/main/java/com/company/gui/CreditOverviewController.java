@@ -61,37 +61,37 @@ public class CreditOverviewController extends GuiController {
 
     @FXML
     void addCredits(MouseEvent event) {
-        super.gui.setScene("/CreditCreation.fxml");
+        super.gui.setScene("/Layouts/CreditCreation.fxml");
     }
 
     @FXML
     void backToProductionOverview(MouseEvent event) {
-        super.gui.setScene("/ProductionsOverview.fxml");
+        super.gui.setScene("/Layouts/ProductionsOverview.fxml");
     }
 
     @FXML
     void changePassword(MouseEvent event) {
-        super.gui.setScene("/Temp.fxml");
+        super.gui.setScene("/Layouts/Temp.fxml");
     }
 
     @FXML
     void editCredits(MouseEvent event) {
-        super.gui.setScene("/Temp.fxml");
+        super.gui.setScene("/Layouts/Temp.fxml");
     }
 
     @FXML
     void goToHomepage(MouseEvent event) {
-        super.gui.setScene("/Homepage.fxml");
+        super.gui.setScene("/Layouts/Homepage.fxml");
     }
 
     @FXML
     void logOut(MouseEvent event) {
-        super.gui.setScene("/Login.fxml");
+        super.gui.setScene("/Layouts/Login.fxml");
     }
 
     @FXML
     void searchProduction(KeyEvent event) {
-        super.gui.setScene("/Temp.fxml");
+        super.gui.setScene("/Layouts/Temp.fxml");
     }
 
     @FXML

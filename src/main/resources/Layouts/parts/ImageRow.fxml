@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<fx:root onMouseClicked="#show" type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox fx:id="holder" alignment="CENTER_LEFT" style="-fx-background-color: #FFFFFF;">
+          <cursor>
+              <Cursor fx:constant="HAND" />
+          </cursor>
+          <ImageView fx:id="image" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+              <HBox.margin>
+                <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
+              </HBox.margin>
+          </ImageView>
+          <Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Shrek (2001)" HBox.hgrow="ALWAYS">
+              <font>
+                  <Font size="24.0" />
+              </font>
+          </Text>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</fx:root>

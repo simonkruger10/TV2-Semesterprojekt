@@ -1,19 +1,20 @@
-package com.company.gui;
+package com.company.gui.parts;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 
-public class TextRowController extends VBox {
+public class HeaderRowController extends VBox {
     @FXML
     private Text text;
 
-    TextRowController(String text) {
+    public HeaderRowController(String text) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/TextRow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/parts/HeaderRow.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -24,9 +25,11 @@ public class TextRowController extends VBox {
         setText(text);
     }
 
-    void setText(String text) {
+    public void setText(String text) {
         this.text.setText(text);
     }
+
+    public void setTopMargin(int top) {
+        VBox.setMargin(this, new Insets(top, 0, 0, 0));
+    }
 }
-
-

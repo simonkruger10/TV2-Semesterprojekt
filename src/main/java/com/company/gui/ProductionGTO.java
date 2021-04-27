@@ -2,8 +2,8 @@ package com.company.gui;
 
 import com.company.common.ICredit;
 import com.company.common.IProduction;
-import com.company.domain.CreditDTO;
 import com.company.domain.MainDTO;
+import javafx.scene.image.Image;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 public class ProductionGTO extends MainDTO implements IProduction {
     private String name = null;
     private String description = null;
-    private File image = null;
+    private Image image = null;
     private ICredit[] credits = null;
 
     public ProductionGTO() {
@@ -41,11 +41,11 @@ public class ProductionGTO extends MainDTO implements IProduction {
     }
 
     @Override
-    public File getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(File image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 

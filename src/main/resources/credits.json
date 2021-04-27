@@ -4,7 +4,7 @@
       "_uuid": "8701e366-a3c4-11eb-bcbc-0242ac130002",
       "name": "Shawshank Redemption",
       "description": null,
-      "image": "shawshankredemption.png",
+      "image": "/images/Shawshank_small.jpg",
       "credits": [
         {
           "_uuid": "8701e5d2-a3c4-11eb-bcbc-0242ac130002",
@@ -32,7 +32,7 @@
       "_uuid": "8701ea78-a3c4-11eb-bcbc-0242ac130002",
       "name": "Godfather",
       "description": null,
-      "image": "godfather.png",
+      "image": "/images/Godfather_small.jpg",
       "credits": [
         {
           "_uuid": "8701eb36-a3c4-11eb-bcbc-0242ac130002",
@@ -60,7 +60,7 @@
       "_uuid": "8701f50e-a3c4-11eb-bcbc-0242ac130002",
       "name": "Shrek",
       "description": null,
-      "image": "shrek.png",
+      "image": "/images/Shrek_small.jpg",
       "credits": [
         {
           "_uuid": "8701f5f4-a3c4-11eb-bcbc-0242ac130002",

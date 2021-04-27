@@ -8,6 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -15,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -68,7 +70,7 @@ public class HomepageController extends VBox {
 
     HomepageController() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Homepage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/Homepage.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -122,11 +124,11 @@ public class HomepageController extends VBox {
             aMgt.logout();
             onUserChanges();
         } else {
-            content.getChildren().set(0, new LoginController(new LoginHandler() {
+            setContent(new LoginController(new LoginHandler() {
                 @Override
                 public void onSuccessfulLogin() {
                     onUserChanges();
-                    content.getChildren().set(0, defaultContent);
+                    setContent(defaultContent);
                 }
             }));
         }
@@ -144,25 +146,27 @@ public class HomepageController extends VBox {
 
     @FXML
     void showProductions(MouseEvent event) {
-        content.getChildren().set(0, new ProductionsOverviewController(new CallbackHandler() {
+        setContent(new ProductionsOverviewController(new CallbackHandler() {
             @Override
             public void show(String uuid) {
-                content.getChildren().set(0, new ProductViewController(uuid));
+                setContent(new ProductViewController(uuid, new CallbackHandler() {
+                    @Override
+                    public void show(String uuid) {
+                        setContent(new CreditViewController(uuid));
+                    }
+                }));
             }
         }));
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
     }
 
     @FXML
     void showCredits(MouseEvent event) {
-        content.getChildren().set(0, new CreditsOverviewController(new CallbackHandler() {
+        setContent(new CreditsOverviewController(new CallbackHandler() {
             @Override
             public void show(String uuid) {
-                content.getChildren().set(0, new CreditViewController(uuid));
-                System.out.println("UUID is: " + uuid);
+                setContent(new CreditViewController(uuid));
             }
         }));
-        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
     }
 
     @FXML
@@ -173,6 +177,10 @@ public class HomepageController extends VBox {
     @FXML
     void showAccount(MouseEvent event) {
 
+    }
+
+    void setContent(Node node) {
+        content.getChildren().set(0, node);
     }
 
     @FXML

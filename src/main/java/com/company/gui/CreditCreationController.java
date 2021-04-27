@@ -56,29 +56,29 @@ public class CreditCreationController extends GuiController {
         TempProduction.creditLastName = lastNameText.getText();
         TempProduction.creditGroup = creditGroupText.getText();
 
-        super.gui.setScene("/CreditOverview.fxml");
+        super.gui.setScene("/Layouts/CreditOverview.fxml");
         //Made for test purposes, will be deleted l8ter
         System.out.println("Credit added");
     }
 
     @FXML
     void changePassword(MouseEvent event) {
-        super.gui.setScene("/Temp.fxml");
+        super.gui.setScene("/Layouts/Temp.fxml");
     }
 
     @FXML
     void goToHomePage(MouseEvent event) {
-        super.gui.setScene("/Homepage.fxml");
+        super.gui.setScene("/Layouts/Homepage.fxml");
     }
 
     @FXML
     void logOut(MouseEvent event) {
-        super.gui.setScene("/Login.fxml");
+        super.gui.setScene("/Layouts/Login.fxml");
     }
 
     @FXML
     void searchProduction(KeyEvent event) {
-        super.gui.setScene("/Temp.fxml");
+        super.gui.setScene("/Layouts/Temp.fxml");
     }
 
     @FXML

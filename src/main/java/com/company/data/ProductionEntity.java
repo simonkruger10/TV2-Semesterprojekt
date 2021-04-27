@@ -2,6 +2,7 @@ package com.company.data;
 
 import com.company.common.ICredit;
 import com.company.common.IProduction;
+import javafx.scene.image.Image;
 
 import java.io.File;
 import java.util.*;
@@ -9,7 +10,7 @@ import java.util.*;
 public class ProductionEntity extends MainEntity implements IProduction {
     private String name = null;
     private String description = null;
-    private File image = null;
+    private Image image = null;
     private final Map<String, CreditEntity> credits = new HashMap<>();
 
     @Override
@@ -33,11 +34,11 @@ public class ProductionEntity extends MainEntity implements IProduction {
 
 
     @Override
-    public File getImage() {
+    public Image getImage() {
         return this.image;
     }
 
-    public void setImage(File image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 
@@ -78,7 +79,7 @@ public class ProductionEntity extends MainEntity implements IProduction {
                 "\"_uuid\":\"" + getUUID() + "\"," +
                 "\"productionName\":\"" + name + "\"," +
                 "\"description\":\"" + description + "\"," +
-                "\"image\":\"" + image.getPath() + "\"," +
+                "\"image\":\"" + image.getUrl() + "\"," +
                 "\"credits\":" + creditsAsJsonString() +
                 '}';
     }

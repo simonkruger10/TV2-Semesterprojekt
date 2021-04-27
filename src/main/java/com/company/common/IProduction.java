@@ -1,6 +1,6 @@
 package com.company.common;
 
-import java.io.File;
+import javafx.scene.image.Image;
 
 public interface IProduction {
     String getUUID();
@@ -9,7 +9,7 @@ public interface IProduction {
 
     String getDescription();
 
-    File getImage();
+    Image getImage();
 
     ICredit[] getCredits();
 }

@@ -1,7 +1,10 @@
 package com.company.common;
 
+import javafx.scene.image.Image;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -30,12 +33,21 @@ public class Tools {
         return EMAIL_PATTERN.matcher(email).find();
     }
 
-    public static File getResourceAsFile(String fileName) {
+    public static URL getResourceAsUrl(String fileName) {
         assert fileName != null;
-        URL file = Tools.class.getClassLoader().getResource(fileName);
+        return Tools.class.getResource(fileName);
+    }
 
+    public static File getResourceAsFile(String fileName) {
+        URL file = getResourceAsUrl(fileName);
         assert file != null;
         return new File(file.getFile());
+    }
+
+    public static Image getResourceAsImage(String fileName) {
+        URL image = getResourceAsUrl(fileName);
+        assert image != null;
+        return new Image(image.toString());
     }
 
     public static String readFileAsString(File file) throws FileNotFoundException {
@@ -62,5 +74,9 @@ public class Tools {
         }
 
         return fullName.trim();
+    }
+
+    public static Boolean isEven(int number) {
+        return number % 2 == 0;
     }
 }

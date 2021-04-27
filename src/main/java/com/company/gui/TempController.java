@@ -36,12 +36,12 @@ public class TempController extends GuiController {
 
     @FXML
     void goToHomepage(MouseEvent event) {
-        super.gui.setScene("/Homepage.fxml");
+        super.gui.setScene("/Layouts/Homepage.fxml");
     }
 
     @FXML
     void logOut(MouseEvent event) {
-        super.gui.setScene("/Login.fxml");
+        super.gui.setScene("/Layouts/Login.fxml");
 
     }
 

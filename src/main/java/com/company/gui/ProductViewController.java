@@ -1,11 +1,15 @@
 package com.company.gui;
 
 import java.io.IOException;
+import java.util.*;
 
+import com.company.common.Colors;
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 import com.company.common.IProduction;
 import com.company.domain.ProductionManagement;
+import com.company.gui.parts.HeaderRowController;
+import com.company.gui.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -15,6 +19,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
+import static com.company.common.Tools.isEven;
+import static com.company.common.Tools.isNullOrEmpty;
 
 public class ProductViewController extends VBox {
 
@@ -37,11 +44,9 @@ public class ProductViewController extends VBox {
     @FXML
     private VBox rows;
 
-
-    public ProductViewController(String UUID) {
-
+    public ProductViewController(String UUID, CallbackHandler handler) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ProductView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/ProductView.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -49,24 +54,53 @@ public class ProductViewController extends VBox {
             throw new RuntimeException(e);
         }
 
-        loadProduction(UUID);
+        loadProduction(UUID, handler);
     }
 
-    // Den virker ikke når det rulles ud
-    public void loadProduction(String UUID) {
+    public void loadProduction(String UUID, CallbackHandler handler) {
         IProduction production = new ProductionManagement().getByUUID(UUID);
         title.setText(production.getName());
-        //image.setImage(new Image(String.valueOf(production.getImage())));
+        Image image = production.getImage();
+        if (image != null) {
+            this.image.setImage(image);
+        }
 
-        rows.getChildren().clear();
-
-        ICreditGroup creditGroup = null;
+        // Group credits by creditGroup
+        HashMap<String, List<ICredit>> grouped = new HashMap<>();
         for (ICredit credit : production.getCredits()) {
-            if (creditGroup == null || !credit.getCreditGroup().getName().equals(creditGroup.getName())) {
-                rows.getChildren().add(new HeaderRowController(credit.getCreditGroup().getName()));
-                creditGroup = credit.getCreditGroup();
+            String key = credit.getCreditGroup().getName();
+            if (grouped.get(key) == null) {
+                grouped.put(key, new ArrayList<>());
             }
-            rows.getChildren().add(new TextRowController(credit.getFullName()));
+            grouped.get(key).add(credit);
+        }
+
+        // Roll-out credits
+        rows.getChildren().clear();
+        for (String groupName : grouped.keySet()) {
+            // Header
+            HeaderRowController headerRowController = new HeaderRowController(groupName);
+            if (rows.getChildren().size() == 0) {
+                headerRowController.setTopMargin(0);
+            }
+
+            // Rows
+            int i = 0;
+            rows.getChildren().add(headerRowController);
+            for (ICredit credit: grouped.get(groupName)) {
+                TextRowController cRow = new TextRowController(credit.getUUID(), new CallbackHandler() {
+                    @Override
+                    public void show(String uuid) {
+                        handler.show(uuid);
+                    }
+                });
+                cRow.setText(credit.getFullName());
+                if (!isEven(i)) {
+                    cRow.setBackground(Colors.ODD_COLOR);
+                }
+                rows.getChildren().add(cRow);
+                i++;
+            }
         }
     }
 
@@ -89,6 +123,5 @@ public class ProductViewController extends VBox {
         assert image != null : "fx:id=\"image\" was not injected: check your FXML file 'ProductView.fxml'.";
         assert producerID != null : "fx:id=\"producerID\" was not injected: check your FXML file 'ProductView.fxml'.";
         assert rows != null : "fx:id=\"roles\" was not injected: check your FXML file 'ProductView.fxml'.";
-
     }
 }

@@ -1,15 +1,13 @@
 package com.company.gui;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import com.company.common.ICredit;
 import com.company.domain.CreditManagement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 
@@ -30,7 +28,7 @@ public class CreditViewController extends GridPane {
     public CreditViewController(String UUID) {
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/CreditView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/CreditView.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -47,6 +45,16 @@ public class CreditViewController extends GridPane {
         middleName.setText(credit.getMiddleName());
         lastName.setText(credit.getLastName());
         groupName.setText(credit.getCreditGroup().getName());
+    }
+
+    @FXML
+    void addCredits(MouseEvent event) {
+
+    }
+
+    @FXML
+    void editCredits(MouseEvent event) {
+
     }
 
     @FXML

@@ -7,4 +7,5 @@ module com.company {
     opens com.company.gui to javafx.graphics, javafx.fxml;
     opens com.company;
     opens com.company.common;
+    opens com.company.gui.parts to javafx.fxml, javafx.graphics;
 }
