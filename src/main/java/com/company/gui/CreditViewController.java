@@ -11,10 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import static com.company.common.Tools.trueVisible;
 
-public class CreditViewController extends GridPane {
+
+public class CreditViewController extends VBox {
 
     @FXML
     private Text firstName;
@@ -29,9 +32,6 @@ public class CreditViewController extends GridPane {
     private Text lastName;
 
     @FXML
-    private Button addCreditBtn;
-
-    @FXML
     private Button editCreditBtn;
 
     public CreditViewController(String UUID) {
@@ -44,9 +44,8 @@ public class CreditViewController extends GridPane {
             throw new RuntimeException(e);
         }
 
-        if (new AccountManagement().getCurrentUser().getAccessLevel().equals(AccessLevel.GUEST)) {
-            editCreditBtn.setVisible(false);
-        }
+        AccessLevel accessLevel = new AccountManagement().getCurrentUser().getAccessLevel();
+        trueVisible(editCreditBtn, accessLevel.greater(AccessLevel.CONSUMER));
 
         viewCredit(UUID);
     }
@@ -69,5 +68,6 @@ public class CreditViewController extends GridPane {
         assert middleName != null : "fx:id=\"middleName\" was not injected: check your FXML file 'Untitled'.";
         assert groupName != null : "fx:id=\"groupName\" was not injected: check your FXML file 'Untitled'.";
         assert lastName != null : "fx:id=\"lastName\" was not injected: check your FXML file 'Untitled'.";
+        assert editCreditBtn != null : "fx:id=\"editCreditBtn\" was not injected: check your FXML file 'Untitled'.";
     }
 }

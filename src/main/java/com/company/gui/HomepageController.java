@@ -19,6 +19,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import static com.company.common.Tools.trueVisible;
+
 public class HomepageController extends VBox {
     @FXML
     private ImageView homeBtn;
@@ -48,7 +50,13 @@ public class HomepageController extends VBox {
     private Button producersBtn;
 
     @FXML
+    private Button addProducerBtn;
+
+    @FXML
     private Button accountsBtn;
+
+    @FXML
+    private Button addAccountBtn;
 
     @FXML
     private Button accountBtn;
@@ -103,20 +111,17 @@ public class HomepageController extends VBox {
         // Menu
         boolean state = accessLevel.greater(AccessLevel.GUEST);
 
-        accountBtn.setVisible(state);
-        accountBtn.setManaged(state);
+        trueVisible(accountBtn, state);
 
         state = accessLevel.greater(AccessLevel.CONSUMER);
-        addProductionBtn.setVisible(state);
-        addProductionBtn.setManaged(state);
-        addCreditBtn.setVisible(state);
-        addCreditBtn.setManaged(state);
+        trueVisible(addProductionBtn, state);
+        trueVisible(addCreditBtn, state);
 
         state = accessLevel == AccessLevel.ADMINISTRATOR;
-        producersBtn.setVisible(state);
-        producersBtn.setManaged(state);
-        accountsBtn.setVisible(state);
-        accountsBtn.setManaged(state);
+        trueVisible(producersBtn, state);
+        trueVisible(addProducerBtn, state);
+        trueVisible(accountsBtn, state);
+        trueVisible(addAccountBtn, state);
 
         // Login bar
         if (aMgt.getCurrentUser().getAccessLevel().greater(AccessLevel.GUEST)) {
@@ -131,7 +136,7 @@ public class HomepageController extends VBox {
 
     @FXML
     void goHome(MouseEvent event) {
-
+        setContent(defaultContent);
     }
 
     @FXML
@@ -156,11 +161,6 @@ public class HomepageController extends VBox {
     }
 
     @FXML
-    void showProducers(MouseEvent event) {
-
-    }
-
-    @FXML
     void showProductions(MouseEvent event) {
         setContent(new ProductionsOverviewController(new OnShowHandler() {
             @Override
@@ -177,6 +177,16 @@ public class HomepageController extends VBox {
 
     @FXML
     void addProduction(MouseEvent event) {
+    }
+
+    @FXML
+    void showProducers(MouseEvent event) {
+
+    }
+
+    @FXML
+    void addProducer(MouseEvent event) {
+
     }
 
     @FXML
@@ -201,6 +211,11 @@ public class HomepageController extends VBox {
 
     @FXML
     void showAccounts(MouseEvent event) {
+
+    }
+
+    @FXML
+    void addAccount(MouseEvent event) {
 
     }
 

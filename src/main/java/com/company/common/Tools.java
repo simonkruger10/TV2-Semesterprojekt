@@ -1,5 +1,6 @@
 package com.company.common;
 
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 
 import java.io.File;
@@ -78,5 +79,11 @@ public class Tools {
 
     public static Boolean isEven(int number) {
         return number % 2 == 0;
+    }
+
+    public static void trueVisible(Node node, boolean state) {
+        // This method may need to be in the gui package
+        node.setVisible(state);
+        node.setManaged(state);
     }
 }

@@ -3,9 +3,12 @@ package com.company.gui;
 import java.io.IOException;
 import java.util.*;
 
+import com.company.common.AccessLevel;
 import com.company.common.Colors;
 import com.company.common.ICredit;
 import com.company.common.IProduction;
+import com.company.domain.AccountManagement;
+import com.company.domain.IAccountManagement;
 import com.company.domain.ProductionManagement;
 import com.company.gui.parts.HeaderRowController;
 import com.company.gui.parts.TextRowController;
@@ -20,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import static com.company.common.Tools.isEven;
+import static com.company.common.Tools.trueVisible;
 
 public class ProductViewController extends VBox {
 
@@ -28,16 +32,10 @@ public class ProductViewController extends VBox {
     private Text title;
 
     @FXML
-    private Button addCreditsBtn;
-
-    @FXML
-    private Button editCreditsBtn;
+    private Button editProductionBtn;
 
     @FXML
     private ImageView image;
-
-    @FXML
-    private Text producerID;
 
     @FXML
     private VBox rows;
@@ -52,6 +50,8 @@ public class ProductViewController extends VBox {
             throw new RuntimeException(e);
         }
 
+        AccessLevel accessLevel = new AccountManagement().getCurrentUser().getAccessLevel();
+        trueVisible(editProductionBtn, accessLevel.greater(AccessLevel.CONSUMER));
         loadProduction(UUID, handler);
     }
 
@@ -111,10 +111,8 @@ public class ProductViewController extends VBox {
     @FXML
     void initialize() {
         assert title != null : "fx:id=\"title\" was not injected: check your FXML file 'ProductView.fxml'.";
-        assert addCreditsBtn != null : "fx:id=\"addCreditsBtn\" was not injected: check your FXML file 'ProductView.fxml'.";
-        assert editCreditsBtn != null : "fx:id=\"editCreditsBtn\" was not injected: check your FXML file 'ProductView.fxml'.";
+        assert editProductionBtn != null : "fx:id=\"editCreditBtn\" was not injected: check your FXML file 'ProductView.fxml'.";
         assert image != null : "fx:id=\"image\" was not injected: check your FXML file 'ProductView.fxml'.";
-        assert producerID != null : "fx:id=\"producerID\" was not injected: check your FXML file 'ProductView.fxml'.";
         assert rows != null : "fx:id=\"roles\" was not injected: check your FXML file 'ProductView.fxml'.";
     }
 }
