@@ -63,7 +63,10 @@
                <Cursor fx:constant="HAND" />
             </cursor>
          </Text>
-         <TextField fx:id="searchBarField" onKeyPressed="#search" promptText="Search for film" text="Search..." />
+         <TextField fx:id="searchBarField" disable="true" onKeyPressed="#search" promptText="Search..." />
+         <padding>
+            <Insets right="5.0" />
+         </padding>
       </HBox>
    </HBox>
    <HBox fx:id="contentHolder" fillHeight="false" spacing="40.0" VBox.vgrow="ALWAYS">
