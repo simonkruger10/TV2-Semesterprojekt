@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
+import static com.company.common.Tools.getResourceAsImage;
+
 
 public class GUI extends Application {
     private Stage primaryStage;
@@ -20,9 +22,7 @@ public class GUI extends Application {
 
         //Create and show window
         primaryStage.setTitle("Credit Management System");
-        //if (icon != null) {
-        //    primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(icon)));
-        //}
+        primaryStage.getIcons().add(getResourceAsImage("/images/icon.png"));
         primaryStage.setMinWidth(1024);
         primaryStage.setMinHeight(630);
         primaryStage.setScene(new Scene(new HomepageController()));
