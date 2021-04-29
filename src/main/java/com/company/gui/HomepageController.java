@@ -16,9 +16,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
+import static com.company.common.Tools.trueVisible;
 
 public class HomepageController extends VBox {
     @FXML
@@ -37,13 +38,25 @@ public class HomepageController extends VBox {
     private Button productionsBtn;
 
     @FXML
+    private Button addProductionBtn;
+
+    @FXML
     private Button creditsBtn;
+
+    @FXML
+    private Button addCreditBtn;
 
     @FXML
     private Button producersBtn;
 
     @FXML
+    private Button addProducerBtn;
+
+    @FXML
     private Button accountsBtn;
+
+    @FXML
+    private Button addAccountBtn;
 
     @FXML
     private Button accountBtn;
@@ -96,14 +109,22 @@ public class HomepageController extends VBox {
         AccessLevel accessLevel = aMgt.getCurrentUser().getAccessLevel();
 
         // Menu
-        accountBtn.setVisible(accessLevel.greater(AccessLevel.GUEST));
+        boolean state = accessLevel.greater(AccessLevel.GUEST);
 
-        boolean state = accessLevel == AccessLevel.ADMINISTRATOR;
-        producersBtn.setVisible(state);
-        accountsBtn.setVisible(state);
+        trueVisible(accountBtn, state);
+
+        state = accessLevel.greater(AccessLevel.CONSUMER);
+        trueVisible(addProductionBtn, state);
+        trueVisible(addCreditBtn, state);
+
+        state = accessLevel == AccessLevel.ADMINISTRATOR;
+        trueVisible(producersBtn, state);
+        trueVisible(addProducerBtn, state);
+        trueVisible(accountsBtn, state);
+        trueVisible(addAccountBtn, state);
 
         // Login bar
-        if (aMgt.getCurrentUser().getAccessLevel().greater(AccessLevel.GUEST)){
+        if (aMgt.getCurrentUser().getAccessLevel().greater(AccessLevel.GUEST)) {
             loginBtn.setText("Log out");
             helloMessage.setText("Hi, " + aMgt.getCurrentUser().getFirstName());
         } else {
@@ -115,7 +136,7 @@ public class HomepageController extends VBox {
 
     @FXML
     void goHome(MouseEvent event) {
-
+        setContent(defaultContent);
     }
 
     @FXML
@@ -140,16 +161,11 @@ public class HomepageController extends VBox {
     }
 
     @FXML
-    void showProducers(MouseEvent event) {
-
-    }
-
-    @FXML
     void showProductions(MouseEvent event) {
-        setContent(new ProductionsOverviewController(new CallbackHandler() {
+        setContent(new ProductionsOverviewController(new OnShowHandler() {
             @Override
             public void show(String uuid) {
-                setContent(new ProductViewController(uuid, new CallbackHandler() {
+                setContent(new ProductViewController(uuid, new OnShowHandler() {
                     @Override
                     public void show(String uuid) {
                         setContent(new CreditViewController(uuid));
@@ -160,8 +176,32 @@ public class HomepageController extends VBox {
     }
 
     @FXML
+    void addProduction(MouseEvent event) {
+    }
+
+    @FXML
+    void showProducers(MouseEvent event) {
+
+    }
+
+    @FXML
+    void addProducer(MouseEvent event) {
+
+    }
+
+    @FXML
     void showCredits(MouseEvent event) {
-        setContent(new CreditsOverviewController(new CallbackHandler() {
+        setContent(new CreditsOverviewController(new OnShowHandler() {
+            @Override
+            public void show(String uuid) {
+                setContent(new CreditViewController(uuid));
+            }
+        }));
+    }
+
+    @FXML
+    void addCredit(MouseEvent event) {
+        setContent(new CreditCreationController(new OnShowHandler() {
             @Override
             public void show(String uuid) {
                 setContent(new CreditViewController(uuid));
@@ -171,6 +211,11 @@ public class HomepageController extends VBox {
 
     @FXML
     void showAccounts(MouseEvent event) {
+
+    }
+
+    @FXML
+    void addAccount(MouseEvent event) {
 
     }
 

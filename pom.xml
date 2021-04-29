@@ -2,103 +2,155 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.company</groupId>
     <artifactId>TV2-Semesterprojekt</artifactId>
     <version>0.1</version>
+    <packaging>jar</packaging>
+
+    <name>TV2 semesterprojekt</name>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
+        <javafx.version>15.0.1</javafx.version>
+        <main.class>com.company.Main</main.class>
+        <jar.release>1.8</jar.release>
     </properties>
+
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <!-- json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20210307</version>
         </dependency>
+
+        <!-- JavaFX -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>15.0.1</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>15.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-core</artifactId>
-            <version>4.0.16-alpha</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.5.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>testfx-junit5</artifactId>
-            <version>4.0.16-alpha</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest</artifactId>
-            <version>2.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testfx</groupId>
-            <artifactId>openjfx-monocle</artifactId>
-            <version>jdk-12.0.1+2</version>
-            <scope>test</scope>
+            <version>${javafx.version}</version>
         </dependency>
     </dependencies>
+
     <build>
+        <!-- Default build dir -->
+        <directory>${project.basedir}/target</directory>
+
+        <!-- Main Source -->
+        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory> <!-- Java dir -->
+        <scriptSourceDirectory>${project.basedir}/src/main/scripts</scriptSourceDirectory> <!-- Scripts dir -->
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory> <!-- Resource dir -->
+            </resource>
+        </resources>
+        <outputDirectory>${project.build.directory}/classes</outputDirectory> <!-- Build dir -->
+
+        <!-- Test Source -->
+        <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory> <!-- Java dir -->
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/src/test/resources</directory> <!-- Resource dir -->
+            </testResource>
+        </testResources>
+        <testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory> <!-- Build dir -->
+
+        <!-- Default Java Archive name -->
+        <finalName>${project.artifactId}-${project.version}</finalName>
+
         <plugins>
+            <!-- Setup compiler -->
+            <!-- https://maven.apache.org/plugins/maven-compiler-plugin/examples/module-info.html -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <release>11</release>
-                </configuration>
+                <version>3.8.1</version>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <configuration>
+                            <!-- compile everything -->
+                            <release>${maven.compiler.target}</release>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>base-compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <!-- recompile everything when "mvn compile" is used -->
+                        <configuration>
+                            <excludes>
+                                <exclude>module-info.java</exclude>
+                            </excludes>
+
+                            <jdkToolchain>
+                                <version>${maven.compiler.target}</version>
+                            </jdkToolchain>
+
+                            <source>${jar.release}</source>
+                            <target>${jar.release}</target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+
+            <!-- Setup Java Archive (.jar) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-5</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>${main.class}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Setup JavaFX -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.4</version>
+                <version>0.0.6</version>
                 <configuration>
-                    <mainClass>com.company.gui.GUI</mainClass>
+                    <mainClass>${main.class}</mainClass>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
-                <configuration>
-                    <argLine>
-                        --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED -Dfile.encoding=UTF-8
-                    </argLine>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>5.5.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>1.3.2</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

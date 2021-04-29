@@ -1,11 +1,10 @@
 package com.company.gui.parts;
 
-import com.company.gui.CallbackHandler;
+import com.company.gui.OnShowHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -14,10 +13,10 @@ public class TextRowController extends HBox {
     @FXML
     private Text text;
 
-    private CallbackHandler handler;
+    private OnShowHandler handler;
     private String uuid;
 
-    public TextRowController(String uuid, CallbackHandler handler) {
+    public TextRowController(String uuid, OnShowHandler handler) {
         this.uuid = uuid;
         this.handler = handler;
 
@@ -39,7 +38,7 @@ public class TextRowController extends HBox {
         this.setStyle("-fx-background-color: " + hex + ";");
     }
 
-    public void setCallback(CallbackHandler handler) {
+    public void setCallback(OnShowHandler handler) {
         this.handler = handler;
     }
 

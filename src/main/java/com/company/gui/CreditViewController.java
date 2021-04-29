@@ -2,16 +2,22 @@ package com.company.gui;
 
 import java.io.IOException;
 
+import com.company.common.AccessLevel;
 import com.company.common.ICredit;
+import com.company.domain.AccountManagement;
 import com.company.domain.CreditManagement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import static com.company.common.Tools.trueVisible;
 
-public class CreditViewController extends GridPane {
+
+public class CreditViewController extends VBox {
 
     @FXML
     private Text firstName;
@@ -25,8 +31,10 @@ public class CreditViewController extends GridPane {
     @FXML
     private Text lastName;
 
-    public CreditViewController(String UUID) {
+    @FXML
+    private Button editCreditBtn;
 
+    public CreditViewController(String UUID) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/CreditView.fxml"));
             fxmlLoader.setRoot(this);
@@ -35,6 +43,9 @@ public class CreditViewController extends GridPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        AccessLevel accessLevel = new AccountManagement().getCurrentUser().getAccessLevel();
+        trueVisible(editCreditBtn, accessLevel.greater(AccessLevel.CONSUMER));
 
         viewCredit(UUID);
     }
@@ -48,13 +59,7 @@ public class CreditViewController extends GridPane {
     }
 
     @FXML
-    void addCredits(MouseEvent event) {
-
-    }
-
-    @FXML
-    void editCredits(MouseEvent event) {
-
+    void editCredit(MouseEvent event) {
     }
 
     @FXML
@@ -63,5 +68,6 @@ public class CreditViewController extends GridPane {
         assert middleName != null : "fx:id=\"middleName\" was not injected: check your FXML file 'Untitled'.";
         assert groupName != null : "fx:id=\"groupName\" was not injected: check your FXML file 'Untitled'.";
         assert lastName != null : "fx:id=\"lastName\" was not injected: check your FXML file 'Untitled'.";
+        assert editCreditBtn != null : "fx:id=\"editCreditBtn\" was not injected: check your FXML file 'Untitled'.";
     }
 }

@@ -5,7 +5,6 @@ import com.company.gui.parts.ImageRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -22,10 +21,10 @@ public class ProducersOverviewController extends VBox {
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private CallbackHandler handler;
+    private OnShowHandler handler;
 
 
-    ProducersOverviewController(CallbackHandler handler) {
+    ProducersOverviewController(OnShowHandler handler) {
         this.handler = handler;
 
         try {
@@ -46,7 +45,7 @@ public class ProducersOverviewController extends VBox {
         int i = main.getChildren().size();
 
         for (String s : producers) {
-            ImageRowController cRow = new ImageRowController("1", new CallbackHandler() {
+            ImageRowController cRow = new ImageRowController("1", new OnShowHandler() {
                 @Override
                 public void show(String uuid) {
                     handler.show(s);

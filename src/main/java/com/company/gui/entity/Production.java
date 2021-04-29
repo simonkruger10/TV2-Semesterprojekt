@@ -1,24 +1,22 @@
-package com.company.gui;
+package com.company.gui.entity;
 
 import com.company.common.ICredit;
 import com.company.common.IProduction;
-import com.company.domain.MainDTO;
 import javafx.scene.image.Image;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductionGTO extends MainDTO implements IProduction {
+public class Production extends Main implements IProduction {
     private String name = null;
     private String description = null;
     private Image image = null;
     private ICredit[] credits = null;
 
-    public ProductionGTO() {
+    public Production() {
     }
 
-    public ProductionGTO(IProduction production) {
+    public Production(IProduction production) {
         setCopyOf(production);
     }
 
@@ -69,7 +67,7 @@ public class ProductionGTO extends MainDTO implements IProduction {
 
         final List<ICredit> credits = new ArrayList<>();
         for (ICredit credit : production.getCredits()) {
-            credits.add(new CreditGTO(credit));
+            credits.add(new Credit(credit));
         }
         setCredits(credits.toArray(new ICredit[0]));
     }

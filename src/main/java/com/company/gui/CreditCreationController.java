@@ -1,36 +1,27 @@
 package com.company.gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
+import com.company.domain.CreditGroupManagement;
+import com.company.domain.CreditManagement;
+import com.company.gui.entity.Credit;
+import com.company.gui.entity.CreditGroup;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class CreditCreationController {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
-
-    @FXML
-    private ImageView homeBtn;
-
-    @FXML
-    private Text logOutBtn;
-
-    @FXML
-    private Text changePasswordBtn;
-
-    @FXML
-    private TextField searchBarField;
-
+public class CreditCreationController extends VBox {
     @FXML
     private TextField firstNameText;
 
@@ -44,50 +35,49 @@ public class CreditCreationController {
     private TextField creditGroupText;
 
     @FXML
-    private Button addCreditToSystemBtn;
+    private Button addCreditBtn;
 
-    @FXML
-    private Font x3;
+    private OnShowHandler handler;
 
-    @FXML
-    void addCreditToSystem(MouseEvent event) {
+    CreditCreationController(OnShowHandler handler) {
+        this.handler = handler;
 
-        //Made for test purposes, will be deleted l8ter
-        System.out.println("Credit added");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/CreditCreation.fxml"));
+            fxmlLoader.setRoot(this);
+            fxmlLoader.setController(this);
+            fxmlLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @FXML
-    void changePassword(MouseEvent event) {
+    void addCredit(MouseEvent event) {
+        Credit credit = new Credit();
+        credit.setFirstName(firstNameText.getText());
+        credit.setMiddleName(middleNameText.getText());
+        credit.setLastName(lastNameText.getText());
 
-    }
+        CreditGroupManagement cMgt = new CreditGroupManagement();
+        String creditGroupName = firstNameText.getText();
 
-    @FXML
-    void goToHomePage(MouseEvent event) {
+        ICreditGroup creditGroup = cMgt.getByName(creditGroupName);
+        if (creditGroup == null) {
+            credit.setCreditGroup(new CreditGroup(creditGroupName));
+        } else {
+            credit.setCreditGroup(new CreditGroup(creditGroup));
+        }
 
-    }
-
-    @FXML
-    void logOut(MouseEvent event) {
-
-    }
-
-    @FXML
-    void searchProduction(KeyEvent event) {
-
+        this.handler.show(new CreditManagement().create(credit).getUUID());
     }
 
     @FXML
     void initialize() {
-        assert homeBtn != null : "fx:id=\"homeBtn\" was not injected: check your FXML file 'CreditCreation.fxml'.";
-        assert logOutBtn != null : "fx:id=\"logOutBtn\" was not injected: check your FXML file 'CreditCreation.fxml'.";
-        assert changePasswordBtn != null : "fx:id=\"changePasswordBtn\" was not injected: check your FXML file 'CreditCreation.fxml'.";
-        assert searchBarField != null : "fx:id=\"searchBarField\" was not injected: check your FXML file 'CreditCreation.fxml'.";
         assert firstNameText != null : "fx:id=\"firstNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
         assert middleNameText != null : "fx:id=\"middleNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
         assert lastNameText != null : "fx:id=\"lastNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
         assert creditGroupText != null : "fx:id=\"creditGroupText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
-        assert addCreditToSystemBtn != null : "fx:id=\"addCreditToSystemBtn\" was not injected: check your FXML file 'CreditCreation.fxml'.";
-        assert x3 != null : "fx:id=\"x3\" was not injected: check your FXML file 'CreditCreation.fxml'.";
-
+        assert addCreditBtn != null : "fx:id=\"addCreditBtn\" was not injected: check your FXML file 'CreditCreation.fxml'.";
     }
 }

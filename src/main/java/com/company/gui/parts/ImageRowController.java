@@ -1,6 +1,6 @@
 package com.company.gui.parts;
 
-import com.company.gui.CallbackHandler;
+import com.company.gui.OnShowHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -23,10 +23,10 @@ public class ImageRowController extends VBox {
     @FXML
     private Text text;
 
-    private CallbackHandler handler;
+    private OnShowHandler handler;
     private String uuid;
 
-    public ImageRowController(String uuid, CallbackHandler handler) {
+    public ImageRowController(String uuid, OnShowHandler handler) {
         this.uuid = uuid;
         this.handler = handler;
 
@@ -52,7 +52,7 @@ public class ImageRowController extends VBox {
         holder.setStyle("-fx-background-color: " + hex + ";");
     }
 
-    public void setCallback(CallbackHandler handler) {
+    public void setCallback(OnShowHandler handler) {
         this.handler = handler;
     }
 
