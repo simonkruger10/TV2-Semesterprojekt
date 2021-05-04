@@ -50,7 +50,7 @@ public class LoginController extends VBox implements UpdateHandler {
             return;
         }
 
-        if (isEmailValid(email)) {
+        if (!isEmailValid(email)) {
             callback.loginFailed(AlertType.INFORMATION, "The e-mail is invalid.");
             return;
         }
