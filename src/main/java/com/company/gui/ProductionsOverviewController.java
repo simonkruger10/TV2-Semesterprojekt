@@ -2,11 +2,13 @@ package com.company.gui;
 
 import java.io.IOException;
 
-import com.company.common.Colors;
+import com.company.common.AccessLevel;
+import com.company.common.ICredit;
 import com.company.common.IProduction;
-import com.company.domain.IProductionManagement;
+import com.company.common.Tools;
 import com.company.domain.ProductionManagement;
 import com.company.gui.parts.ImageRowController;
+import com.company.gui.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -17,22 +19,20 @@ import javafx.scene.layout.VBox;
 import static com.company.common.Tools.getResourceAsImage;
 import static com.company.common.Tools.isEven;
 
-public class ProductionsOverviewController extends VBox {
+public class ProductionsOverviewController extends VBox implements UpdateHandler {
     @FXML
     private VBox main;
 
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private OnShowHandler handler;
+    private final ContentHandler callback;
 
-    private IProductionManagement productionManagement = new ProductionManagement();
-
-    ProductionsOverviewController(OnShowHandler handler) {
-        this.handler = handler;
+    public ProductionsOverviewController(ContentHandler callback) {
+        this.callback = callback;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/ProductionsOverview.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/Overview.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -40,19 +40,14 @@ public class ProductionsOverviewController extends VBox {
             throw new RuntimeException(e);
         }
 
-        showList(productionManagement.list());
+        showList(new ProductionManagement().list());
     }
 
-    void showList(IProduction[] productions) {
+    public void showList(IProduction[] productions) {
         int i = main.getChildren().size();
 
         for (IProduction production : productions) {
-            ImageRowController cRow = new ImageRowController(production.getUUID(), new OnShowHandler() {
-                @Override
-                public void show(String uuid) {
-                    handler.show(uuid);
-                }
-            });
+            ImageRowController cRow = new ImageRowController(Type.PRODUCTION, production.getUUID(), callback);
 
             Image image = production.getImage();
             if ( image != null) {
@@ -78,15 +73,19 @@ public class ProductionsOverviewController extends VBox {
         }
     }
 
-    @FXML
-    void goToCreditOverview(MouseEvent event) {
-        System.out.println("test");
+    @Override
+    public boolean hasAccess(AccessLevel accessLevel) {
+        return true;
+    }
+
+    @Override
+    public void update() {
+
     }
 
     @FXML
-    void initialize() {
-        assert sortByBtn != null : "fx:id=\"sortByBtn\" was not injected: check your FXML file 'ProductionsOverview.fxml'.";
-
+    private void initialize() {
+        assert main != null : "fx:id=\"main\" was not injected: check your FXML file 'Overview.fxml'.";
+        assert sortByBtn != null : "fx:id=\"sortByBtn\" was not injected: check your FXML file 'Overview.fxml'.";
     }
-
 }

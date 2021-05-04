@@ -1,5 +1,6 @@
 package com.company.gui.parts;
 
+import com.company.common.Tools;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -14,7 +15,7 @@ public class HeaderRowController extends VBox {
 
     public HeaderRowController(String text) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/parts/HeaderRow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/parts/HeaderRow.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();

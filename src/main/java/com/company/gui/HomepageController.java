@@ -21,7 +21,7 @@ import javafx.scene.text.Text;
 
 import static com.company.common.Tools.trueVisible;
 
-public class HomepageController extends VBox {
+public class HomepageController extends VBox implements UpdateHandler {
     @FXML
     private ImageView homeBtn;
 
@@ -70,20 +70,14 @@ public class HomepageController extends VBox {
     @FXML
     private VBox content;
 
-    @FXML
-    private VBox defaultContent;
-
-    @FXML
-    private HBox latestAddedSlider;
-
-    @FXML
-    private HBox latestReviewSlider;
-
     private final IAccountManagement aMgt = new AccountManagement();
+    private final GUIHandler callBack;
 
-    HomepageController() {
+    public HomepageController(GUIHandler callBack) {
+        this.callBack = callBack;
+
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/Homepage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/Homepage.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -91,145 +85,124 @@ public class HomepageController extends VBox {
             throw new RuntimeException(e);
         }
 
-        initSetup();
-    }
-
-    void initSetup() {
-        onUserChanges(); // init guest
-
         contentHolder.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
                 scrollBar.setPrefHeight((Double) newValue);
             }
         });
+
+        update();
     }
 
-    void onUserChanges() {
+
+    @FXML
+    private void goHome(MouseEvent event) {
+        callBack.show(Type.RECENTLY_AND_REVIEW);
+    }
+
+    @FXML
+    private void onLogin(MouseEvent event) {
+        if (aMgt.getCurrentUser().getAccessLevel().equals(AccessLevel.GUEST)) {
+            callBack.show(Type.LOGIN);
+        } else {
+            callBack.logout();
+        }
+    }
+
+    @FXML
+    private void search(KeyEvent event) {
+        callBack.list(Type.SEARCH);
+    }
+
+    @FXML
+    private void showProductions(MouseEvent event) {
+        callBack.list(Type.PRODUCTION);
+    }
+
+    @FXML
+    private void addProduction(MouseEvent event) {
+        callBack.add(Type.PRODUCTION);
+    }
+
+    @FXML
+    private void showProducers(MouseEvent event) {
+        callBack.list(Type.PRODUCER);
+    }
+
+    @FXML
+    private void addProducer(MouseEvent event) {
+        callBack.add(Type.PRODUCER);
+    }
+
+    @FXML
+    private void showCredits(MouseEvent event) {
+        callBack.list(Type.CREDIT);
+    }
+
+    @FXML
+    private void addCredit(MouseEvent event) {
+        callBack.add(Type.CREDIT);
+    }
+
+    @FXML
+    private void showAccounts(MouseEvent event) {
+        callBack.list(Type.ACCOUNT);
+    }
+
+    @FXML
+    private void addAccount(MouseEvent event) {
+        callBack.add(Type.ACCOUNT);
+    }
+
+    @FXML
+    private void showAccount(MouseEvent event) {
+        callBack.show(Type.ACCOUNT, aMgt.getCurrentUser().getUUID());
+    }
+
+
+    @Override
+    public boolean hasAccess(AccessLevel accessLevel) {
+        return true;
+    }
+
+    @Override
+    public void update() {
         AccessLevel accessLevel = aMgt.getCurrentUser().getAccessLevel();
 
+        // login in the top bar
+        if (accessLevel.equals(AccessLevel.GUEST)) {
+            loginBtn.setText("Log in");
+        } else {
+            loginBtn.setText("Log out");
+        }
+        helloMessage.setText("Hi, " + aMgt.getCurrentUser().getFirstName());
+
         // Menu
-        boolean state = accessLevel.greater(AccessLevel.GUEST);
+        trueVisible(accountBtn, accessLevel.greater(AccessLevel.GUEST));
 
-        trueVisible(accountBtn, state);
-
-        state = accessLevel.greater(AccessLevel.CONSUMER);
+        boolean state = accessLevel.greater(AccessLevel.CONSUMER);
         trueVisible(addProductionBtn, state);
         trueVisible(addCreditBtn, state);
 
-        state = accessLevel == AccessLevel.ADMINISTRATOR;
+        state = accessLevel.equals(AccessLevel.ADMINISTRATOR);
         trueVisible(producersBtn, state);
         trueVisible(addProducerBtn, state);
         trueVisible(accountsBtn, state);
         trueVisible(addAccountBtn, state);
-
-        // Login bar
-        if (aMgt.getCurrentUser().getAccessLevel().greater(AccessLevel.GUEST)) {
-            loginBtn.setText("Log out");
-            helloMessage.setText("Hi, " + aMgt.getCurrentUser().getFirstName());
-        } else {
-            loginBtn.setText("Log in");
-            helloMessage.setText("Hi, " + AccessLevel.GUEST);
-        }
     }
 
 
-    @FXML
-    void goHome(MouseEvent event) {
-        setContent(defaultContent);
-    }
-
-    @FXML
-    void login(MouseEvent event) {
-        if (loginBtn.getText().equals("Log out")) {
-            aMgt.logout();
-            onUserChanges();
+    public void setContent(Node node) {
+        if (content.getChildren().size() > 0) {
+            content.getChildren().set(0, node);
         } else {
-            setContent(new LoginController(new LoginHandler() {
-                @Override
-                public void onSuccessfulLogin() {
-                    onUserChanges();
-                    setContent(defaultContent);
-                }
-            }));
+            content.getChildren().add(node);
         }
     }
 
     @FXML
-    void search(KeyEvent event) {
-
-    }
-
-    @FXML
-    void showProductions(MouseEvent event) {
-        setContent(new ProductionsOverviewController(new OnShowHandler() {
-            @Override
-            public void show(String uuid) {
-                setContent(new ProductViewController(uuid, new OnShowHandler() {
-                    @Override
-                    public void show(String uuid) {
-                        setContent(new CreditViewController(uuid));
-                    }
-                }));
-            }
-        }));
-    }
-
-    @FXML
-    void addProduction(MouseEvent event) {
-    }
-
-    @FXML
-    void showProducers(MouseEvent event) {
-
-    }
-
-    @FXML
-    void addProducer(MouseEvent event) {
-
-    }
-
-    @FXML
-    void showCredits(MouseEvent event) {
-        setContent(new CreditsOverviewController(new OnShowHandler() {
-            @Override
-            public void show(String uuid) {
-                setContent(new CreditViewController(uuid));
-            }
-        }));
-    }
-
-    @FXML
-    void addCredit(MouseEvent event) {
-        setContent(new CreditCreationController(new OnShowHandler() {
-            @Override
-            public void show(String uuid) {
-                setContent(new CreditViewController(uuid));
-            }
-        }));
-    }
-
-    @FXML
-    void showAccounts(MouseEvent event) {
-
-    }
-
-    @FXML
-    void addAccount(MouseEvent event) {
-
-    }
-
-    @FXML
-    void showAccount(MouseEvent event) {
-
-    }
-
-    void setContent(Node node) {
-        content.getChildren().set(0, node);
-    }
-
-    @FXML
-    void initialize() {
+    private void initialize() {
         assert homeBtn != null : "fx:id=\"home\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert helloMessage != null : "fx:id=\"helloMessage\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert loginBtn != null : "fx:id=\"loginBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
@@ -240,8 +213,5 @@ public class HomepageController extends VBox {
         assert accountsBtn != null : "fx:id=\"accountsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert accountBtn != null : "fx:id=\"accountBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
         assert content != null : "fx:id=\"content\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert defaultContent != null : "fx:id=\"defaultContent\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert latestAddedSlider != null : "fx:id=\"latestAddedSlider\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert latestReviewSlider != null : "fx:id=\"latestReviewSlider\" was not injected: check your FXML file 'Homepage.fxml'.";
     }
 }

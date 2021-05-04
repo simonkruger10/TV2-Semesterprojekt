@@ -1,6 +1,8 @@
 package com.company.gui.parts;
 
-import com.company.gui.OnShowHandler;
+import com.company.common.Tools;
+import com.company.gui.ContentHandler;
+import com.company.gui.Type;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -23,15 +25,17 @@ public class ImageRowController extends VBox {
     @FXML
     private Text text;
 
-    private OnShowHandler handler;
-    private String uuid;
+    private final Type type;
+    private final String uuid;
+    private final ContentHandler callBack;
 
-    public ImageRowController(String uuid, OnShowHandler handler) {
+    public ImageRowController(Type type, String uuid, ContentHandler callBack) {
+        this.type = type;
         this.uuid = uuid;
-        this.handler = handler;
+        this.callBack = callBack;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/parts/ImageRow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/parts/ImageRow.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -52,16 +56,12 @@ public class ImageRowController extends VBox {
         holder.setStyle("-fx-background-color: " + hex + ";");
     }
 
-    public void setCallback(OnShowHandler handler) {
-        this.handler = handler;
+    public void setTopMargin(int top) {
+        VBox.setMargin(this, new Insets(top, 0, 0, 0));
     }
 
     @FXML
-    public void show(MouseEvent event) {
-        handler.show(uuid);
-    }
-
-    public void setTopMargin(int top) {
-        VBox.setMargin(this, new Insets(top, 0, 0, 0));
+    private void show(MouseEvent event) {
+        callBack.show(type, uuid);
     }
 }

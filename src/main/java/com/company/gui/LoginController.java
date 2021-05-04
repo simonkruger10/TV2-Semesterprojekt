@@ -1,7 +1,8 @@
 package com.company.gui;
 
+import com.company.common.AccessLevel;
+import com.company.common.Tools;
 import com.company.domain.AccountManagement;
-import com.company.domain.IAccountManagement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert.AlertType;
@@ -16,22 +17,20 @@ import java.security.NoSuchAlgorithmException;
 import static com.company.common.Tools.isEmailValid;
 import static com.company.common.Tools.isNullOrEmpty;
 
-public class LoginController extends VBox {
-
+public class LoginController extends VBox implements UpdateHandler {
     @FXML
     private TextField emailPanel;
 
     @FXML
     private PasswordField passwordPanel;
 
-    private final IAccountManagement aMgt = new AccountManagement();
-    private final LoginHandler handler;
+    private final LoginHandler callback;
 
-    LoginController(LoginHandler handler) {
-        this.handler = handler;
+    public LoginController(LoginHandler callback) {
+        this.callback = callback;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/Login.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/Login.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -41,32 +40,43 @@ public class LoginController extends VBox {
     }
 
     //Login button pressed
-    public void loginAccount(MouseEvent mouseEvent) {
+    @FXML
+    private void login(MouseEvent mouseEvent) {
         String email = emailPanel.getText();
         String password = passwordPanel.getText();
 
         if (isNullOrEmpty(email)) {
-            new MessageDialog(AlertType.INFORMATION, "E-mail is required!");
+            callback.loginFailed(AlertType.INFORMATION, "E-mail is required!");
             return;
         }
 
         if (isEmailValid(email)) {
-            new MessageDialog(AlertType.INFORMATION, "The e-mail is invalid.");
+            callback.loginFailed(AlertType.INFORMATION, "The e-mail is invalid.");
             return;
         }
 
         if (isNullOrEmpty(password)) {
-            new MessageDialog(AlertType.INFORMATION, "Password is required!");
+            callback.loginFailed(AlertType.INFORMATION, "Password is required!");
             return;
         }
 
         try {
-            aMgt.login(email, password);
-            handler.onSuccessfulLogin();
+            new AccountManagement().login(email, password);
+            callback.loginSuccess();
         } catch (RuntimeException e) {
-            new MessageDialog(AlertType.INFORMATION, e.getMessage() + "!");
+            callback.loginFailed(AlertType.INFORMATION, e.getMessage() + "!");
         } catch (NoSuchAlgorithmException e) {
-            new MessageDialog(AlertType.ERROR, e.getMessage());
+            callback.loginFailed(AlertType.ERROR, e.getMessage());
         }
+    }
+
+    @Override
+    public boolean hasAccess(AccessLevel accessLevel) {
+        return accessLevel.equals(AccessLevel.GUEST);
+    }
+
+    @Override
+    public void update() {
+
     }
 }

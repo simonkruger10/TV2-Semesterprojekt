@@ -60,7 +60,7 @@
                         <Font size="20.0" />
                      </font>
                   </PasswordField>
-                  <Button mnemonicParsing="false" onMouseClicked="#loginAccount" prefHeight="49.0" prefWidth="160.0" style="-fx-background-color: #3BA800;" text="Log ind" textFill="WHITE">
+                  <Button mnemonicParsing="false" onMouseClicked="#login" prefHeight="49.0" prefWidth="160.0" style="-fx-background-color: #3BA800;" text="Log ind" textFill="WHITE">
                      <font>
                         <Font name="Arial Bold" size="26.0" />
                      </font>

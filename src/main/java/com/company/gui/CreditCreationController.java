@@ -1,11 +1,10 @@
 package com.company.gui;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-import com.company.common.ICredit;
+import com.company.common.AccessLevel;
 import com.company.common.ICreditGroup;
+import com.company.common.Tools;
 import com.company.domain.CreditGroupManagement;
 import com.company.domain.CreditManagement;
 import com.company.gui.entity.Credit;
@@ -14,14 +13,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
-public class CreditCreationController extends VBox {
+import static com.company.common.Tools.trueVisible;
+
+public class CreditCreationController extends VBox implements UpdateHandler {
     @FXML
     private TextField firstNameText;
 
@@ -37,13 +34,13 @@ public class CreditCreationController extends VBox {
     @FXML
     private Button addCreditBtn;
 
-    private OnShowHandler handler;
+    private final ContentHandler callback;
 
-    CreditCreationController(OnShowHandler handler) {
-        this.handler = handler;
+    public CreditCreationController(ContentHandler callback) {
+        this.callback = callback;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/CreditCreation.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/CreditCreation.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -53,7 +50,7 @@ public class CreditCreationController extends VBox {
     }
 
     @FXML
-    void addCredit(MouseEvent event) {
+    public void addCredit(MouseEvent event) {
         Credit credit = new Credit();
         credit.setFirstName(firstNameText.getText());
         credit.setMiddleName(middleNameText.getText());
@@ -69,11 +66,21 @@ public class CreditCreationController extends VBox {
             credit.setCreditGroup(new CreditGroup(creditGroup));
         }
 
-        this.handler.show(new CreditManagement().create(credit).getUUID());
+        callback.show(Type.CREDIT, new CreditManagement().create(credit).getUUID());
+    }
+
+    @Override
+    public boolean hasAccess(AccessLevel accessLevel) {
+        return accessLevel.greater(AccessLevel.CONSUMER);
+    }
+
+    @Override
+    public void update() {
+
     }
 
     @FXML
-    void initialize() {
+    private void initialize() {
         assert firstNameText != null : "fx:id=\"firstNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
         assert middleNameText != null : "fx:id=\"middleNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
         assert lastNameText != null : "fx:id=\"lastNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";

@@ -1,6 +1,8 @@
 package com.company.gui.parts;
 
-import com.company.gui.OnShowHandler;
+import com.company.common.Tools;
+import com.company.gui.ContentHandler;
+import com.company.gui.Type;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.MouseEvent;
@@ -13,15 +15,17 @@ public class TextRowController extends HBox {
     @FXML
     private Text text;
 
-    private OnShowHandler handler;
-    private String uuid;
+    private final Type type;
+    private final String uuid;
+    private final ContentHandler callback;
 
-    public TextRowController(String uuid, OnShowHandler handler) {
+    public TextRowController(Type type, String uuid, ContentHandler callback) {
+        this.type = type;
         this.uuid = uuid;
-        this.handler = handler;
+        this.callback = callback;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/parts/TextRow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/parts/TextRow.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -38,13 +42,9 @@ public class TextRowController extends HBox {
         this.setStyle("-fx-background-color: " + hex + ";");
     }
 
-    public void setCallback(OnShowHandler handler) {
-        this.handler = handler;
-    }
-
     @FXML
-    public void show(MouseEvent event) {
-        handler.show(uuid);
+    private void show(MouseEvent event) {
+        callback.show(type, uuid);
     }
 }
 
