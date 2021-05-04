@@ -53,7 +53,7 @@ public class GUI extends Application implements GUIHandler {
     @Override
     public void list(Type type) {
         if (type == Type.ACCOUNT) {
-            // TODO: implants accounts view
+            setContent(new AccountsOverviewController(this));
         } else if (type == Type.CREDIT) {
             setContent(new CreditsOverviewController(this));
         } else if (type == Type.CREDIT_GROUP) {
