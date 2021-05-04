@@ -87,7 +87,7 @@ public class CreditManagement implements ICreditManagement {
 
     @Override
     public ICredit[] getByName(String firstName, String lastName) {
-        return getByName(firstName, lastName, null);
+        return getByName(firstName, null, lastName);
     }
 
     @Override
@@ -173,7 +173,7 @@ public class CreditManagement implements ICreditManagement {
 
     private void controlsRequirements(ICredit credit) {
         if (credit == null || isNullOrEmpty(credit.getFirstName())
-                || credit.getCreditGroup() == null || credit.getCreditGroup() == null) {
+                || credit.getCreditGroup() == null) {
             throw new RuntimeException("First name and credit group is required.");
         }
     }
