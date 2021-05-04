@@ -1,17 +1,16 @@
-package com.company.data;
+package com.company.data.mapper;
 
 import com.company.common.ICredit;
 import com.company.common.IProduction;
 import javafx.scene.image.Image;
 
-import java.io.File;
 import java.util.*;
 
-public class ProductionEntity extends MainEntity implements IProduction {
+public class Production extends Main implements IProduction {
     private String name = null;
     private String description = null;
     private Image image = null;
-    private final Map<String, CreditEntity> credits = new HashMap<>();
+    private final Map<String, Credit> credits = new HashMap<>();
 
     @Override
     public String getName() {
@@ -51,13 +50,13 @@ public class ProductionEntity extends MainEntity implements IProduction {
     public void setCredits(ICredit[] credits) {
         assert credits != null;
         for (ICredit credit : credits) {
-            this.credits.put(credit.getUUID(), (CreditEntity) credit);
+            this.credits.put(credit.getUUID(), (Credit) credit);
         }
     }
 
     public void addCredits(ICredit credit) {
         assert credit != null;
-        this.credits.put(credit.getUUID(), (CreditEntity) credit);
+        this.credits.put(credit.getUUID(), (Credit) credit);
     }
 
     public void removeCredits(String uuid) {
@@ -86,7 +85,7 @@ public class ProductionEntity extends MainEntity implements IProduction {
 
     private String creditsAsJsonString() {
         StringJoiner jsonString = new StringJoiner(",");
-        for (CreditEntity credit : this.credits.values()) {
+        for (Credit credit : this.credits.values()) {
             jsonString.add(credit.toJsonString());
         }
         return "[" + jsonString + "]";

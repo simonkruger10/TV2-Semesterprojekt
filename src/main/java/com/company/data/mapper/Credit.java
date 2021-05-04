@@ -1,9 +1,9 @@
-package com.company.data;
+package com.company.data.mapper;
 
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
-public class CreditEntity extends PersonEntity implements ICredit {
+public class Credit extends Person implements ICredit {
     private ICreditGroup creditGroup;
 
     public ICreditGroup getCreditGroup() {

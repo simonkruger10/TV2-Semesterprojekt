@@ -1,8 +1,8 @@
-package com.company.data;
+package com.company.data.mapper;
 
 import com.company.common.ICreditGroup;
 
-public class CreditGroupEntity extends MainEntity implements ICreditGroup {
+public class CreditGroup extends Main implements ICreditGroup {
     private String name;
 
     public String getName() {
