@@ -32,14 +32,20 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<fx:root prefHeight="720.0" prefWidth="1280.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="720.0" prefWidth="1280.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/12" xmlns:fx="http://javafx.com/fxml/1">
     <HBox alignment="CENTER_LEFT" style="-fx-background-color: #D21E1E;">
         <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -50,19 +56,19 @@
             </image>
         </ImageView>
         <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
-            <Text fx:id="helloMessage" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi, Guest">
-                <font>
-                    <Font name="Arial" size="12.0" />
-                </font>
-            </Text>
-            <Text fx:id="loginBtn" fill="#1690f0" onMouseClicked="#login" strokeType="OUTSIDE" strokeWidth="0.0" text="Log out" underline="true">
-                <font>
-                    <Font name="Arial" size="12.0" />
-                </font>
-                <cursor>
-                    <Cursor fx:constant="HAND" />
-                </cursor>
-            </Text>
+         <Text fx:id="helloMessage" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi, Guest">
+            <font>
+               <Font name="Arial" size="12.0" />
+            </font>
+         </Text>
+         <Text fx:id="loginBtn" fill="#1690F0" onMouseClicked="#onLogin" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" underline="true">
+            <font>
+               <Font name="Arial" size="12.0" />
+            </font>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Text>
             <TextField fx:id="searchBarField" disable="true" onKeyPressed="#search" promptText="Search..." />
             <padding>
                 <Insets right="5.0" />
@@ -79,7 +85,7 @@
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="addProductionBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addProduction" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Production" textFill="WHITE" disable="true">
+            <Button fx:id="addProductionBtn" disable="true" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addProduction" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Production" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
@@ -94,159 +100,34 @@
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="producersBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showProducers" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Producers" textFill="WHITE" disable="true">
+            <Button fx:id="producersBtn" disable="true" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showProducers" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Producers" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="addProducerBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addProducer" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Producer" textFill="WHITE" disable="true">
+            <Button fx:id="addProducerBtn" disable="true" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addProducer" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Producer" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="accountsBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showAccounts" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Accounts" textFill="WHITE" disable="true">
+            <Button fx:id="accountsBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showAccounts" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Accounts" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="addAccountBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Account" textFill="WHITE" disable="true">
+            <Button fx:id="addAccountBtn" disable="true" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Account" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="accountBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Account" textFill="WHITE" disable="true">
+            <Button fx:id="accountBtn" disable="true" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Account" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
         </VBox>
         <ScrollPane fx:id="scrollBar" fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
-            <VBox fx:id="content">
-                <VBox fx:id="defaultContent" alignment="CENTER">
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recently added credits">
-                        <font>
-                            <Font name="Arial" size="25.0" />
-                        </font>
-                        <VBox.margin>
-                            <Insets bottom="30.0" />
-                        </VBox.margin>
-                    </Text>
-                    <HBox fx:id="latestAddedSlider" alignment="CENTER" spacing="20.0">
-                        <padding>
-                            <Insets left="20.0" right="20.0" />
-                        </padding>
-                        <VBox alignment="CENTER">
-                            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/TV_2_RGB.png" />
-                                </image>
-                            </ImageView>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                <font>
-                                    <Font name="Arial Bold Italic" size="24.0" />
-                                </font>
-                            </Text>
-                        </VBox>
-                        <VBox alignment="CENTER">
-                            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/TV_2_RGB.png" />
-                                </image>
-                            </ImageView>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                <font>
-                                    <Font name="Arial Bold Italic" size="24.0" />
-                                </font>
-                            </Text>
-                        </VBox>
-                        <VBox alignment="CENTER">
-                            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/TV_2_RGB.png" />
-                                </image>
-                            </ImageView>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                <font>
-                                    <Font name="Arial Bold Italic" size="24.0" />
-                                </font>
-                            </Text>
-                        </VBox>
-                        <VBox alignment="CENTER">
-                            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/TV_2_RGB.png" />
-                                </image>
-                            </ImageView>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                <font>
-                                    <Font name="Arial Bold Italic" size="24.0" />
-                                </font>
-                            </Text>
-                        </VBox>
-                    </HBox>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credits for review">
-                        <VBox.margin>
-                            <Insets bottom="30.0" top="30.0" />
-                        </VBox.margin>
-                        <font>
-                            <Font name="Arial" size="25.0" />
-                        </font>
-                    </Text>
-                    <HBox fx:id="latestReviewSlider" alignment="CENTER" spacing="20.0">
-                        <padding>
-                            <Insets left="20.0" right="20.0" />
-                        </padding>
-                        <VBox alignment="CENTER">
-                            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/TV_2_RGB.png" />
-                                </image>
-                            </ImageView>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                <font>
-                                    <Font name="Arial Bold Italic" size="24.0" />
-                                </font>
-                            </Text>
-                        </VBox>
-                        <VBox alignment="CENTER">
-                            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/TV_2_RGB.png" />
-                                </image>
-                            </ImageView>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                <font>
-                                    <Font name="Arial Bold Italic" size="24.0" />
-                                </font>
-                            </Text>
-                        </VBox>
-                        <VBox alignment="CENTER">
-                            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/TV_2_RGB.png" />
-                                </image>
-                            </ImageView>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                <font>
-                                    <Font name="Arial Bold Italic" size="24.0" />
-                                </font>
-                            </Text>
-                        </VBox>
-                        <VBox alignment="CENTER">
-                            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                <image>
-                                    <Image url="@../images/TV_2_RGB.png" />
-                                </image>
-                            </ImageView>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
-                                <font>
-                                    <Font name="Arial Bold Italic" size="24.0" />
-                                </font>
-                            </Text>
-                        </VBox>
-                    </HBox>
-                </VBox>
-            </VBox>
+            <VBox fx:id="content" />
         </ScrollPane>
     </HBox>
     <HBox id="HBox" alignment="CENTER" spacing="5.0" style="-fx-background-color: #D21E1E;" VBox.vgrow="NEVER">

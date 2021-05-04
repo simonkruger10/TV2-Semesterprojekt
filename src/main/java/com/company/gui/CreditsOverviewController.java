@@ -1,9 +1,9 @@
 package com.company.gui;
 
-import com.company.common.Colors;
+import com.company.common.AccessLevel;
 import com.company.common.ICredit;
+import com.company.common.Tools;
 import com.company.domain.CreditManagement;
-import com.company.domain.ICreditManagement;
 import com.company.gui.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,22 +14,20 @@ import java.io.IOException;
 
 import static com.company.common.Tools.isEven;
 
-public class CreditsOverviewController extends VBox {
+public class CreditsOverviewController extends VBox implements UpdateHandler {
     @FXML
     private VBox main;
 
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private OnShowHandler handler;
+    private final ContentHandler callback;
 
-    private ICreditManagement creditManagement = new CreditManagement();
-
-    CreditsOverviewController(OnShowHandler handler) {
-        this.handler = handler;
+    public CreditsOverviewController(ContentHandler callback) {
+        this.callback = callback;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/CreditsOverview.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/Overview.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -37,20 +35,15 @@ public class CreditsOverviewController extends VBox {
             throw new RuntimeException(e);
         }
 
-        showList(creditManagement.list());
+        showList(new CreditManagement().list());
     }
 
-    void showList(ICredit[] credits) {
+    public void showList(ICredit[] credits) {
         // Start the count from the number of children
         int i = main.getChildren().size();
 
         for (ICredit credit : credits) {
-            TextRowController cRow = new TextRowController(credit.getUUID(), new OnShowHandler() {
-                @Override
-                public void show(String uuid) {
-                    handler.show(uuid);
-                }
-            });
+            TextRowController cRow = new TextRowController(Type.CREDIT, credit.getUUID(), callback);
 
             cRow.setText(credit.getFullName());
 
@@ -63,9 +56,19 @@ public class CreditsOverviewController extends VBox {
         }
     }
 
-    @FXML
-    void initialize() {
-        assert sortByBtn != null : "fx:id=\"sortByBtn\" was not injected: check your FXML file 'ProductionsOverview.fxml'.";
+    @Override
+    public boolean hasAccess(AccessLevel accessLevel) {
+        return true;
     }
 
+    @Override
+    public void update() {
+
+    }
+
+    @FXML
+    private void initialize() {
+        assert main != null : "fx:id=\"main\" was not injected: check your FXML file 'Overview.fxml'.";
+        assert sortByBtn != null : "fx:id=\"sortByBtn\" was not injected: check your FXML file 'Overview.fxml'.";
+    }
 }

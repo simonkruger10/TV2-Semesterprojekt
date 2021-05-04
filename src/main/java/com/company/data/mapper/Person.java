@@ -1,8 +1,8 @@
-package com.company.domain;
+package com.company.data.mapper;
 
 import com.company.common.Tools;
 
-public class PersonDTO extends MainDTO {
+public class Person extends Main {
     private String firstName = null;
     private String middleName = null;
     private String lastName = null;

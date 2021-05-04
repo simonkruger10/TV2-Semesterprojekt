@@ -4,16 +4,16 @@ import java.io.IOException;
 import java.util.*;
 
 import com.company.common.AccessLevel;
-import com.company.common.Colors;
 import com.company.common.ICredit;
 import com.company.common.IProduction;
+import com.company.common.Tools;
 import com.company.domain.AccountManagement;
-import com.company.domain.IAccountManagement;
 import com.company.domain.ProductionManagement;
 import com.company.gui.parts.HeaderRowController;
 import com.company.gui.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,9 +25,7 @@ import javafx.scene.text.Text;
 import static com.company.common.Tools.isEven;
 import static com.company.common.Tools.trueVisible;
 
-public class ProductViewController extends VBox {
-
-
+public class ProductionViewController extends VBox implements UpdateHandler {
     @FXML
     private Text title;
 
@@ -40,9 +38,14 @@ public class ProductViewController extends VBox {
     @FXML
     private VBox rows;
 
-    public ProductViewController(String UUID, OnShowHandler handler) {
+    private final GUI callback;
+    private IProduction production;
+
+    public ProductionViewController(String UUID, GUI callback) {
+        this.callback = callback;
+
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Layouts/ProductView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/ProductionView.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -50,13 +53,13 @@ public class ProductViewController extends VBox {
             throw new RuntimeException(e);
         }
 
-        AccessLevel accessLevel = new AccountManagement().getCurrentUser().getAccessLevel();
-        trueVisible(editProductionBtn, accessLevel.greater(AccessLevel.CONSUMER));
-        loadProduction(UUID, handler);
+        update();
+        loadProduction(UUID);
     }
 
-    public void loadProduction(String UUID, OnShowHandler handler) {
-        IProduction production = new ProductionManagement().getByUUID(UUID);
+    public void loadProduction(String UUID) {
+        production = new ProductionManagement().getByUUID(UUID);
+
         title.setText(production.getName());
         Image image = production.getImage();
         if (image != null) {
@@ -86,12 +89,7 @@ public class ProductViewController extends VBox {
             int i = 0;
             rows.getChildren().add(headerRowController);
             for (ICredit credit: grouped.get(groupName)) {
-                TextRowController cRow = new TextRowController(credit.getUUID(), new OnShowHandler() {
-                    @Override
-                    public void show(String uuid) {
-                        handler.show(uuid);
-                    }
-                });
+                TextRowController cRow = new TextRowController(Type.CREDIT, credit.getUUID(), callback);
                 cRow.setText(credit.getFullName());
                 if (!isEven(i)) {
                     cRow.setBackground(Colors.ODD_COLOR);
@@ -103,16 +101,26 @@ public class ProductViewController extends VBox {
     }
 
     @FXML
-    void editProduction(MouseEvent event) {
-
+    private void editProduction(MouseEvent event) {
+        callback.edit(Type.PRODUCTION, production.getUUID());
     }
 
+    @Override
+    public boolean hasAccess(AccessLevel accessLevel) {
+        return true;
+    }
+
+    @Override
+    public void update() {
+        AccessLevel accessLevel = new AccountManagement().getCurrentUser().getAccessLevel();
+        trueVisible(editProductionBtn, accessLevel.greater(AccessLevel.CONSUMER));
+    }
 
     @FXML
-    void initialize() {
-        assert title != null : "fx:id=\"title\" was not injected: check your FXML file 'ProductView.fxml'.";
-        assert editProductionBtn != null : "fx:id=\"editCreditBtn\" was not injected: check your FXML file 'ProductView.fxml'.";
-        assert image != null : "fx:id=\"image\" was not injected: check your FXML file 'ProductView.fxml'.";
-        assert rows != null : "fx:id=\"roles\" was not injected: check your FXML file 'ProductView.fxml'.";
+    private void initialize() {
+        assert title != null : "fx:id=\"title\" was not injected: check your FXML file 'ProductionView.fxml'.";
+        assert editProductionBtn != null : "fx:id=\"editCreditBtn\" was not injected: check your FXML file 'ProductionView.fxml'.";
+        assert image != null : "fx:id=\"image\" was not injected: check your FXML file 'ProductionView.fxml'.";
+        assert rows != null : "fx:id=\"roles\" was not injected: check your FXML file 'ProductionView.fxml'.";
     }
 }

@@ -1,9 +1,9 @@
 package com.company.domain;
 
 import com.company.common.AccessLevel;
-import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 import com.company.data.Database;
+import com.company.domain.descriptions.CreditGroup;
 import javafx.util.Pair;
 
 import java.security.AccessControlException;
@@ -32,7 +32,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
         final List<ICreditGroup> list = new ArrayList<>();
         for (int i = start; i < creditGroups.length && list.size() < max; i++) {
-            list.add(new CreditGroupDTO(creditGroups[i]));
+            list.add(new CreditGroup(creditGroups[i]));
         }
 
         return list.toArray(new ICreditGroup[0]);
@@ -46,7 +46,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
     @Override
     public ICreditGroup[] search(String[] words, int maxResults) {
-        final List<Pair<CreditGroupDTO, Integer>> result = new ArrayList<>();
+        final List<Pair<CreditGroup, Integer>> result = new ArrayList<>();
 
         for (ICreditGroup creditGroup : Database.getInstance().getCreditGroups()) {
             // TODO: Investigate whether linear search is the right one to use
@@ -60,7 +60,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
             }
 
             if (matchCount > 0) {
-                result.add(new Pair<>(new CreditGroupDTO(creditGroup), matchCount));
+                result.add(new Pair<>(new CreditGroup(creditGroup), matchCount));
 
                 //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
@@ -82,7 +82,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
         for (ICreditGroup creditGroup : Database.getInstance().getCreditGroups()) {
             if (trueEquals(creditGroup.getName(), name)) {
-                return new CreditGroupDTO(creditGroup);
+                return new CreditGroup(creditGroup);
             }
         }
         return null;
@@ -93,7 +93,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
     public ICreditGroup getByUUID(String uuid) {
         assert uuid != null;
 
-        return new CreditGroupDTO(Database.getInstance().getCreditGroup(uuid));
+        return new CreditGroup(Database.getInstance().getCreditGroup(uuid));
     }
 
 
@@ -112,7 +112,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
         creditGroup = Database.getInstance().addCreditGroup(creditGroup);
 
-        return new CreditGroupDTO(creditGroup);
+        return new CreditGroup(creditGroup);
     }
 
 
@@ -125,7 +125,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
             throw new AccessControlException("Insufficient permission.");
         }
 
-        CreditGroupDTO oldCreditGroup = (CreditGroupDTO) getByUUID(creditGroup.getUUID());
+        CreditGroup oldCreditGroup = (CreditGroup) getByUUID(creditGroup.getUUID());
         if (oldCreditGroup == null) {
             throw new RuntimeException("Could not find credit group with specified uuid.");
         }

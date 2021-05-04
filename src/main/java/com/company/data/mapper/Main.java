@@ -1,8 +1,8 @@
-package com.company.domain;
+package com.company.data.mapper;
 
 import java.util.UUID;
 
-public class MainDTO {
+public class Main {
     private String uuid = UUID.randomUUID().toString();
 
     public String getUUID() {

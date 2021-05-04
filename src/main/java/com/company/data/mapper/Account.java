@@ -1,9 +1,9 @@
-package com.company.data;
+package com.company.data.mapper;
 
 import com.company.common.AccessLevel;
 import com.company.common.IAccount;
 
-public class AccountEntity extends PersonEntity implements IAccount {
+public class Account extends Person implements IAccount {
     private String email = null;
     private String hashedPassword = null;
     private AccessLevel accessLevel = null;

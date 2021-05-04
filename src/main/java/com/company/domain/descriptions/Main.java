@@ -1,8 +1,8 @@
-package com.company.data;
+package com.company.domain.descriptions;
 
 import java.util.UUID;
 
-public class MainEntity {
+public class Main {
     private String uuid = UUID.randomUUID().toString();
 
     public String getUUID() {

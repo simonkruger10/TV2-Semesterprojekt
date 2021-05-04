@@ -1,15 +1,18 @@
-package com.company.domain;
+package com.company.domain.descriptions;
 
 import com.company.common.AccessLevel;
 import com.company.common.IAccount;
 
-public class AccountDTO extends PersonDTO implements IAccount {
+public class Account extends Person implements IAccount {
     private String email = null;
-    private AccessLevel accessLevel = AccessLevel.GUEST;
+    private AccessLevel accessLevel;
 
-    AccountDTO() {}
+    public Account() {
+        setFirstName(AccessLevel.GUEST.toString());
+        setAccessLevel(AccessLevel.GUEST);
+    }
 
-    AccountDTO(IAccount account) {
+    public Account(IAccount account) {
         setCopyOf(account);
     }
 
