@@ -10,4 +10,5 @@ module com.company {
     opens com.company.domain;
     opens com.company.gui.entity;
     opens com.company.gui.parts;
+    opens com.company.domain.descriptions;
 }

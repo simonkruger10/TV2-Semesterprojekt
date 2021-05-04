@@ -3,6 +3,7 @@ package com.company.domain;
 import com.company.common.AccessLevel;
 import com.company.common.IAccount;
 import com.company.data.Database;
+import com.company.domain.descriptions.Account;
 import javafx.util.Pair;
 
 import java.math.BigInteger;
@@ -15,7 +16,7 @@ import java.util.*;
 import static com.company.common.Tools.*;
 
 public class AccountManagement implements IAccountManagement {
-    private static AccountDTO currentUser = new AccountDTO();
+    private static Account currentUser = new Account();
     @SuppressWarnings("FieldCanBeLocal")
     private final String saltValue = "qOfzSKTYGNhmf4bT73ZMxmHe5C3FR756HANUIOmejTLs5PZb6mqAlVJPyOXeEwJ23NyySubPx51YILZWqdDG6BvB3XNYCJpw8HJXJ4Wh5lM8DcWiDqjnQRqeyf8nUshPmiDt38RDlQGQ";
 
@@ -35,7 +36,7 @@ public class AccountManagement implements IAccountManagement {
 
         final List<IAccount> list = new ArrayList<>();
         for (int i = start; i < accounts.length && list.size() < max; i++) {
-            list.add(new AccountDTO(accounts[i]));
+            list.add(new Account(accounts[i]));
         }
 
         return list.toArray(new IAccount[0]);
@@ -49,7 +50,7 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public IAccount[] search(String[] words, int maxResults) {
-        final List<Pair<AccountDTO, Integer>> result = new ArrayList<>();
+        final List<Pair<Account, Integer>> result = new ArrayList<>();
 
         for (IAccount account : Database.getInstance().getAccounts()) {
             // TODO: Investigate whether linear search is the right one to use
@@ -72,7 +73,7 @@ public class AccountManagement implements IAccountManagement {
             }
 
             if (matchCount > 0) {
-                result.add(new Pair<>(new AccountDTO(account), matchCount));
+                result.add(new Pair<>(new Account(account), matchCount));
 
                 //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
@@ -102,13 +103,13 @@ public class AccountManagement implements IAccountManagement {
     public IAccount[] getByName(String firstName, String middleName, String lastName) {
         assert firstName != null || middleName != null || lastName != null;
 
-        final List<AccountDTO> result = new ArrayList<>();
+        final List<Account> result = new ArrayList<>();
 
         for (IAccount account : Database.getInstance().getAccounts()) {
             if ((firstName == null || trueEquals(account.getFirstName(), firstName))
                     && (middleName == null || trueEquals(account.getMiddleName(), middleName))
                     && (lastName == null || trueEquals(account.getLastName(), lastName))) {
-                result.add(new AccountDTO(account));
+                result.add(new Account(account));
             }
         }
 
@@ -122,7 +123,7 @@ public class AccountManagement implements IAccountManagement {
 
         for (IAccount account : Database.getInstance().getAccounts()) {
             if (account.getEmail().equalsIgnoreCase(email)) {
-                return new AccountDTO(account);
+                return new Account(account);
             }
         }
 
@@ -134,7 +135,7 @@ public class AccountManagement implements IAccountManagement {
     public IAccount getByUUID(String uuid) {
         assert uuid != null;
 
-        return new AccountDTO(Database.getInstance().getAccount(uuid));
+        return new Account(Database.getInstance().getAccount(uuid));
     }
 
 
@@ -149,12 +150,12 @@ public class AccountManagement implements IAccountManagement {
             throw new RuntimeException("Could not find the user");
         }
 
-        currentUser = new AccountDTO(account);
+        currentUser = new Account(account);
     }
 
     @Override
     public void logout() {
-        currentUser = new AccountDTO();
+        currentUser = new Account();
     }
 
 
@@ -181,7 +182,7 @@ public class AccountManagement implements IAccountManagement {
 
         account = Database.getInstance().addAccount(account, hashPassword(password));
 
-        return new AccountDTO(account);
+        return new Account(account);
     }
 
 
@@ -194,7 +195,7 @@ public class AccountManagement implements IAccountManagement {
     public void update(IAccount account, String password) throws NoSuchAlgorithmException {
         assert account != null;
 
-        AccountDTO oldAccount = (AccountDTO) getByUUID(account.getUUID());
+        Account oldAccount = (Account) getByUUID(account.getUUID());
         if (oldAccount == null) {
             throw new RuntimeException("Could not find account with specified uuid.");
         }

@@ -1,9 +1,9 @@
 package com.company.domain;
 
 import com.company.common.AccessLevel;
-import com.company.common.IAccount;
 import com.company.common.IProduction;
 import com.company.data.Database;
+import com.company.domain.descriptions.Production;
 import javafx.util.Pair;
 
 import java.security.AccessControlException;
@@ -32,7 +32,7 @@ public class ProductionManagement implements IProductionManagement {
 
         final List<IProduction> list = new ArrayList<>();
         for (int i = start; i < productions.length && list.size() < max; i++) {
-            list.add(new ProductionDTO(productions[i]));
+            list.add(new Production(productions[i]));
         }
 
         return list.toArray(new IProduction[0]);
@@ -46,7 +46,7 @@ public class ProductionManagement implements IProductionManagement {
 
     @Override
     public IProduction[] search(String[] words, int maxResults) {
-        final List<Pair<ProductionDTO, Integer>> result = new ArrayList<>();
+        final List<Pair<Production, Integer>> result = new ArrayList<>();
 
         for (IProduction production : Database.getInstance().getProductions()) {
             // TODO: Investigate whether linear search is the right one to use
@@ -64,7 +64,7 @@ public class ProductionManagement implements IProductionManagement {
             }
 
             if (matchCount > 0) {
-                result.add(new Pair<>(new ProductionDTO(production), matchCount));
+                result.add(new Pair<>(new Production(production), matchCount));
 
                 //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
@@ -84,11 +84,11 @@ public class ProductionManagement implements IProductionManagement {
     public IProduction[] getByName(String name) {
         assert name != null;
 
-        final List<ProductionDTO> result = new ArrayList<>();
+        final List<Production> result = new ArrayList<>();
 
         for (IProduction production : Database.getInstance().getProductions()) {
             if (trueEquals(production.getName(), name)) {
-                result.add(new ProductionDTO(production));
+                result.add(new Production(production));
             }
         }
 
@@ -100,7 +100,7 @@ public class ProductionManagement implements IProductionManagement {
     public IProduction getByUUID(String uuid) {
         assert uuid != null;
 
-        return new ProductionDTO(Database.getInstance().getProduction(uuid));
+        return new Production(Database.getInstance().getProduction(uuid));
     }
 
 
@@ -114,7 +114,7 @@ public class ProductionManagement implements IProductionManagement {
 
         production = Database.getInstance().addProduction(production);
 
-        return new ProductionDTO(production);
+        return new Production(production);
     }
 
 

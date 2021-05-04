@@ -1,15 +1,15 @@
-package com.company.domain;
+package com.company.domain.descriptions;
 
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
-public class CreditDTO extends PersonDTO implements ICredit {
-    private CreditGroupDTO creditGroup;
+public class Credit extends Person implements ICredit {
+    private CreditGroup creditGroup;
 
-    CreditDTO() {
+    public Credit() {
     }
 
-    CreditDTO(ICredit credit) {
+    public Credit(ICredit credit) {
         setCopyOf(credit);
     }
 
@@ -19,7 +19,7 @@ public class CreditDTO extends PersonDTO implements ICredit {
     }
 
     public void setCreditGroup(ICreditGroup creditGroup) {
-        this.creditGroup = (CreditGroupDTO) creditGroup;
+        this.creditGroup = (CreditGroup) creditGroup;
     }
 
 
@@ -30,6 +30,6 @@ public class CreditDTO extends PersonDTO implements ICredit {
         this.setFirstName(credit.getFirstName());
         this.setMiddleName(credit.getMiddleName());
         this.setLastName(credit.getLastName());
-        this.setCreditGroup(new CreditGroupDTO(credit.getCreditGroup()));
+        this.setCreditGroup(new CreditGroup(credit.getCreditGroup()));
     }
 }
