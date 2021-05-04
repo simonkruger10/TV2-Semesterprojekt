@@ -14,7 +14,7 @@ import javafx.stage.WindowEvent;
 import static com.company.common.Tools.getResourceAsImage;
 
 
-public class GUI extends Application implements GUIHandler {
+public class GUI extends Application implements CallbackHandler {
     private final IAccountManagement aMgt = new AccountManagement();
     private final HomepageController homepageController;
     private Node currentContent;

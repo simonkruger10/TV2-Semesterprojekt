@@ -3,17 +3,14 @@ package com.company.gui;
 import java.io.IOException;
 
 import com.company.common.AccessLevel;
-import com.company.common.ICredit;
 import com.company.common.IProduction;
 import com.company.common.Tools;
 import com.company.domain.ProductionManagement;
 import com.company.gui.parts.ImageRowController;
-import com.company.gui.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import static com.company.common.Tools.getResourceAsImage;
@@ -26,9 +23,9 @@ public class ProductionsOverviewController extends VBox implements UpdateHandler
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private final ContentHandler callback;
+    private final CallbackHandler callback;
 
-    public ProductionsOverviewController(ContentHandler callback) {
+    public ProductionsOverviewController(CallbackHandler callback) {
         this.callback = callback;
 
         try {

@@ -21,9 +21,9 @@ public class CreditsOverviewController extends VBox implements UpdateHandler {
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private final ContentHandler callback;
+    private final CallbackHandler callback;
 
-    public CreditsOverviewController(ContentHandler callback) {
+    public CreditsOverviewController(CallbackHandler callback) {
         this.callback = callback;
 
         try {

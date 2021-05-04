@@ -71,9 +71,9 @@ public class HomepageController extends VBox implements UpdateHandler {
     private VBox content;
 
     private final IAccountManagement aMgt = new AccountManagement();
-    private final GUIHandler callBack;
+    private final CallbackHandler callBack;
 
-    public HomepageController(GUIHandler callBack) {
+    public HomepageController(CallbackHandler callBack) {
         this.callBack = callBack;
 
         try {

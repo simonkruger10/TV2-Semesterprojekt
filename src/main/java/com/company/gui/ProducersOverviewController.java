@@ -21,9 +21,9 @@ public class ProducersOverviewController extends VBox implements UpdateHandler {
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private ContentHandler callback;
+    private CallbackHandler callback;
 
-    public ProducersOverviewController(ContentHandler callback) {
+    public ProducersOverviewController(CallbackHandler callback) {
         this.callback = callback;
 
         try {

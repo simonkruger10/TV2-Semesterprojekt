@@ -34,9 +34,9 @@ public class CreditViewController extends VBox implements UpdateHandler {
     private Button editCreditBtn;
 
     private ICredit credit;
-    private final GUIHandler callback;
+    private final CallbackHandler callback;
 
-    public CreditViewController(String UUID, GUIHandler callback) {
+    public CreditViewController(String UUID, CallbackHandler callback) {
         this.callback = callback;
 
         try {

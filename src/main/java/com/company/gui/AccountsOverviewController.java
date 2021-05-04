@@ -2,21 +2,16 @@ package com.company.gui;
 
 import com.company.common.AccessLevel;
 import com.company.common.IAccount;
-import com.company.common.IProduction;
 import com.company.common.Tools;
 import com.company.domain.AccountManagement;
-import com.company.domain.ProductionManagement;
-import com.company.gui.parts.ImageRowController;
 import com.company.gui.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-import static com.company.common.Tools.getResourceAsImage;
 import static com.company.common.Tools.isEven;
 
 public class AccountsOverviewController extends VBox implements UpdateHandler {
@@ -26,9 +21,9 @@ public class AccountsOverviewController extends VBox implements UpdateHandler {
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private final ContentHandler callback;
+    private final CallbackHandler callback;
 
-    public AccountsOverviewController(ContentHandler callback) {
+    public AccountsOverviewController(CallbackHandler callback) {
         this.callback = callback;
 
         try {

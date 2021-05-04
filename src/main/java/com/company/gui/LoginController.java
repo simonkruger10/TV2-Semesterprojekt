@@ -24,9 +24,9 @@ public class LoginController extends VBox implements UpdateHandler {
     @FXML
     private PasswordField passwordPanel;
 
-    private final LoginHandler callback;
+    private final CallbackHandler callback;
 
-    public LoginController(LoginHandler callback) {
+    public LoginController(CallbackHandler callback) {
         this.callback = callback;
 
         try {

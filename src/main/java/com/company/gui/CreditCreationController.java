@@ -16,8 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-import static com.company.common.Tools.trueVisible;
-
 public class CreditCreationController extends VBox implements UpdateHandler {
     @FXML
     private TextField firstNameText;
@@ -34,9 +32,9 @@ public class CreditCreationController extends VBox implements UpdateHandler {
     @FXML
     private Button addCreditBtn;
 
-    private final ContentHandler callback;
+    private final CallbackHandler callback;
 
-    public CreditCreationController(ContentHandler callback) {
+    public CreditCreationController(CallbackHandler callback) {
         this.callback = callback;
 
         try {

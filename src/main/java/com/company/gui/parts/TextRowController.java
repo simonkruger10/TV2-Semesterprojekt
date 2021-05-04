@@ -1,7 +1,7 @@
 package com.company.gui.parts;
 
 import com.company.common.Tools;
-import com.company.gui.ContentHandler;
+import com.company.gui.CallbackHandler;
 import com.company.gui.Type;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,9 +17,9 @@ public class TextRowController extends HBox {
 
     private final Type type;
     private final String uuid;
-    private final ContentHandler callback;
+    private final CallbackHandler callback;
 
-    public TextRowController(Type type, String uuid, ContentHandler callback) {
+    public TextRowController(Type type, String uuid, CallbackHandler callback) {
         this.type = type;
         this.uuid = uuid;
         this.callback = callback;

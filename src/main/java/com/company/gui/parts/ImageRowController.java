@@ -1,7 +1,7 @@
 package com.company.gui.parts;
 
 import com.company.common.Tools;
-import com.company.gui.ContentHandler;
+import com.company.gui.CallbackHandler;
 import com.company.gui.Type;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,9 +27,9 @@ public class ImageRowController extends VBox {
 
     private final Type type;
     private final String uuid;
-    private final ContentHandler callBack;
+    private final CallbackHandler callBack;
 
-    public ImageRowController(Type type, String uuid, ContentHandler callBack) {
+    public ImageRowController(Type type, String uuid, CallbackHandler callBack) {
         this.type = type;
         this.uuid = uuid;
         this.callBack = callBack;
