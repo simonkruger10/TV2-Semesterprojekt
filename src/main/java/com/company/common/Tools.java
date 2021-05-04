@@ -13,12 +13,17 @@ import java.util.regex.Pattern;
 public class Tools {
     // https://www.regular-expressions.info/email.html
     private static final Pattern EMAIL_PATTERN =
-            Pattern.compile("^(?=[A-Z0-9][A-Z0-9@._%+-]{5,253}+$)[A-Z0-9._%+-]{1,64}+@(?:(?=[A-Z0-9-]{1,63}+\\.)[A-Z0-9]++(?:-[A-Z0-9]++)*+\\.){1,8}+[A-Z]{2,63}+$");
+            Pattern.compile("^(?=[A-Z0-9][A-Z0-9@._%+-]{5,253}+$)" + //Contains only valid characters
+                    "[A-Z0-9._%+-]{1,64}+@" +                   //There has to be a first part, and it must end in @
+                    "(?:" +                                     //Start of non-capturing group
+                        "(?=[A-Z0-9-]{1,63}+\\.)[A-Z0-9]++" +  //There must at least be some text ending with a '.'
+                    "(?:-[A-Z0-9]++)*+\\.){1,8}" +             //It must have text after the '.' and there can be 8 sub-domains
+                    "+[A-Z]{2,63}+$");                         //And there must be some text/country/domain-code to end the email.
 
     // TODO: Find out where Tools should be located
     public static boolean trueContains(String phrase, String keyword) {
         return phrase != null && keyword != null && !keyword.trim().isEmpty()
-                && Pattern.compile(Pattern.quote(keyword), Pattern.CASE_INSENSITIVE).matcher(phrase).find();
+                && Pattern.compile(Pattern.quote(keyword), Pattern.CASE_INSENSITIVE).matcher(phrase).matches();
     }
 
     public static boolean trueEquals(String string1, String string2) {
@@ -31,7 +36,7 @@ public class Tools {
     }
 
     public static boolean isEmailValid(String email) {
-        return EMAIL_PATTERN.matcher(email).find();
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 
     public static URL getResourceAsUrl(String fileName) {
