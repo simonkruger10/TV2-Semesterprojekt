@@ -7,9 +7,10 @@ CREATE DATABASE tv2_semesterprojekt
 
 CREATE TABLE producer
 (
-    id   SERIAL PRIMARY KEY,
-    name VARCHAR(65)  NOT NULL,
-    logo VARCHAR(254) NOT NULL
+    id         SERIAL PRIMARY KEY,
+    name       VARCHAR(65)  NOT NULL,
+    logo       VARCHAR(254) NOT NULL,
+    account_id INTEGER REFERENCES account (id)
 );
 
 CREATE TABLE production
@@ -98,6 +99,7 @@ CREATE TABLE account_producer_relation
 
 CREATE TABLE credit_unit_addition_relation
 (
+    production_id INTEGER NOT NULL REFERENCES production (id),
     credit_id     INTEGER NOT NULL REFERENCES credit_unit (id),
     addition_id   INTEGER NOT NULL REFERENCES addition (id),
     pre_or_suffix BOOLEAN,
@@ -109,13 +111,6 @@ CREATE TABLE credit_person_addition_relation
     credit_id INTEGER NOT NULL REFERENCES credit_person (id),
     PRIMARY KEY (credit_id, addition_id, pre_or_suffix)
 ) INHERITS (credit_unit_addition_relation);
-
-CREATE TABLE production_editing_rights_relation
-(
-    production_id INTEGER NOT NULL REFERENCES production (id),
-    account_id    INTEGER NOT NULL REFERENCES account (id),
-    PRIMARY KEY (production_id, account_id)
-);
 
 INSERT INTO account (f_name, email, access_level, password)
 values ('Admin', 'admin@system.tld', 8,
