@@ -1,9 +1,23 @@
+/*
 drop database IF EXISTS tv2_semesterprojekt;
 CREATE DATABASE tv2_semesterprojekt
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
     CONNECTION LIMIT = -1;
+ */
+
+CREATE TABLE account
+(
+    id           SERIAL PRIMARY KEY,
+    f_name       VARCHAR(65)  NOT NULL,
+    m_name       VARCHAR(65),
+    l_name       TIMESTAMP,
+    email        VARCHAR(253) NOT NULL,
+    access_level INTEGER DEFAULT -1,
+    password     VARCHAR(253) NOT NULL,
+    UNIQUE (email)
+);
 
 CREATE TABLE producer
 (
@@ -48,18 +62,6 @@ CREATE TABLE credit_group
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(65) NOT NULL,
     description TEXT
-);
-
-CREATE TABLE account
-(
-    id           SERIAL PRIMARY KEY,
-    f_name       VARCHAR(65)  NOT NULL,
-    m_name       VARCHAR(65),
-    l_name       TIMESTAMP,
-    email        VARCHAR(253) NOT NULL,
-    access_level INTEGER DEFAULT -1,
-    password     VARCHAR(253) NOT NULL,
-    UNIQUE (email)
 );
 
 CREATE TABLE addition
