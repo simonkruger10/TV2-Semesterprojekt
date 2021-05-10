@@ -50,7 +50,7 @@ CREATE TABLE credit_unit
 CREATE TABLE credit_person
 (
     m_name VARCHAR(65),
-    l_name TIMESTAMP,
+    l_name VARCHAR(65),
     image  VARCHAR(254),
     email  VARCHAR(253) NOT NULL,
     PRIMARY KEY (id),
@@ -93,5 +93,5 @@ CREATE TABLE account_producer_relation
 );
 
 INSERT INTO account (f_name, email, access_level, password)
-values ('Admin', 'admin@system.tld', 8,
+VALUES ('Admin', 'admin@system.tld', 8,
         '83b1c2b4acd1c91f65dd9148d10b990b9ffbf1fce15831250d81e48cf87aa70fac9ebc651757b8f6e8d5c93d6d5310060e8a14a9020e583bf968f8b4b320dae0'); -- System admin
