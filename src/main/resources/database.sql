@@ -64,13 +64,6 @@ CREATE TABLE credit_group
     description TEXT
 );
 
-CREATE TABLE addition
-(
-    id     SERIAL PRIMARY KEY,
-    phrase VARCHAR(35) NOT NULL,
-    UNIQUE (phrase)
-);
-
 CREATE TABLE producer_production_relation
 (
     producer_id   INTEGER NOT NULL REFERENCES producer (id),
@@ -98,21 +91,6 @@ CREATE TABLE account_producer_relation
     producer_id INTEGER NOT NULL REFERENCES producer (id),
     PRIMARY KEY (account_id, producer_id)
 );
-
-CREATE TABLE credit_unit_addition_relation
-(
-    production_id INTEGER NOT NULL REFERENCES production (id),
-    credit_id     INTEGER NOT NULL REFERENCES credit_unit (id),
-    addition_id   INTEGER NOT NULL REFERENCES addition (id),
-    pre_or_suffix BOOLEAN,
-    PRIMARY KEY (credit_id, addition_id, pre_or_suffix)
-);
-
-CREATE TABLE credit_person_addition_relation
-(
-    credit_id INTEGER NOT NULL REFERENCES credit_person (id),
-    PRIMARY KEY (credit_id, addition_id, pre_or_suffix)
-) INHERITS (credit_unit_addition_relation);
 
 INSERT INTO account (f_name, email, access_level, password)
 values ('Admin', 'admin@system.tld', 8,
