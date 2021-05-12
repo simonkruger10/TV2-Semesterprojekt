@@ -23,7 +23,7 @@ CREATE TABLE producer
 (
     id         SERIAL PRIMARY KEY,
     name       VARCHAR(65)  NOT NULL,
-    logo       VARCHAR(254) NOT NULL,
+    logo       VARCHAR(254),
     account_id INTEGER REFERENCES account (id)
 );
 
@@ -64,11 +64,11 @@ CREATE TABLE credit_group
     description TEXT
 );
 
-CREATE TABLE producer_production_relation
+CREATE TABLE production_producer_relation
 (
-    producer_id   INTEGER NOT NULL REFERENCES producer (id),
     production_id INTEGER NOT NULL REFERENCES production (id),
-    PRIMARY KEY (producer_id, production_id)
+    producer_id   INTEGER NOT NULL REFERENCES producer (id),
+    PRIMARY KEY (production_id, producer_id)
 );
 
 CREATE TABLE production_credit_unit_relation
@@ -85,13 +85,3 @@ CREATE TABLE production_credit_person_relation
     PRIMARY KEY (production_id, credit_id, credit_group_id)
 ) INHERITS (production_credit_unit_relation);
 
-CREATE TABLE account_producer_relation
-(
-    account_id  INTEGER NOT NULL REFERENCES account (id),
-    producer_id INTEGER NOT NULL REFERENCES producer (id),
-    PRIMARY KEY (account_id, producer_id)
-);
-
-INSERT INTO account (f_name, email, access_level, password)
-VALUES ('Admin', 'admin@system.tld', 8,
-        '83b1c2b4acd1c91f65dd9148d10b990b9ffbf1fce15831250d81e48cf87aa70fac9ebc651757b8f6e8d5c93d6d5310060e8a14a9020e583bf968f8b4b320dae0'); -- System admin
