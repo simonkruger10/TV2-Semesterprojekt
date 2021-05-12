@@ -4,6 +4,8 @@ module com.company {
     requires javafx.graphics;
     requires javafx.base;
     requires org.json;
+    requires java.sql;
+    requires org.postgresql.jdbc;
     opens com.company.gui;
     opens com.company;
     opens com.company.common;
