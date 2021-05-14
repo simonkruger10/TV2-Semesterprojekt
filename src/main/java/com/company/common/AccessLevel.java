@@ -1,7 +1,6 @@
 package com.company.common;
 
 public enum AccessLevel {
-    // TODO: Find out where AccessLevel should be located
     GUEST("Guest", -1),
     CONSUMER("Consumer", 1),
     PRODUCER("Producer", 2),

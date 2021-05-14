@@ -56,9 +56,7 @@
         </padding>
         <VBox alignment="CENTER">
             <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@../images/TV_2_RGB.png" />
-                </image>
+                <Image url="@../images/TV_2_RGB.png"/>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
                 <font>
@@ -68,9 +66,7 @@
         </VBox>
         <VBox alignment="CENTER">
             <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@../images/TV_2_RGB.png" />
-                </image>
+                <Image url="@../images/TV_2_RGB.png"/>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
                 <font>
@@ -80,9 +76,7 @@
         </VBox>
         <VBox alignment="CENTER">
             <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@../images/TV_2_RGB.png" />
-                </image>
+                <Image url="@../images/TV_2_RGB.png"/>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
                 <font>
@@ -92,9 +86,7 @@
         </VBox>
         <VBox alignment="CENTER">
             <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@../images/TV_2_RGB.png" />
-                </image>
+                <Image url="@../images/TV_2_RGB.png"/>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
                 <font>
@@ -117,9 +109,7 @@
         </padding>
         <VBox alignment="CENTER">
             <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@../images/TV_2_RGB.png" />
-                </image>
+                <Image url="@../images/TV_2_RGB.png"/>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
                 <font>
@@ -129,9 +119,7 @@
         </VBox>
         <VBox alignment="CENTER">
             <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@../images/TV_2_RGB.png" />
-                </image>
+                <Image url="@../images/TV_2_RGB.png"/>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
                 <font>
@@ -141,9 +129,7 @@
         </VBox>
         <VBox alignment="CENTER">
             <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@../images/TV_2_RGB.png" />
-                </image>
+                <Image url="@../images/TV_2_RGB.png"/>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
                 <font>
@@ -153,9 +139,7 @@
         </VBox>
         <VBox alignment="CENTER">
             <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <image>
-                    <Image url="@../images/TV_2_RGB.png" />
-                </image>
+                <Image url="@../images/TV_2_RGB.png"/>
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="asdasd">
                 <font>

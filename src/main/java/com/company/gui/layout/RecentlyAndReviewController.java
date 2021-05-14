@@ -1,9 +1,10 @@
-package com.company.gui;
+package com.company.gui.layout;
 
 import java.io.IOException;
 
 import com.company.common.AccessLevel;
 import com.company.common.Tools;
+import com.company.gui.UpdateHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;

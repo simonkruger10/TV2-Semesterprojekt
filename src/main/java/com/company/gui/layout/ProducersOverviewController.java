@@ -1,8 +1,12 @@
-package com.company.gui;
+package com.company.gui.layout;
 
 import com.company.common.AccessLevel;
 import com.company.common.Tools;
-import com.company.gui.parts.ImageRowController;
+import com.company.gui.CallbackHandler;
+import com.company.gui.Colors;
+import com.company.gui.Type;
+import com.company.gui.UpdateHandler;
+import com.company.gui.layout.parts.ImageRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -21,7 +25,7 @@ public class ProducersOverviewController extends VBox implements UpdateHandler {
     @FXML
     private ComboBox<?> sortByBtn;
 
-    private CallbackHandler callback;
+    private final CallbackHandler callback;
 
     public ProducersOverviewController(CallbackHandler callback) {
         this.callback = callback;

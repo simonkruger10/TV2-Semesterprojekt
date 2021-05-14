@@ -1,10 +1,14 @@
-package com.company.gui;
+package com.company.gui.layout;
 
 import com.company.common.AccessLevel;
 import com.company.common.ICredit;
 import com.company.common.Tools;
 import com.company.domain.CreditManagement;
-import com.company.gui.parts.TextRowController;
+import com.company.gui.CallbackHandler;
+import com.company.gui.Colors;
+import com.company.gui.Type;
+import com.company.gui.UpdateHandler;
+import com.company.gui.layout.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;

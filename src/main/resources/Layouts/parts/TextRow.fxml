@@ -37,6 +37,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<!--suppress XmlHighlighting -->
 <fx:root onMouseClicked="#show" style="-fx-background-color: #FFFFFF;" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <cursor>
       <Cursor fx:constant="HAND" />

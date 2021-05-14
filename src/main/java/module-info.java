@@ -6,11 +6,12 @@ module com.company {
     requires org.json;
     requires java.sql;
     requires org.postgresql.jdbc;
-    opens com.company.gui;
     opens com.company;
     opens com.company.common;
     opens com.company.domain;
-    opens com.company.gui.entity;
-    opens com.company.gui.parts;
     opens com.company.domain.descriptions;
+    opens com.company.gui;
+    opens com.company.gui.entity;
+    opens com.company.gui.layout;
+    opens com.company.gui.layout.parts;
 }

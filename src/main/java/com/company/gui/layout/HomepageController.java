@@ -1,9 +1,12 @@
-package com.company.gui;
+package com.company.gui.layout;
 
 import java.io.IOException;
 
 import com.company.common.*;
 import com.company.domain.*;
+import com.company.gui.CallbackHandler;
+import com.company.gui.Type;
+import com.company.gui.UpdateHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;

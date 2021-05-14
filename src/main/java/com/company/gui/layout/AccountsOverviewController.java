@@ -1,22 +1,24 @@
-package com.company.gui;
-
-import java.io.IOException;
+package com.company.gui.layout;
 
 import com.company.common.AccessLevel;
-import com.company.common.IProduction;
+import com.company.common.IAccount;
 import com.company.common.Tools;
-import com.company.domain.ProductionManagement;
-import com.company.gui.parts.ImageRowController;
+import com.company.domain.AccountManagement;
+import com.company.gui.CallbackHandler;
+import com.company.gui.Colors;
+import com.company.gui.Type;
+import com.company.gui.UpdateHandler;
+import com.company.gui.layout.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
-import static com.company.common.Tools.getResourceAsImage;
+import java.io.IOException;
+
 import static com.company.common.Tools.isEven;
 
-public class ProductionsOverviewController extends VBox implements UpdateHandler {
+public class AccountsOverviewController extends VBox implements UpdateHandler {
     @FXML
     private VBox main;
 
@@ -25,7 +27,7 @@ public class ProductionsOverviewController extends VBox implements UpdateHandler
 
     private final CallbackHandler callback;
 
-    public ProductionsOverviewController(CallbackHandler callback) {
+    public AccountsOverviewController(CallbackHandler callback) {
         this.callback = callback;
 
         try {
@@ -37,32 +39,19 @@ public class ProductionsOverviewController extends VBox implements UpdateHandler
             throw new RuntimeException(e);
         }
 
-        showList(new ProductionManagement().list());
+        showList(new AccountManagement().list());
     }
 
-    public void showList(IProduction[] productions) {
+    public void showList(IAccount[] accounts) {
         int i = main.getChildren().size();
 
-        for (IProduction production : productions) {
-            ImageRowController cRow = new ImageRowController(Type.PRODUCTION, production.getUUID(), callback);
+        for (IAccount account : accounts) {
+            TextRowController cRow = new TextRowController(Type.ACCOUNT, account.getUUID(), callback);
 
-            Image image = production.getImage();
-            if ( image != null) {
-                cRow.setImage(image);
-            } else if (isEven(i)) {
-                cRow.setImage(getResourceAsImage("/images/TV_2_RGB.png"));
-            } else {
-                cRow.setImage(getResourceAsImage("/images/TV_2_Hvid_RGB.png"));
-            }
-
-            cRow.setText(production.getName());
+            cRow.setText(account.getFullName());
 
             if (!isEven(i)) {
                 cRow.setBackground(Colors.ODD_COLOR);
-            }
-
-            if (main.getChildren().size() == 0) {
-                cRow.setTopMargin(0);
             }
 
             main.getChildren().add(i, cRow);
@@ -72,7 +61,7 @@ public class ProductionsOverviewController extends VBox implements UpdateHandler
 
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
-        return true;
+        return accessLevel.equals(AccessLevel.ADMINISTRATOR);
     }
 
     @Override

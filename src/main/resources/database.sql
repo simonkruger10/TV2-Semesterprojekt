@@ -1,3 +1,5 @@
+-- noinspection SpellCheckingInspectionForFile
+
 /*
 drop database IF EXISTS tv2_semesterprojekt;
 CREATE DATABASE tv2_semesterprojekt

@@ -17,7 +17,7 @@ import static com.company.common.Tools.*;
 
 public class AccountManagement implements IAccountManagement {
     private static Account currentUser = new Account();
-    @SuppressWarnings("FieldCanBeLocal")
+    @SuppressWarnings({"FieldCanBeLocal", "SpellCheckingInspection"})
     private final String saltValue = "qOfzSKTYGNhmf4bT73ZMxmHe5C3FR756HANUIOmejTLs5PZb6mqAlVJPyOXeEwJ23NyySubPx51YILZWqdDG6BvB3XNYCJpw8HJXJ4Wh5lM8DcWiDqjnQRqeyf8nUshPmiDt38RDlQGQ";
 
     @Override

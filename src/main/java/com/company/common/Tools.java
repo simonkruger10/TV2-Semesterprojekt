@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -20,7 +19,6 @@ public class Tools {
                     "(?:-[A-Z0-9]++)*+\\.){1,8}" +             //It must have text after the '.' and there can be 8 sub-domains
                     "+[A-Z]{2,63}+$");                         //And there must be some text/country/domain-code to end the email.
 
-    // TODO: Find out where Tools should be located
     public static boolean trueContains(String phrase, String keyword) {
         return phrase != null && keyword != null && !keyword.trim().isEmpty()
                 && Pattern.compile(Pattern.quote(keyword), Pattern.CASE_INSENSITIVE).matcher(phrase).matches();

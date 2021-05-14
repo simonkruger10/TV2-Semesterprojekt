@@ -65,6 +65,7 @@
 
         <!-- Main Source -->
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory> <!-- Java dir -->
+        <!--suppress MavenModelInspection -->
         <scriptSourceDirectory>${project.basedir}/src/main/scripts</scriptSourceDirectory> <!-- Scripts dir -->
         <resources>
             <resource>

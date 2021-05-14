@@ -1,4 +1,4 @@
-package com.company.gui;
+package com.company.gui.layout;
 
 import java.io.IOException;
 
@@ -7,6 +7,9 @@ import com.company.common.ICreditGroup;
 import com.company.common.Tools;
 import com.company.domain.CreditGroupManagement;
 import com.company.domain.CreditManagement;
+import com.company.gui.CallbackHandler;
+import com.company.gui.Type;
+import com.company.gui.UpdateHandler;
 import com.company.gui.entity.Credit;
 import com.company.gui.entity.CreditGroup;
 import javafx.fxml.FXML;

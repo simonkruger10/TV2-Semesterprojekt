@@ -1,4 +1,4 @@
-package com.company.gui;
+package com.company.gui.layout;
 
 import java.io.IOException;
 import java.util.*;
@@ -9,11 +9,14 @@ import com.company.common.IProduction;
 import com.company.common.Tools;
 import com.company.domain.AccountManagement;
 import com.company.domain.ProductionManagement;
-import com.company.gui.parts.HeaderRowController;
-import com.company.gui.parts.TextRowController;
+import com.company.gui.Colors;
+import com.company.gui.GUI;
+import com.company.gui.Type;
+import com.company.gui.UpdateHandler;
+import com.company.gui.layout.parts.HeaderRowController;
+import com.company.gui.layout.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

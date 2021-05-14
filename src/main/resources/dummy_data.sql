@@ -1,3 +1,6 @@
+-- noinspection SpellCheckingInspectionForFile
+
+--
 -- account
 --
 INSERT INTO account (f_name, m_name, l_name, email, access_level, password) VALUES ('Admin', null, null, 'admin@system.tld', 8, '83b1c2b4acd1c91f65dd9148d10b990b9ffbf1fce15831250d81e48cf87aa70fac9ebc651757b8f6e8d5c93d6d5310060e8a14a9020e583bf968f8b4b320dae0');

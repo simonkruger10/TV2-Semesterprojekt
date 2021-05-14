@@ -1,4 +1,4 @@
-package com.company.gui;
+package com.company.gui.layout;
 
 import java.io.IOException;
 
@@ -7,6 +7,9 @@ import com.company.common.ICredit;
 import com.company.common.Tools;
 import com.company.domain.AccountManagement;
 import com.company.domain.CreditManagement;
+import com.company.gui.CallbackHandler;
+import com.company.gui.Type;
+import com.company.gui.UpdateHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;

@@ -40,43 +40,43 @@
 <?import javafx.scene.text.Font?>
 
 
+<!--suppress XmlHighlighting -->
 <fx:root spacing="10.0" xmlns="http://javafx.com/javafx/12" xmlns:fx="http://javafx.com/fxml/1" type="VBox">
-   <children>
-      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Add Credit">
-         <font>
-            <Font size="24.0" />
-         </font>
-         <VBox.margin>
-            <Insets bottom="20.0" />
-         </VBox.margin>
-      </Label>
-      <TextField fx:id="firstNameText" promptText="First name">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="middleNameText" promptText="Middle name">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="lastNameText" promptText="Last name">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="creditGroupText" promptText="Credit group">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </TextField>
-      <Button fx:id="addCreditBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addCredit" prefHeight="50.0" text="Add">
-         <font>
-            <Font name="Arial" size="12.0" />
-         </font>
-         <VBox.margin>
-            <Insets top="20.0" />
-         </VBox.margin>
-      </Button>
-   </children>
+    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Add Credit">
+        <font>
+          <Font size="24.0"/>
+        </font>
+        <VBox.margin>
+          <Insets bottom="20.0"/>
+        </VBox.margin>
+    </Label>
+    <TextField fx:id="firstNameText" promptText="First name">
+        <font>
+          <Font size="16.0"/>
+        </font>
+    </TextField>
+    <TextField fx:id="middleNameText" promptText="Middle name">
+        <font>
+          <Font size="16.0"/>
+        </font>
+    </TextField>
+    <TextField fx:id="lastNameText" promptText="Last name">
+        <font>
+          <Font size="16.0"/>
+        </font>
+    </TextField>
+    <TextField fx:id="creditGroupText" promptText="Credit group">
+        <font>
+          <Font size="16.0"/>
+        </font>
+    </TextField>
+    <Button fx:id="addCreditBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+            mnemonicParsing="false" onMouseClicked="#addCredit" prefHeight="50.0" text="Add">
+        <font>
+          <Font name="Arial" size="12.0"/>
+        </font>
+        <VBox.margin>
+          <Insets top="20.0"/>
+        </VBox.margin>
+    </Button>
 </fx:root>
