@@ -1,6 +1,6 @@
 package com.company.domain;
 
-import com.company.common.AccessLevel;
+import com.company.common.IAccount;
 import com.company.common.IProduction;
 import com.company.data.Database;
 import com.company.domain.descriptions.Production;
@@ -15,6 +15,7 @@ import static com.company.common.Tools.*;
 
 public class ProductionManagement implements IProductionManagement {
     private final AccountManagement aMgt = new AccountManagement();
+    private final ProducerManagement pMgt = new ProducerManagement();
 
     @Override
     public IProduction[] list() {
@@ -106,9 +107,14 @@ public class ProductionManagement implements IProductionManagement {
 
     @Override
     public IProduction create(IProduction production) {
-        controlsAccess();
-
         controlsRequirements(production);
+
+        IAccount producerAccount = pMgt.getByID(production.getProducer().getID()).getAccount();
+        if (!aMgt.isAdmin() && (producerAccount == null ||
+                !trueEquals(producerAccount.getID(), aMgt.getCurrentUser().getID()))) {
+            throw new AccessControlException("Insufficient permission.");
+        }
+
 
         // TODO: Check for duplicates
 
@@ -120,10 +126,16 @@ public class ProductionManagement implements IProductionManagement {
 
     @Override
     public void update(IProduction production) {
-        controlsAccess();
+        IProduction oldProduction = getByID(production.getID());
 
-        if (getByID(production.getID()) == null) {
+        if (oldProduction == null) {
             throw new RuntimeException("Could not find production with specified id.");
+        }
+
+        IAccount producerAccount = pMgt.getByID(oldProduction.getProducer().getID()).getAccount();
+        if (!aMgt.isAdmin() && (producerAccount == null ||
+                !trueEquals(producerAccount.getID(), aMgt.getCurrentUser().getID()))) {
+            throw new AccessControlException("Insufficient permission.");
         }
 
         controlsRequirements(production);
@@ -131,14 +143,6 @@ public class ProductionManagement implements IProductionManagement {
         // TODO: Check for duplicates
 
         Database.getInstance().updateProduction(production);
-    }
-
-
-    private void controlsAccess() {
-        // TODO: Check the access is correct
-        if (aMgt.getCurrentUser().getAccessLevel() != AccessLevel.PRODUCER && !aMgt.isAdmin()) {
-            throw new AccessControlException("Insufficient permission.");
-        }
     }
 
     private void controlsRequirements(IProduction production) {

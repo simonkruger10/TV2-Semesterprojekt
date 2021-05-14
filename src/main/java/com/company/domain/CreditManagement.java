@@ -136,6 +136,9 @@ public class CreditManagement implements ICreditManagement {
 
     @Override
     public ICredit create(ICredit credit) {
+        // TODO: These access requirements are incorrect. A producer can only create a credit when the producer
+        //       create or update own production. Solution: implement an overloading method of create method
+        //       with augment production: IProduction
         controlsAccess();
 
         controlsRequirements(credit);
@@ -150,6 +153,9 @@ public class CreditManagement implements ICreditManagement {
 
     @Override
     public void update(ICredit credit) {
+        // TODO: These access requirements are incorrect. A producer can only update a credit when the producer
+        //       create or update own production. Solution: implement an overloading method of update method
+        //       with augment production: IProduction
         controlsAccess();
 
         if (getByID(credit.getID()) == null) {
@@ -165,7 +171,6 @@ public class CreditManagement implements ICreditManagement {
 
 
     private void controlsAccess() {
-        // TODO: Check the access is correct
         if (aMgt.getCurrentUser().getAccessLevel() != AccessLevel.PRODUCER && !aMgt.isAdmin()) {
             throw new AccessControlException("Insufficient permission.");
         }

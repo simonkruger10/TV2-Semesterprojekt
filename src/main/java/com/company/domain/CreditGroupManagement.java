@@ -99,7 +99,9 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
     @Override
     public ICreditGroup create(ICreditGroup creditGroup) {
-        // TODO: Check the access is correct
+        // TODO: These access requirements are incorrect. A producer can only create a credit group when the producer
+        //       create or update own production. Solution: implement an overloading method of create method
+        //       with augment production: IProduction
         if (aMgt.getCurrentUser().getAccessLevel() != AccessLevel.PRODUCER && !aMgt.isAdmin()) {
             throw new AccessControlException("Insufficient permission.");
         }
@@ -120,7 +122,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
     public void update(ICreditGroup creditGroup) {
         assert creditGroup != null;
 
-        // TODO: Check the access is correct
+        // Only administrators can change a credit group
         if (!aMgt.isAdmin()) {
             throw new AccessControlException("Insufficient permission.");
         }

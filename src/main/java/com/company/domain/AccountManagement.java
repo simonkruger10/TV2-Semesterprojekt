@@ -167,6 +167,7 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public IAccount create(IAccount account, String password) throws NoSuchAlgorithmException {
+        // Only administrators can create a account
         if (!isAdmin()) {
             throw new AccessControlException("Insufficient permission.");
         }
@@ -200,6 +201,7 @@ public class AccountManagement implements IAccountManagement {
             throw new RuntimeException("Could not find account with specified id.");
         }
 
+        // Account owners can update own account and administrators can change all accounts
         if (!trueEquals(currentUser.getID(), oldAccount.getID()) && !isAdmin()) {
             throw new AccessControlException("Insufficient permission.");
         }
