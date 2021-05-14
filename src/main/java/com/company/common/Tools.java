@@ -29,6 +29,10 @@ public class Tools {
                 && string1.equalsIgnoreCase(string2);
     }
 
+    public static boolean trueEquals(Integer number, Integer number1) {
+        return number != null && number.equals(number1);
+    }
+
     public static boolean isNullOrEmpty(String string) {
         return string == null || string.trim().isEmpty();
     }

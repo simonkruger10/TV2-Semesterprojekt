@@ -1,141 +1,127 @@
 package com.company.data;
 
 import com.company.common.*;
+import com.company.data.DatabaseFacade;
 
-public class Database implements DatabaseFacade {
-    private static DatabaseFacade instance;
-    private final DatabaseFacade database;
-
-    private Database() {
-        this.database = new Postgresql();
-    }
-
-    public static DatabaseFacade getInstance() {
-        if (instance == null) {
-            instance = new Database();
-        }
-        return instance;
-    }
-
-
+public class Postgresql implements DatabaseFacade {
     @Override
     public boolean checkAccess() {
-        return this.database.checkAccess();
+        return false;
     }
 
 
     @Override
     public IProducer[] getProducers() {
-        return this.database.getProducers();
+        return new IProducer[0];
     }
 
     @Override
     public IProducer getProducer(Integer id) {
-        return this.database.getProducer(id);
+        return null;
     }
 
     @Override
     public IProducer addProducer(IProducer producer) {
-        return this.database.addProducer(producer);
+        return null;
     }
 
     @Override
     public void updateProducer(IProducer producer) {
-        this.database.updateProducer(producer);
+
     }
 
 
     @Override
     public IProduction[] getProductions() {
-        return this.database.getProductions();
+        return new IProduction[0];
     }
 
     @Override
     public IProduction getProduction(Integer id) {
-        return this.database.getProduction(id);
+        return null;
     }
 
     @Override
     public IProduction addProduction(IProduction production) {
-        return this.database.addProduction(production);
+        return null;
     }
 
     @Override
     public void updateProduction(IProduction production) {
-        this.database.updateProduction(production);
+
     }
 
 
     @Override
     public ICredit[] getCredits() {
-        return this.database.getCredits();
+        return new ICredit[0];
     }
 
     @Override
-    public ICredit getCredit(Integer id) {
-        return this.database.getCredit(id);
+    public ICredit getCredit(Integer uuid) {
+        return null;
     }
 
     @Override
     public ICredit addCredit(ICredit credit) {
-        return this.database.addCredit(credit);
+        return null;
     }
 
     @Override
     public void updateCredit(ICredit credit) {
-        this.database.updateCredit(credit);
+
     }
 
 
     @Override
     public ICreditGroup[] getCreditGroups() {
-        return this.database.getCreditGroups();
+        return new ICreditGroup[0];
     }
 
     @Override
     public ICreditGroup getCreditGroup(Integer id) {
-        return this.database.getCreditGroup(id);
+        return null;
     }
 
     @Override
     public ICreditGroup addCreditGroup(ICreditGroup creditGroup) {
-        return this.database.addCreditGroup(creditGroup);
+        return null;
     }
 
     @Override
     public void updateCreditGroup(ICreditGroup creditGroup) {
-        this.database.updateCreditGroup(creditGroup);
+
     }
 
 
     @Override
     public IAccount[] getAccounts() {
-        return this.database.getAccounts();
+        return new IAccount[0];
     }
 
     @Override
     public IAccount getAccount(Integer id) {
-        return this.database.getAccount(id);
+        return null;
     }
 
     @Override
     public IAccount addAccount(IAccount account, String hashedPassword) {
-        return this.database.addAccount(account, hashedPassword);
+        return null;
     }
 
     @Override
     public void updateAccount(IAccount account) {
-        this.database.updateAccount(account);
+
     }
 
     @Override
     public void updateAccount(IAccount account, String hashedPassword) {
-        this.database.updateAccount(account, hashedPassword);
+
     }
 
 
     @Override
     public IAccount login(IAccount account, String password) {
-        return this.database.login(account, password);
+        return null;
     }
 }

@@ -1,7 +1,9 @@
 package com.company.common;
 
 public interface ICreditGroup {
-    String getUUID();
+    Integer getID();
 
     String getName();
+
+    String getDescription();
 }

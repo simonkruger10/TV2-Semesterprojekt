@@ -132,10 +132,10 @@ public class AccountManagement implements IAccountManagement {
 
 
     @Override
-    public IAccount getByUUID(String uuid) {
-        assert uuid != null;
+    public IAccount getByID(Integer id) {
+        assert id != null;
 
-        return new Account(Database.getInstance().getAccount(uuid));
+        return new Account(Database.getInstance().getAccount(id));
     }
 
 
@@ -195,12 +195,12 @@ public class AccountManagement implements IAccountManagement {
     public void update(IAccount account, String password) throws NoSuchAlgorithmException {
         assert account != null;
 
-        Account oldAccount = (Account) getByUUID(account.getUUID());
+        Account oldAccount = (Account) getByID(account.getID());
         if (oldAccount == null) {
-            throw new RuntimeException("Could not find account with specified uuid.");
+            throw new RuntimeException("Could not find account with specified id.");
         }
 
-        if (trueEquals(currentUser.getUUID(), oldAccount.getUUID()) && !isAdmin()) {
+        if (trueEquals(currentUser.getID(), oldAccount.getID()) && !isAdmin()) {
             throw new AccessControlException("Insufficient permission.");
         }
 

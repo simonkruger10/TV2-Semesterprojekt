@@ -22,13 +22,6 @@
     </properties>
 
     <dependencies>
-        <!-- json -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20210307</version>
-        </dependency>
-
         <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>

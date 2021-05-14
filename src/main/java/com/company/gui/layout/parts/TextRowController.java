@@ -16,12 +16,12 @@ public class TextRowController extends HBox {
     private Text text;
 
     private final Type type;
-    private final String uuid;
+    private final Integer id;
     private final CallbackHandler callback;
 
-    public TextRowController(Type type, String uuid, CallbackHandler callback) {
+    public TextRowController(Type type, Integer id, CallbackHandler callback) {
         this.type = type;
-        this.uuid = uuid;
+        this.id = id;
         this.callback = callback;
 
         try {
@@ -44,6 +44,8 @@ public class TextRowController extends HBox {
 
     @FXML
     private void show(MouseEvent event) {
-        callback.show(type, uuid);
+        callback.show(type, id);
     }
 }
+
+

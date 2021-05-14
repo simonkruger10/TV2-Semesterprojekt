@@ -39,7 +39,7 @@ public class CreditViewController extends VBox implements UpdateHandler {
     private ICredit credit;
     private final CallbackHandler callback;
 
-    public CreditViewController(String UUID, CallbackHandler callback) {
+    public CreditViewController(Integer id, CallbackHandler callback) {
         this.callback = callback;
 
         try {
@@ -53,11 +53,11 @@ public class CreditViewController extends VBox implements UpdateHandler {
 
         update();
 
-        viewCredit(UUID);
+        viewCredit(id);
     }
 
-    public void viewCredit(String UUID) {
-        credit = new CreditManagement().getByUUID(UUID);
+    public void viewCredit(Integer id) {
+        credit = new CreditManagement().getByID(id);
         firstName.setText(credit.getFirstName());
         middleName.setText(credit.getMiddleName());
         lastName.setText(credit.getLastName());
@@ -66,7 +66,7 @@ public class CreditViewController extends VBox implements UpdateHandler {
 
     @FXML
     private void editCredit(MouseEvent event) {
-        callback.edit(Type.CREDIT, credit.getUUID());
+        callback.edit(Type.CREDIT, credit.getID());
     }
 
     @Override

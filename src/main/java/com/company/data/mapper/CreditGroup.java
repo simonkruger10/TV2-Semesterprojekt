@@ -2,9 +2,19 @@ package com.company.data.mapper;
 
 import com.company.common.ICreditGroup;
 
-public class CreditGroup extends Main implements ICreditGroup {
-    private String name;
+public class CreditGroup extends Identifier implements ICreditGroup {
+    private String name = null;
+    private String description = null;
 
+    public CreditGroup() {
+    }
+
+    public CreditGroup(ICreditGroup creditGroup) {
+        this.setCopyOf(creditGroup);
+    }
+
+
+    @Override
     public String getName() {
         return name;
     }
@@ -13,17 +23,20 @@ public class CreditGroup extends Main implements ICreditGroup {
         this.name = name;
     }
 
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 
     public void setCopyOf(ICreditGroup creditGroup) {
         assert creditGroup != null;
 
         this.setName(creditGroup.getName());
-    }
-
-    public String toJsonString() {
-        return "{" +
-                "\"_uuid\":\"" + getUUID() + "\"," +
-                "\"name\":\"" + name + "\"" +
-                '}';
+        this.setDescription(creditGroup.getDescription());
     }
 }

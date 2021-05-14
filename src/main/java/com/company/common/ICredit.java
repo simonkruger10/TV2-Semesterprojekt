@@ -1,7 +1,9 @@
 package com.company.common;
 
 public interface ICredit {
-    String getUUID();
+    Integer getID();
+
+    CreditType getType();
 
     String getFullName();
 
@@ -10,6 +12,10 @@ public interface ICredit {
     String getLastName();
 
     String getMiddleName();
+
+    String getImage();
+
+    String getName();
 
     ICreditGroup getCreditGroup();
 }

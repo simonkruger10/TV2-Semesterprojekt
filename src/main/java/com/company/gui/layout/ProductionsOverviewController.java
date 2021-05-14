@@ -14,7 +14,6 @@ import com.company.gui.layout.parts.ImageRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 
 import static com.company.common.Tools.getResourceAsImage;
@@ -48,11 +47,11 @@ public class ProductionsOverviewController extends VBox implements UpdateHandler
         int i = main.getChildren().size();
 
         for (IProduction production : productions) {
-            ImageRowController cRow = new ImageRowController(Type.PRODUCTION, production.getUUID(), callback);
+            ImageRowController cRow = new ImageRowController(Type.PRODUCTION, production.getID(), callback);
 
-            Image image = production.getImage();
+            String image = production.getImage();
             if ( image != null) {
-                cRow.setImage(image);
+                cRow.setImage(getResourceAsImage(image));
             } else if (isEven(i)) {
                 cRow.setImage(getResourceAsImage("/images/TV_2_RGB.png"));
             } else {

@@ -12,7 +12,7 @@ public interface IProductionManagement {
 
     IProduction[] getByName(String name);
 
-    IProduction getByUUID(String uuid);
+    IProduction getByID(Integer id);
 
     IProduction create(IProduction credit);
 

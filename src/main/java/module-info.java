@@ -3,7 +3,6 @@ module com.company {
     requires javafx.fxml;
     requires javafx.graphics;
     requires javafx.base;
-    requires org.json;
     requires java.sql;
     requires org.postgresql.jdbc;
     opens com.company;

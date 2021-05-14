@@ -4,17 +4,13 @@ import com.company.common.AccessLevel;
 import com.company.common.IAccount;
 
 public class Account extends Person implements IAccount {
-    private String email = null;
-    private String hashedPassword = null;
     private AccessLevel accessLevel = null;
 
-    @Override
-    public String getEmail() {
-        return email;
+    public Account() {
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public Account(IAccount account) {
+        this.setCopyOf(account);
     }
 
 
@@ -28,15 +24,6 @@ public class Account extends Person implements IAccount {
     }
 
 
-    public String getPassword() {
-        return hashedPassword;
-    }
-
-    public void setPassword(String hashedPassword) {
-        this.hashedPassword = hashedPassword;
-    }
-
-
     public void setCopyOf(IAccount account) {
         assert account != null;
 
@@ -45,17 +32,5 @@ public class Account extends Person implements IAccount {
         this.setLastName(account.getLastName());
         this.setEmail(account.getEmail());
         this.setAccessLevel(account.getAccessLevel());
-    }
-
-    public String toJsonString() {
-        return "{" +
-                "\"_uuid\":\"" + getUUID() + "\"," +
-                "\"firstName\":\"" + getFirstName() + "\"," +
-                "\"middleName\":\"" + getMiddleName() + "\"," +
-                "\"lastName\":\"" + getLastName() + "\"," +
-                "\"email\":\"" + email + "\"," +
-                "\"hashedPassword\":\"" + hashedPassword + "\"," +
-                "\"accessLevel\":\"" + accessLevel + "\"" +
-                '}';
     }
 }

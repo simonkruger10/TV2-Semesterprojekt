@@ -1,15 +1,21 @@
 package com.company.common;
 
-import javafx.scene.image.Image;
-
 public interface IProduction {
-    String getUUID();
+    Integer getID();
 
     String getName();
 
+    String getReleaseDay();
+
+    String getReleaseMonth();
+
+    String getReleaseYear();
+
     String getDescription();
 
-    Image getImage();
+    String getImage();
+
+    IProducer getProducer();
 
     ICredit[] getCredits();
 }

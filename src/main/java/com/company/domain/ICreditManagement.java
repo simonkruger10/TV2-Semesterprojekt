@@ -16,7 +16,7 @@ public interface ICreditManagement {
 
     ICredit[] getByGroup(String groupName);
 
-    ICredit getByUUID(String uuid);
+    ICredit getByID(Integer id);
 
     ICredit create(ICredit credit);
 

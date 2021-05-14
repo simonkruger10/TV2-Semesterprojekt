@@ -1,7 +1,7 @@
 package com.company.common;
 
 public interface IAccount {
-    String getUUID();
+    Integer getID();
 
     String getFullName();
 

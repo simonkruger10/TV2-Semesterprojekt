@@ -127,10 +127,10 @@ public class CreditManagement implements ICreditManagement {
 
 
     @Override
-    public ICredit getByUUID(String uuid) {
-        assert uuid != null;
+    public ICredit getByID(Integer id) {
+        assert id != null;
 
-        return new Credit(Database.getInstance().getCredit(uuid));
+        return new Credit(Database.getInstance().getCredit(id));
     }
 
 
@@ -152,8 +152,8 @@ public class CreditManagement implements ICreditManagement {
     public void update(ICredit credit) {
         controlsAccess();
 
-        if (getByUUID(credit.getUUID()) == null) {
-            throw new RuntimeException("Could not find credit with specified uuid.");
+        if (getByID(credit.getID()) == null) {
+            throw new RuntimeException("Could not find credit with specified id.");
         }
 
         controlsRequirements(credit);

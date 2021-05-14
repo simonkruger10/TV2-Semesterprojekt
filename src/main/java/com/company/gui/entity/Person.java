@@ -2,10 +2,11 @@ package com.company.gui.entity;
 
 import com.company.common.Tools;
 
-public class Person extends Main {
+public class Person extends Identifier {
     private String firstName = null;
     private String middleName = null;
     private String lastName = null;
+    private String email = null;
 
     public String getFullName() {
         return Tools.createFullName(firstName, middleName, lastName);
@@ -33,5 +34,13 @@ public class Person extends Main {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

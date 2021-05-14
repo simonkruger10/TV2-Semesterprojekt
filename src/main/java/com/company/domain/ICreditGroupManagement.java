@@ -12,7 +12,7 @@ public interface ICreditGroupManagement {
 
     ICreditGroup getByName(String name);
 
-    ICreditGroup getByUUID(String uuid);
+    ICreditGroup getByID(Integer id);
 
     ICreditGroup create(ICreditGroup credit);
 

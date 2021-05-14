@@ -1,20 +1,32 @@
 package com.company.data.mapper;
 
 import com.company.common.ICredit;
+import com.company.common.IProducer;
 import com.company.common.IProduction;
-import javafx.scene.image.Image;
 
 import java.util.*;
 
-public class Production extends Main implements IProduction {
+public class Production extends Identifier implements IProduction {
     private String name = null;
+    private String releaseDay = null;
+    private String releaseMonth = null;
+    private String releaseYear = null;
     private String description = null;
-    private Image image = null;
-    private final Map<String, Credit> credits = new HashMap<>();
+    private String image = null;
+    private Producer producer = null;
+    private final Map<Integer, Credit> credits = new HashMap<>();
+
+    public Production() {
+    }
+
+    public Production(IProduction production) {
+        this.setCopyOf(production);
+    }
+
 
     @Override
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -23,8 +35,38 @@ public class Production extends Main implements IProduction {
 
 
     @Override
+    public String getReleaseDay() {
+        return releaseDay;
+    }
+
+    public void setReleaseDay(String releaseDay) {
+        this.releaseDay = releaseDay;
+    }
+
+
+    @Override
+    public String getReleaseMonth() {
+        return releaseMonth;
+    }
+
+    public void setReleaseMonth(String releaseMonth) {
+        this.releaseMonth = releaseMonth;
+    }
+
+
+    @Override
+    public String getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(String releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+
+    @Override
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public void setDescription(String description) {
@@ -33,12 +75,22 @@ public class Production extends Main implements IProduction {
 
 
     @Override
-    public Image getImage() {
-        return this.image;
+    public String getImage() {
+        return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(String image) {
         this.image = image;
+    }
+
+
+    @Override
+    public IProducer getProducer() {
+        return producer;
+    }
+
+    public void setProducer(IProducer producer) {
+        this.producer = (Producer) producer;
     }
 
 
@@ -47,47 +99,24 @@ public class Production extends Main implements IProduction {
         return credits.values().toArray(new ICredit[0]);
     }
 
-    public void setCredits(ICredit[] credits) {
-        assert credits != null;
-        for (ICredit credit : credits) {
-            this.credits.put(credit.getUUID(), (Credit) credit);
-        }
-    }
 
-    public void addCredits(ICredit credit) {
-        assert credit != null;
-        this.credits.put(credit.getUUID(), (Credit) credit);
+    public void setCredit(ICredit credit) {
+        credits.put(credit.getID(), (Credit) credit);
     }
-
-    public void removeCredits(String uuid) {
-        this.credits.remove(uuid);
-    }
-
 
     public void setCopyOf(IProduction production) {
         assert production != null;
 
-        setName(production.getName());
-        setDescription(production.getDescription());
-        setImage(production.getImage());
-        setCredits(production.getCredits());
-    }
+        this.setName(production.getName());
+        this.setReleaseDay(production.getReleaseDay());
+        this.setReleaseMonth(production.getReleaseMonth());
+        this.setReleaseYear(production.getReleaseYear());
+        this.setDescription(production.getDescription());
+        this.setImage(production.getImage());
+        this.setProducer(production.getProducer());
 
-    public String toJsonString() {
-        return "{" +
-                "\"_uuid\":\"" + getUUID() + "\"," +
-                "\"productionName\":\"" + name + "\"," +
-                "\"description\":\"" + description + "\"," +
-                "\"image\":\"" + image.getUrl() + "\"," +
-                "\"credits\":" + creditsAsJsonString() +
-                '}';
-    }
-
-    private String creditsAsJsonString() {
-        StringJoiner jsonString = new StringJoiner(",");
-        for (Credit credit : this.credits.values()) {
-            jsonString.add(credit.toJsonString());
+        for (ICredit credit : production.getCredits()) {
+	        this.setCredit(new Credit(credit));
         }
-        return "[" + jsonString + "]";
     }
 }

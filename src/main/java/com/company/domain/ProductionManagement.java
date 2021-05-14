@@ -97,10 +97,10 @@ public class ProductionManagement implements IProductionManagement {
 
 
     @Override
-    public IProduction getByUUID(String uuid) {
-        assert uuid != null;
+    public IProduction getByID(Integer id) {
+        assert id != null;
 
-        return new Production(Database.getInstance().getProduction(uuid));
+        return new Production(Database.getInstance().getProduction(id));
     }
 
 
@@ -122,8 +122,8 @@ public class ProductionManagement implements IProductionManagement {
     public void update(IProduction production) {
         controlsAccess();
 
-        if (getByUUID(production.getUUID()) == null) {
-            throw new RuntimeException("Could not find production with specified uuid.");
+        if (getByID(production.getID()) == null) {
+            throw new RuntimeException("Could not find production with specified id.");
         }
 
         controlsRequirements(production);
@@ -142,8 +142,9 @@ public class ProductionManagement implements IProductionManagement {
     }
 
     private void controlsRequirements(IProduction production) {
-        if (production == null || isNullOrEmpty(production.getName()) || production.getCredits() == null) {
-            throw new RuntimeException("Production name and one credit is required.");
+        if (production == null || isNullOrEmpty(production.getName()) || production.getCredits() == null
+                || production.getProducer() == null) {
+            throw new RuntimeException("Production name, one producer and one credit is required.");
         }
     }
 }

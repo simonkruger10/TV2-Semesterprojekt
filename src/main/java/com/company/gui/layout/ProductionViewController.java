@@ -18,15 +18,13 @@ import com.company.gui.layout.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import static com.company.common.Tools.isEven;
-import static com.company.common.Tools.trueVisible;
+import static com.company.common.Tools.*;
 
 public class ProductionViewController extends VBox implements UpdateHandler {
     @FXML
@@ -44,7 +42,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
     private final GUI callback;
     private IProduction production;
 
-    public ProductionViewController(String UUID, GUI callback) {
+    public ProductionViewController(Integer id, GUI callback) {
         this.callback = callback;
 
         try {
@@ -57,16 +55,16 @@ public class ProductionViewController extends VBox implements UpdateHandler {
         }
 
         update();
-        loadProduction(UUID);
+        loadProduction(id);
     }
 
-    public void loadProduction(String UUID) {
-        production = new ProductionManagement().getByUUID(UUID);
+    public void loadProduction(Integer id) {
+        production = new ProductionManagement().getByID(id);
 
         title.setText(production.getName());
-        Image image = production.getImage();
+        String image = production.getImage();
         if (image != null) {
-            this.image.setImage(image);
+            this.image.setImage(getResourceAsImage(image));
         }
 
         // Group credits by creditGroup
@@ -92,7 +90,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
             int i = 0;
             rows.getChildren().add(headerRowController);
             for (ICredit credit: grouped.get(groupName)) {
-                TextRowController cRow = new TextRowController(Type.CREDIT, credit.getUUID(), callback);
+                TextRowController cRow = new TextRowController(Type.CREDIT, credit.getID(), callback);
                 cRow.setText(credit.getFullName());
                 if (!isEven(i)) {
                     cRow.setBackground(Colors.ODD_COLOR);
@@ -105,7 +103,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
 
     @FXML
     private void editProduction(MouseEvent event) {
-        callback.edit(Type.PRODUCTION, production.getUUID());
+        callback.edit(Type.PRODUCTION, production.getID());
     }
 
     @Override

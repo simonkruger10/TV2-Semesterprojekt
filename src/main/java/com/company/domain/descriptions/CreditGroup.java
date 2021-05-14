@@ -2,14 +2,17 @@ package com.company.domain.descriptions;
 
 import com.company.common.ICreditGroup;
 
-public class CreditGroup extends Main implements ICreditGroup {
+public class CreditGroup extends Identifier implements ICreditGroup {
     private String name = null;
+    private String description = null;
 
-    public CreditGroup() {}
+    public CreditGroup() {
+    }
 
     public CreditGroup(ICreditGroup creditGroup) {
-        setCopyOf(creditGroup);
+        this.setCopyOf(creditGroup);
     }
+
 
     @Override
     public String getName() {
@@ -20,10 +23,21 @@ public class CreditGroup extends Main implements ICreditGroup {
         this.name = name;
     }
 
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
     public void setCopyOf(ICreditGroup creditGroup) {
         assert creditGroup != null;
 
-        this.setUUID(creditGroup.getUUID());
+        this.setID(creditGroup.getID());
         this.setName(creditGroup.getName());
+        this.setDescription(creditGroup.getDescription());
     }
 }

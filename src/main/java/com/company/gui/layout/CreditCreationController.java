@@ -67,7 +67,7 @@ public class CreditCreationController extends VBox implements UpdateHandler {
             credit.setCreditGroup(new CreditGroup(creditGroup));
         }
 
-        callback.show(Type.CREDIT, new CreditManagement().create(credit).getUUID());
+        callback.show(Type.CREDIT, new CreditManagement().create(credit).getID());
     }
 
     @Override

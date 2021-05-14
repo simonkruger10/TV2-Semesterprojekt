@@ -46,7 +46,7 @@ public class AccountsOverviewController extends VBox implements UpdateHandler {
         int i = main.getChildren().size();
 
         for (IAccount account : accounts) {
-            TextRowController cRow = new TextRowController(Type.ACCOUNT, account.getUUID(), callback);
+            TextRowController cRow = new TextRowController(Type.ACCOUNT, account.getID(), callback);
 
             cRow.setText(account.getFullName());
 

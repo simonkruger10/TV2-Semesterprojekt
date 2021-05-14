@@ -1,9 +1,6 @@
 package com.company.data;
 
-import com.company.common.IAccount;
-import com.company.common.ICredit;
-import com.company.common.ICreditGroup;
-import com.company.common.IProduction;
+import com.company.common.*;
 
 public interface DatabaseFacade {
     @SuppressWarnings("SameReturnValue")
@@ -14,9 +11,18 @@ public interface DatabaseFacade {
     boolean checkAccess();
 
 
+    IProducer[] getProducers();
+
+    IProducer getProducer(Integer id);
+
+    IProducer addProducer(IProducer producer);
+
+    void updateProducer(IProducer producer);
+
+
     IProduction[] getProductions();
 
-    IProduction getProduction(String uuid);
+    IProduction getProduction(Integer id);
 
     IProduction addProduction(IProduction production);
 
@@ -25,7 +31,7 @@ public interface DatabaseFacade {
 
     ICredit[] getCredits();
 
-    ICredit getCredit(String uuid);
+    ICredit getCredit(Integer uuid);
 
     ICredit addCredit(ICredit credit);
 
@@ -34,7 +40,7 @@ public interface DatabaseFacade {
 
     ICreditGroup[] getCreditGroups();
 
-    ICreditGroup getCreditGroup(String uuid);
+    ICreditGroup getCreditGroup(Integer id);
 
     ICreditGroup addCreditGroup(ICreditGroup creditGroup);
 
@@ -43,7 +49,7 @@ public interface DatabaseFacade {
 
     IAccount[] getAccounts();
 
-    IAccount getAccount(String uuid);
+    IAccount getAccount(Integer id);
 
     IAccount addAccount(IAccount account, String hashedPassword);
 

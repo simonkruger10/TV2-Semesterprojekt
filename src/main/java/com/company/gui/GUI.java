@@ -74,15 +74,15 @@ public class GUI extends Application implements CallbackHandler {
     }
 
     @Override
-    public void show(Type type, String uuid) {
+    public void show(Type type, Integer id) {
         if (type == Type.ACCOUNT) {
             // TODO: implants account view
         } else if (type == Type.CREDIT) {
-            setContent(new CreditViewController(uuid, this));
+            setContent(new CreditViewController(id, this));
         } else if (type == Type.CREDIT_GROUP) {
             // TODO: implants credit group view
         } else if (type == Type.PRODUCTION) {
-            setContent(new ProductionViewController(uuid,this));
+            setContent(new ProductionViewController(id,this));
         } else if (type == Type.LOGIN) {
             setContent(new LoginController(this));
         } else if (type == Type.RECENTLY_AND_REVIEW) {
@@ -111,7 +111,7 @@ public class GUI extends Application implements CallbackHandler {
     }
 
     @Override
-    public void edit(Type type, String uuid) {
+    public void edit(Type type, Integer id) {
         if (type == Type.ACCOUNT) {
             // TODO: implants edit account
         } else if (type == Type.CREDIT) {

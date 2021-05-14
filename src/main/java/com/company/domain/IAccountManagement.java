@@ -18,7 +18,7 @@ public interface IAccountManagement {
 
     IAccount getByEmail(String email);
 
-    IAccount getByUUID(String uuid);
+    IAccount getByID(Integer id);
 
     void login(String email, String password) throws NoSuchAlgorithmException;
     void logout();

@@ -90,10 +90,10 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
 
     @Override
-    public ICreditGroup getByUUID(String uuid) {
-        assert uuid != null;
+    public ICreditGroup getByID(Integer id) {
+        assert id != null;
 
-        return new CreditGroup(Database.getInstance().getCreditGroup(uuid));
+        return new CreditGroup(Database.getInstance().getCreditGroup(id));
     }
 
 
@@ -125,9 +125,9 @@ public class CreditGroupManagement implements ICreditGroupManagement {
             throw new AccessControlException("Insufficient permission.");
         }
 
-        CreditGroup oldCreditGroup = (CreditGroup) getByUUID(creditGroup.getUUID());
+        CreditGroup oldCreditGroup = (CreditGroup) getByID(creditGroup.getID());
         if (oldCreditGroup == null) {
-            throw new RuntimeException("Could not find credit group with specified uuid.");
+            throw new RuntimeException("Could not find credit group with specified id.");
         }
 
         if (!trueEquals(oldCreditGroup.getName(), creditGroup.getName())

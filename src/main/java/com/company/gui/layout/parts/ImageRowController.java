@@ -26,12 +26,12 @@ public class ImageRowController extends VBox {
     private Text text;
 
     private final Type type;
-    private final String uuid;
+    private final Integer id;
     private final CallbackHandler callBack;
 
-    public ImageRowController(Type type, String uuid, CallbackHandler callBack) {
+    public ImageRowController(Type type, Integer id, CallbackHandler callBack) {
         this.type = type;
-        this.uuid = uuid;
+        this.id = id;
         this.callBack = callBack;
 
         try {
@@ -62,6 +62,6 @@ public class ImageRowController extends VBox {
 
     @FXML
     private void show(MouseEvent event) {
-        callBack.show(type, uuid);
+        callBack.show(type, id);
     }
 }

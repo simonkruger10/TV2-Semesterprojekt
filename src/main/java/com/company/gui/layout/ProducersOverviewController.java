@@ -49,7 +49,7 @@ public class ProducersOverviewController extends VBox implements UpdateHandler {
         int i = main.getChildren().size();
 
         for (String producer : producers) {
-            ImageRowController cRow = new ImageRowController(Type.PRODUCER, "1", callback);
+            ImageRowController cRow = new ImageRowController(Type.PRODUCER, 1, callback);
 
             Image image = null;
             //Image image = producer.getImage();

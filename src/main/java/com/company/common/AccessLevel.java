@@ -30,10 +30,22 @@ public enum AccessLevel {
         return accessLevel.getLevel() == level;
     }
 
+    public boolean equals(Integer accessLevel) {
+        assert accessLevel != null;
+
+        return accessLevel == level;
+    }
+
     public boolean notEquals(AccessLevel accessLevel) {
         assert accessLevel != null;
 
         return accessLevel.getLevel() != level;
+    }
+
+    public boolean notEquals(Integer accessLevel) {
+        assert accessLevel != null;
+
+        return accessLevel != level;
     }
 
     public boolean greater(AccessLevel accessLevel) {
@@ -42,9 +54,21 @@ public enum AccessLevel {
         return accessLevel.getLevel() < level;
     }
 
+    public boolean greater(Integer accessLevel) {
+        assert accessLevel != null;
+
+        return accessLevel < level;
+    }
+
     public boolean less(AccessLevel accessLevel) {
         assert accessLevel != null;
 
         return accessLevel.getLevel() > level;
+    }
+
+    public boolean less(Integer accessLevel) {
+        assert accessLevel != null;
+
+        return accessLevel > level;
     }
 }

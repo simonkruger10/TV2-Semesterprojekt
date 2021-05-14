@@ -160,7 +160,7 @@ public class HomepageController extends VBox implements UpdateHandler {
 
     @FXML
     private void showAccount(MouseEvent event) {
-        callBack.show(Type.ACCOUNT, aMgt.getCurrentUser().getUUID());
+        callBack.show(Type.ACCOUNT, aMgt.getCurrentUser().getID());
     }
 
 

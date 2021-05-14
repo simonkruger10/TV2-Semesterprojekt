@@ -47,7 +47,7 @@ public class CreditsOverviewController extends VBox implements UpdateHandler {
         int i = main.getChildren().size();
 
         for (ICredit credit : credits) {
-            TextRowController cRow = new TextRowController(Type.CREDIT, credit.getUUID(), callback);
+            TextRowController cRow = new TextRowController(Type.CREDIT, credit.getID(), callback);
 
             cRow.setText(credit.getFullName());
 

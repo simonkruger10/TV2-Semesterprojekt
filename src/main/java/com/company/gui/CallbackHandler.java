@@ -5,10 +5,10 @@ import javafx.scene.control.Alert;
 public interface CallbackHandler {
     void list(Type type);
     void show(Type type);
-    void show(Type type, String uuid);
+    void show(Type type, Integer id);
     void show(Type type, Alert.AlertType alertType, String message);
     void add(Type type);
-    void edit(Type type, String uuid);
+    void edit(Type type, Integer id);
 
     void logout();
     void loginSuccess();
