@@ -200,7 +200,7 @@ public class AccountManagement implements IAccountManagement {
             throw new RuntimeException("Could not find account with specified id.");
         }
 
-        if (trueEquals(currentUser.getID(), oldAccount.getID()) && !isAdmin()) {
+        if (!trueEquals(currentUser.getID(), oldAccount.getID()) && !isAdmin()) {
             throw new AccessControlException("Insufficient permission.");
         }
 

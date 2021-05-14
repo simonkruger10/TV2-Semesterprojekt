@@ -58,14 +58,13 @@ public class CreditCreationController extends VBox implements UpdateHandler {
         credit.setLastName(lastNameText.getText());
 
         CreditGroupManagement cMgt = new CreditGroupManagement();
-        String creditGroupName = firstNameText.getText();
+        String creditGroupName = creditGroupText.getText();
 
         ICreditGroup creditGroup = cMgt.getByName(creditGroupName);
         if (creditGroup == null) {
-            credit.setCreditGroup(new CreditGroup(creditGroupName));
-        } else {
-            credit.setCreditGroup(new CreditGroup(creditGroup));
+            creditGroup = new CreditGroupManagement().create(new CreditGroup(creditGroupName));
         }
+        credit.setCreditGroup(new CreditGroup(creditGroup));
 
         callback.show(Type.CREDIT, new CreditManagement().create(credit).getID());
     }
