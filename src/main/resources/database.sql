@@ -9,7 +9,7 @@ CREATE DATABASE tv2_semesterprojekt
     CONNECTION LIMIT = -1;
  */
 
-DROP TABLE IF EXISTS account;
+DROP TABLE IF EXISTS account CASCADE;
 CREATE TABLE account
 (
     id           SERIAL PRIMARY KEY,
@@ -22,7 +22,7 @@ CREATE TABLE account
     UNIQUE (email)
 );
 
-DROP TABLE IF EXISTS producer;
+DROP TABLE IF EXISTS producer CASCADE;
 CREATE TABLE producer
 (
     id         SERIAL PRIMARY KEY,
@@ -31,7 +31,7 @@ CREATE TABLE producer
     account_id INTEGER REFERENCES account (id)
 );
 
-DROP TABLE IF EXISTS production;
+DROP TABLE IF EXISTS production CASCADE;
 CREATE TABLE production
 (
     id            SERIAL,
@@ -46,7 +46,7 @@ CREATE TABLE production
     UNIQUE (id)
 );
 
-DROP TABLE IF EXISTS credit_unit;
+DROP TABLE IF EXISTS credit_unit CASCADE;
 CREATE TABLE credit_unit
 (
     id   SERIAL PRIMARY KEY,
@@ -54,7 +54,7 @@ CREATE TABLE credit_unit
     UNIQUE (name)
 );
 
-DROP TABLE IF EXISTS credit_person;
+DROP TABLE IF EXISTS credit_person CASCADE;
 CREATE TABLE credit_person
 (
     m_name VARCHAR(65),
@@ -65,7 +65,7 @@ CREATE TABLE credit_person
     UNIQUE (email)
 ) INHERITS (credit_unit);
 
-DROP TABLE IF EXISTS credit_group;
+DROP TABLE IF EXISTS credit_group CASCADE;
 CREATE TABLE credit_group
 (
     id          SERIAL PRIMARY KEY,
@@ -73,7 +73,7 @@ CREATE TABLE credit_group
     description TEXT
 );
 
-DROP TABLE IF EXISTS production_credit_unit_relation;
+DROP TABLE IF EXISTS production_credit_unit_relation CASCADE;
 CREATE TABLE production_credit_unit_relation
 (
     production_id   INTEGER NOT NULL REFERENCES production (id),
@@ -82,7 +82,7 @@ CREATE TABLE production_credit_unit_relation
     PRIMARY KEY (production_id, credit_id, credit_group_id)
 );
 
-DROP TABLE IF EXISTS production_credit_person_relation;
+DROP TABLE IF EXISTS production_credit_person_relation CASCADE;
 CREATE TABLE production_credit_person_relation
 (
     credit_id INTEGER NOT NULL REFERENCES credit_person (id),
