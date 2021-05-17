@@ -8,9 +8,9 @@ import java.util.*;
 
 public class Production extends Identifier implements IProduction {
     private String name = null;
-    private String releaseDay = null;
-    private String releaseMonth = null;
-    private String releaseYear = null;
+    private Integer releaseDay = null;
+    private Integer releaseMonth = null;
+    private Integer releaseYear = null;
     private String description = null;
     private String image = null;
     private Producer producer = null;
@@ -35,31 +35,31 @@ public class Production extends Identifier implements IProduction {
 
 
     @Override
-    public String getReleaseDay() {
+    public Integer getReleaseDay() {
         return releaseDay;
     }
 
-    public void setReleaseDay(String releaseDay) {
+    public void setReleaseDay(Integer releaseDay) {
         this.releaseDay = releaseDay;
     }
 
 
     @Override
-    public String getReleaseMonth() {
+    public Integer getReleaseMonth() {
         return releaseMonth;
     }
 
-    public void setReleaseMonth(String releaseMonth) {
+    public void setReleaseMonth(Integer releaseMonth) {
         this.releaseMonth = releaseMonth;
     }
 
 
     @Override
-    public String getReleaseYear() {
+    public Integer getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(String releaseYear) {
+    public void setReleaseYear(Integer releaseYear) {
         this.releaseYear = releaseYear;
     }
 

@@ -5,11 +5,11 @@ public interface IProduction {
 
     String getName();
 
-    String getReleaseDay();
+    Integer getReleaseDay();
 
-    String getReleaseMonth();
+    Integer getReleaseMonth();
 
-    String getReleaseYear();
+    Integer getReleaseYear();
 
     String getDescription();
 

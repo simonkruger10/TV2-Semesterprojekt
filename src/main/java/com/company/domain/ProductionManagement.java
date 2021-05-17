@@ -146,8 +146,9 @@ public class ProductionManagement implements IProductionManagement {
     }
 
     private void controlsRequirements(IProduction production) {
-        if (production == null || isNullOrEmpty(production.getName()) || production.getCredits() == null
-                || production.getProducer() == null) {
+        if (production == null || isNullOrEmpty(production.getName()) || production.getReleaseYear() == null ||
+                production.getReleaseMonth() == null || production.getReleaseDay() == null ||
+                production.getCredits() == null || production.getProducer() == null) {
             throw new RuntimeException("Production name, one producer and one credit is required.");
         }
     }
