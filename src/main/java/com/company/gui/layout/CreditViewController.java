@@ -1,9 +1,8 @@
 package com.company.gui.layout;
 
-import java.io.IOException;
-
 import com.company.common.AccessLevel;
 import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
 import com.company.common.Tools;
 import com.company.domain.AccountManagement;
 import com.company.domain.CreditManagement;
@@ -16,6 +15,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
+import java.io.IOException;
 
 import static com.company.common.Tools.trueVisible;
 
@@ -61,7 +62,13 @@ public class CreditViewController extends VBox implements UpdateHandler {
         firstName.setText(credit.getFirstName());
         middleName.setText(credit.getMiddleName());
         lastName.setText(credit.getLastName());
-        groupName.setText(credit.getCreditGroup().getName());
+
+        ICreditGroup[] creditGroups = credit.getCreditGroups();
+        String[] names = new String[creditGroups.length];
+        for (int i = 0; i < creditGroups.length; i++) {
+            names[i] = creditGroups[i].getName();
+        }
+        groupName.setText(String.join(", ", names));
     }
 
     @FXML

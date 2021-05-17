@@ -17,5 +17,5 @@ public interface ICredit {
 
     String getName();
 
-    ICreditGroup getCreditGroup();
+    ICreditGroup[] getCreditGroups();
 }

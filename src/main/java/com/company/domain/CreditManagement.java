@@ -2,12 +2,15 @@ package com.company.domain;
 
 import com.company.common.AccessLevel;
 import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
 import com.company.data.Database;
 import com.company.domain.descriptions.Credit;
 import javafx.util.Pair;
 
 import java.security.AccessControlException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import static com.company.common.Tools.*;
 
@@ -117,8 +120,11 @@ public class CreditManagement implements ICreditManagement {
 
         for (ICredit credit : Database.getInstance().getCredits()) {
             // TODO: Investigate whether linear search is the right one to use
-            if (credit.getCreditGroup().getName().equalsIgnoreCase(groupName)) {
-                result.add(new Credit(credit));
+            for (ICreditGroup creditGroup : credit.getCreditGroups()) {
+                // TODO: Investigate whether linear search is the right one to use
+                if (creditGroup.getName().equalsIgnoreCase(groupName)) {
+                    result.add(new Credit(credit));
+                }
             }
         }
 
@@ -178,7 +184,7 @@ public class CreditManagement implements ICreditManagement {
 
     private void controlsRequirements(ICredit credit) {
         if (credit == null || isNullOrEmpty(credit.getFirstName())
-                || credit.getCreditGroup() == null) {
+                || credit.getCreditGroups() == null) {
             throw new RuntimeException("First name and credit group is required.");
         }
     }

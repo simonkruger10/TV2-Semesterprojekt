@@ -1,12 +1,6 @@
 package com.company.gui.layout;
 
-import java.io.IOException;
-import java.util.*;
-
-import com.company.common.AccessLevel;
-import com.company.common.ICredit;
-import com.company.common.IProduction;
-import com.company.common.Tools;
+import com.company.common.*;
 import com.company.domain.AccountManagement;
 import com.company.domain.ProductionManagement;
 import com.company.gui.Colors;
@@ -19,10 +13,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import static com.company.common.Tools.*;
 
@@ -70,11 +68,13 @@ public class ProductionViewController extends VBox implements UpdateHandler {
         // Group credits by creditGroup
         HashMap<String, List<ICredit>> grouped = new HashMap<>();
         for (ICredit credit : production.getCredits()) {
-            String key = credit.getCreditGroup().getName();
-            if (grouped.get(key) == null) {
-                grouped.put(key, new ArrayList<>());
+            for (ICreditGroup creditGroup: credit.getCreditGroups()) {
+                String key = creditGroup.getName();
+                if (grouped.get(key) == null) {
+                    grouped.put(key, new ArrayList<>());
+                }
+                grouped.get(key).add(credit);
             }
-            grouped.get(key).add(credit);
         }
 
         // Roll-out credits

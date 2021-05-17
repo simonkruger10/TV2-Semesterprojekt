@@ -4,11 +4,14 @@ import com.company.common.CreditType;
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Credit extends Person implements ICredit {
     private CreditType type = CreditType.UNIT;
     private String image;
     private String name;
-    private ICreditGroup creditGroup;
+    private final Map<Integer, ICreditGroup> creditGroup = new HashMap<>();
 
     public Credit() {
     }
@@ -49,12 +52,13 @@ public class Credit extends Person implements ICredit {
 
 
     @Override
-    public ICreditGroup getCreditGroup() {
-        return creditGroup;
+    public ICreditGroup[] getCreditGroups() {
+        return creditGroup.values().toArray(new ICreditGroup[0]);
     }
 
-    public void setCreditGroup(ICreditGroup creditGroup) {
-        this.creditGroup = creditGroup;
+
+    public void addCreditGroup(ICreditGroup creditGroup) {
+        this.creditGroup.put(creditGroup.getID(), creditGroup);
     }
 
 
@@ -67,6 +71,8 @@ public class Credit extends Person implements ICredit {
         this.setLastName(credit.getLastName());
         this.setImage(credit.getImage());
         this.setName(credit.getName());
-        this.setCreditGroup(new CreditGroup(credit.getCreditGroup()));
+        for (ICreditGroup creditGroup: credit.getCreditGroups()) {
+            this.addCreditGroup(new CreditGroup(creditGroup));
+        }
     }
 }
