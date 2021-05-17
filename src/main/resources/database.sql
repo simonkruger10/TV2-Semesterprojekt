@@ -14,7 +14,7 @@ CREATE TABLE account
     id           SERIAL PRIMARY KEY,
     f_name       VARCHAR(65)  NOT NULL,
     m_name       VARCHAR(65),
-    l_name       TIMESTAMP,
+    l_name       VARCHAR(65),
     email        VARCHAR(253) NOT NULL,
     access_level INTEGER DEFAULT -1,
     password     VARCHAR(253) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE account
 CREATE TABLE producer
 (
     id         SERIAL PRIMARY KEY,
-    name       VARCHAR(65)  NOT NULL,
+    name       VARCHAR(65) NOT NULL,
     logo       VARCHAR(254),
     account_id INTEGER REFERENCES account (id)
 );
@@ -38,6 +38,7 @@ CREATE TABLE production
     release_year  INTEGER     NOT NULL,
     description   TEXT,
     image         VARCHAR(254),
+    producer_id   INTEGER REFERENCES producer (id),
     PRIMARY KEY (name, release_day, release_month, release_year),
     UNIQUE (id)
 );
@@ -64,13 +65,6 @@ CREATE TABLE credit_group
     id          SERIAL PRIMARY KEY,
     name        VARCHAR(65) NOT NULL,
     description TEXT
-);
-
-CREATE TABLE production_producer_relation
-(
-    production_id INTEGER NOT NULL REFERENCES production (id),
-    producer_id   INTEGER NOT NULL REFERENCES producer (id),
-    PRIMARY KEY (production_id, producer_id)
 );
 
 CREATE TABLE production_credit_unit_relation
