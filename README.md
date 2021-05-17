@@ -42,16 +42,12 @@ Setup Database
 
 4. Click on the “Data Source Properties”. Then, add a “PostgresSQL” database to the project. Change the username to “Postgres”, and the password to the one you chose. Don’t change the database name.
 
-5. A console window should appear in the open tabs. Run the following in the console:
+5. Right-click on the "database.sql" and run. Click add, then choose "postgres@localhost" as target data source.
 
-drop database IF EXISTS tv2_semesterprojekt;
-CREATE DATABASE tv2_semesterprojekt
-WITH
-OWNER = postgres
-ENCODING = 'UTF8'
-CONNECTION LIMIT = -1;
-
-6.	Lastly, run both of the SQL files by right-clicking the database named "tv2_semesterprojekt", and choosing “Run SQL script” and picking “database.sql” and “dummy_data.sql” from the resources folder.
+6. Return to the database menu. Click on the Data Source Properties, go to schemas and choose the newly created "tv2_semesterprojekt_f3f70b5a". 
+Drop it down and apply default schemas. Hit apply, then okay. 
+   
+7. Lastly, right-click on the "tables.sql" under resources. Edit a new configuration, add the newly created "tv2_semesterprojekt_f3f70b5a" as the target data source. Execute "tables.sql" **AND** "dummy_data.sql". Hit Apply, then OK.
 
 ## Run source code
 
