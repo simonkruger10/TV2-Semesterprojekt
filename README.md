@@ -6,7 +6,7 @@ __Requirement:__
 
 Intellij IDEA Ultimate 2021.1
 
-PostgreSQL 9.4.1
+PostgreSQL 9.4.1 or newer
 
 __Recommended:__
 
@@ -32,7 +32,7 @@ Setup SDK
 
 Setup Database
 
-1. Install PostgresSQL
+1. Install PostgresSQL on your computer.
 
 2. Set password for PostgresSQL
    
