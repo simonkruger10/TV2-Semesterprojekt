@@ -40,7 +40,9 @@ Setup Database
 
 3. In IntelliJ, press the Database button in the upper right corner of the screen, next to Maven.
 
-4. Click on the “Data Source Properties”. Then, add a “PostgresSQL” database to the project. Change the username to “Postgres”, and the password to the one you chose. Don’t change the database name.
+4. Click on the “Data Source Properties”. Then, add a “PostgresSQL” database to the project. Change the username to “postgres”, and the password to the one you chose. Don’t change the database name.
+
+**If prompted, download the database driver.**
 
 5. Right-click on the "database.sql" and run. Click add, then choose "postgres@localhost" as target data source.
 
