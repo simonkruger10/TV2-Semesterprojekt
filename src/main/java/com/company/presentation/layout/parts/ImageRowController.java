@@ -1,8 +1,8 @@
-package com.company.gui.layout.parts;
+package com.company.presentation.layout.parts;
 
 import com.company.common.Tools;
-import com.company.gui.CallbackHandler;
-import com.company.gui.Type;
+import com.company.presentation.CallbackHandler;
+import com.company.presentation.Type;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;

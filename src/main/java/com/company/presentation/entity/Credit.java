@@ -1,4 +1,4 @@
-package com.company.gui.entity;
+package com.company.presentation.entity;
 
 import com.company.common.CreditType;
 import com.company.common.ICredit;

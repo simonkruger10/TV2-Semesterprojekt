@@ -1,4 +1,4 @@
-package com.company.gui.layout;
+package com.company.presentation.layout;
 
 import java.io.IOException;
 
@@ -7,11 +7,11 @@ import com.company.common.ICreditGroup;
 import com.company.common.Tools;
 import com.company.domain.CreditGroupManagement;
 import com.company.domain.CreditManagement;
-import com.company.gui.CallbackHandler;
-import com.company.gui.Type;
-import com.company.gui.UpdateHandler;
-import com.company.gui.entity.Credit;
-import com.company.gui.entity.CreditGroup;
+import com.company.presentation.CallbackHandler;
+import com.company.presentation.Type;
+import com.company.presentation.UpdateHandler;
+import com.company.presentation.entity.Credit;
+import com.company.presentation.entity.CreditGroup;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;

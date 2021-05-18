@@ -1,14 +1,14 @@
-package com.company.gui.layout;
+package com.company.presentation.layout;
 
 import com.company.common.*;
 import com.company.domain.AccountManagement;
 import com.company.domain.ProductionManagement;
-import com.company.gui.Colors;
-import com.company.gui.GUI;
-import com.company.gui.Type;
-import com.company.gui.UpdateHandler;
-import com.company.gui.layout.parts.HeaderRowController;
-import com.company.gui.layout.parts.TextRowController;
+import com.company.presentation.Colors;
+import com.company.presentation.GUI;
+import com.company.presentation.Type;
+import com.company.presentation.UpdateHandler;
+import com.company.presentation.layout.parts.HeaderRowController;
+import com.company.presentation.layout.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;

@@ -1,24 +1,25 @@
-package com.company.gui.layout;
+package com.company.presentation.layout;
+
+import java.io.IOException;
 
 import com.company.common.AccessLevel;
+import com.company.common.IProduction;
 import com.company.common.Tools;
-import com.company.gui.CallbackHandler;
-import com.company.gui.Colors;
-import com.company.gui.Type;
-import com.company.gui.UpdateHandler;
-import com.company.gui.layout.parts.ImageRowController;
+import com.company.domain.ProductionManagement;
+import com.company.presentation.CallbackHandler;
+import com.company.presentation.Colors;
+import com.company.presentation.Type;
+import com.company.presentation.UpdateHandler;
+import com.company.presentation.layout.parts.ImageRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-
-import java.io.IOException;
 
 import static com.company.common.Tools.getResourceAsImage;
 import static com.company.common.Tools.isEven;
 
-public class ProducersOverviewController extends VBox implements UpdateHandler {
+public class ProductionsOverviewController extends VBox implements UpdateHandler {
     @FXML
     private VBox main;
 
@@ -27,7 +28,7 @@ public class ProducersOverviewController extends VBox implements UpdateHandler {
 
     private final CallbackHandler callback;
 
-    public ProducersOverviewController(CallbackHandler callback) {
+    public ProductionsOverviewController(CallbackHandler callback) {
         this.callback = callback;
 
         try {
@@ -39,30 +40,25 @@ public class ProducersOverviewController extends VBox implements UpdateHandler {
             throw new RuntimeException(e);
         }
 
-        // TODO Replace with producers from data layer
-        showList(new String[]{"Steven Spielberg", "Quentin Tarantino", "Bob Johnson", "Sum Guy"});
+        showList(new ProductionManagement().list());
     }
 
-
-    public void showList(String[] producers) {
-        // Start the count from the number of children
+    public void showList(IProduction[] productions) {
         int i = main.getChildren().size();
 
-        for (String producer : producers) {
-            ImageRowController cRow = new ImageRowController(Type.PRODUCER, 1, callback);
+        for (IProduction production : productions) {
+            ImageRowController cRow = new ImageRowController(Type.PRODUCTION, production.getID(), callback);
 
-            Image image = null;
-            //Image image = producer.getImage();
+            String image = production.getImage();
             if ( image != null) {
-                cRow.setImage(image);
+                cRow.setImage(getResourceAsImage(image));
             } else if (isEven(i)) {
                 cRow.setImage(getResourceAsImage("/images/TV_2_RGB.png"));
             } else {
                 cRow.setImage(getResourceAsImage("/images/TV_2_Hvid_RGB.png"));
             }
 
-            cRow.setText(producer);
-            //cRow.setText(producer.getName());
+            cRow.setText(production.getName());
 
             if (!isEven(i)) {
                 cRow.setBackground(Colors.ODD_COLOR);
@@ -79,7 +75,7 @@ public class ProducersOverviewController extends VBox implements UpdateHandler {
 
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
-        return accessLevel.equals(AccessLevel.ADMINISTRATOR);
+        return true;
     }
 
     @Override
@@ -89,7 +85,7 @@ public class ProducersOverviewController extends VBox implements UpdateHandler {
 
     @FXML
     private void initialize() {
+        assert main != null : "fx:id=\"main\" was not injected: check your FXML file 'Overview.fxml'.";
         assert sortByBtn != null : "fx:id=\"sortByBtn\" was not injected: check your FXML file 'Overview.fxml'.";
-
     }
 }

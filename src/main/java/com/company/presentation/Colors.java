@@ -1,4 +1,4 @@
-package com.company.gui;
+package com.company.presentation;
 
 public class Colors {
     public static final String EVEN_COLOR = "#FFFFFF";

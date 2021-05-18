@@ -1,12 +1,12 @@
-package com.company.gui.layout;
+package com.company.presentation.layout;
 
 import java.io.IOException;
 
 import com.company.common.*;
 import com.company.domain.*;
-import com.company.gui.CallbackHandler;
-import com.company.gui.Type;
-import com.company.gui.UpdateHandler;
+import com.company.presentation.CallbackHandler;
+import com.company.presentation.Type;
+import com.company.presentation.UpdateHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
