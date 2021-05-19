@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.gui.GUI;
+import com.company.presentation.GUI;
 
 public class Main {
 

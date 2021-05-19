@@ -1,4 +1,4 @@
-package com.company.gui;
+package com.company.presentation;
 
 import com.company.common.AccessLevel;
 

@@ -9,8 +9,8 @@ module com.company {
     opens com.company.common;
     opens com.company.domain;
     opens com.company.domain.descriptions;
-    opens com.company.gui;
-    opens com.company.gui.entity;
-    opens com.company.gui.layout;
-    opens com.company.gui.layout.parts;
+    opens com.company.presentation;
+    opens com.company.presentation.entity;
+    opens com.company.presentation.layout;
+    opens com.company.presentation.layout.parts;
 }

@@ -1,8 +1,8 @@
-package com.company.gui;
+package com.company.presentation;
 
 import com.company.domain.AccountManagement;
 import com.company.domain.IAccountManagement;
-import com.company.gui.layout.*;
+import com.company.presentation.layout.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;

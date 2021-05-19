@@ -1,14 +1,14 @@
-package com.company.gui.layout;
+package com.company.presentation.layout;
 
 import com.company.common.AccessLevel;
-import com.company.common.IAccount;
+import com.company.common.ICredit;
 import com.company.common.Tools;
-import com.company.domain.AccountManagement;
-import com.company.gui.CallbackHandler;
-import com.company.gui.Colors;
-import com.company.gui.Type;
-import com.company.gui.UpdateHandler;
-import com.company.gui.layout.parts.TextRowController;
+import com.company.domain.CreditManagement;
+import com.company.presentation.CallbackHandler;
+import com.company.presentation.Colors;
+import com.company.presentation.Type;
+import com.company.presentation.UpdateHandler;
+import com.company.presentation.layout.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
@@ -18,7 +18,7 @@ import java.io.IOException;
 
 import static com.company.common.Tools.isEven;
 
-public class AccountsOverviewController extends VBox implements UpdateHandler {
+public class CreditsOverviewController extends VBox implements UpdateHandler {
     @FXML
     private VBox main;
 
@@ -27,7 +27,7 @@ public class AccountsOverviewController extends VBox implements UpdateHandler {
 
     private final CallbackHandler callback;
 
-    public AccountsOverviewController(CallbackHandler callback) {
+    public CreditsOverviewController(CallbackHandler callback) {
         this.callback = callback;
 
         try {
@@ -39,16 +39,17 @@ public class AccountsOverviewController extends VBox implements UpdateHandler {
             throw new RuntimeException(e);
         }
 
-        showList(new AccountManagement().list());
+        showList(new CreditManagement().list());
     }
 
-    public void showList(IAccount[] accounts) {
+    public void showList(ICredit[] credits) {
+        // Start the count from the number of children
         int i = main.getChildren().size();
 
-        for (IAccount account : accounts) {
-            TextRowController cRow = new TextRowController(Type.ACCOUNT, account.getID(), callback);
+        for (ICredit credit : credits) {
+            TextRowController cRow = new TextRowController(Type.CREDIT, credit.getID(), callback);
 
-            cRow.setText(account.getFullName());
+            cRow.setText(credit.getFullName());
 
             if (!isEven(i)) {
                 cRow.setBackground(Colors.ODD_COLOR);
@@ -61,7 +62,7 @@ public class AccountsOverviewController extends VBox implements UpdateHandler {
 
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
-        return accessLevel.equals(AccessLevel.ADMINISTRATOR);
+        return true;
     }
 
     @Override

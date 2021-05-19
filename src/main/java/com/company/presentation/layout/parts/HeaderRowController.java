@@ -1,4 +1,4 @@
-package com.company.gui.layout.parts;
+package com.company.presentation.layout.parts;
 
 import com.company.common.Tools;
 import javafx.fxml.FXML;
