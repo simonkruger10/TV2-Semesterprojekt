@@ -38,18 +38,18 @@ Setup Database
    
       **NOTE: It is imperative that you remember your password**
 
-3. In IntelliJ, press the Database button in the upper right corner of the screen, next to Maven.
+3. In IntelliJ open the database tool window (View | Tool Windows | Database).
 
-4. Click on the “Data Source Properties”. Then, add a “PostgresSQL” database to the project. Change the username to “postgres”, and the password to the one you chose. Don’t change the database name.
+4. Click on the "Data Source Properties". Then, add a PostgresSQL database (Data Source | PostgresSQL) to the project. Change the username to "postgres", and the password to the one you chose when installing PostgresSQL. Don’t change the database name. Hit "Apply", then "OK". 
 
-**If prompted, download the database driver.**
+**Download the database driver, if prompted in the bottom of the window.**
 
-5. Right-click on the "database.sql" and run. Click add, then choose "postgres@localhost" as target data source.
+7. Right-click on the "database.sql" under resources (src/main/resources) and choices run. Click add, then choose "postgres@localhost" as target data source.
 
-6. Return to the database menu. Click on the Data Source Properties, go to schemas and choose the newly created "tv2_semesterprojekt_f3f70b5a". 
-Drop it down and apply default schemas. Hit apply, then okay. 
+8. Return to the database tool window. Click on the "Data Source Properties", go to schemas and choose the newly created "tv2_semesterprojekt_f3f70b5a". 
+Drop it down and apply default schemas. Hit "Apply", then "OK". 
    
-7. Lastly, right-click on the "tables.sql" under resources. Edit a new configuration, add the newly created "tv2_semesterprojekt_f3f70b5a" as the target data source. Execute "tables.sql" **AND** "dummy_data.sql". Hit Apply, then OK.
+9. Lastly, right-click on the "tables.sql" under resources. Edit a new configuration, add the newly created "tv2_semesterprojekt_f3f70b5a" as the target data source. Execute "tables.sql" **AND** "dummy_data.sql". Hit "Apply", then "OK".
 
 ## Run source code
 
