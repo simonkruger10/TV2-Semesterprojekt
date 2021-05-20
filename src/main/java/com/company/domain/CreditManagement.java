@@ -1,6 +1,7 @@
 package com.company.domain;
 
 import com.company.common.AccessLevel;
+import com.company.common.CreditType;
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 import com.company.data.Database;
@@ -133,10 +134,10 @@ public class CreditManagement implements ICreditManagement {
 
 
     @Override
-    public ICredit getByID(Integer id) {
-        assert id != null;
+    public ICredit getByID(Integer id, CreditType type) {
+        assert id != null || type != null;
 
-        return new Credit(Database.getInstance().getCredit(id));
+        return new Credit(Database.getInstance().getCredit(id, type));
     }
 
 
@@ -164,7 +165,7 @@ public class CreditManagement implements ICreditManagement {
         //       with augment production: IProduction
         controlsAccess();
 
-        if (getByID(credit.getID()) == null) {
+        if (getByID(credit.getID(), credit.getType()) == null) {
             throw new RuntimeException("Could not find credit with specified id.");
         }
 

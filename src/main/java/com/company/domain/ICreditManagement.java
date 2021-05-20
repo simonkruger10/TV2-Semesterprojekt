@@ -1,5 +1,6 @@
 package com.company.domain;
 
+import com.company.common.CreditType;
 import com.company.common.ICredit;
 
 public interface ICreditManagement {
@@ -16,7 +17,7 @@ public interface ICreditManagement {
 
     ICredit[] getByGroup(String groupName);
 
-    ICredit getByID(Integer id);
+    ICredit getByID(Integer id, CreditType type);
 
     ICredit create(ICredit credit);
 

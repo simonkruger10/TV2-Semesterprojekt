@@ -1,7 +1,6 @@
 package com.company.data;
 
 import com.company.common.*;
-import com.company.data.DatabaseFacade;
 import com.company.presentation.entity.Credit;
 import com.company.presentation.entity.Production;
 
@@ -52,18 +51,19 @@ public class Postgresql implements DatabaseFacade {
         query2.setInt(1, production.getID());
         ResultSet queryResult2 = query.executeQuery();
         while (queryResult2.next()) {
-            production.setCredit(this.getCredit(queryResult2.getInt("credit_id")));
+            production.setCredit(this.getCredit(queryResult2.getInt("credit_id"), CreditType.PERSON));
         }
 
         PreparedStatement query3 = connection.prepareStatement("SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
         query3.setInt(1, production.getID());
         ResultSet queryResult3 = query.executeQuery();
         while (queryResult2.next()) {
-            production.setCredit(this.getCredit(queryResult3.getInt("credit_id")));
+            production.setCredit(this.getCredit(queryResult3.getInt("credit_id"), CreditType.UNIT));
         }
     }
+
     private void setProduction(IProduction production, PreparedStatement query) throws SQLException {
-        query.setString(1,production.getName());
+        query.setString(1, production.getName());
         query.setInt(2, production.getReleaseDay());
         query.setInt(3, production.getReleaseMonth());
         query.setInt(4, production.getReleaseYear());
@@ -116,7 +116,7 @@ public class Postgresql implements DatabaseFacade {
             production.setReleaseYear(queryResult.getInt("release_year"));
             String image = queryResult.getString("image");
             if (image != null) {
-                production.setDescription(production.getImage());
+                production.setImage(production.getImage());
             }
             creditQuery(production, query);
 
@@ -142,7 +142,7 @@ public class Postgresql implements DatabaseFacade {
     public void updateProduction(IProduction production) {
         try {
             PreparedStatement query = connection.prepareStatement("UPDATE production SET name =?, release_day =?, release_month =?, release_year =?, description =?, image=?, producer =? WHERE ID=?");
-            query.setInt(8,production.getID());
+            query.setInt(8, production.getID());
             setProduction(production, query);
             query.executeQuery();
         } catch (SQLException throwables) {
@@ -151,35 +151,119 @@ public class Postgresql implements DatabaseFacade {
 
     }
 
-
-
-
-    @Override
-    public ICredit[] getCredits() {
-        ArrayList<ICredit> credits = new ArrayList<ICredit>();
-        try {
-            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_person as credit_unit");
-            ResultSet queryResult = query.executeQuery();
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+    private void setCredit(ResultSet queryResult, Credit credit) throws SQLException {
+        credit.setFirstName(queryResult.getString("name"));
+        credit.setMiddleName(queryResult.getString("m_name"));
+        credit.setLastName(queryResult.getString("l_name"));
+        String image = queryResult.getString("image");
+        if (image != null) {
+            credit.setImage(credit.getImage());
         }
-        return null;
+        credit.setEmail(queryResult.getString("email"));
     }
 
     @Override
-    public ICredit getCredit(Integer id) {
-        new Credit();
-        return null;
+    public ICredit[] getCredits() {
+        List<ICredit> credits = new ArrayList<>();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_person");
+            ResultSet queryResult = query.executeQuery();
+            while (queryResult.next()) {
+                Credit credit = new Credit();
+                credit.setID(queryResult.getInt("id"));
+                setCredit(queryResult, credit);
+                credits.add(credit);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_unit");
+            ResultSet queryResult = query.executeQuery();
+            while (queryResult.next()) {
+                Credit credit = new Credit();
+                credit.setID(queryResult.getInt("id"));
+                credit.setName(queryResult.getString("name"));
+                credits.add(credit);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return credits.toArray((new ICredit[0]));
+    }
+
+    @Override
+    public ICredit getCredit(Integer id, CreditType type) {
+        Credit credit = new Credit();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_person WHERE =?");
+            query.setInt(1, id);
+            ResultSet queryResult = query.executeQuery();
+            setCredit(queryResult, credit);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_unit WHERE =?");
+            query.setInt(1, id);
+            ResultSet queryResult = query.executeQuery();
+            credit.setName(queryResult.getString("name"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return credit;
     }
 
     @Override
     public ICredit addCredit(ICredit credit) {
-        return null;
+        if (credit.getType() == CreditType.PERSON) {
+            try {
+                PreparedStatement query = connection.prepareStatement("INSERT INTO credit_person(name, m_name, l_name, images, email) VALUES (?,?,?,?,?)");
+                query.setString(1, credit.getFirstName());
+                query.setString(2, credit.getMiddleName());
+                query.setString(3, credit.getLastName());
+                query.setString(4, credit.getImage());
+                query.setString(5, credit.getEmail());
+                query.executeQuery();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        if (credit.getType() == CreditType.UNIT) {
+            try {
+                PreparedStatement query = connection.prepareStatement("INSERT INTO credit_unit(name) VALUES (?)");
+                query.setString(1, credit.getName());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return credit;
     }
 
     @Override
     public void updateCredit(ICredit credit) {
+        if (credit.getType() == CreditType.PERSON) try {
+            PreparedStatement query = connection.prepareStatement("UPDATE credit_person SET name =?, m_name=?, l_name=?, image=?, email=?,");
+            query.setString(1, credit.getFirstName());
+            query.setString(2, credit.getMiddleName());
+            query.setString(3, credit.getLastName());
+            query.setString(4, credit.getImage());
+            query.setString(5, credit.getEmail());
+            query.executeQuery();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if (credit.getType() == CreditType.UNIT) {
+            try {
+                PreparedStatement query = connection.prepareStatement("UPDATE credit_unit SET name=?");
+                query.setString(1, credit.getName());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+        }
+
 
     }
 

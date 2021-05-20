@@ -31,7 +31,7 @@ public interface DatabaseFacade {
 
     ICredit[] getCredits();
 
-    ICredit getCredit(Integer uuid);
+    ICredit getCredit(Integer id, CreditType type);
 
     ICredit addCredit(ICredit credit);
 

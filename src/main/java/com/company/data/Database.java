@@ -72,8 +72,8 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
-    public ICredit getCredit(Integer id) {
-        return this.database.getCredit(id);
+    public ICredit getCredit(Integer id, CreditType type) {
+        return this.database.getCredit(id,type);
     }
 
     @Override
