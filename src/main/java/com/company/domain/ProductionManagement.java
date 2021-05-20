@@ -1,6 +1,7 @@
 package com.company.domain;
 
 import com.company.common.IAccount;
+import com.company.common.IProducer;
 import com.company.common.IProduction;
 import com.company.data.Database;
 import com.company.domain.descriptions.Production;
@@ -109,12 +110,16 @@ public class ProductionManagement implements IProductionManagement {
     public IProduction create(IProduction production) {
         controlsRequirements(production);
 
-        IAccount producerAccount = pMgt.getByID(production.getProducer().getID()).getAccount();
+        IProducer producer = pMgt.getByID(production.getProducer().getID());
+        if (producer == null) {
+            throw new RuntimeException("Could not find the producer with specified producer id.");
+        }
+
+        IAccount producerAccount = producer.getAccount();
         if (!aMgt.isAdmin() && (producerAccount == null ||
                 !trueEquals(producerAccount.getID(), aMgt.getCurrentUser().getID()))) {
             throw new AccessControlException("Insufficient permission.");
         }
-
 
         // TODO: Check for duplicates
 
