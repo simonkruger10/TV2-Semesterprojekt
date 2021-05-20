@@ -2,7 +2,8 @@ package com.company.data;
 
 import com.company.common.*;
 import com.company.data.DatabaseFacade;
-import com.company.gui.entity.Production;
+import com.company.presentation.entity.Credit;
+import com.company.presentation.entity.Production;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,10 +15,7 @@ public class Postgresql implements DatabaseFacade {
     public Postgresql() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
-            connection = DriverManager.getConnection("" +
-                            "jdbc:postgresql://localhost:5432/tv2_semesterprojekt",
-                    "postgres",
-                    "Alex1234");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tv2_semesterprojekt_f3f70b5a", "tv2_dbuser_f3f70b5a", "4A03069D");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -49,6 +47,30 @@ public class Postgresql implements DatabaseFacade {
 
     }
 
+    private void creditQuery(Production production, PreparedStatement query) throws SQLException {
+        PreparedStatement query2 = connection.prepareStatement("SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
+        query2.setInt(1, production.getID());
+        ResultSet queryResult2 = query.executeQuery();
+        while (queryResult2.next()) {
+            production.setCredit(this.getCredit(queryResult2.getInt("credit_id")));
+        }
+
+        PreparedStatement query3 = connection.prepareStatement("SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
+        query3.setInt(1, production.getID());
+        ResultSet queryResult3 = query.executeQuery();
+        while (queryResult2.next()) {
+            production.setCredit(this.getCredit(queryResult3.getInt("credit_id")));
+        }
+    }
+    private void setProduction(IProduction production, PreparedStatement query) throws SQLException {
+        query.setString(1,production.getName());
+        query.setInt(2, production.getReleaseDay());
+        query.setInt(3, production.getReleaseMonth());
+        query.setInt(4, production.getReleaseYear());
+        query.setString(5, production.getDescription());
+        query.setString(6, production.getImage());
+        query.setString(7, String.valueOf(production.getProducer()));
+    }
 
     @Override
     public IProduction[] getProductions() {
@@ -58,6 +80,7 @@ public class Postgresql implements DatabaseFacade {
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
                 Production production = new Production();
+                production.setID(queryResult.getInt("id"));
                 production.setName(queryResult.getString("name"));
                 production.setDescription(queryResult.getString("description"));
                 String image = queryResult.getString("Image");
@@ -68,6 +91,8 @@ public class Postgresql implements DatabaseFacade {
                 production.setReleaseMonth(queryResult.getInt("release_month"));
                 production.setReleaseYear(queryResult.getInt("release_year"));
                 production.setProducer(this.getProducer(queryResult.getInt("producer_id")));
+
+                creditQuery(production, query);
                 productions.add(production);
             }
         } catch (
@@ -93,6 +118,8 @@ public class Postgresql implements DatabaseFacade {
             if (image != null) {
                 production.setDescription(production.getImage());
             }
+            creditQuery(production, query);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -102,20 +129,8 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public IProduction addProduction(IProduction production) {
         try {
-            PreparedStatement query = connection.prepareStatement("INSERT INTO production VALUES (name = ?, release_day = ?, release_month = ?, release_year = ?, description = ?, image = ?, producer = ?)");
-            query.setString(1, production.getName());
-            query.setInt(2, production.getReleaseDay());
-            query.setInt(3, production.getReleaseMonth());
-            query.setInt(4, production.getReleaseYear());
-            if (production.getDescription() != null) {
-                query.setString(5, production.getDescription());
-            }
-            if (production.getDescription() != null) {
-                query.setString(6, production.getImage());
-            } //skal checkes om der er et billede
-            if (production.getProducer()!= null) {
-                query.setString(7, String.valueOf(production.getProducer()));
-            }
+            PreparedStatement query = connection.prepareStatement("INSERT INTO production (name, release_day, release_month, release_year, description, image, producer) VALUES (?,?,?,?,?,?,?)");
+            setProduction(production, query);
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -125,17 +140,36 @@ public class Postgresql implements DatabaseFacade {
 
     @Override
     public void updateProduction(IProduction production) {
+        try {
+            PreparedStatement query = connection.prepareStatement("UPDATE production SET name =?, release_day =?, release_month =?, release_year =?, description =?, image=?, producer =? WHERE ID=?");
+            query.setInt(8,production.getID());
+            setProduction(production, query);
+            query.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
+
+
 
 
     @Override
     public ICredit[] getCredits() {
-        return new ICredit[0];
+        ArrayList<ICredit> credits = new ArrayList<ICredit>();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_person as credit_unit");
+            ResultSet queryResult = query.executeQuery();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 
     @Override
-    public ICredit getCredit(Integer uuid) {
+    public ICredit getCredit(Integer id) {
+        new Credit();
         return null;
     }
 

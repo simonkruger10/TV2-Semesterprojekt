@@ -64,7 +64,7 @@ public class CreditCreationController extends VBox implements UpdateHandler {
         if (creditGroup == null) {
             creditGroup = new CreditGroupManagement().create(new CreditGroup(creditGroupName));
         }
-        credit.setCreditGroup(new CreditGroup(creditGroup));
+        credit.addCreditGroup(new CreditGroup(creditGroup));
 
         callback.show(Type.CREDIT, new CreditManagement().create(credit).getID());
     }
