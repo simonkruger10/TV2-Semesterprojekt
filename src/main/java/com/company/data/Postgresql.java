@@ -1,10 +1,7 @@
 package com.company.data;
 
 import com.company.common.*;
-import com.company.presentation.entity.Account;
-import com.company.presentation.entity.Credit;
-import com.company.presentation.entity.CreditGroup;
-import com.company.presentation.entity.Production;
+import com.company.presentation.entity.*;
 
 import javax.xml.transform.Result;
 import java.sql.*;
@@ -23,30 +20,15 @@ public class Postgresql implements DatabaseFacade {
         }
     }
 
-    @Override
-    public boolean checkAccess() {
-        return false;
-    }
-
-
-    @Override
-    public IProducer[] getProducers() {
-        return new IProducer[0];
-    }
-
-    @Override
-    public IProducer getProducer(Integer id) {
-        return null;
-    }
-
-    @Override
-    public IProducer addProducer(IProducer producer) {
-        return null;
-    }
-
-    @Override
-    public void updateProducer(IProducer producer) {
-
+    private void setCredit(ResultSet queryResult, Credit credit) throws SQLException {
+        credit.setFirstName(queryResult.getString("name"));
+        credit.setMiddleName(queryResult.getString("m_name"));
+        credit.setLastName(queryResult.getString("l_name"));
+        String image = queryResult.getString("image");
+        if (image != null) {
+            credit.setImage(credit.getImage());
+        }
+        credit.setEmail(queryResult.getString("email"));
     }
 
     private void creditQuery(Production production, PreparedStatement query) throws SQLException {
@@ -73,6 +55,71 @@ public class Postgresql implements DatabaseFacade {
         query.setString(5, production.getDescription());
         query.setString(6, production.getImage());
         query.setString(7, String.valueOf(production.getProducer()));
+    }
+
+    @Override
+    public boolean checkAccess() {
+        return false;
+    }
+
+    @Override
+    public IProducer[] getProducers() {
+        List<IProducer> producers = new ArrayList<>();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM producer");
+            ResultSet queryResult = query.executeQuery();
+            while (queryResult.next()){
+                Producer producer = new Producer();
+                producer.setName(queryResult.getString(2));
+                producer.setLogo(queryResult.getString(3));
+                producers.add(producer);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return producers.toArray(new IProducer[0]);
+    }
+
+    @Override
+    public IProducer getProducer(Integer id) {
+        Producer producer = new Producer();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM producer WHERE id=?");
+            ResultSet queryResult = query.executeQuery();
+            query.setInt(1,id);
+            producer.setName(queryResult.getString(2));
+            producer.setLogo(queryResult.getString(3));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return producer;
+    }
+
+    @Override
+    public IProducer addProducer(IProducer producer) {
+        try {
+            PreparedStatement query = connection.prepareStatement("INSERT INTO producer (id, name, logo, account_id) VALUES (?,?,?,?)");
+            query.setInt(1,producer.getID());
+            query.setString(2,producer.getName());
+            query.setString(3,producer.getLogo());
+            query.setInt(4,producer.getAccount().getID());
+            query.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return producer;
+    }
+
+    @Override
+    public void updateProducer(IProducer producer) {
+        try {
+            PreparedStatement query = connection.prepareStatement("UPDATE producer SET name=?, logo=?");
+            query.setString(1,producer.getName());
+            query.setString(2,producer.getLogo());
+            query.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
@@ -152,17 +199,6 @@ public class Postgresql implements DatabaseFacade {
             throwables.printStackTrace();
         }
 
-    }
-
-    private void setCredit(ResultSet queryResult, Credit credit) throws SQLException {
-        credit.setFirstName(queryResult.getString("name"));
-        credit.setMiddleName(queryResult.getString("m_name"));
-        credit.setLastName(queryResult.getString("l_name"));
-        String image = queryResult.getString("image");
-        if (image != null) {
-            credit.setImage(credit.getImage());
-        }
-        credit.setEmail(queryResult.getString("email"));
     }
 
     @Override
@@ -270,7 +306,6 @@ public class Postgresql implements DatabaseFacade {
 
     }
 
-
     @Override
     public ICreditGroup[] getCreditGroups() {
         List<ICreditGroup> creditGroups = new ArrayList<>();
@@ -330,7 +365,6 @@ public class Postgresql implements DatabaseFacade {
             throwables.printStackTrace();
         }
     }
-
 
     @Override
     public IAccount[] getAccounts() {
@@ -427,7 +461,6 @@ public class Postgresql implements DatabaseFacade {
             throwables.printStackTrace();
         }
     }
-
 
     @Override
     public IAccount login(IAccount account, String password) {
