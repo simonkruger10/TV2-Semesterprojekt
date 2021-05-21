@@ -2,8 +2,10 @@ package com.company.data;
 
 import com.company.common.*;
 import com.company.presentation.entity.Credit;
+import com.company.presentation.entity.CreditGroup;
 import com.company.presentation.entity.Production;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -270,22 +272,62 @@ public class Postgresql implements DatabaseFacade {
 
     @Override
     public ICreditGroup[] getCreditGroups() {
-        return new ICreditGroup[0];
+        List<ICreditGroup> creditGroups = new ArrayList<>();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_group");
+            ResultSet queryResult = query.executeQuery();
+            while (queryResult.next()){
+                CreditGroup creditGroup = new CreditGroup();
+                creditGroup.setName(queryResult.getString("name"));
+                creditGroup.setDescription(queryResult.getString("description"));
+                creditGroups.add(creditGroup);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return creditGroups.toArray(new ICreditGroup[0]);
     }
 
     @Override
     public ICreditGroup getCreditGroup(Integer id) {
-        return null;
+        CreditGroup creditGroup = new CreditGroup();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_group WHERE id = ?");
+            query.setInt(1,id);
+            ResultSet queryResult = query.executeQuery();
+            creditGroup.setName(queryResult.getString("name"));
+            creditGroup.setDescription(queryResult.getString("description"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return creditGroup;
     }
 
     @Override
     public ICreditGroup addCreditGroup(ICreditGroup creditGroup) {
-        return null;
+        try {
+            PreparedStatement query = connection.prepareStatement("INSERT INTO credit_group (id, name, description) VALUES (?, ?, ?)");
+            query.setInt(1,creditGroup.getID());
+            query.setString(2,creditGroup.getName());
+            query.setString(3,creditGroup.getDescription());
+            query.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return creditGroup;
     }
 
     @Override
     public void updateCreditGroup(ICreditGroup creditGroup) {
-
+        try {
+            PreparedStatement query = connection.prepareStatement("UPDATE credit_group SET name = ?, description = ? WHERE id=?;");
+            query.setInt(3,creditGroup.getID());
+            query.setString(1,creditGroup.getName());
+            query.setString(2, creditGroup.getDescription());
+            query.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 
