@@ -120,14 +120,7 @@ public class AccountManagement implements IAccountManagement {
     @Override
     public IAccount getByEmail(String email) {
         assert email != null;
-
-        for (IAccount account : Database.getInstance().getAccounts()) {
-            if (account.getEmail().equalsIgnoreCase(email)) {
-                return new Account(account);
-            }
-        }
-
-        return null;
+        return Database.getInstance().getAccount(email);
     }
 
 
@@ -141,12 +134,8 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public void login(String email, String password) throws NoSuchAlgorithmException {
-        IAccount account = getByEmail(email);
-        if (account == null) {
-            throw new RuntimeException("Could not find the user");
-        }
-        account = Database.getInstance().login(account, hashPassword(password));
-        if (account == null) {
+        IAccount account = Database.getInstance().getAccount(email, hashPassword(password));
+        if (account.getAccessLevel() == null) {
             throw new RuntimeException("Could not find the user");
         }
 

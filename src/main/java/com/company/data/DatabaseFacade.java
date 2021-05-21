@@ -51,12 +51,13 @@ public interface DatabaseFacade {
 
     IAccount getAccount(Integer id);
 
+    IAccount getAccount(String email);
+
+    IAccount getAccount(String email, String hashedPassword);
+
     IAccount addAccount(IAccount account, String hashedPassword);
 
     void updateAccount(IAccount account);
 
     void updateAccount(IAccount account, String hashedPassword);
-
-
-    IAccount login(IAccount account, String password);
 }

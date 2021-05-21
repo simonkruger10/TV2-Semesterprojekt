@@ -3,7 +3,6 @@ package com.company.data;
 import com.company.common.*;
 import com.company.presentation.entity.*;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +67,7 @@ public class Postgresql implements DatabaseFacade {
         try {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM producer");
             ResultSet queryResult = query.executeQuery();
-            while (queryResult.next()){
+            while (queryResult.next()) {
                 Producer producer = new Producer();
                 producer.setName(queryResult.getString(2));
                 producer.setLogo(queryResult.getString(3));
@@ -86,7 +85,7 @@ public class Postgresql implements DatabaseFacade {
         try {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM producer WHERE id=?");
             ResultSet queryResult = query.executeQuery();
-            query.setInt(1,id);
+            query.setInt(1, id);
             producer.setName(queryResult.getString(2));
             producer.setLogo(queryResult.getString(3));
         } catch (SQLException throwables) {
@@ -99,10 +98,10 @@ public class Postgresql implements DatabaseFacade {
     public IProducer addProducer(IProducer producer) {
         try {
             PreparedStatement query = connection.prepareStatement("INSERT INTO producer (id, name, logo, account_id) VALUES (?,?,?,?)");
-            query.setInt(1,producer.getID());
-            query.setString(2,producer.getName());
-            query.setString(3,producer.getLogo());
-            query.setInt(4,producer.getAccount().getID());
+            query.setInt(1, producer.getID());
+            query.setString(2, producer.getName());
+            query.setString(3, producer.getLogo());
+            query.setInt(4, producer.getAccount().getID());
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -114,8 +113,8 @@ public class Postgresql implements DatabaseFacade {
     public void updateProducer(IProducer producer) {
         try {
             PreparedStatement query = connection.prepareStatement("UPDATE producer SET name=?, logo=?");
-            query.setString(1,producer.getName());
-            query.setString(2,producer.getLogo());
+            query.setString(1, producer.getName());
+            query.setString(2, producer.getLogo());
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -398,13 +397,64 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM account WHERE id = ?");
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
-            account.setFirstName(queryResult.getString(2));
-            account.setMiddleName(queryResult.getString(3));
-            account.setLastName(queryResult.getString(4));
-            account.setEmail(queryResult.getString(5));
-            for (AccessLevel accessLevel : AccessLevel.values()) {
-                if (accessLevel.equals(queryResult.getInt(6))) {
-                    account.setAccessLevel(accessLevel);
+            if (queryResult.next()) {
+                account.setFirstName(queryResult.getString(2));
+                account.setMiddleName(queryResult.getString(3));
+                account.setLastName(queryResult.getString(4));
+                account.setEmail(queryResult.getString(5));
+                for (AccessLevel accessLevel : AccessLevel.values()) {
+                    if (accessLevel.equals(queryResult.getInt(6))) {
+                        account.setAccessLevel(accessLevel);
+                    }
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return account;
+    }
+
+    @Override
+    public IAccount getAccount(String email) {
+        Account account = new Account();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM account WHERE email = ?");
+            query.setString(1, email);
+            ResultSet queryResult = query.executeQuery();
+            if (queryResult.next()) {
+                account.setFirstName(queryResult.getString(2));
+                account.setMiddleName(queryResult.getString(3));
+                account.setLastName(queryResult.getString(4));
+                account.setEmail(queryResult.getString(5));
+                for (AccessLevel accessLevel : AccessLevel.values()) {
+                    if (accessLevel.equals(queryResult.getInt(6))) {
+                        account.setAccessLevel(accessLevel);
+                    }
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return account;
+    }
+
+    @Override
+    public IAccount getAccount(String email, String hashedPassword) {
+        Account account = new Account();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM account WHERE email = ? AND password =?");
+            query.setString(1, email);
+            query.setString(2, hashedPassword);
+            ResultSet queryResult = query.executeQuery();
+            if (queryResult.next()) {
+                account.setFirstName(queryResult.getString(2));
+                account.setMiddleName(queryResult.getString(3));
+                account.setLastName(queryResult.getString(4));
+                account.setEmail(queryResult.getString(5));
+                for (AccessLevel accessLevel : AccessLevel.values()) {
+                    if (accessLevel.equals(queryResult.getInt(6))) {
+                        account.setAccessLevel(accessLevel);
+                    }
                 }
             }
         } catch (SQLException throwables) {
@@ -435,11 +485,11 @@ public class Postgresql implements DatabaseFacade {
     public void updateAccount(IAccount account) {
         try {
             PreparedStatement query = connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=?");
-            query.setString(1,account.getFirstName());
+            query.setString(1, account.getFirstName());
             query.setString(2, account.getMiddleName());
-            query.setString(3,account.getLastName());
+            query.setString(3, account.getLastName());
             query.setString(4, account.getEmail());
-            query.setInt(5,account.getAccessLevel().getLevel());
+            query.setInt(5, account.getAccessLevel().getLevel());
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -450,20 +500,15 @@ public class Postgresql implements DatabaseFacade {
     public void updateAccount(IAccount account, String hashedPassword) {
         try {
             PreparedStatement query = connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=?,password=?");
-            query.setString(1,account.getFirstName());
+            query.setString(1, account.getFirstName());
             query.setString(2, account.getMiddleName());
-            query.setString(3,account.getLastName());
+            query.setString(3, account.getLastName());
             query.setString(4, account.getEmail());
-            query.setInt(5,account.getAccessLevel().getLevel());
-            query.setString(6,hashedPassword);
+            query.setInt(5, account.getAccessLevel().getLevel());
+            query.setString(6, hashedPassword);
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-    }
-
-    @Override
-    public IAccount login(IAccount account, String password) {
-        return null;
     }
 }

@@ -119,6 +119,16 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
+    public IAccount getAccount(String email) {
+        return this.database.getAccount(email);
+    }
+
+    @Override
+    public IAccount getAccount(String email, String hashedPassword) {
+        return this.database.getAccount(email, hashedPassword);
+    }
+
+    @Override
     public IAccount addAccount(IAccount account, String hashedPassword) {
         return this.database.addAccount(account, hashedPassword);
     }
@@ -133,9 +143,4 @@ public class Database implements DatabaseFacade {
         this.database.updateAccount(account, hashedPassword);
     }
 
-
-    @Override
-    public IAccount login(IAccount account, String password) {
-        return this.database.login(account, password);
-    }
 }
