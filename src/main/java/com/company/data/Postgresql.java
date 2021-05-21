@@ -1,6 +1,7 @@
 package com.company.data;
 
 import com.company.common.*;
+import com.company.presentation.entity.Account;
 import com.company.presentation.entity.Credit;
 import com.company.presentation.entity.CreditGroup;
 import com.company.presentation.entity.Production;
@@ -276,7 +277,7 @@ public class Postgresql implements DatabaseFacade {
         try {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_group");
             ResultSet queryResult = query.executeQuery();
-            while (queryResult.next()){
+            while (queryResult.next()) {
                 CreditGroup creditGroup = new CreditGroup();
                 creditGroup.setName(queryResult.getString("name"));
                 creditGroup.setDescription(queryResult.getString("description"));
@@ -293,7 +294,7 @@ public class Postgresql implements DatabaseFacade {
         CreditGroup creditGroup = new CreditGroup();
         try {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_group WHERE id = ?");
-            query.setInt(1,id);
+            query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             creditGroup.setName(queryResult.getString("name"));
             creditGroup.setDescription(queryResult.getString("description"));
@@ -307,9 +308,9 @@ public class Postgresql implements DatabaseFacade {
     public ICreditGroup addCreditGroup(ICreditGroup creditGroup) {
         try {
             PreparedStatement query = connection.prepareStatement("INSERT INTO credit_group (id, name, description) VALUES (?, ?, ?)");
-            query.setInt(1,creditGroup.getID());
-            query.setString(2,creditGroup.getName());
-            query.setString(3,creditGroup.getDescription());
+            query.setInt(1, creditGroup.getID());
+            query.setString(2, creditGroup.getName());
+            query.setString(3, creditGroup.getDescription());
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -321,8 +322,8 @@ public class Postgresql implements DatabaseFacade {
     public void updateCreditGroup(ICreditGroup creditGroup) {
         try {
             PreparedStatement query = connection.prepareStatement("UPDATE credit_group SET name = ?, description = ? WHERE id=?;");
-            query.setInt(3,creditGroup.getID());
-            query.setString(1,creditGroup.getName());
+            query.setInt(3, creditGroup.getID());
+            query.setString(1, creditGroup.getName());
             query.setString(2, creditGroup.getDescription());
             query.executeQuery();
         } catch (SQLException throwables) {
@@ -333,27 +334,98 @@ public class Postgresql implements DatabaseFacade {
 
     @Override
     public IAccount[] getAccounts() {
-        return new IAccount[0];
+        List<IAccount> accounts = new ArrayList<>();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM account");
+            ResultSet queryResult = query.executeQuery();
+            while (queryResult.next()) {
+                Account account = new Account();
+                account.setFirstName(queryResult.getString("f_name"));
+                account.setMiddleName(queryResult.getString("m_name"));
+                account.setLastName(queryResult.getString("l_name"));
+                account.setEmail(queryResult.getString("email"));
+                for (AccessLevel accessLevel : AccessLevel.values()) {
+                    if (accessLevel.equals(queryResult.getInt("access_level"))) {
+                        account.setAccessLevel(accessLevel);
+                    }
+                }
+                accounts.add(account);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return accounts.toArray(new IAccount[0]);
     }
 
     @Override
     public IAccount getAccount(Integer id) {
-        return null;
+        Account account = new Account();
+        try {
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM account WHERE id = ?");
+            query.setInt(1, id);
+            ResultSet queryResult = query.executeQuery();
+            account.setFirstName(queryResult.getString(2));
+            account.setMiddleName(queryResult.getString(3));
+            account.setLastName(queryResult.getString(4));
+            account.setEmail(queryResult.getString(5));
+            for (AccessLevel accessLevel : AccessLevel.values()) {
+                if (accessLevel.equals(queryResult.getInt(6))) {
+                    account.setAccessLevel(accessLevel);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return account;
     }
 
     @Override
     public IAccount addAccount(IAccount account, String hashedPassword) {
-        return null;
+        try {
+            PreparedStatement query = connection.prepareStatement("INSERT INTO account (id, f_name, m_name, l_name, email, access_level, password) VALUES (?,?,?,?,?,?,?)");
+            query.setInt(1, account.getID());
+            query.setString(2, account.getFirstName());
+            query.setString(3, account.getMiddleName());
+            query.setString(4, account.getLastName());
+            query.setString(5, account.getEmail());
+            query.setString(6, String.valueOf(account.getAccessLevel()));
+            query.setString(7, hashedPassword);
+            query.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return account;
     }
 
     @Override
     public void updateAccount(IAccount account) {
-
+        try {
+            PreparedStatement query = connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=?");
+            query.setString(1,account.getFirstName());
+            query.setString(2, account.getMiddleName());
+            query.setString(3,account.getLastName());
+            query.setString(4, account.getEmail());
+            query.setInt(5,account.getAccessLevel().getLevel());
+            query.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
     public void updateAccount(IAccount account, String hashedPassword) {
-
+        try {
+            PreparedStatement query = connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=?,password=?");
+            query.setString(1,account.getFirstName());
+            query.setString(2, account.getMiddleName());
+            query.setString(3,account.getLastName());
+            query.setString(4, account.getEmail());
+            query.setInt(5,account.getAccessLevel().getLevel());
+            query.setString(6,hashedPassword);
+            query.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 
