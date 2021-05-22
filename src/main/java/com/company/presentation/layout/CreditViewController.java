@@ -58,7 +58,7 @@ public class CreditViewController extends VBox implements UpdateHandler {
     }
 
     public void viewCredit(Integer id) {
-        credit = new CreditManagement().getByID(id);
+        credit = new CreditManagement().getByID(id, null);
         firstName.setText(credit.getFirstName());
         middleName.setText(credit.getMiddleName());
         lastName.setText(credit.getLastName());
