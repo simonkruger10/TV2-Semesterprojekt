@@ -5,6 +5,7 @@ import com.company.presentation.entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Postgresql implements DatabaseFacade {
@@ -21,7 +22,6 @@ public class Postgresql implements DatabaseFacade {
     }
 
     private void setCredit(ResultSet queryResult, Credit credit) throws SQLException {
-        queryResult.next();
         credit.setFirstName(queryResult.getString("name"));
         credit.setMiddleName(queryResult.getString("m_name"));
         credit.setLastName(queryResult.getString("l_name"));
@@ -50,13 +50,13 @@ public class Postgresql implements DatabaseFacade {
             production.setCredit(this.getCredit(queryResult3.getInt("credit_id"), CreditType.UNIT));
         }
 
-        //*
+        /*
         System.out.println("Test");
 
         for (ICredit c : production.getCredits()) {
             System.out.println("Credit_ID: " + c.getID() + ", \t Credit_Name: " + c.getName());
         }
-        //*/
+        */
     }
 
     private void setProduction(IProduction production, PreparedStatement query) throws SQLException {
@@ -225,7 +225,7 @@ public class Postgresql implements DatabaseFacade {
 
     @Override
     public ICredit[] getCredits() {
-        List<ICredit> credits = new ArrayList<>();
+        HashMap<Integer, ICredit> credits = new HashMap<>();
         try {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_person");
             ResultSet queryResult = query.executeQuery();
@@ -233,7 +233,7 @@ public class Postgresql implements DatabaseFacade {
                 Credit credit = new Credit();
                 credit.setID(queryResult.getInt("id"));
                 setCredit(queryResult, credit);
-                credits.add(credit);
+                credits.put(credit.getID(), credit);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -242,15 +242,17 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_unit");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Credit credit = new Credit();
-                credit.setID(queryResult.getInt("id"));
+                int id = queryResult.getInt("id");
+                Credit credit = (Credit)credits.get(id);
                 credit.setName(queryResult.getString("name"));
-                credits.add(credit);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return credits.toArray((new ICredit[0]));
+        for (ICredit c : credits.values()) {
+            System.out.println(c.toString());
+        }
+        return credits.values().toArray((new ICredit[0]));
     }
 
     @Override
@@ -260,7 +262,8 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_person WHERE id = ?");
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
-            setCredit(queryResult, credit);
+            if(queryResult.next())
+                setCredit(queryResult, credit);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

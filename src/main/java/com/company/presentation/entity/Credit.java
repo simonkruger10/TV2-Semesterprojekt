@@ -76,4 +76,14 @@ public class Credit extends Person implements ICredit {
             this.addCreditGroup(new CreditGroup(creditGroup));
         }
     }
+
+    @Override
+    public String toString() {
+        return "Credit{" +
+                "type=" + type +
+                ", image='" + image + '\'' +
+                ", name='" + name + '\'' +
+                ", creditGroup=" + creditGroup +
+                '}';
+    }
 }
