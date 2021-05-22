@@ -21,26 +21,18 @@ public class Postgresql implements DatabaseFacade {
         }
     }
 
-    private void setCredit(ResultSet queryResult, Credit credit) throws SQLException {
-        credit.setFirstName(queryResult.getString("name"));
-        credit.setMiddleName(queryResult.getString("m_name"));
-        credit.setLastName(queryResult.getString("l_name"));
-        String image = queryResult.getString("image");
-        if (image != null) {
-            credit.setImage(credit.getImage());
-        }
-        credit.setEmail(queryResult.getString("email"));
-        credit.setID(queryResult.getInt("id"));
-    }
-
-    private void creditQuery(Production production, PreparedStatement query) throws SQLException {
+    private void attatchCreditsToProduction(Production production) throws SQLException {
         PreparedStatement queryGetCreditIdsMatchingProductionId = connection.prepareStatement(
                 "SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
         queryGetCreditIdsMatchingProductionId.setInt(1, production.getID());
         ResultSet resultCreditIdsMatchingProductionId = queryGetCreditIdsMatchingProductionId.executeQuery();
+
         while (resultCreditIdsMatchingProductionId.next()) {
             production.setCredit(this.getCredit(resultCreditIdsMatchingProductionId.getInt("credit_id"), CreditType.PERSON));
         }
+
+        /* //TODO I think the following code is an exact duplicate of the above code,
+              //and I can't find a meaning with it. Also nothing seems to break when I remove it.
 
         PreparedStatement query3 = connection.prepareStatement("SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
         query3.setInt(1, production.getID());
@@ -48,7 +40,7 @@ public class Postgresql implements DatabaseFacade {
 
         while (queryResult3.next()) {
             production.setCredit(this.getCredit(queryResult3.getInt("credit_id"), CreditType.UNIT));
-        }
+        }*/
 
         /*
         System.out.println("Test");
@@ -59,7 +51,15 @@ public class Postgresql implements DatabaseFacade {
         */
     }
 
-    private void setProduction(IProduction production, PreparedStatement query) throws SQLException {
+    /**
+     * Sets the values of the given query's arguments to the value of the given production's fields' values
+     * @param production Production which will be saved or updated
+     * @param query The query which saves or updates a Production in the database. The Query's arguments must be:
+     *              name, release_day, release_month, release_year, description, image, producer_id
+     * @throws SQLException
+     */
+    private void setArguments(IProduction production, PreparedStatement query) throws SQLException {
+        //Argument order: name, release_day, release_month, release_year, description, image, producer_id
         query.setString(1, production.getName());
         query.setInt(2, production.getReleaseDay());
         query.setInt(3, production.getReleaseMonth());
@@ -69,7 +69,7 @@ public class Postgresql implements DatabaseFacade {
         query.setString(7, String.valueOf(production.getProducer()));
     }
 
-    @Override
+    @Override //TODO What does this method do? Is it used anywhere, and what should it check?
     public boolean checkAccess() {
         return false;
     }
@@ -82,8 +82,10 @@ public class Postgresql implements DatabaseFacade {
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
                 Producer producer = new Producer();
-                producer.setName(queryResult.getString(2));
-                producer.setLogo(queryResult.getString(3));
+                producer.setID(queryResult.getInt("id"));
+                producer.setName(queryResult.getString("name"));
+                producer.setLogo(queryResult.getString("logo"));
+                producer.setAccount(getAccount(queryResult.getInt("account_id")));
                 producers.add(producer);
             }
         } catch (SQLException throwables) {
@@ -100,8 +102,10 @@ public class Postgresql implements DatabaseFacade {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                producer.setName(queryResult.getString(2));
-                producer.setLogo(queryResult.getString(3));
+                producer.setID(id);
+                producer.setName(queryResult.getString("name"));
+                producer.setLogo(queryResult.getString("logo"));
+                producer.setAccount(getAccount(queryResult.getInt("account_id")));
             } else {
                 throw (new Exception("Production with id \"" + id + "\" not found"));
             }
@@ -128,12 +132,19 @@ public class Postgresql implements DatabaseFacade {
         return producer;
     }
 
+    /**
+     * Given a IProducer object that already exists in the database (has an ID),
+     * will update all (except ID) of the stored values to match the values of the given object
+     * @param producer update database values of producer with @param's ID, to the value of @param's values.
+     */
     @Override
     public void updateProducer(IProducer producer) {
         try {
-            PreparedStatement query = connection.prepareStatement("UPDATE producer SET name=?, logo=?");
+            PreparedStatement query = connection.prepareStatement("UPDATE producer SET name=?, logo=?, account_id=? WHERE id = ?");
             query.setString(1, producer.getName());
             query.setString(2, producer.getLogo());
+            query.setInt(3, producer.getAccount().getID());
+            query.setInt(4, producer.getID());
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -147,20 +158,10 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM production");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Production production = new Production();
-                production.setID(queryResult.getInt("id"));
-                production.setName(queryResult.getString("name"));
-                production.setDescription(queryResult.getString("description"));
-                String image = queryResult.getString("Image");
-                if (image != null) {
-                    production.setImage(production.getImage());
-                }
-                production.setReleaseDay(queryResult.getInt("release_day"));
-                production.setReleaseMonth(queryResult.getInt("release_month"));
-                production.setReleaseYear(queryResult.getInt("release_year"));
+                Production production = Production.createFromQueryResult(queryResult);
                 production.setProducer(this.getProducer(queryResult.getInt("producer_id")));
 
-                creditQuery(production, query);
+                attatchCreditsToProduction(production);
                 productions.add(production);
             }
         } catch (
@@ -177,20 +178,10 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM production WHERE ID =?");
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
-            queryResult.next();
-            production.setName(queryResult.getString("name"));
-            production.setDescription(queryResult.getString("description"));
-            production.setReleaseDay(queryResult.getInt("release_day"));
-            production.setReleaseMonth(queryResult.getInt("release_month"));
-            production.setReleaseYear(queryResult.getInt("release_year"));
-            String image = queryResult.getString("image");
-            production.setID(id);
-
-            if (image != null) {
-                production.setImage(production.getImage());
-            }
-
-            creditQuery(production, query);
+            queryResult.next(); //TODO Maybe check to see for multiple results and notify of database corruption.
+            production = Production.createFromQueryResult(queryResult);
+            production.setProducer(this.getProducer(queryResult.getInt("producer_id")));
+            attatchCreditsToProduction(production);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -202,7 +193,7 @@ public class Postgresql implements DatabaseFacade {
     public IProduction addProduction(IProduction production) {
         try {
             PreparedStatement query = connection.prepareStatement("INSERT INTO production (name, release_day, release_month, release_year, description, image, producer_id) VALUES (?,?,?,?,?,?,?)");
-            setProduction(production, query);
+            setArguments(production, query);
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -215,7 +206,7 @@ public class Postgresql implements DatabaseFacade {
         try {
             PreparedStatement query = connection.prepareStatement("UPDATE production SET name =?, release_day =?, release_month =?, release_year =?, description =?, image=?, producer_id =? WHERE ID=?");
             query.setInt(8, production.getID());
-            setProduction(production, query);
+            setArguments(production, query);
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -230,9 +221,7 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_person");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Credit credit = new Credit();
-                credit.setID(queryResult.getInt("id"));
-                setCredit(queryResult, credit);
+                Credit credit = Credit.createFromQueryResult(queryResult, CreditType.PERSON);
                 credits.put(credit.getID(), credit);
             }
         } catch (SQLException throwables) {
@@ -260,7 +249,7 @@ public class Postgresql implements DatabaseFacade {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             if(queryResult.next())
-                setCredit(queryResult, credit);
+                credit = Credit.createFromQueryResult(queryResult, CreditType.PERSON);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -276,7 +265,7 @@ public class Postgresql implements DatabaseFacade {
         return credit;
     }
 
-    @Override
+    @Override //TODO I am not sure this works, and it needs to be tested!
     public ICredit addCredit(ICredit credit) {
         if (credit.getType() == CreditType.PERSON) {
             try {
@@ -302,7 +291,7 @@ public class Postgresql implements DatabaseFacade {
         return credit;
     }
 
-    @Override
+    @Override //TODO I am not sure this works, and it needs to be tested!
     public void updateCredit(ICredit credit) {
         if (credit.getType() == CreditType.PERSON) try {
             PreparedStatement query = connection.prepareStatement("UPDATE credit_person SET name =?, m_name=?, l_name=?, image=?, email=?");
@@ -337,6 +326,7 @@ public class Postgresql implements DatabaseFacade {
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
                 CreditGroup creditGroup = new CreditGroup();
+                creditGroup.setID(queryResult.getInt("id"));
                 creditGroup.setName(queryResult.getString("name"));
                 creditGroup.setDescription(queryResult.getString("description"));
                 creditGroups.add(creditGroup);
@@ -354,6 +344,7 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_group WHERE id = ?");
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
+            creditGroup.setID(queryResult.getInt("id"));
             creditGroup.setName(queryResult.getString("name"));
             creditGroup.setDescription(queryResult.getString("description"));
         } catch (SQLException throwables) {
@@ -422,12 +413,12 @@ public class Postgresql implements DatabaseFacade {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                account.setFirstName(queryResult.getString(2));
-                account.setMiddleName(queryResult.getString(3));
-                account.setLastName(queryResult.getString(4));
-                account.setEmail(queryResult.getString(5));
-                for (AccessLevel accessLevel : AccessLevel.values()) {
-                    if (accessLevel.equals(queryResult.getInt(6))) {
+                account.setFirstName(queryResult.getString("f_name"));
+                account.setMiddleName(queryResult.getString("m_name"));
+                account.setLastName(queryResult.getString("l_name"));
+                account.setEmail(queryResult.getString("email"));
+                for (AccessLevel accessLevel : AccessLevel.values()) { //TODO WHY!? WHY are we iterating this? What purpose does it serve?
+                    if (accessLevel.equals(queryResult.getInt("access_level"))) {
                         account.setAccessLevel(accessLevel);
                     }
                 }
@@ -446,12 +437,12 @@ public class Postgresql implements DatabaseFacade {
             query.setString(1, email);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                account.setFirstName(queryResult.getString(2));
-                account.setMiddleName(queryResult.getString(3));
-                account.setLastName(queryResult.getString(4));
-                account.setEmail(queryResult.getString(5));
-                for (AccessLevel accessLevel : AccessLevel.values()) {
-                    if (accessLevel.equals(queryResult.getInt(6))) {
+                account.setFirstName(queryResult.getString("f_name"));
+                account.setMiddleName(queryResult.getString("m_name"));
+                account.setLastName(queryResult.getString("l_name"));
+                account.setEmail(queryResult.getString("email"));
+                for (AccessLevel accessLevel : AccessLevel.values()) { //TODO WHY!? WHY are we iterating this? What purpose does it serve?
+                    if (accessLevel.equals(queryResult.getInt("access_level"))) {
                         account.setAccessLevel(accessLevel);
                     }
                 }
@@ -471,12 +462,12 @@ public class Postgresql implements DatabaseFacade {
             query.setString(2, hashedPassword);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                account.setFirstName(queryResult.getString(2));
-                account.setMiddleName(queryResult.getString(3));
-                account.setLastName(queryResult.getString(4));
-                account.setEmail(queryResult.getString(5));
-                for (AccessLevel accessLevel : AccessLevel.values()) {
-                    if (accessLevel.equals(queryResult.getInt(6))) {
+                account.setFirstName(queryResult.getString("f_name"));
+                account.setMiddleName(queryResult.getString("m_name"));
+                account.setLastName(queryResult.getString("l_name"));
+                account.setEmail(queryResult.getString("email"));
+                for (AccessLevel accessLevel : AccessLevel.values()) { //TODO WHY!? WHY are we iterating this? What purpose does it serve?
+                    if (accessLevel.equals(queryResult.getInt("access_level"))) {
                         account.setAccessLevel(accessLevel);
                     }
                 }
@@ -508,12 +499,13 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public void updateAccount(IAccount account) {
         try {
-            PreparedStatement query = connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=?");
+            PreparedStatement query = connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=? WHERE id = ?");
             query.setString(1, account.getFirstName());
             query.setString(2, account.getMiddleName());
             query.setString(3, account.getLastName());
             query.setString(4, account.getEmail());
             query.setInt(5, account.getAccessLevel().getLevel());
+            query.setInt(6, account.getID());
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -523,13 +515,14 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public void updateAccount(IAccount account, String hashedPassword) {
         try {
-            PreparedStatement query = connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=?,password=?");
+            PreparedStatement query = connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=?,password=? WHERE id=?");
             query.setString(1, account.getFirstName());
             query.setString(2, account.getMiddleName());
             query.setString(3, account.getLastName());
             query.setString(4, account.getEmail());
             query.setInt(5, account.getAccessLevel().getLevel());
             query.setString(6, hashedPassword);
+            query.setInt(7, account.getID());
             query.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

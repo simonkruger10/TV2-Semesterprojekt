@@ -4,6 +4,8 @@ import com.company.common.CreditType;
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +20,22 @@ public class Credit extends Person implements ICredit {
 
     public Credit(ICredit credit) {
         this.setCopyOf(credit);
+    }
+
+    public static Credit createFromQueryResult(ResultSet queryResult, CreditType type) throws SQLException {
+        Credit credit = new Credit();
+        credit.type = type;
+        credit.setFirstName(queryResult.getString("name"));
+        credit.setMiddleName(queryResult.getString("m_name"));
+        credit.setLastName(queryResult.getString("l_name"));
+        String image = queryResult.getString("image");
+        if (image != null) {
+            credit.setImage(credit.getImage());
+        }
+        credit.setEmail(queryResult.getString("email"));
+        credit.setID(queryResult.getInt("id"));
+
+        return credit;
     }
 
 
