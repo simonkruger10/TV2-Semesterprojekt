@@ -30,6 +30,7 @@ public class Postgresql implements DatabaseFacade {
             credit.setImage(credit.getImage());
         }
         credit.setEmail(queryResult.getString("email"));
+        credit.setID(queryResult.getInt("id"));
     }
 
     private void creditQuery(Production production, PreparedStatement query) throws SQLException {
@@ -49,11 +50,13 @@ public class Postgresql implements DatabaseFacade {
             production.setCredit(this.getCredit(queryResult3.getInt("credit_id"), CreditType.UNIT));
         }
 
+        //*
         System.out.println("Test");
 
         for (ICredit c : production.getCredits()) {
             System.out.println("Credit_ID: " + c.getID() + ", \t Credit_Name: " + c.getName());
         }
+        //*/
     }
 
     private void setProduction(IProduction production, PreparedStatement query) throws SQLException {
@@ -174,15 +177,19 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM production WHERE ID =?");
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
+            queryResult.next();
             production.setName(queryResult.getString("name"));
             production.setDescription(queryResult.getString("description"));
             production.setReleaseDay(queryResult.getInt("release_day"));
             production.setReleaseMonth(queryResult.getInt("release_month"));
             production.setReleaseYear(queryResult.getInt("release_year"));
             String image = queryResult.getString("image");
+            production.setID(id);
+
             if (image != null) {
                 production.setImage(production.getImage());
             }
+
             creditQuery(production, query);
 
         } catch (SQLException throwables) {
