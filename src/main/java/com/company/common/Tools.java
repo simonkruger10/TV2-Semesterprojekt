@@ -12,12 +12,12 @@ import java.util.regex.Pattern;
 public class Tools {
     // https://www.regular-expressions.info/email.html
     private static final Pattern EMAIL_PATTERN =
-            Pattern.compile("^(?=[A-Z0-9][A-Z0-9@._%+-]{5,253}+$)" + //Contains only valid characters
-                    "[A-Z0-9._%+-]{1,64}+@" +                   //There has to be a first part, and it must end in @
+            Pattern.compile("^(?=[a-zA-Z0-9][a-zA-Z0-9@._%+-]{5,253}+$)" + //Contains only valid characters
+                    "[a-zA-Z0-9._%+-]{1,64}+@" +                   //There has to be a first part, and it must end in @
                     "(?:" +                                     //Start of non-capturing group
-                        "(?=[A-Z0-9-]{1,63}+\\.)[A-Z0-9]++" +  //There must at least be some text ending with a '.'
-                    "(?:-[A-Z0-9]++)*+\\.){1,8}" +             //It must have text after the '.' and there can be 8 sub-domains
-                    "+[A-Z]{2,63}+$");                         //And there must be some text/country/domain-code to end the email.
+                        "(?=[a-zA-Z0-9-]{1,63}+\\.)[a-zA-Z0-9]++" +  //There must at least be some text ending with a '.'
+                    "(?:-[a-zA-Z0-9]++)*+\\.){1,8}" +             //It must have text after the '.' and there can be 8 sub-domains
+                    "+[a-zA-Z]{2,63}+$");                         //And there must be some text/country/domain-code to end the email.
 
     public static boolean trueContains(String phrase, String keyword) {
         return phrase != null && keyword != null && !keyword.trim().isEmpty()
