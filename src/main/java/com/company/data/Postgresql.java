@@ -249,9 +249,6 @@ public class Postgresql implements DatabaseFacade {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        for (ICredit c : credits.values()) {
-            System.out.println(c.toString());
-        }
         return credits.values().toArray((new ICredit[0]));
     }
 
