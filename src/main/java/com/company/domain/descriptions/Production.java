@@ -90,7 +90,9 @@ public class Production extends Identifier implements IProduction {
     }
 
     public void setProducer(IProducer producer) {
-        this.producer = (Producer) producer;
+        if(producer != null) {
+            this.producer = new Producer(producer);
+        } else this.producer = null; //TODO find a check or a fix so that this never happens.
     }
 
 
