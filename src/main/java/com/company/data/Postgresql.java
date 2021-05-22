@@ -13,13 +13,15 @@ public class Postgresql implements DatabaseFacade {
     public Postgresql() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tv2_semesterprojekt_f3f70b5a", "tv2_dbuser_f3f70b5a", "4A03069D");
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/tv2_semesterprojekt_f3f70b5a",
+                    "tv2_dbuser_f3f70b5a", "4A03069D");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     private void setCredit(ResultSet queryResult, Credit credit) throws SQLException {
+        queryResult.next();
         credit.setFirstName(queryResult.getString("name"));
         credit.setMiddleName(queryResult.getString("m_name"));
         credit.setLastName(queryResult.getString("l_name"));
@@ -31,18 +33,26 @@ public class Postgresql implements DatabaseFacade {
     }
 
     private void creditQuery(Production production, PreparedStatement query) throws SQLException {
-        PreparedStatement query2 = connection.prepareStatement("SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
-        query2.setInt(1, production.getID());
-        ResultSet queryResult2 = query.executeQuery();
-        while (queryResult2.next()) {
-            production.setCredit(this.getCredit(queryResult2.getInt("credit_id"), CreditType.PERSON));
+        PreparedStatement queryGetCreditIdsMatchingProductionId = connection.prepareStatement(
+                "SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
+        queryGetCreditIdsMatchingProductionId.setInt(1, production.getID());
+        ResultSet resultCreditIdsMatchingProductionId = queryGetCreditIdsMatchingProductionId.executeQuery();
+        while (resultCreditIdsMatchingProductionId.next()) {
+            production.setCredit(this.getCredit(resultCreditIdsMatchingProductionId.getInt("credit_id"), CreditType.PERSON));
         }
 
         PreparedStatement query3 = connection.prepareStatement("SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
         query3.setInt(1, production.getID());
-        ResultSet queryResult3 = query.executeQuery();
-        while (queryResult2.next()) {
+        ResultSet queryResult3 = query3.executeQuery();
+
+        while (queryResult3.next()) {
             production.setCredit(this.getCredit(queryResult3.getInt("credit_id"), CreditType.UNIT));
+        }
+
+        System.out.println("Test");
+
+        for (ICredit c : production.getCredits()) {
+            System.out.println("Credit_ID: " + c.getID() + ", \t Credit_Name: " + c.getName());
         }
     }
 
@@ -84,12 +94,18 @@ public class Postgresql implements DatabaseFacade {
         Producer producer = new Producer();
         try {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM producer WHERE id=?");
-            ResultSet queryResult = query.executeQuery();
             query.setInt(1, id);
-            producer.setName(queryResult.getString(2));
-            producer.setLogo(queryResult.getString(3));
+            ResultSet queryResult = query.executeQuery();
+            if (queryResult.next()) {
+                producer.setName(queryResult.getString(2));
+                producer.setLogo(queryResult.getString(3));
+            } else {
+                throw (new Exception("Production with id \"" + id + "\" not found"));
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return producer;
     }
@@ -178,7 +194,7 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public IProduction addProduction(IProduction production) {
         try {
-            PreparedStatement query = connection.prepareStatement("INSERT INTO production (name, release_day, release_month, release_year, description, image, producer) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement query = connection.prepareStatement("INSERT INTO production (name, release_day, release_month, release_year, description, image, producer_id) VALUES (?,?,?,?,?,?,?)");
             setProduction(production, query);
             query.executeQuery();
         } catch (SQLException throwables) {
@@ -190,7 +206,7 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public void updateProduction(IProduction production) {
         try {
-            PreparedStatement query = connection.prepareStatement("UPDATE production SET name =?, release_day =?, release_month =?, release_year =?, description =?, image=?, producer =? WHERE ID=?");
+            PreparedStatement query = connection.prepareStatement("UPDATE production SET name =?, release_day =?, release_month =?, release_year =?, description =?, image=?, producer_id =? WHERE ID=?");
             query.setInt(8, production.getID());
             setProduction(production, query);
             query.executeQuery();
@@ -234,7 +250,7 @@ public class Postgresql implements DatabaseFacade {
     public ICredit getCredit(Integer id, CreditType type) {
         Credit credit = new Credit();
         try {
-            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_person WHERE =?");
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_person WHERE id = ?");
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             setCredit(queryResult, credit);
@@ -242,10 +258,11 @@ public class Postgresql implements DatabaseFacade {
             throwables.printStackTrace();
         }
         try {
-            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_unit WHERE =?");
+            PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_unit WHERE id = ?");
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
-            credit.setName(queryResult.getString("name"));
+            if(queryResult.next())
+                credit.setName(queryResult.getString("name"));
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -256,7 +273,7 @@ public class Postgresql implements DatabaseFacade {
     public ICredit addCredit(ICredit credit) {
         if (credit.getType() == CreditType.PERSON) {
             try {
-                PreparedStatement query = connection.prepareStatement("INSERT INTO credit_person(name, m_name, l_name, images, email) VALUES (?,?,?,?,?)");
+                PreparedStatement query = connection.prepareStatement("INSERT INTO credit_person(name, m_name, l_name, image, email) VALUES (?,?,?,?,?)");
                 query.setString(1, credit.getFirstName());
                 query.setString(2, credit.getMiddleName());
                 query.setString(3, credit.getLastName());
@@ -281,7 +298,7 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public void updateCredit(ICredit credit) {
         if (credit.getType() == CreditType.PERSON) try {
-            PreparedStatement query = connection.prepareStatement("UPDATE credit_person SET name =?, m_name=?, l_name=?, image=?, email=?,");
+            PreparedStatement query = connection.prepareStatement("UPDATE credit_person SET name =?, m_name=?, l_name=?, image=?, email=?");
             query.setString(1, credit.getFirstName());
             query.setString(2, credit.getMiddleName());
             query.setString(3, credit.getLastName());
