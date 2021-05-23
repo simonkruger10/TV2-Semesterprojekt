@@ -175,7 +175,14 @@ public class Postgresql implements DatabaseFacade {
                 Production production = Production.createFromQueryResult(queryResult);
                 production.setProducer(this.getProducer(queryResult.getInt("producer_id")));
 
-                attachCreditsToProduction(production);
+                //TODO re-evaluate weather we NEED to attach credits to ALL productions when we fetch them.
+                /*Pros: the "credits" field is not null
+                        We have all the data available once pulled.
+                  Cons: We almost pull ALL data out of the database - this notably slows down the program.
+                        We dont currently save and use references to the saved data - its more: pull, use, toss.
+                */
+                //attachCreditsToProduction(production);
+
                 productions.add(production);
             }
         } catch (
@@ -192,7 +199,7 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM production WHERE ID =?");
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
-            queryResult.next(); //TODO Maybe check to see for multiple results and notify of database corruption.
+            queryResult.next(); //TODO Maybe check to see for more than 1 results and notify of database corruption/duplication.
             production = Production.createFromQueryResult(queryResult);
             production.setProducer(this.getProducer(queryResult.getInt("producer_id")));
             attachCreditsToProduction(production);
