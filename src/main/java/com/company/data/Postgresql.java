@@ -1,7 +1,7 @@
 package com.company.data;
 
 import com.company.common.*;
-import com.company.presentation.entity.*;
+import com.company.data.mapper.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,7 +21,8 @@ public class Postgresql implements DatabaseFacade {
         }
     }
 
-    private void attatchCreditsToProduction(Production production) throws SQLException {
+    private void attachCreditsToProduction(Production production) throws SQLException {
+        //Find all the credits that are in this production.
         PreparedStatement queryGetCreditIdsMatchingProductionId = connection.prepareStatement(
                 "SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
         queryGetCreditIdsMatchingProductionId.setInt(1, production.getID());
@@ -31,24 +32,37 @@ public class Postgresql implements DatabaseFacade {
             production.setCredit(this.getCredit(resultCreditIdsMatchingProductionId.getInt("credit_id"), CreditType.PERSON));
         }
 
-        /* //TODO I think the following code is an exact duplicate of the above code,
-              //and I can't find a meaning with it. Also nothing seems to break when I remove it.
+        //Attach each credit with its credit group id for this production.
+        PreparedStatement queryCreditGroupID = connection.prepareStatement("SELECT credit_id, credit_group_id FROM production_credit_person_relation WHERE production_id = ?");
+        queryCreditGroupID.setInt(1, production.getID());
+        ResultSet creditIdCreditGroupPairs = queryCreditGroupID.executeQuery();
 
-        PreparedStatement query3 = connection.prepareStatement("SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
-        query3.setInt(1, production.getID());
-        ResultSet queryResult3 = query3.executeQuery();
-
-        while (queryResult3.next()) {
-            production.setCredit(this.getCredit(queryResult3.getInt("credit_id"), CreditType.UNIT));
-        }*/
-
-        /*
-        System.out.println("Test");
-
-        for (ICredit c : production.getCredits()) {
-            System.out.println("Credit_ID: " + c.getID() + ", \t Credit_Name: " + c.getName());
+        HashMap<Integer, List<Integer>> ccgIdPair = new HashMap<>();
+        while (creditIdCreditGroupPairs.next()) {
+            int cid = creditIdCreditGroupPairs.getInt("credit_id");
+            int cGroupId = creditIdCreditGroupPairs.getInt("credit_group_id");
+            ccgIdPair.computeIfAbsent(cid, k -> new ArrayList<>()); //If the List is null, initialize one.
+            ccgIdPair.get(cid).add(cGroupId);
         }
-        */
+
+        //TODO this pull is faster up until the credit_group table becomes too large.
+        PreparedStatement queryCreditGroup = connection.prepareStatement("SELECT * FROM credit_group");
+        ResultSet creditGroupResults = queryCreditGroup.executeQuery();
+
+        //Save all CreditGroups in a map
+        HashMap<Integer, CreditGroup> idToCreditGroup = new HashMap<>();
+        while (creditGroupResults.next()) {
+            CreditGroup cg = CreditGroup.createFromQueryResult(creditGroupResults);
+            idToCreditGroup.put(cg.getID(), cg);
+        }
+
+        //for each credit, find all its credit groups and assign them to the credit.
+        for(ICredit c : production.getCredits()) {
+            for(int creditGroupID : ccgIdPair.get(c.getID())) {         //Iterate over all the IDs of the CreditGroup, of which the credit is assigned.
+                CreditGroup cg = idToCreditGroup.get(creditGroupID);    //Get the CreditGroup matching that id
+                ((Credit) c).addCreditGroup(cg);                        //Assign the credit that CreditGroup.
+            }
+        }
     }
 
     /**
@@ -161,7 +175,7 @@ public class Postgresql implements DatabaseFacade {
                 Production production = Production.createFromQueryResult(queryResult);
                 production.setProducer(this.getProducer(queryResult.getInt("producer_id")));
 
-                attatchCreditsToProduction(production);
+                attachCreditsToProduction(production);
                 productions.add(production);
             }
         } catch (
@@ -181,7 +195,7 @@ public class Postgresql implements DatabaseFacade {
             queryResult.next(); //TODO Maybe check to see for multiple results and notify of database corruption.
             production = Production.createFromQueryResult(queryResult);
             production.setProducer(this.getProducer(queryResult.getInt("producer_id")));
-            attatchCreditsToProduction(production);
+            attachCreditsToProduction(production);
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

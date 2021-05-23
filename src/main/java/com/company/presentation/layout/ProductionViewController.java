@@ -68,7 +68,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
         // Group credits by creditGroup
         HashMap<String, List<ICredit>> grouped = new HashMap<>();
         for (ICredit credit : production.getCredits()) {
-            for (ICreditGroup creditGroup: credit.getCreditGroups()) {
+            for (ICreditGroup creditGroup: credit.getCreditGroups()) { //TODO this will not allow credits without a creditGroup to be shown.
                 String key = creditGroup.getName();
                 if (grouped.get(key) == null) {
                     grouped.put(key, new ArrayList<>());
