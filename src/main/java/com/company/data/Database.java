@@ -143,4 +143,8 @@ public class Database implements DatabaseFacade {
         this.database.updateAccount(account, hashedPassword);
     }
 
+    @Override
+    public ICredit getCreditWithAllCreditGroups(ICredit credit) {
+        return this.database.getCreditWithAllCreditGroups(credit);
+    }
 }

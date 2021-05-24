@@ -140,6 +140,11 @@ public class CreditManagement implements ICreditManagement {
         return new Credit(Database.getInstance().getCredit(id, type));
     }
 
+    @Override
+    public ICredit getWithAllCreditGroups(ICredit credit) {
+        Credit descriptionCredit = (Credit) credit;
+        return new Credit(Database.getInstance().getCreditWithAllCreditGroups(descriptionCredit));
+    }
 
     @Override
     public ICredit create(ICredit credit) {

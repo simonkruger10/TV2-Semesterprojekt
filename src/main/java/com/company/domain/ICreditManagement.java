@@ -19,6 +19,8 @@ public interface ICreditManagement {
 
     ICredit getByID(Integer id, CreditType type);
 
+    ICredit getWithAllCreditGroups(ICredit credit);
+
     ICredit create(ICredit credit);
 
     void update(ICredit credit);

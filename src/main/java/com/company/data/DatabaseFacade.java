@@ -60,4 +60,6 @@ public interface DatabaseFacade {
     void updateAccount(IAccount account);
 
     void updateAccount(IAccount account, String hashedPassword);
+
+    ICredit getCreditWithAllCreditGroups(ICredit credit);
 }

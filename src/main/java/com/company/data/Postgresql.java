@@ -21,19 +21,28 @@ public class Postgresql implements DatabaseFacade {
         }
     }
 
+    /**
+     * Finds all credits belonging to the given production, and creates a Credit object to each one.
+     * Then finds out what each credit is credited for (Its' CreditGroup(s)), creating CreditGroup objects
+     * and attaches them to each credit.
+     *
+     * @param production A Production with at least an ID. The Production to be given credits from the database.
+     * @throws SQLException
+     */
     private void attachCreditsToProduction(Production production) throws SQLException {
         //Find all the credits that are in this production.
-        PreparedStatement queryGetCreditIdsMatchingProductionId = connection.prepareStatement(
+        PreparedStatement queryProductionCreditIDs = connection.prepareStatement(
                 "SELECT credit_id FROM production_credit_person_relation WHERE production_id = ?");
-        queryGetCreditIdsMatchingProductionId.setInt(1, production.getID());
-        ResultSet resultCreditIdsMatchingProductionId = queryGetCreditIdsMatchingProductionId.executeQuery();
+        queryProductionCreditIDs.setInt(1, production.getID());
+        ResultSet resultProductionCreditIDs = queryProductionCreditIDs.executeQuery();
 
-        while (resultCreditIdsMatchingProductionId.next()) {
-            production.setCredit(this.getCredit(resultCreditIdsMatchingProductionId.getInt("credit_id"), CreditType.PERSON));
+        while (resultProductionCreditIDs.next()) {
+            production.setCredit(this.getCredit(resultProductionCreditIDs.getInt("credit_id"), CreditType.PERSON));
         }
 
         //Attach each credit with its credit group id for this production.
-        PreparedStatement queryCreditGroupID = connection.prepareStatement("SELECT credit_id, credit_group_id FROM production_credit_person_relation WHERE production_id = ?");
+        PreparedStatement queryCreditGroupID = connection.prepareStatement(
+                "SELECT credit_id, credit_group_id FROM production_credit_person_relation WHERE production_id = ?");
         queryCreditGroupID.setInt(1, production.getID());
         ResultSet creditIdCreditGroupPairs = queryCreditGroupID.executeQuery();
 
@@ -95,10 +104,7 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM producer");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Producer producer = new Producer();
-                producer.setID(queryResult.getInt("id"));
-                producer.setName(queryResult.getString("name"));
-                producer.setLogo(queryResult.getString("logo"));
+                Producer producer = Producer.createFromQueryResult(queryResult);
                 producer.setAccount(getAccount(queryResult.getInt("account_id")));
                 producers.add(producer);
             }
@@ -116,9 +122,7 @@ public class Postgresql implements DatabaseFacade {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                producer.setID(id);
-                producer.setName(queryResult.getString("name"));
-                producer.setLogo(queryResult.getString("logo"));
+                producer = Producer.createFromQueryResult(queryResult);
                 producer.setAccount(getAccount(queryResult.getInt("account_id")));
             } else {
                 throw (new Exception("Production with id \"" + id + "\" not found"));
@@ -286,6 +290,11 @@ public class Postgresql implements DatabaseFacade {
         return credit;
     }
 
+    @Override
+    public ICredit getCreditWithAllCreditGroups(ICredit credit) {
+        return null;
+    }
+
     @Override //TODO I am not sure this works, and it needs to be tested!
     public ICredit addCredit(ICredit credit) {
         if (credit.getType() == CreditType.PERSON) {
@@ -346,10 +355,7 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_group");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                CreditGroup creditGroup = new CreditGroup();
-                creditGroup.setID(queryResult.getInt("id"));
-                creditGroup.setName(queryResult.getString("name"));
-                creditGroup.setDescription(queryResult.getString("description"));
+                CreditGroup creditGroup = CreditGroup.createFromQueryResult(queryResult);
                 creditGroups.add(creditGroup);
             }
         } catch (SQLException throwables) {
@@ -365,9 +371,7 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_group WHERE id = ?");
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
-            creditGroup.setID(queryResult.getInt("id"));
-            creditGroup.setName(queryResult.getString("name"));
-            creditGroup.setDescription(queryResult.getString("description"));
+            creditGroup = CreditGroup.createFromQueryResult(queryResult);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -408,16 +412,7 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM account");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Account account = new Account();
-                account.setFirstName(queryResult.getString("f_name"));
-                account.setMiddleName(queryResult.getString("m_name"));
-                account.setLastName(queryResult.getString("l_name"));
-                account.setEmail(queryResult.getString("email"));
-                for (AccessLevel accessLevel : AccessLevel.values()) {
-                    if (accessLevel.equals(queryResult.getInt("access_level"))) {
-                        account.setAccessLevel(accessLevel);
-                    }
-                }
+                Account account = Account.createFromQueryResult(queryResult);
                 accounts.add(account);
             }
         } catch (SQLException throwables) {
@@ -434,15 +429,7 @@ public class Postgresql implements DatabaseFacade {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                account.setFirstName(queryResult.getString("f_name"));
-                account.setMiddleName(queryResult.getString("m_name"));
-                account.setLastName(queryResult.getString("l_name"));
-                account.setEmail(queryResult.getString("email"));
-                for (AccessLevel accessLevel : AccessLevel.values()) { //TODO WHY!? WHY are we iterating this? What purpose does it serve?
-                    if (accessLevel.equals(queryResult.getInt("access_level"))) {
-                        account.setAccessLevel(accessLevel);
-                    }
-                }
+                account = Account.createFromQueryResult(queryResult);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -458,15 +445,7 @@ public class Postgresql implements DatabaseFacade {
             query.setString(1, email);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                account.setFirstName(queryResult.getString("f_name"));
-                account.setMiddleName(queryResult.getString("m_name"));
-                account.setLastName(queryResult.getString("l_name"));
-                account.setEmail(queryResult.getString("email"));
-                for (AccessLevel accessLevel : AccessLevel.values()) { //TODO WHY!? WHY are we iterating this? What purpose does it serve?
-                    if (accessLevel.equals(queryResult.getInt("access_level"))) {
-                        account.setAccessLevel(accessLevel);
-                    }
-                }
+                account = Account.createFromQueryResult(queryResult);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -483,15 +462,7 @@ public class Postgresql implements DatabaseFacade {
             query.setString(2, hashedPassword);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                account.setFirstName(queryResult.getString("f_name"));
-                account.setMiddleName(queryResult.getString("m_name"));
-                account.setLastName(queryResult.getString("l_name"));
-                account.setEmail(queryResult.getString("email"));
-                for (AccessLevel accessLevel : AccessLevel.values()) { //TODO WHY!? WHY are we iterating this? What purpose does it serve?
-                    if (accessLevel.equals(queryResult.getInt("access_level"))) {
-                        account.setAccessLevel(accessLevel);
-                    }
-                }
+                account = Account.createFromQueryResult(queryResult);
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
