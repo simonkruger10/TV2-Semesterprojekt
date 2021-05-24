@@ -2,6 +2,11 @@ package com.company.domain;
 
 import com.company.common.CreditType;
 import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
+import com.company.common.IProduction;
+
+import java.util.List;
+import java.util.Map;
 
 public interface ICreditManagement {
     ICredit[] list();
@@ -19,7 +24,7 @@ public interface ICreditManagement {
 
     ICredit getByID(Integer id, CreditType type);
 
-    ICredit getWithAllCreditGroups(ICredit credit);
+    Map<ICreditGroup, List<IProduction>> getCreditedFor(ICredit credit);
 
     ICredit create(ICredit credit);
 

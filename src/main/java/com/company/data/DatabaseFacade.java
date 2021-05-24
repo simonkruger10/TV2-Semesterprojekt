@@ -2,6 +2,9 @@ package com.company.data;
 
 import com.company.common.*;
 
+import java.util.List;
+import java.util.Map;
+
 public interface DatabaseFacade {
     @SuppressWarnings("SameReturnValue")
     static DatabaseFacade getInstance() {
@@ -61,5 +64,5 @@ public interface DatabaseFacade {
 
     void updateAccount(IAccount account, String hashedPassword);
 
-    ICredit getCreditWithAllCreditGroups(ICredit credit);
+    Map<ICreditGroup, List<IProduction>> getCreditedFor(ICredit credit);
 }

@@ -2,6 +2,9 @@ package com.company.data;
 
 import com.company.common.*;
 
+import java.util.List;
+import java.util.Map;
+
 public class Database implements DatabaseFacade {
     private static DatabaseFacade instance;
     private final DatabaseFacade database;
@@ -144,7 +147,7 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
-    public ICredit getCreditWithAllCreditGroups(ICredit credit) {
-        return this.database.getCreditWithAllCreditGroups(credit);
+    public Map<ICreditGroup, List<IProduction>> getCreditedFor(ICredit credit) {
+        return this.database.getCreditedFor(credit);
     }
 }

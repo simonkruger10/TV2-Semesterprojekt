@@ -2,11 +2,11 @@ package com.company.data;
 
 import com.company.common.*;
 import com.company.data.mapper.*;
+import javafx.util.Pair;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Postgresql implements DatabaseFacade {
     private static Connection connection = null;
@@ -108,8 +108,8 @@ public class Postgresql implements DatabaseFacade {
                 producer.setAccount(getAccount(queryResult.getInt("account_id")));
                 producers.add(producer);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return producers.toArray(new IProducer[0]);
     }
@@ -127,8 +127,8 @@ public class Postgresql implements DatabaseFacade {
             } else {
                 throw (new Exception("Production with id \"" + id + "\" not found"));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -144,8 +144,8 @@ public class Postgresql implements DatabaseFacade {
             query.setString(3, producer.getLogo());
             query.setInt(4, producer.getAccount().getID());
             query.executeQuery();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return producer;
     }
@@ -164,8 +164,8 @@ public class Postgresql implements DatabaseFacade {
             query.setInt(3, producer.getAccount().getID());
             query.setInt(4, producer.getID());
             query.executeQuery();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
     }
 
@@ -208,8 +208,8 @@ public class Postgresql implements DatabaseFacade {
             production.setProducer(this.getProducer(queryResult.getInt("producer_id")));
             attachCreditsToProduction(production);
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return production;
     }
@@ -220,8 +220,8 @@ public class Postgresql implements DatabaseFacade {
             PreparedStatement query = connection.prepareStatement("INSERT INTO production (name, release_day, release_month, release_year, description, image, producer_id) VALUES (?,?,?,?,?,?,?)");
             setArguments(production, query);
             query.executeQuery();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return production;
     }
@@ -233,8 +233,8 @@ public class Postgresql implements DatabaseFacade {
             query.setInt(8, production.getID());
             setArguments(production, query);
             query.executeQuery();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
 
     }
@@ -249,8 +249,8 @@ public class Postgresql implements DatabaseFacade {
                 Credit credit = Credit.createFromQueryResult(queryResult, CreditType.PERSON);
                 credits.put(credit.getID(), credit);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         try {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_unit");
@@ -260,8 +260,8 @@ public class Postgresql implements DatabaseFacade {
                 Credit credit = (Credit)credits.get(id);
                 credit.setName(queryResult.getString("name"));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return credits.values().toArray((new ICredit[0]));
     }
@@ -275,8 +275,8 @@ public class Postgresql implements DatabaseFacade {
             ResultSet queryResult = query.executeQuery();
             if(queryResult.next())
                 credit = Credit.createFromQueryResult(queryResult, CreditType.PERSON);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         try {
             PreparedStatement query = connection.prepareStatement("SELECT * FROM credit_unit WHERE id = ?");
@@ -284,15 +284,50 @@ public class Postgresql implements DatabaseFacade {
             ResultSet queryResult = query.executeQuery();
             if(queryResult.next())
                 credit.setName(queryResult.getString("name"));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return credit;
     }
 
     @Override
-    public ICredit getCreditWithAllCreditGroups(ICredit credit) {
-        return null;
+    public Map<ICreditGroup, List<IProduction>> getCreditedFor(ICredit credit) {
+        Map<ICreditGroup, List<IProduction>> creditedFor = new HashMap<>();
+
+        try { //TODO this whole thing could be done more efficiently if I could figure out how to do it in SQL
+            PreparedStatement query = connection.prepareStatement(
+                    "SELECT credit_group_id, production_id FROM production_credit_person_relation WHERE credit_id = ?");
+            query.setInt(1, credit.getID());
+            ResultSet queryResult = query.executeQuery();
+
+            Map<Integer, List<Integer>> idMap = new HashMap<>();
+            while (queryResult.next()) {
+                int credit_group_id = queryResult.getInt("credit_group_id");
+                int production_id = queryResult.getInt("production_id");
+                idMap.computeIfAbsent(credit_group_id, k -> new ArrayList<>()); //If the List is null, initialize one.
+                idMap.get(credit_group_id).add(production_id);
+            }
+
+            List<ICreditGroup> creditGroups = Arrays.stream(getCreditGroups()).collect(Collectors.toList());
+            List<IProduction> productions = Arrays.stream(getProductions()).collect(Collectors.toList());
+
+
+            for (Map.Entry<Integer, List<Integer>> pair : idMap.entrySet()) {
+                List<IProduction> productionList = productions.stream()
+                        .filter(iProduction -> pair.getValue().contains(iProduction.getID()))
+                        .collect(Collectors.toList());
+                ICreditGroup cg = creditGroups.stream()
+                        .filter(iCreditGroup -> iCreditGroup.getID() == pair.getKey())
+                        .findFirst()
+                        .get();
+                creditedFor.put(cg, productionList);
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return creditedFor;
     }
 
     @Override //TODO I am not sure this works, and it needs to be tested!
@@ -306,16 +341,16 @@ public class Postgresql implements DatabaseFacade {
                 query.setString(4, credit.getImage());
                 query.setString(5, credit.getEmail());
                 query.executeQuery();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
             }
         }
         if (credit.getType() == CreditType.UNIT) {
             try {
                 PreparedStatement query = connection.prepareStatement("INSERT INTO credit_unit(name) VALUES (?)");
                 query.setString(1, credit.getName());
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
             }
         }
         return credit;
@@ -332,15 +367,15 @@ public class Postgresql implements DatabaseFacade {
             query.setString(5, credit.getEmail());
             query.executeQuery();
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         if (credit.getType() == CreditType.UNIT) {
             try {
                 PreparedStatement query = connection.prepareStatement("UPDATE credit_unit SET name=?");
                 query.setString(1, credit.getName());
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
             }
 
         }
@@ -358,8 +393,8 @@ public class Postgresql implements DatabaseFacade {
                 CreditGroup creditGroup = CreditGroup.createFromQueryResult(queryResult);
                 creditGroups.add(creditGroup);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return creditGroups.toArray(new ICreditGroup[0]);
     }
@@ -372,8 +407,8 @@ public class Postgresql implements DatabaseFacade {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             creditGroup = CreditGroup.createFromQueryResult(queryResult);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return creditGroup;
     }
@@ -386,8 +421,8 @@ public class Postgresql implements DatabaseFacade {
             query.setString(2, creditGroup.getName());
             query.setString(3, creditGroup.getDescription());
             query.executeQuery();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return creditGroup;
     }
@@ -400,8 +435,8 @@ public class Postgresql implements DatabaseFacade {
             query.setString(1, creditGroup.getName());
             query.setString(2, creditGroup.getDescription());
             query.executeQuery();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
     }
 
@@ -415,8 +450,8 @@ public class Postgresql implements DatabaseFacade {
                 Account account = Account.createFromQueryResult(queryResult);
                 accounts.add(account);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return accounts.toArray(new IAccount[0]);
     }
@@ -431,8 +466,8 @@ public class Postgresql implements DatabaseFacade {
             if (queryResult.next()) {
                 account = Account.createFromQueryResult(queryResult);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return account;
     }
@@ -447,8 +482,8 @@ public class Postgresql implements DatabaseFacade {
             if (queryResult.next()) {
                 account = Account.createFromQueryResult(queryResult);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return account;
     }
@@ -464,8 +499,8 @@ public class Postgresql implements DatabaseFacade {
             if (queryResult.next()) {
                 account = Account.createFromQueryResult(queryResult);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return account;
     }
@@ -482,8 +517,8 @@ public class Postgresql implements DatabaseFacade {
             query.setString(6, String.valueOf(account.getAccessLevel()));
             query.setString(7, hashedPassword);
             query.executeQuery();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return account;
     }
@@ -499,8 +534,8 @@ public class Postgresql implements DatabaseFacade {
             query.setInt(5, account.getAccessLevel().getLevel());
             query.setInt(6, account.getID());
             query.executeQuery();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
     }
 
@@ -516,8 +551,8 @@ public class Postgresql implements DatabaseFacade {
             query.setString(6, hashedPassword);
             query.setInt(7, account.getID());
             query.executeQuery();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
     }
 }

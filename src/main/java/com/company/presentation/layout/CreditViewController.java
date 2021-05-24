@@ -1,9 +1,7 @@
 package com.company.presentation.layout;
 
-import com.company.common.AccessLevel;
-import com.company.common.ICredit;
-import com.company.common.ICreditGroup;
-import com.company.common.Tools;
+import com.company.common.*;
+import com.company.data.mapper.CreditGroup;
 import com.company.domain.AccountManagement;
 import com.company.domain.CreditManagement;
 import com.company.presentation.CallbackHandler;
@@ -17,6 +15,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.company.common.Tools.trueVisible;
 
@@ -63,12 +66,23 @@ public class CreditViewController extends VBox implements UpdateHandler {
         middleName.setText(credit.getMiddleName());
         lastName.setText(credit.getLastName());
 
-        ICreditGroup[] creditGroups = credit.getCreditGroups();
-        String[] names = new String[creditGroups.length];
-        for (int i = 0; i < creditGroups.length; i++) {
-            names[i] = creditGroups[i].getName();
+        Map<ICreditGroup, List<IProduction>> creditedFor = new CreditManagement().getCreditedFor(credit);
+        ICreditGroup[] creditGroups = creditedFor.keySet().toArray(new ICreditGroup[0]);
+
+        List<String> lines = new ArrayList<>();
+        for (ICreditGroup cg : creditedFor.keySet()) {
+            StringBuilder names = new StringBuilder();
+            names.append(cg.getName());
+            names.append(":");
+            names.append("\n\t");
+            IProduction[] productions = creditedFor.get(cg).toArray(new IProduction[0]);
+            List<String> productionNames = Arrays.stream(productions)
+                    .map(iProduction -> iProduction.getName())
+                    .collect(Collectors.toList());
+            names.append(String.join("\n\t", productionNames));
+            lines.add(names.toString());
         }
-        groupName.setText(String.join(", ", names));
+        groupName.setText(String.join("\n", lines));
     }
 
     @FXML

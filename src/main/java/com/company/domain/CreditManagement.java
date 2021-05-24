@@ -1,9 +1,6 @@
 package com.company.domain;
 
-import com.company.common.AccessLevel;
-import com.company.common.CreditType;
-import com.company.common.ICredit;
-import com.company.common.ICreditGroup;
+import com.company.common.*;
 import com.company.data.Database;
 import com.company.domain.descriptions.Credit;
 import javafx.util.Pair;
@@ -12,6 +9,7 @@ import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import static com.company.common.Tools.*;
 
@@ -141,9 +139,8 @@ public class CreditManagement implements ICreditManagement {
     }
 
     @Override
-    public ICredit getWithAllCreditGroups(ICredit credit) {
-        Credit descriptionCredit = (Credit) credit;
-        return new Credit(Database.getInstance().getCreditWithAllCreditGroups(descriptionCredit));
+    public Map<ICreditGroup, List<IProduction>> getCreditedFor(ICredit credit) {
+        return Database.getInstance().getCreditedFor(credit);
     }
 
     @Override
