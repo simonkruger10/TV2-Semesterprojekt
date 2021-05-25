@@ -5,6 +5,7 @@ import com.company.presentation.entity.Credit;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class CreditGroup extends Identifier implements ICreditGroup {
     private String name = null;
@@ -50,5 +51,18 @@ public class CreditGroup extends Identifier implements ICreditGroup {
 
         this.setName(creditGroup.getName());
         this.setDescription(creditGroup.getDescription());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreditGroup that = (CreditGroup) o;
+        return name.equals(that.name) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description);
     }
 }

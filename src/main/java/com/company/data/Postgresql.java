@@ -293,34 +293,25 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public Map<ICreditGroup, List<IProduction>> getCreditedFor(ICredit credit) {
         Map<ICreditGroup, List<IProduction>> creditedFor = new HashMap<>();
-
-        try { //TODO this whole thing could be done more efficiently if I could figure out how to do it in SQL
+        try {
             PreparedStatement query = connection.prepareStatement(
-                    "SELECT credit_group_id, production_id FROM production_credit_person_relation WHERE credit_id = ?");
+                    "SELECT production.*, credit_group.id as cg_id, credit_group.name as cg_name, " +
+                                    "credit_group.description as cg_description \n" +
+                            "FROM production_credit_person_relation as pcpr\n" +
+                            "JOIN production ON pcpr.production_id = production.id\n" +
+                            "JOIN credit_group ON pcpr.credit_group_id = credit_group.id\n" +
+                            "WHERE pcpr.credit_id = ?");
             query.setInt(1, credit.getID());
             ResultSet queryResult = query.executeQuery();
 
-            Map<Integer, List<Integer>> idMap = new HashMap<>();
             while (queryResult.next()) {
-                int credit_group_id = queryResult.getInt("credit_group_id");
-                int production_id = queryResult.getInt("production_id");
-                idMap.computeIfAbsent(credit_group_id, k -> new ArrayList<>()); //If the List is null, initialize one.
-                idMap.get(credit_group_id).add(production_id);
-            }
-
-            List<ICreditGroup> creditGroups = Arrays.stream(getCreditGroups()).collect(Collectors.toList());
-            List<IProduction> productions = Arrays.stream(getProductions()).collect(Collectors.toList());
-
-
-            for (Map.Entry<Integer, List<Integer>> pair : idMap.entrySet()) {
-                List<IProduction> productionList = productions.stream()
-                        .filter(iProduction -> pair.getValue().contains(iProduction.getID()))
-                        .collect(Collectors.toList());
-                ICreditGroup cg = creditGroups.stream()
-                        .filter(iCreditGroup -> iCreditGroup.getID() == pair.getKey())
-                        .findFirst()
-                        .get();
-                creditedFor.put(cg, productionList);
+                CreditGroup creditGroup = new CreditGroup();
+                creditGroup.setDescription(queryResult.getString("cg_description"));
+                creditGroup.setName(queryResult.getString("cg_name"));
+                creditGroup.setID(queryResult.getInt("cg_id"));
+                IProduction production = Production.createFromQueryResult(queryResult);
+                creditedFor.computeIfAbsent(creditGroup, k -> new ArrayList<>());
+                creditedFor.get(creditGroup).add(production);
             }
 
         } catch (SQLException sqlException) {
@@ -334,7 +325,8 @@ public class Postgresql implements DatabaseFacade {
     public ICredit addCredit(ICredit credit) {
         if (credit.getType() == CreditType.PERSON) {
             try {
-                PreparedStatement query = connection.prepareStatement("INSERT INTO credit_person(name, m_name, l_name, image, email) VALUES (?,?,?,?,?)");
+                PreparedStatement query = connection.prepareStatement(
+                        "INSERT INTO credit_person(name, m_name, l_name, image, email) VALUES (?,?,?,?,?)");
                 query.setString(1, credit.getFirstName());
                 query.setString(2, credit.getMiddleName());
                 query.setString(3, credit.getLastName());
