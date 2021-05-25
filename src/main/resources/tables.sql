@@ -5,7 +5,6 @@ CREATE TABLE account
 (
     id           SERIAL PRIMARY KEY,
     f_name       VARCHAR(65)  NOT NULL,
-    m_name       VARCHAR(65),
     l_name       VARCHAR(65),
     email        VARCHAR(253) NOT NULL,
     access_level INTEGER DEFAULT -1,
@@ -48,7 +47,6 @@ CREATE TABLE credit_unit
 DROP TABLE IF EXISTS credit_person CASCADE;
 CREATE TABLE credit_person
 (
-    m_name VARCHAR(65),
     l_name VARCHAR(65),
     image  VARCHAR(254),
     email  VARCHAR(253) NOT NULL,
