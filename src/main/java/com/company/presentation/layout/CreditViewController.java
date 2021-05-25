@@ -9,10 +9,14 @@ import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextBoundsType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,8 +71,6 @@ public class CreditViewController extends VBox implements UpdateHandler {
         lastName.setText(credit.getLastName());
 
         Map<ICreditGroup, List<IProduction>> creditedFor = new CreditManagement().getCreditedFor(credit);
-        ICreditGroup[] creditGroups = creditedFor.keySet().toArray(new ICreditGroup[0]);
-
         List<String> lines = new ArrayList<>();
         for (ICreditGroup cg : creditedFor.keySet()) {
             StringBuilder names = new StringBuilder();
