@@ -33,6 +33,9 @@ public class CreditCreationController extends VBox implements UpdateHandler {
     private TextField creditGroupText;
 
     @FXML
+    private TextField productionText;
+
+    @FXML
     private Button addCreditBtn;
 
     private final CallbackHandler callback;
