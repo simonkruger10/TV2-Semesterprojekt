@@ -1,11 +1,9 @@
-package com.company.presentation.entity;
+package com.company.domain.dto;
 
 import com.company.common.CreditType;
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +19,7 @@ public class Credit extends Person implements ICredit {
     public Credit(ICredit credit) {
         this.setCopyOf(credit);
     }
+
 
     @Override
     public CreditType getType() {
@@ -76,15 +75,5 @@ public class Credit extends Person implements ICredit {
         for (ICreditGroup creditGroup: credit.getCreditGroups()) {
             this.addCreditGroup(new CreditGroup(creditGroup));
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Credit{" +
-                "type=" + type +
-                ", image='" + image + '\'' +
-                ", name='" + name + '\'' +
-                ", creditGroup=" + creditGroup +
-                '}';
     }
 }

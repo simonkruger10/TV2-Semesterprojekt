@@ -1,4 +1,4 @@
-package com.company.domain.descriptions;
+package com.company.domain.dto;
 
 import com.company.common.IAccount;
 import com.company.common.IProducer;

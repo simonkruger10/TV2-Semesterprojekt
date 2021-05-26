@@ -2,7 +2,7 @@ package com.company.domain;
 
 import com.company.common.*;
 import com.company.data.Database;
-import com.company.domain.descriptions.Credit;
+import com.company.domain.dto.Credit;
 import javafx.util.Pair;
 
 import java.security.AccessControlException;

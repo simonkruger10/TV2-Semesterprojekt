@@ -1,4 +1,4 @@
-package com.company.presentation.entity;
+package com.company.data.entities;
 
 import com.company.common.ICredit;
 import com.company.common.IProducer;
@@ -24,6 +24,7 @@ public class Production extends Identifier implements IProduction {
     public Production(IProduction production) {
         this.setCopyOf(production);
     }
+
 
     @Override
     public String getName() {
@@ -108,7 +109,6 @@ public class Production extends Identifier implements IProduction {
     public void setCopyOf(IProduction production) {
         assert production != null;
 
-		this.setID(production.getID());
         this.setName(production.getName());
         this.setReleaseDay(production.getReleaseDay());
         this.setReleaseMonth(production.getReleaseMonth());

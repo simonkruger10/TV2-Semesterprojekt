@@ -2,7 +2,7 @@ package com.company.domain;
 
 import com.company.common.IProducer;
 import com.company.data.Database;
-import com.company.domain.descriptions.Producer;
+import com.company.domain.dto.Producer;
 
 import java.security.AccessControlException;
 import java.util.ArrayList;

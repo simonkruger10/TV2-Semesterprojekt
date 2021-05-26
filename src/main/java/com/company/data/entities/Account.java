@@ -1,4 +1,4 @@
-package com.company.data.mapper;
+package com.company.data.entities;
 
 import com.company.common.AccessLevel;
 import com.company.common.IAccount;

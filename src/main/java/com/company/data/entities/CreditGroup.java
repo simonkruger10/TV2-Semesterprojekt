@@ -1,6 +1,10 @@
-package com.company.domain.descriptions;
+package com.company.data.entities;
 
 import com.company.common.ICreditGroup;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Objects;
 
 public class CreditGroup extends Identifier implements ICreditGroup {
     private String name = null;
@@ -13,6 +17,14 @@ public class CreditGroup extends Identifier implements ICreditGroup {
         this.setCopyOf(creditGroup);
     }
 
+    public static CreditGroup createFromQueryResult(ResultSet queryResult) throws SQLException {
+        CreditGroup cg = new CreditGroup();
+        cg.description = queryResult.getString("description");
+        cg.name = queryResult.getString("name");
+        cg.setID(queryResult.getInt("id"));
+
+        return cg;
+    }
 
     @Override
     public String getName() {
@@ -36,8 +48,20 @@ public class CreditGroup extends Identifier implements ICreditGroup {
     public void setCopyOf(ICreditGroup creditGroup) {
         assert creditGroup != null;
 
-        this.setID(creditGroup.getID());
         this.setName(creditGroup.getName());
         this.setDescription(creditGroup.getDescription());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CreditGroup that = (CreditGroup) o;
+        return name.equals(that.name) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description);
     }
 }

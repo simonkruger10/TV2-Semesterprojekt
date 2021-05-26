@@ -1,23 +1,23 @@
 package com.company.presentation.layout;
 
-import java.io.IOException;
-
 import com.company.common.AccessLevel;
 import com.company.common.ICreditGroup;
 import com.company.common.Tools;
 import com.company.domain.CreditGroupManagement;
 import com.company.domain.CreditManagement;
+import com.company.domain.dto.Credit;
+import com.company.domain.dto.CreditGroup;
 import com.company.presentation.CallbackHandler;
 import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
-import com.company.presentation.entity.Credit;
-import com.company.presentation.entity.CreditGroup;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+
+import java.io.IOException;
 
 public class CreditCreationController extends VBox implements UpdateHandler {
     @FXML

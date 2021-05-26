@@ -1,4 +1,4 @@
-package com.company.domain.descriptions;
+package com.company.domain.dto;
 
 public class Identifier {
     private Integer id;
