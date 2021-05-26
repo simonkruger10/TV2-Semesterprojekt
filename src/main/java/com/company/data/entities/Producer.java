@@ -15,7 +15,10 @@ public class Producer extends Identifier implements IProducer {
     }
 
     public Producer(IProducer producer) {
-        this.setCopyOf(producer);
+        assert producer != null;
+        this.setName(producer.getName());
+        this.setLogo(producer.getLogo());
+        this.setAccount(new Account(producer.getAccount()));
     }
 
 
@@ -48,12 +51,4 @@ public class Producer extends Identifier implements IProducer {
         this.account = account;
     }
 
-
-    public void setCopyOf(IProducer producer) {
-        assert producer != null;
-
-        this.setName(producer.getName());
-        this.setLogo(producer.getLogo());
-        this.setAccount(new Account(producer.getAccount()));
-    }
 }

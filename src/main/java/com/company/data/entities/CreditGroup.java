@@ -14,7 +14,9 @@ public class CreditGroup extends Identifier implements ICreditGroup {
     }
 
     public CreditGroup(ICreditGroup creditGroup) {
-        this.setCopyOf(creditGroup);
+        assert creditGroup != null;
+        this.setName(creditGroup.getName());
+        this.setDescription(creditGroup.getDescription());
     }
 
     @Override
@@ -35,13 +37,6 @@ public class CreditGroup extends Identifier implements ICreditGroup {
         this.description = description;
     }
 
-
-    public void setCopyOf(ICreditGroup creditGroup) {
-        assert creditGroup != null;
-
-        this.setName(creditGroup.getName());
-        this.setDescription(creditGroup.getDescription());
-    }
 
     @Override
     public boolean equals(Object o) {

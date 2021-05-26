@@ -19,7 +19,17 @@ public class Credit extends Person implements ICredit {
     }
 
     public Credit(ICredit credit) {
-        this.setCopyOf(credit);
+        assert credit != null;
+        this.setType(credit.getType());
+        this.setFirstName(credit.getFirstName());
+        this.setMiddleName(credit.getMiddleName());
+        this.setLastName(credit.getLastName());
+        this.setImage(credit.getImage());
+        this.setName(credit.getName());
+
+        for (ICreditGroup creditGroup: credit.getCreditGroups()) {
+            this.addCreditGroup(new CreditGroup(creditGroup));
+        }
     }
 
     @Override
@@ -54,7 +64,10 @@ public class Credit extends Person implements ICredit {
 
     @Override
     public ICreditGroup[] getCreditGroups() {
-        return creditGroup.values().toArray(new ICreditGroup[0]);
+        if(creditGroup != null)
+            return creditGroup.values().toArray(new ICreditGroup[0]);
+        else
+            return new ICreditGroup[0];
     }
 
 
@@ -62,18 +75,4 @@ public class Credit extends Person implements ICredit {
         this.creditGroup.put(creditGroup.getID(), creditGroup);
     }
 
-
-    public void setCopyOf(ICredit credit) {
-        assert credit != null;
-
-        this.setType(credit.getType());
-        this.setFirstName(credit.getFirstName());
-        this.setMiddleName(credit.getMiddleName());
-        this.setLastName(credit.getLastName());
-        this.setImage(credit.getImage());
-        this.setName(credit.getName());
-        for (ICreditGroup creditGroup: credit.getCreditGroups()) {
-            this.addCreditGroup(new CreditGroup(creditGroup));
-        }
-    }
 }

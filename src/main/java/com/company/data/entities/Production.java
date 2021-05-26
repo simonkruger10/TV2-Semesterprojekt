@@ -22,7 +22,18 @@ public class Production extends Identifier implements IProduction {
     }
 
     public Production(IProduction production) {
-        this.setCopyOf(production);
+        assert production != null;
+        this.setName(production.getName());
+        this.setReleaseDay(production.getReleaseDay());
+        this.setReleaseMonth(production.getReleaseMonth());
+        this.setReleaseYear(production.getReleaseYear());
+        this.setDescription(production.getDescription());
+        this.setImage(production.getImage());
+        this.setProducer(production.getProducer());
+
+        for (ICredit credit : production.getCredits()) {
+            this.setCredit(new Credit(credit));
+        }
     }
 
 
@@ -98,27 +109,14 @@ public class Production extends Identifier implements IProduction {
 
     @Override
     public ICredit[] getCredits() {
-        return credits.values().toArray(new ICredit[0]);
+        if(credits != null)
+            return credits.values().toArray(new ICredit[0]);
+        else
+            return new ICredit[0];
     }
 
 
     public void setCredit(ICredit credit) {
         credits.put(credit.getID(), (Credit) credit);
-    }
-
-    public void setCopyOf(IProduction production) {
-        assert production != null;
-
-        this.setName(production.getName());
-        this.setReleaseDay(production.getReleaseDay());
-        this.setReleaseMonth(production.getReleaseMonth());
-        this.setReleaseYear(production.getReleaseYear());
-        this.setDescription(production.getDescription());
-        this.setImage(production.getImage());
-        this.setProducer(production.getProducer());
-
-        for (ICredit credit : production.getCredits()) {
-	        this.setCredit(new Credit(credit));
-        }
     }
 }
