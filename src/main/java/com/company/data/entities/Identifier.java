@@ -1,6 +1,6 @@
 package com.company.data.entities;
 
-public class Identifier {
+public abstract class Identifier {
     private Integer id;
 
     public Integer getID() {

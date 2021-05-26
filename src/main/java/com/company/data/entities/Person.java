@@ -2,7 +2,7 @@ package com.company.data.entities;
 
 import com.company.common.Tools;
 
-public class Person extends Identifier {
+public abstract class Person extends Identifier {
     private String firstName = null;
     private String middleName = null;
     private String lastName = null;
