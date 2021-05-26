@@ -2,7 +2,7 @@ package com.company.data;
 
 import com.company.common.CreditType;
 import com.company.common.ICredit;
-import com.company.data.mapper.Credit;
+import com.company.data.entities.Credit;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

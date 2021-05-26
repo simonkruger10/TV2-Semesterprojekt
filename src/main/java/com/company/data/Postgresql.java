@@ -1,7 +1,7 @@
 package com.company.data;
 
 import com.company.common.*;
-import com.company.data.mapper.*;
+import com.company.data.entities.*;
 
 import java.sql.*;
 import java.util.*;

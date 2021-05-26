@@ -3,7 +3,7 @@ package com.company.domain;
 import com.company.common.AccessLevel;
 import com.company.common.ICreditGroup;
 import com.company.data.Database;
-import com.company.domain.descriptions.CreditGroup;
+import com.company.domain.dto.CreditGroup;
 import javafx.util.Pair;
 
 import java.security.AccessControlException;

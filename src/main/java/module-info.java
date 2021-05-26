@@ -8,9 +8,8 @@ module com.company {
     opens com.company;
     opens com.company.common;
     opens com.company.domain;
-    opens com.company.domain.descriptions;
+    opens com.company.domain.dto;
     opens com.company.presentation;
-    opens com.company.presentation.entity;
     opens com.company.presentation.layout;
     opens com.company.presentation.layout.parts;
 }

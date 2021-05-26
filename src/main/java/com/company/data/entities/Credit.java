@@ -1,4 +1,4 @@
-package com.company.presentation.entity;
+package com.company.data.entities;
 
 import com.company.common.CreditType;
 import com.company.common.ICredit;
@@ -20,6 +20,22 @@ public class Credit extends Person implements ICredit {
 
     public Credit(ICredit credit) {
         this.setCopyOf(credit);
+    }
+
+    public static Credit createFromQueryResult(ResultSet queryResult, CreditType type) throws SQLException {
+        Credit credit = new Credit();
+        credit.type = type;
+        credit.setFirstName(queryResult.getString("name"));
+        credit.setMiddleName(queryResult.getString("m_name"));
+        credit.setLastName(queryResult.getString("l_name"));
+        String image = queryResult.getString("image");
+        if (image != null) {
+            credit.setImage(credit.getImage());
+        }
+        credit.setEmail(queryResult.getString("email"));
+        credit.setID(queryResult.getInt("id"));
+
+        return credit;
     }
 
     @Override
@@ -66,7 +82,6 @@ public class Credit extends Person implements ICredit {
     public void setCopyOf(ICredit credit) {
         assert credit != null;
 
-        this.setID(credit.getID());
         this.setType(credit.getType());
         this.setFirstName(credit.getFirstName());
         this.setMiddleName(credit.getMiddleName());
@@ -76,15 +91,5 @@ public class Credit extends Person implements ICredit {
         for (ICreditGroup creditGroup: credit.getCreditGroups()) {
             this.addCreditGroup(new CreditGroup(creditGroup));
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Credit{" +
-                "type=" + type +
-                ", image='" + image + '\'' +
-                ", name='" + name + '\'' +
-                ", creditGroup=" + creditGroup +
-                '}';
     }
 }

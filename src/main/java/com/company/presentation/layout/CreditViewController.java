@@ -1,7 +1,6 @@
 package com.company.presentation.layout;
 
 import com.company.common.*;
-import com.company.data.mapper.CreditGroup;
 import com.company.domain.AccountManagement;
 import com.company.domain.CreditManagement;
 import com.company.presentation.CallbackHandler;
@@ -9,14 +8,10 @@ import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextBoundsType;
 
 import java.io.IOException;
 import java.util.ArrayList;

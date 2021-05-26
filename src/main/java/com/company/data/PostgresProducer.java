@@ -1,9 +1,8 @@
 package com.company.data;
 
 import com.company.common.IProducer;
-import com.company.data.mapper.Producer;
+import com.company.data.entities.Producer;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

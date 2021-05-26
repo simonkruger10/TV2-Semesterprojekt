@@ -4,7 +4,7 @@ import com.company.common.IAccount;
 import com.company.common.IProducer;
 import com.company.common.IProduction;
 import com.company.data.Database;
-import com.company.domain.descriptions.Production;
+import com.company.domain.dto.Production;
 import javafx.util.Pair;
 
 import java.security.AccessControlException;

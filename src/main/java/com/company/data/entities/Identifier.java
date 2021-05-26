@@ -1,4 +1,4 @@
-package com.company.presentation.entity;
+package com.company.data.entities;
 
 public class Identifier {
     private Integer id;

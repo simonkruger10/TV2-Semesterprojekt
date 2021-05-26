@@ -1,7 +1,7 @@
 package com.company.data;
 
 import com.company.common.ICreditGroup;
-import com.company.data.mapper.CreditGroup;
+import com.company.data.entities.CreditGroup;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

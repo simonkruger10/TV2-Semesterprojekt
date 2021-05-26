@@ -1,4 +1,4 @@
-package com.company.presentation.entity;
+package com.company.domain.dto;
 
 import com.company.common.ICreditGroup;
 
@@ -10,12 +10,7 @@ public class CreditGroup extends Identifier implements ICreditGroup {
     }
 
     public CreditGroup(String name) {
-        this(name, null);
-    }
-
-    public CreditGroup(String name, String description) {
         this.setName(name);
-        this.setDescription(description);
     }
 
     public CreditGroup(ICreditGroup creditGroup) {

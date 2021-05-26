@@ -1,4 +1,4 @@
-package com.company.presentation.entity;
+package com.company.domain.dto;
 
 import com.company.common.Tools;
 

@@ -3,7 +3,7 @@ package com.company.domain;
 import com.company.common.AccessLevel;
 import com.company.common.IAccount;
 import com.company.data.Database;
-import com.company.domain.descriptions.Account;
+import com.company.domain.dto.Account;
 import javafx.util.Pair;
 
 import java.math.BigInteger;

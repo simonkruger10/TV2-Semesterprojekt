@@ -3,9 +3,9 @@ package com.company.data;
 import com.company.common.CreditType;
 import com.company.common.ICredit;
 import com.company.common.IProduction;
-import com.company.data.mapper.Credit;
-import com.company.data.mapper.CreditGroup;
-import com.company.data.mapper.Production;
+import com.company.data.entities.Credit;
+import com.company.data.entities.CreditGroup;
+import com.company.data.entities.Production;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

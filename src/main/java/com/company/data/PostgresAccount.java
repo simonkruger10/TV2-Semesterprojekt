@@ -1,7 +1,7 @@
 package com.company.data;
 
 import com.company.common.IAccount;
-import com.company.data.mapper.Account;
+import com.company.data.entities.Account;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
