@@ -13,13 +13,29 @@ public class PostgresCredit {
     public PostgresCredit() {
     }
 
+    public static Credit createFromQueryResult(ResultSet queryResult, CreditType type) throws SQLException {
+        Credit credit = new Credit();
+        credit.setType(type);
+        credit.setFirstName(queryResult.getString("name"));
+        credit.setMiddleName(queryResult.getString("m_name"));
+        credit.setLastName(queryResult.getString("l_name"));
+        String image = queryResult.getString("image");
+        if (image != null) {
+            credit.setImage(credit.getImage());
+        }
+        credit.setEmail(queryResult.getString("email"));
+        credit.setID(queryResult.getInt("id"));
+
+        return credit;
+    }
+
     public ICredit[] getCredits() {
         HashMap<Integer, ICredit> credits = new HashMap<Integer, ICredit>();
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM credit_person");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Credit credit = Credit.createFromQueryResult(queryResult, CreditType.PERSON);
+                Credit credit = createFromQueryResult(queryResult, CreditType.PERSON);
                 credits.put(credit.getID(), credit);
             }
         } catch (SQLException sqlException) {
@@ -46,7 +62,7 @@ public class PostgresCredit {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next())
-                credit = Credit.createFromQueryResult(queryResult, CreditType.PERSON);
+                credit = createFromQueryResult(queryResult, CreditType.PERSON);
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -75,7 +91,7 @@ public class PostgresCredit {
                 query.setString(4, credit.getImage());
                 query.setString(5, credit.getEmail());
                 ResultSet resultSet = query.executeQuery();
-                resultCredit = Credit.createFromQueryResult(resultSet, CreditType.PERSON);
+                resultCredit = createFromQueryResult(resultSet, CreditType.PERSON);
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
             }
@@ -93,17 +109,19 @@ public class PostgresCredit {
 
     //TODO I am not sure this works, and it needs to be tested!
     public void updateCredit(ICredit credit) {
-        if (credit.getType() == CreditType.PERSON) try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE credit_person SET name =?, m_name=?, l_name=?, image=?, email=?");
-            query.setString(1, credit.getFirstName());
-            query.setString(2, credit.getMiddleName());
-            query.setString(3, credit.getLastName());
-            query.setString(4, credit.getImage());
-            query.setString(5, credit.getEmail());
-            query.executeQuery();
+        if (credit.getType() == CreditType.PERSON) {
+            try {
+                PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE credit_person SET name =?, m_name=?, l_name=?, image=?, email=?");
+                query.setString(1, credit.getFirstName());
+                query.setString(2, credit.getMiddleName());
+                query.setString(3, credit.getLastName());
+                query.setString(4, credit.getImage());
+                query.setString(5, credit.getEmail());
+                query.executeQuery();
 
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
         }
         if (credit.getType() == CreditType.UNIT) {
             try {
