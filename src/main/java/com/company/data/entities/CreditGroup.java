@@ -17,15 +17,6 @@ public class CreditGroup extends Identifier implements ICreditGroup {
         this.setCopyOf(creditGroup);
     }
 
-    public static CreditGroup createFromQueryResult(ResultSet queryResult) throws SQLException {
-        CreditGroup cg = new CreditGroup();
-        cg.description = queryResult.getString("description");
-        cg.name = queryResult.getString("name");
-        cg.setID(queryResult.getInt("id"));
-
-        return cg;
-    }
-
     @Override
     public String getName() {
         return name;

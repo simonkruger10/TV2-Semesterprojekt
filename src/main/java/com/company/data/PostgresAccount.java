@@ -1,5 +1,6 @@
 package com.company.data;
 
+import com.company.common.AccessLevel;
 import com.company.common.IAccount;
 import com.company.data.entities.Account;
 
@@ -13,13 +14,27 @@ public class PostgresAccount {
     public PostgresAccount() {
     }
 
+    public static Account createFromQueryResult(ResultSet queryResult) throws SQLException {
+        Account account = new Account();
+        account.setFirstName(queryResult.getString("f_name"));
+        account.setMiddleName(queryResult.getString("m_name"));
+        account.setLastName(queryResult.getString("l_name"));
+        account.setEmail(queryResult.getString("email"));
+        for (AccessLevel accessLevel : AccessLevel.values()) {
+            if (accessLevel.equals(queryResult.getInt("access_level"))) {
+                account.setAccessLevel(accessLevel);
+            }
+        }
+        return account;
+    }
+
     public IAccount[] getAccounts() {
         List<IAccount> accounts = new ArrayList<IAccount>();
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM account");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Account account = Account.createFromQueryResult(queryResult);
+                Account account = createFromQueryResult(queryResult);
                 accounts.add(account);
             }
         } catch (SQLException sqlException) {
@@ -35,7 +50,7 @@ public class PostgresAccount {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                account = Account.createFromQueryResult(queryResult);
+                account = createFromQueryResult(queryResult);
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -50,7 +65,7 @@ public class PostgresAccount {
             query.setString(1, email);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                account = Account.createFromQueryResult(queryResult);
+                account = createFromQueryResult(queryResult);
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -66,7 +81,7 @@ public class PostgresAccount {
             query.setString(2, hashedPassword);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                account = Account.createFromQueryResult(queryResult);
+                account = createFromQueryResult(queryResult);
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

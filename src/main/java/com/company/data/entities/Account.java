@@ -16,20 +16,6 @@ public class Account extends Person implements IAccount {
         this.setCopyOf(account);
     }
 
-    public static Account createFromQueryResult(ResultSet queryResult) throws SQLException {
-        Account account = new Account();
-        account.setFirstName(queryResult.getString("f_name"));
-        account.setMiddleName(queryResult.getString("m_name"));
-        account.setLastName(queryResult.getString("l_name"));
-        account.setEmail(queryResult.getString("email"));
-        for (AccessLevel accessLevel : AccessLevel.values()) {
-            if (accessLevel.equals(queryResult.getInt("access_level"))) {
-                account.setAccessLevel(accessLevel);
-            }
-        }
-        return account;
-    }
-
 
     @Override
     public AccessLevel getAccessLevel() {

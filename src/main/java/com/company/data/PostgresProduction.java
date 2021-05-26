@@ -81,7 +81,7 @@ public class PostgresProduction {
         //Save all CreditGroups in a map
         HashMap<Integer, CreditGroup> idToCreditGroup = new HashMap<Integer, CreditGroup>();
         while (creditGroupResults.next()) {
-            CreditGroup cg = CreditGroup.createFromQueryResult(creditGroupResults);
+            CreditGroup cg = PostgresCreditGroup.createFromQueryResult(creditGroupResults);
             idToCreditGroup.put(cg.getID(), cg);
         }
 

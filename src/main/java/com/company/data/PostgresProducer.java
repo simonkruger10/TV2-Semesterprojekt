@@ -16,13 +16,31 @@ public class PostgresProducer {
         this.postgresql = postgresql;
     }
 
+    /**
+     * Takes a ResultSet containing one or more rows from the Producer Table, reads the values "id, name, logo"
+     * and inserts them into a new instance of this Producer class. Then returns that object.
+     *
+     * Pre-requisite: the ResultSet must have had at least one ".next()" call.
+     *
+     * @param queryResult a ResultSet containing one or more rows from the Producer Table, reads the values "id, name, logo"
+     * @return A Producer object containing an id, name and logo value.
+     * @throws SQLException
+     */
+    public static Producer createFromQueryResult(ResultSet queryResult) throws SQLException {
+        Producer producer = new Producer();
+        producer.setID(queryResult.getInt("id"));
+        producer.setName(queryResult.getString("name"));
+        producer.setLogo(queryResult.getString("logo"));
+        return producer;
+    }
+
     public IProducer[] getProducers() {
         List<IProducer> producers = new ArrayList<IProducer>();
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM producer");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Producer producer = Producer.createFromQueryResult(queryResult);
+                Producer producer = createFromQueryResult(queryResult);
                 producer.setAccount(postgresql.getAccount(queryResult.getInt("account_id")));
                 producers.add(producer);
             }
@@ -39,7 +57,7 @@ public class PostgresProducer {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
-                producer = Producer.createFromQueryResult(queryResult);
+                producer = createFromQueryResult(queryResult);
                 producer.setAccount(postgresql.getAccount(queryResult.getInt("account_id")));
             } else {
                 throw (new Exception("Production with id \"" + id + "\" not found"));

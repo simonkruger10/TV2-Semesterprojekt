@@ -18,24 +18,6 @@ public class Producer extends Identifier implements IProducer {
         this.setCopyOf(producer);
     }
 
-    /**
-     * Takes a ResultSet containing one or more rows from the Producer Table, reads the values "id, name, logo"
-     * and inserts them into a new instance of this Producer class. Then returns that object.
-     *
-     * Pre-requisite: the ResultSet must have had at least one ".next()" call.
-     *
-     * @param queryResult a ResultSet containing one or more rows from the Producer Table, reads the values "id, name, logo"
-     * @return A Producer object containing an id, name and logo value.
-     * @throws SQLException
-     */
-    public static Producer createFromQueryResult(ResultSet queryResult) throws SQLException {
-        Producer producer = new Producer();
-        producer.setID(queryResult.getInt("id"));
-        producer.setName(queryResult.getString("name"));
-        producer.setLogo(queryResult.getString("logo"));
-        return producer;
-    }
-
 
     @Override
     public String getName() {

@@ -13,13 +13,22 @@ public class PostgresCreditGroup {
     public PostgresCreditGroup() {
     }
 
+    public static CreditGroup createFromQueryResult(ResultSet queryResult) throws SQLException {
+        CreditGroup cg = new CreditGroup();
+        cg.setDescription(queryResult.getString("description"));
+        cg.setName(queryResult.getString("name"));
+        cg.setID(queryResult.getInt("id"));
+
+        return cg;
+    }
+
     public ICreditGroup[] getCreditGroups() {
         List<ICreditGroup> creditGroups = new ArrayList<ICreditGroup>();
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM credit_group");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                CreditGroup creditGroup = CreditGroup.createFromQueryResult(queryResult);
+                CreditGroup creditGroup = createFromQueryResult(queryResult);
                 creditGroups.add(creditGroup);
             }
         } catch (SQLException sqlException) {
@@ -34,7 +43,7 @@ public class PostgresCreditGroup {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM credit_group WHERE id = ?");
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
-            creditGroup = CreditGroup.createFromQueryResult(queryResult);
+            creditGroup = createFromQueryResult(queryResult);
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
