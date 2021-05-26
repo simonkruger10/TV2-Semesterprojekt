@@ -21,6 +21,26 @@ public class PostgresProduction {
         this.postgresql = postgresql;
     }
 
+    public static Production createFromQueryResult(ResultSet queryResult) throws SQLException {
+        Production production = new Production();
+        production.setID(queryResult.getInt("id"));
+        production.setName(queryResult.getString("name"));
+        production.setDescription(queryResult.getString("description"));
+        String image = queryResult.getString("Image");
+        if (image != null) {
+            production.setImage(production.getImage());
+        }
+        production.setReleaseDay(queryResult.getInt("release_day"));
+        production.setReleaseMonth(queryResult.getInt("release_month"));
+        production.setReleaseYear(queryResult.getInt("release_year"));
+
+        if (image != null) {
+            production.setImage(production.getImage());
+        }
+
+        return production;
+    }
+
     /**
      * Finds all credits belonging to the given production, and creates a Credit object to each one.
      * Then finds out what each credit is credited for (Its' CreditGroup(s)), creating CreditGroup objects
@@ -99,7 +119,7 @@ public class PostgresProduction {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM production");
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Production production = Production.createFromQueryResult(queryResult);
+                Production production = createFromQueryResult(queryResult);
                 production.setProducer(postgresql.getPostgresProducer().getProducer(queryResult.getInt("producer_id")));
                 //attachCreditsToProduction(production);
                 productions.add(production);
@@ -118,7 +138,7 @@ public class PostgresProduction {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             queryResult.next(); //TODO Maybe check to see for more than 1 results and notify of database corruption/duplication.
-            production = Production.createFromQueryResult(queryResult);
+            production = createFromQueryResult(queryResult);
             production.setProducer(postgresql.getPostgresProducer().getProducer(queryResult.getInt("producer_id")));
             attachCreditsToProduction(production);
 

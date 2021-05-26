@@ -43,7 +43,7 @@ public class Postgresql implements DatabaseFacade {
                 creditGroup.setDescription(queryResult.getString("cg_description"));
                 creditGroup.setName(queryResult.getString("cg_name"));
                 creditGroup.setID(queryResult.getInt("cg_id"));
-                IProduction production = Production.createFromQueryResult(queryResult);
+                IProduction production = PostgresProduction.createFromQueryResult(queryResult);
                 creditedFor.computeIfAbsent(creditGroup, k -> new ArrayList<>());
                 creditedFor.get(creditGroup).add(production);
             }

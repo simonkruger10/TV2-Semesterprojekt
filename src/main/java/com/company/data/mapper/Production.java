@@ -25,26 +25,6 @@ public class Production extends Identifier implements IProduction {
         this.setCopyOf(production);
     }
 
-    public static Production createFromQueryResult(ResultSet queryResult) throws SQLException {
-        Production production = new Production();
-        production.setID(queryResult.getInt("id"));
-        production.setName(queryResult.getString("name"));
-        production.setDescription(queryResult.getString("description"));
-        String image = queryResult.getString("Image");
-        if (image != null) {
-            production.setImage(production.getImage());
-        }
-        production.setReleaseDay(queryResult.getInt("release_day"));
-        production.setReleaseMonth(queryResult.getInt("release_month"));
-        production.setReleaseYear(queryResult.getInt("release_year"));
-
-        if (image != null) {
-            production.setImage(production.getImage());
-        }
-
-        return production;
-    }
-
 
     @Override
     public String getName() {
