@@ -101,15 +101,7 @@ public class PostgresProduction {
             while (queryResult.next()) {
                 Production production = Production.createFromQueryResult(queryResult);
                 production.setProducer(postgresql.getPostgresProducer().getProducer(queryResult.getInt("producer_id")));
-
-                //TODO re-evaluate weather we NEED to attach credits to ALL productions when we fetch them.
-                /*Pros: the "credits" field is not null
-                        We have all the data available once pulled.
-                  Cons: We almost pull ALL data out of the database - this notably slows down the program.
-                        We dont currently save and use references to the saved data - its more: pull, use, toss.
-                */
                 //attachCreditsToProduction(production);
-
                 productions.add(production);
             }
         } catch (
@@ -149,7 +141,9 @@ public class PostgresProduction {
 
     public void updateProduction(IProduction production) {
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE production SET name =?, release_day =?, release_month =?, release_year =?, description =?, image=?, producer_id =? WHERE ID=?");
+            PreparedStatement query = Postgresql.connection.prepareStatement(
+                    "UPDATE production SET name =?, release_day =?, release_month =?, " +
+                            "release_year =?, description =?, image=?, producer_id =? WHERE ID=?");
             query.setInt(8, production.getID());
             setArguments(production, query);
             query.executeQuery();

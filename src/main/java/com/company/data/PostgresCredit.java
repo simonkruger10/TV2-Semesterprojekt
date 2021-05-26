@@ -78,61 +78,38 @@ public class PostgresCredit {
         return credit;
     }
 
-    //TODO I am not sure this works, and it needs to be tested!
     public ICredit addCredit(ICredit credit) {
         ICredit resultCredit = null;
-        if (credit.getType() == CreditType.PERSON) {
-            try {
-                PreparedStatement query = Postgresql.connection.prepareStatement(
-                        "INSERT INTO credit_person(name, m_name, l_name, image, email) VALUES (?,?,?,?,?) RETURNING *");
-                query.setString(1, credit.getFirstName());
-                query.setString(2, credit.getMiddleName());
-                query.setString(3, credit.getLastName());
-                query.setString(4, credit.getImage());
-                query.setString(5, credit.getEmail());
-                ResultSet resultSet = query.executeQuery();
-                resultCredit = createFromQueryResult(resultSet, CreditType.PERSON);
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-        }
-        if (credit.getType() == CreditType.UNIT) {
-            try {
-                PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO credit_unit(name) VALUES (?)");
-                query.setString(1, credit.getName());
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement(
+                    "INSERT INTO credit_person(name, m_name, l_name, image, email) VALUES (?,?,?,?,?) RETURNING *");
+            query.setString(1, credit.getFirstName());
+            query.setString(2, credit.getMiddleName());
+            query.setString(3, credit.getLastName());
+            query.setString(4, credit.getImage());
+            query.setString(5, credit.getEmail());
+            ResultSet resultSet = query.executeQuery();
+            resultCredit = createFromQueryResult(resultSet, CreditType.PERSON);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return resultCredit;
     }
 
     //TODO I am not sure this works, and it needs to be tested!
     public void updateCredit(ICredit credit) {
-        if (credit.getType() == CreditType.PERSON) {
-            try {
-                PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE credit_person SET name =?, m_name=?, l_name=?, image=?, email=?");
-                query.setString(1, credit.getFirstName());
-                query.setString(2, credit.getMiddleName());
-                query.setString(3, credit.getLastName());
-                query.setString(4, credit.getImage());
-                query.setString(5, credit.getEmail());
-                query.executeQuery();
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE credit_person SET name =?, m_name=?, l_name=?, image=?, email=?");
+            query.setString(1, credit.getFirstName());
+            query.setString(2, credit.getMiddleName());
+            query.setString(3, credit.getLastName());
+            query.setString(4, credit.getImage());
+            query.setString(5, credit.getEmail());
+            query.executeQuery();
 
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
-        if (credit.getType() == CreditType.UNIT) {
-            try {
-                PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE credit_unit SET name=?");
-                query.setString(1, credit.getName());
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-            }
-
-        }
-
 
     }
 }
