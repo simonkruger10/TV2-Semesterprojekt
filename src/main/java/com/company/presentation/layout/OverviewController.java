@@ -8,7 +8,9 @@ import com.company.presentation.layout.parts.ImageRowController;
 import com.company.presentation.layout.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -25,10 +27,16 @@ public class OverviewController extends VBox implements UpdateHandler {
     @FXML
     private ComboBox<?> sortByBtn;
 
+    @FXML
+    private Button prvBtn;
+
+    @FXML
+    private Button nextBtn;
+
     private final IAccountManagement aMgt = new AccountManagement();
     private final CallbackHandler callback;
     private Type type;
-    private List<TextRowController> textRowControllers = new ArrayList<>();
+    private final List<TextRowController> textRowControllers = new ArrayList<>();
 
     public OverviewController(CallbackHandler callback) {
         this.callback = callback;
@@ -117,6 +125,16 @@ public class OverviewController extends VBox implements UpdateHandler {
             main.getChildren().add(i, iRow);
             i++;
         }
+    }
+
+    @FXML
+    public void onPrv(MouseEvent event) {
+
+    }
+
+    @FXML
+    public void onNext(MouseEvent event) {
+
     }
 
     @Override

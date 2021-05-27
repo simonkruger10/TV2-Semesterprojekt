@@ -4,7 +4,7 @@ import com.company.common.Tools;
 
 import java.util.Objects;
 
-public class Person extends Identifier {
+public abstract class Person extends Identifier {
     private String firstName = null;
     private String lastName = null;
     private String email = null;

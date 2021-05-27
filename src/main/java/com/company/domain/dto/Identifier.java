@@ -2,7 +2,7 @@ package com.company.domain.dto;
 
 import java.util.Objects;
 
-public class Identifier {
+public abstract class Identifier {
     private Integer id;
 
     public Integer getID() {
