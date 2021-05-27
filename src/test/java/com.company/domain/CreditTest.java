@@ -95,11 +95,6 @@ public class CreditTest {
         creditDupe.setLastName("Marley");
         assertEquals(newCredit, creditDupe);
 
-        creditDupe.setMiddleName("HMS");
-        assertNotEquals(newCredit, creditDupe);
-        creditDupe.setMiddleName(null);
-        assertEquals(newCredit, creditDupe);
-
         creditDupe.setEmail("lolz");
         assertNotEquals(newCredit, creditDupe);
         creditDupe.setEmail("bob@marley.tld");

@@ -20,7 +20,6 @@ public class Credit extends Person implements ICredit {
         assert credit != null;
         this.setType(credit.getType());
         this.setFirstName(credit.getFirstName());
-        this.setMiddleName(credit.getMiddleName());
         this.setLastName(credit.getLastName());
         this.setImage(credit.getImage());
         this.setEmail(credit.getEmail());

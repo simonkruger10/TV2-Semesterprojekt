@@ -42,11 +42,11 @@ public class Person extends Identifier {
         if (this == o) return true;
         if (!(o instanceof Person)) return false;
         Person person = (Person) o;
-        return Objects.equals(firstName, person.firstName) && Objects.equals(middleName, person.middleName) && Objects.equals(lastName, person.lastName) && Objects.equals(email, person.email);
+        return Objects.equals(firstName, person.firstName)  && Objects.equals(lastName, person.lastName) && Objects.equals(email, person.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, middleName, lastName, email);
+        return Objects.hash(firstName, lastName, email);
     }
 }
