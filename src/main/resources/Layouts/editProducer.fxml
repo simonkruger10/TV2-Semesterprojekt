@@ -34,7 +34,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
@@ -44,7 +43,7 @@
 <!--suppress XmlHighlighting -->
 
 <fx:root spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
-    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Edit Production">
+    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Edit Producer">
         <font>
           <Font size="24.0" />
         </font>
@@ -52,32 +51,22 @@
           <Insets bottom="20.0" />
         </VBox.margin>
     </Label>
-    <TextField fx:id="productionTitleText" promptText="*Display former* Title">
+    <TextField fx:id="companyNameText" promptText="*Display former* Company Name">
         <font>
             <Font size="16.0" />
         </font>
     </TextField>
-   <TextField fx:id="productionDateText" promptText="*Display former* Production Date">
-      <font>
-         <Font size="16.0" />
-      </font>
-   </TextField>
-    <TextField fx:id="producersText" promptText="*Display former* Producers">
+    <TextField fx:id="companyDescriptionText" promptText="*Display former* Producers">
         <font>
           <Font size="16.0" />
         </font>
     </TextField>
-   <TextField fx:id="moviePictureText" promptText="*Display former* logo + file">
+   <TextField fx:id="companyPictureText" promptText="*Display former* logo + file">
       <font>
          <Font size="16.0" />
       </font>
    </TextField>
-   <CheckBox fx:id="organisationCheck" mnemonicParsing="false" onMouseClicked="#onCheckClicked" text="Organisation">
-      <VBox.margin>
-         <Insets left="5.0" top="5.0" />
-      </VBox.margin>
-   </CheckBox>
-    <Button fx:id="editProductionBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addCredit" prefHeight="50.0" text="Edit">
+    <Button fx:id="editProducerBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#editProducer" prefHeight="50.0" text="Edit">
         <font>
           <Font name="Arial" size="12.0" />
         </font>
@@ -87,7 +76,7 @@
     </Button>
    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
       <children>
-         <TextField fx:id="moviePictureText1" promptText="Search for existing ">
+         <TextField fx:id="searchEmployees" promptText="Search for employees">
             <font>
                <Font size="16.0" />
             </font>

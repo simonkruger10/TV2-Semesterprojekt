@@ -34,65 +34,61 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <!--suppress XmlHighlighting -->
 
-<fx:root spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
-    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Edit Production">
-        <font>
-          <Font size="24.0" />
-        </font>
-        <VBox.margin>
-          <Insets bottom="20.0" />
-        </VBox.margin>
-    </Label>
-    <TextField fx:id="productionTitleText" promptText="*Display former* Title">
-        <font>
-            <Font size="16.0" />
-        </font>
-    </TextField>
-   <TextField fx:id="productionDateText" promptText="*Display former* Production Date">
-      <font>
-         <Font size="16.0" />
-      </font>
-   </TextField>
-    <TextField fx:id="producersText" promptText="*Display former* Producers">
-        <font>
-          <Font size="16.0" />
-        </font>
-    </TextField>
-   <TextField fx:id="moviePictureText" promptText="*Display former* logo + file">
-      <font>
-         <Font size="16.0" />
-      </font>
-   </TextField>
-   <CheckBox fx:id="organisationCheck" mnemonicParsing="false" onMouseClicked="#onCheckClicked" text="Organisation">
-      <VBox.margin>
-         <Insets left="5.0" top="5.0" />
-      </VBox.margin>
-   </CheckBox>
-    <Button fx:id="editProductionBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addCredit" prefHeight="50.0" text="Edit">
-        <font>
-          <Font name="Arial" size="12.0" />
-        </font>
-        <VBox.margin>
-          <Insets top="5.0" />
-        </VBox.margin>
-    </Button>
-   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-      <children>
-         <TextField fx:id="moviePictureText1" promptText="Search for existing ">
+<fx:root minWidth="800.0" spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <StackPane VBox.vgrow="ALWAYS">
+      <HBox alignment="CENTER">
+         <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" text="Producer Name">
             <font>
-               <Font size="16.0" />
+               <Font name="Arial" size="45.0" />
             </font>
-         </TextField>
-      </children>
+         </Text>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" spacing="10.0">
+         <Button fx:id="editProductionBtn" disable="true" mnemonicParsing="false" onMouseClicked="#editProduction" text="Edit Producer">
+            <font>
+               <Font name="Arial" size="12.0" />
+            </font>
+         </Button>
+      </HBox>
+   </StackPane>
+   <HBox spacing="10.0">
+      <ImageView fx:id="image" fitHeight="337.0" fitWidth="225.0" pickOnBounds="true" preserveRatio="true" />
+      <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" The company:">
+            <font>
+               <Font name="Arial" size="25.0" />
+            </font>
+         </Text>
+         <HBox style="-fx-background-color: #ffffff;" VBox.vgrow="ALWAYS">
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+            <effect>
+               <InnerShadow height="5.0" radius="2.0" width="5.0">
+                  <color>
+                     <Color red="0.4868420958518982" green="0.48008039593696594" blue="0.48008039593696594" />
+                  </color>
+               </InnerShadow>
+            </effect>
+            <VBox>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </VBox>
+            <VBox />
+         </HBox>
+      </VBox>
    </HBox>
-   <HBox prefHeight="100.0" prefWidth="200.0" />
+   <VBox fx:id="rows" />
 </fx:root>
