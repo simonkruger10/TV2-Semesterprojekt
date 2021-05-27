@@ -95,12 +95,16 @@ public class PostgresCredit {
     //TODO I am not sure this works, and it needs to be tested!
     public void updateCredit(ICredit credit) {
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE credit_person SET name =?, l_name=?, image=?, email=?");
+            PreparedStatement query = Postgresql.connection.prepareStatement(
+                    "UPDATE credit_person " +
+                            "SET name =?, l_name=?, image=?, email=? " +
+                            " WHERE id=?");
             query.setString(1, credit.getFirstName());
             query.setString(2, credit.getLastName());
             query.setString(3, credit.getImage());
             query.setString(4, credit.getEmail());
-            query.executeQuery();
+            query.setInt(5, credit.getID());
+            query.execute();
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -108,6 +112,12 @@ public class PostgresCredit {
 
     }
 
+    /**
+     * This method is only used for testing. It must NOT be called from the Domain layer.
+     *
+     * @param id id of the Credit to be removed
+     * @return true if exactly 1 credit was removed.
+     */
     public boolean deleteCredit(Integer id) {
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement(

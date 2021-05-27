@@ -163,7 +163,7 @@ public class CreditManagement implements ICreditManagement {
         //       with augment production: IProduction
         controlsAccess();
 
-        if (getByID(credit.getID(), credit.getType()) == null) {
+        if (credit.getID() == null || getByID(credit.getID(), credit.getType()) == null) {
             throw new RuntimeException("Could not find credit with specified id.");
         }
 
@@ -182,9 +182,14 @@ public class CreditManagement implements ICreditManagement {
     }
 
     private void controlsRequirements(ICredit credit) {
-        if (credit == null || isNullOrEmpty(credit.getFirstName())
-                || credit.getCreditGroups() == null) {
-            throw new RuntimeException("First name and credit group is required.");
+        if (credit == null) {
+            throw new RuntimeException("Credit cannot be null.");
+        }
+        if (isNullOrEmpty(credit.getFirstName())) {
+            throw new RuntimeException("First name cannot be null or empty.");
+        }
+        if (credit.getCreditGroups() == null || credit.getCreditGroups().length == 0) {
+            throw new RuntimeException("The person must be assigned a Credit Group.");
         }
     }
 }
