@@ -17,7 +17,6 @@ public class PostgresCredit {
         Credit credit = new Credit();
         credit.setType(type);
         credit.setFirstName(queryResult.getString("name"));
-        credit.setMiddleName(queryResult.getString("m_name"));
         credit.setLastName(queryResult.getString("l_name"));
         credit.setImage(queryResult.getString("image"));
         credit.setEmail(queryResult.getString("email"));
@@ -79,12 +78,11 @@ public class PostgresCredit {
         ICredit resultCredit = null;
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement(
-                    "INSERT INTO credit_person(name, m_name, l_name, image, email) VALUES (?,?,?,?,?) RETURNING *");
+                    "INSERT INTO credit_person(name, l_name, image, email) VALUES (?,?,?,?,?) RETURNING *");
             query.setString(1, credit.getFirstName());
-            query.setString(2, credit.getMiddleName());
-            query.setString(3, credit.getLastName());
-            query.setString(4, credit.getImage());
-            query.setString(5, credit.getEmail());
+            query.setString(2, credit.getLastName());
+            query.setString(3, credit.getImage());
+            query.setString(4, credit.getEmail());
             ResultSet resultSet = query.executeQuery();
             resultSet.next();
             resultCredit = createFromQueryResult(resultSet, CreditType.PERSON);
@@ -97,12 +95,11 @@ public class PostgresCredit {
     //TODO I am not sure this works, and it needs to be tested!
     public void updateCredit(ICredit credit) {
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE credit_person SET name =?, m_name=?, l_name=?, image=?, email=?");
+            PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE credit_person SET name =?, l_name=?, image=?, email=?");
             query.setString(1, credit.getFirstName());
-            query.setString(2, credit.getMiddleName());
-            query.setString(3, credit.getLastName());
-            query.setString(4, credit.getImage());
-            query.setString(5, credit.getEmail());
+            query.setString(2, credit.getLastName());
+            query.setString(3, credit.getImage());
+            query.setString(4, credit.getEmail());
             query.executeQuery();
 
         } catch (SQLException sqlException) {

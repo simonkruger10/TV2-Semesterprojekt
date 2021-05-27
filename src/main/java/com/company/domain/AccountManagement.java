@@ -61,9 +61,6 @@ public class AccountManagement implements IAccountManagement {
                 if (trueContains(account.getFirstName(), word)) {
                     matchCount += 1;
                 }
-                if (trueContains(account.getMiddleName(), word)) {
-                    matchCount += 1;
-                }
                 if (trueContains(account.getLastName(), word)) {
                     matchCount += 1;
                 }
@@ -107,7 +104,6 @@ public class AccountManagement implements IAccountManagement {
 
         for (IAccount account : Database.getInstance().getAccounts()) {
             if ((firstName == null || trueEquals(account.getFirstName(), firstName))
-                    && (middleName == null || trueEquals(account.getMiddleName(), middleName))
                     && (lastName == null || trueEquals(account.getLastName(), lastName))) {
                 result.add(new Account(account));
             }

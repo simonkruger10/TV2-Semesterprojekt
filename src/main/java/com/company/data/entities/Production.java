@@ -4,9 +4,8 @@ import com.company.common.ICredit;
 import com.company.common.IProducer;
 import com.company.common.IProduction;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Production extends Identifier implements IProduction {
     private String name = null;
@@ -109,10 +108,7 @@ public class Production extends Identifier implements IProduction {
 
     @Override
     public ICredit[] getCredits() {
-        if(credits != null)
-            return credits.values().toArray(new ICredit[0]);
-        else
-            return new ICredit[0];
+        return credits.values().toArray(new ICredit[0]);
     }
 
 

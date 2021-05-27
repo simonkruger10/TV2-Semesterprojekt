@@ -32,27 +32,22 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <!--suppress XmlHighlighting -->
-<fx:root prefHeight="720.0" prefWidth="1280.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/12" xmlns:fx="http://javafx.com/fxml/1">
+
+<fx:root prefHeight="720.0" prefWidth="1280.0" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <HBox alignment="CENTER_LEFT" style="-fx-background-color: #D21E1E;">
         <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
         </padding>
         <ImageView fx:id="homeBtn" fitHeight="50.0" onMouseClicked="#goHome" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/TV_2_Hvid_RGB.png"/>
+            <Image url="@../images/TV_2_Hvid_RGB.png" />
         </ImageView>
         <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
          <Text fx:id="helloMessage" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi, Guest">
@@ -99,7 +94,7 @@
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="producersBtn" disable="true" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showProducers" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Producers" textFill="WHITE">
+            <Button fx:id="producersBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showProducers" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Producers" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>

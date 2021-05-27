@@ -4,8 +4,6 @@ import com.company.common.CreditType;
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -22,7 +20,6 @@ public class Credit extends Person implements ICredit {
         assert credit != null;
         this.setType(credit.getType());
         this.setFirstName(credit.getFirstName());
-        this.setMiddleName(credit.getMiddleName());
         this.setLastName(credit.getLastName());
         this.setImage(credit.getImage());
         this.setEmail(credit.getEmail());
@@ -53,10 +50,7 @@ public class Credit extends Person implements ICredit {
 
     @Override
     public ICreditGroup[] getCreditGroups() {
-        if(creditGroup != null)
-            return creditGroup.values().toArray(new ICreditGroup[0]);
-        else
-            return new ICreditGroup[0];
+        return creditGroup.values().toArray(new ICreditGroup[0]);
     }
 
 

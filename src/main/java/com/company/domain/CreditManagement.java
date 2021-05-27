@@ -57,9 +57,6 @@ public class CreditManagement implements ICreditManagement {
                 if (trueContains(credit.getFirstName(), word)) {
                     matchCount += 1;
                 }
-                if (trueContains(credit.getMiddleName(), word)) {
-                    matchCount += 1;
-                }
                 if (trueContains(credit.getLastName(), word)) {
                     matchCount += 1;
                 }
@@ -101,7 +98,6 @@ public class CreditManagement implements ICreditManagement {
         for (ICredit credit : Database.getInstance().getCredits()) {
             // TODO: Investigate whether linear search is the right one to use
             if ((firstName == null || trueEquals(credit.getFirstName(), firstName))
-                    && (middleName == null || trueEquals(credit.getMiddleName(), middleName))
                     && (lastName == null || trueEquals(credit.getLastName(), lastName))) {
                 result.add(new Credit(credit));
             }

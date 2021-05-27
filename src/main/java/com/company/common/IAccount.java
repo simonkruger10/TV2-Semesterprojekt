@@ -9,8 +9,6 @@ public interface IAccount {
 
     String getLastName();
 
-    String getMiddleName();
-
     String getEmail();
 
     AccessLevel getAccessLevel();

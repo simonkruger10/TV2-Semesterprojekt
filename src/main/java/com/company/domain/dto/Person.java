@@ -6,12 +6,11 @@ import java.util.Objects;
 
 public class Person extends Identifier {
     private String firstName = null;
-    private String middleName = null;
     private String lastName = null;
     private String email = null;
 
     public String getFullName() {
-        return Tools.createFullName(firstName, middleName, lastName);
+        return Tools.createFullName(firstName, lastName);
     }
 
     public String getFirstName() {
@@ -20,14 +19,6 @@ public class Person extends Identifier {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
     }
 
     public String getLastName() {

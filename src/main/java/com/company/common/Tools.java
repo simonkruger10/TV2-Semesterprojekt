@@ -68,14 +68,11 @@ public class Tools {
         return text.toString();
     }
 
-    public static String createFullName(String firstName, String middleName, String lastName) {
+    public static String createFullName(String firstName, String lastName) {
         String fullName = "";
 
         if (firstName != null) {
             fullName += firstName;
-        }
-        if (middleName != null && middleName.trim().isEmpty()) {
-            fullName += " " + middleName;
         }
         if (lastName != null) {
             fullName += " " + lastName;

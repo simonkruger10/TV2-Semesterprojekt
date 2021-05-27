@@ -24,9 +24,6 @@ public class CreditCreationController extends VBox implements UpdateHandler {
     private TextField firstNameText;
 
     @FXML
-    private TextField middleNameText;
-
-    @FXML
     private TextField lastNameText;
 
     @FXML
@@ -57,7 +54,6 @@ public class CreditCreationController extends VBox implements UpdateHandler {
     public void addCredit(MouseEvent event) {
         Credit credit = new Credit();
         credit.setFirstName(firstNameText.getText());
-        credit.setMiddleName(middleNameText.getText());
         credit.setLastName(lastNameText.getText());
 
         CreditGroupManagement cMgt = new CreditGroupManagement();
@@ -85,7 +81,6 @@ public class CreditCreationController extends VBox implements UpdateHandler {
     @FXML
     private void initialize() {
         assert firstNameText != null : "fx:id=\"firstNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
-        assert middleNameText != null : "fx:id=\"middleNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
         assert lastNameText != null : "fx:id=\"lastNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
         assert creditGroupText != null : "fx:id=\"creditGroupText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
         assert addCreditBtn != null : "fx:id=\"addCreditBtn\" was not injected: check your FXML file 'CreditCreation.fxml'.";
