@@ -1,6 +1,8 @@
 package com.company.domain;
 
-import com.company.common.*;
+import com.company.common.AccessLevel;
+import com.company.common.CreditType;
+import com.company.common.ICredit;
 import com.company.data.Database;
 import com.company.domain.dto.Credit;
 import javafx.util.Pair;
@@ -9,7 +11,6 @@ import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import static com.company.common.Tools.*;
 
@@ -18,21 +19,20 @@ public class CreditManagement implements ICreditManagement {
 
     @Override
     public ICredit[] list() {
-        return list(0, 20);
+        return list(0, 10);
     }
 
     @Override
     public ICredit[] list(int start) {
-        return list(start, 20);
+        return list(start, 10);
     }
 
     @Override
     public ICredit[] list(int start, int max) {
-        ICredit[] credits = Database.getInstance().getCredits();
-
         final List<ICredit> list = new ArrayList<>();
-        for (int i = start; i < credits.length && list.size() < max; i++) {
-            list.add(new Credit(credits[i]));
+
+        for (ICredit credit: Database.getInstance().getCredits(max, start)) {
+            list.add(new Credit(credit));
         }
 
         return list.toArray(new ICredit[0]);
@@ -41,33 +41,34 @@ public class CreditManagement implements ICreditManagement {
 
     @Override
     public ICredit[] search(String[] words) {
-        return search(words, 20);
+        return search(words, 10);
     }
 
     @Override
     public ICredit[] search(String[] words, int maxResults) {
         final List<Pair<Credit, Integer>> result = new ArrayList<>();
 
-        for (ICredit credit : Database.getInstance().getCredits()) {
+        onMaxResults:
+        for (String word : words) {
             // TODO: Investigate whether linear search is the right one to use
             int matchCount = 0;
 
-            for (String word : words) {
+            for (ICredit credit : Database.getInstance().searchCredits(word)) {
                 // TODO: Investigate whether linear search is the right one to use
-                if (trueContains(credit.getFirstName(), word)) {
-                    matchCount += 1;
+                if (credit.getType().equals(CreditType.PERSON)) {
+                    if (trueContains(credit.getFirstName(), word)) {
+                        matchCount += 1;
+                    }
+                    if (trueContains(credit.getLastName(), word)) {
+                        matchCount += 1;
+                    }
                 }
-                if (trueContains(credit.getLastName(), word)) {
-                    matchCount += 1;
-                }
-            }
 
-            if (matchCount > 0) {
                 result.add(new Pair<>(new Credit(credit), matchCount));
 
                 //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
-                    break;
+                    break onMaxResults;
                 }
             }
         }
@@ -81,21 +82,21 @@ public class CreditManagement implements ICreditManagement {
 
     @Override
     public ICredit[] getByName(String firstName) {
-        return getByName(firstName, null, null);
+        return getByName(firstName, null);
     }
 
     @Override
     public ICredit[] getByName(String firstName, String lastName) {
-        return getByName(firstName, null, lastName);
-    }
-
-    @Override
-    public ICredit[] getByName(String firstName, String middleName, String lastName) {
-        assert firstName != null || middleName != null || lastName != null;
+        assert firstName != null || lastName != null;
 
         final List<Credit> result = new ArrayList<>();
 
-        for (ICredit credit : Database.getInstance().getCredits()) {
+        String searchWord = firstName;
+        if (searchWord == null) {
+            searchWord = lastName;
+        }
+
+        for (ICredit credit : Database.getInstance().searchCredits(searchWord)) {
             // TODO: Investigate whether linear search is the right one to use
             if ((firstName == null || trueEquals(credit.getFirstName(), firstName))
                     && (lastName == null || trueEquals(credit.getLastName(), lastName))) {
@@ -106,37 +107,11 @@ public class CreditManagement implements ICreditManagement {
         return result.toArray(new ICredit[0]);
     }
 
-
-    @Override
-    public ICredit[] getByGroup(String groupName) {
-        assert groupName != null;
-
-        final List<Credit> result = new ArrayList<>();
-
-        for (ICredit credit : Database.getInstance().getCredits()) {
-            // TODO: Investigate whether linear search is the right one to use
-            for (ICreditGroup creditGroup : credit.getCreditGroups()) {
-                // TODO: Investigate whether linear search is the right one to use
-                if (creditGroup.getName().equalsIgnoreCase(groupName)) {
-                    result.add(new Credit(credit));
-                }
-            }
-        }
-
-        return result.toArray(new ICredit[0]);
-    }
-
-
     @Override
     public ICredit getByID(Integer id, CreditType type) {
         assert id != null || type != null;
 
         return new Credit(Database.getInstance().getCredit(id, type));
-    }
-
-    @Override
-    public Map<ICreditGroup, List<IProduction>> getCreditedFor(ICredit credit) {
-        return Database.getInstance().getCreditedFor(credit);
     }
 
     @Override

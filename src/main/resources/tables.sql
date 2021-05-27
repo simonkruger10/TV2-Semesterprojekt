@@ -47,12 +47,13 @@ CREATE TABLE credit_unit
 DROP TABLE IF EXISTS credit_person CASCADE;
 CREATE TABLE credit_person
 (
+    id   SERIAL PRIMARY KEY,
+    f_name VARCHAR(65) NOT NULL,
     l_name VARCHAR(65),
     image  VARCHAR(254),
     email  VARCHAR(253) NOT NULL,
-    PRIMARY KEY (id),
     UNIQUE (email)
-) INHERITS (credit_unit);
+);
 
 DROP TABLE IF EXISTS credit_group CASCADE;
 CREATE TABLE credit_group
@@ -66,14 +67,16 @@ DROP TABLE IF EXISTS production_credit_unit_relation CASCADE;
 CREATE TABLE production_credit_unit_relation
 (
     production_id   INTEGER NOT NULL REFERENCES production (id),
-    credit_id       INTEGER NOT NULL REFERENCES credit_unit (id),
+    credit_unit_id       INTEGER NOT NULL REFERENCES credit_unit (id),
     credit_group_id INTEGER NOT NULL REFERENCES credit_group (id),
-    PRIMARY KEY (production_id, credit_id, credit_group_id)
+    PRIMARY KEY (production_id, credit_unit_id, credit_group_id)
 );
 
 DROP TABLE IF EXISTS production_credit_person_relation CASCADE;
 CREATE TABLE production_credit_person_relation
 (
-    credit_id INTEGER NOT NULL REFERENCES credit_person (id),
-    PRIMARY KEY (production_id, credit_id, credit_group_id)
-) INHERITS (production_credit_unit_relation);
+    production_id   INTEGER NOT NULL REFERENCES production (id),
+    credit_person_id INTEGER NOT NULL REFERENCES credit_person (id),
+    credit_group_id INTEGER NOT NULL REFERENCES credit_group (id),
+    PRIMARY KEY (production_id, credit_person_id, credit_group_id)
+);

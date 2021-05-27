@@ -95,7 +95,8 @@ public class GUI extends Application implements CallbackHandler {
         if (type == Type.ACCOUNT) {
             // TODO: implants account view
         } else if (type == Type.CREDIT) {
-            setContent(new CreditViewController((ICredit) dto.getDTO(), this));
+            ICredit credit = (ICredit) dto.getDTO();
+            setContent(new CreditViewController(creditMgt.getByID(credit.getID(), credit.getType()), this));
         } else if (type == Type.CREDIT_GROUP) {
             // TODO: implants credit group view
         } else if (type == Type.PRODUCTION) {

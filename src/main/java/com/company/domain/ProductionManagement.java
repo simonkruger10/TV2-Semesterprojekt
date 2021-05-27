@@ -1,6 +1,7 @@
 package com.company.domain;
 
 import com.company.common.IAccount;
+import com.company.common.ICredit;
 import com.company.common.IProducer;
 import com.company.common.IProduction;
 import com.company.data.Database;
@@ -20,21 +21,20 @@ public class ProductionManagement implements IProductionManagement {
 
     @Override
     public IProduction[] list() {
-        return list(0, 20);
+        return list(0, 10);
     }
 
     @Override
     public IProduction[] list(int start) {
-        return list(start, 20);
+        return list(start, 10);
     }
 
     @Override
     public IProduction[] list(int start, int max) {
-        IProduction[] productions = Database.getInstance().getProductions();
-
         final List<IProduction> list = new ArrayList<>();
-        for (int i = start; i < productions.length && list.size() < max; i++) {
-            list.add(new Production(productions[i]));
+
+        for (IProduction production: Database.getInstance().getProductions(max, start)) {
+            list.add(new Production(production));
         }
 
         return list.toArray(new IProduction[0]);
@@ -43,18 +43,19 @@ public class ProductionManagement implements IProductionManagement {
 
     @Override
     public IProduction[] search(String[] words) {
-        return search(words, 20);
+        return search(words, 10);
     }
 
     @Override
     public IProduction[] search(String[] words, int maxResults) {
         final List<Pair<Production, Integer>> result = new ArrayList<>();
 
-        for (IProduction production : Database.getInstance().getProductions()) {
+        onMaxResults:
+        for (String word : words) {
             // TODO: Investigate whether linear search is the right one to use
             int matchCount = 0;
 
-            for (String word : words) {
+            for (IProduction production : Database.getInstance().searchProductions(word)) {
                 // TODO: Investigate whether linear search is the right one to use
                 if (trueContains(production.getName(), word)) {
                     matchCount += 1;
@@ -63,14 +64,12 @@ public class ProductionManagement implements IProductionManagement {
                     // TODO: Count the number of matches in the entire description instead of counting 1 match
                     matchCount += 1;
                 }
-            }
 
-            if (matchCount > 0) {
                 result.add(new Pair<>(new Production(production), matchCount));
 
                 //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
-                    break;
+                    break onMaxResults;
                 }
             }
         }
@@ -88,7 +87,7 @@ public class ProductionManagement implements IProductionManagement {
 
         final List<Production> result = new ArrayList<>();
 
-        for (IProduction production : Database.getInstance().getProductions()) {
+        for (IProduction production : Database.getInstance().searchProductions(name)) {
             if (trueEquals(production.getName(), name)) {
                 result.add(new Production(production));
             }
@@ -97,6 +96,18 @@ public class ProductionManagement implements IProductionManagement {
         return result.toArray(new IProduction[0]);
     }
 
+    @Override
+    public IProduction[] getProductionByCredit(ICredit credit) {
+        assert credit != null;
+
+        final List<Production> result = new ArrayList<>();
+
+        for (IProduction production : Database.getInstance().getProductionByCredit(credit)) {
+            result.add(new Production(production));
+        }
+
+        return result.toArray(new IProduction[0]);
+    }
 
     @Override
     public IProduction getByID(Integer id) {

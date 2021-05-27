@@ -8,28 +8,28 @@ import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.company.common.Tools.*;
+import static com.company.common.Tools.isNullOrEmpty;
+import static com.company.common.Tools.trueEquals;
 
 public class ProducerManagement implements IProducerManagement {
     private final AccountManagement aMgt = new AccountManagement();
 
     @Override
     public IProducer[] list() {
-        return list(0, 20);
+        return list(0, 10);
     }
 
     @Override
     public IProducer[] list(int start) {
-        return list(start, 20);
+        return list(start, 10);
     }
 
     @Override
     public IProducer[] list(int start, int max) {
-        IProducer[] producers = Database.getInstance().getProducers();
-
         final List<IProducer> list = new ArrayList<>();
-        for (int i = start; i < producers.length && list.size() < max; i++) {
-            list.add(new Producer(producers[i]));
+
+        for (IProducer producer: Database.getInstance().getProducers(max, start)) {
+            list.add(new Producer(producer));
         }
 
         return list.toArray(new IProducer[0]);
@@ -38,25 +38,23 @@ public class ProducerManagement implements IProducerManagement {
 
     @Override
     public IProducer[] search(String[] words) {
-        return search(words, 20);
+        return search(words, 10);
     }
 
     @Override
     public IProducer[] search(String[] words, int maxResults) {
         final List<Producer> result = new ArrayList<>();
 
-        for (IProducer producer : Database.getInstance().getProducers()) {
+        onMaxResults:
+        for (String word : words) {
             // TODO: Investigate whether linear search is the right one to use
-            for (String word : words) {
+            for (IProducer producer : Database.getInstance().searchProducers(word)) {
                 // TODO: Investigate whether linear search is the right one to use
-                if (trueContains(producer.getName(), word)) {
-                    result.add(new Producer(producer));
-                }
-            }
+                result.add(new Producer(producer));
 
-            //TODO This might result in getting a few bad results, and never finding the the top X ones
-            if (result.size() >= maxResults) {
-                break;
+                if (result.size() >= maxResults) {
+                    break onMaxResults;
+                }
             }
         }
 
@@ -68,7 +66,7 @@ public class ProducerManagement implements IProducerManagement {
     public IProducer getByName(String name) {
         assert name != null;
 
-        for (IProducer producer : Database.getInstance().getProducers()) {
+        for (IProducer producer : Database.getInstance().searchProducers(name)) {
             // TODO: Investigate whether linear search is the right one to use
             if (trueEquals(producer.getName(), name)) {
                 return new Producer(producer);

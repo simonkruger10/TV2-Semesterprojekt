@@ -11,7 +11,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.AccessControlException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import static com.company.common.Tools.*;
 
@@ -22,21 +24,20 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public IAccount[] list() {
-        return list(0, 20);
+        return list(0, 10);
     }
 
     @Override
     public IAccount[] list(int start) {
-        return list(start, 20);
+        return list(start, 10);
     }
 
     @Override
     public IAccount[] list(int start, int max) {
-        IAccount[] accounts = Database.getInstance().getAccounts();
-
         final List<IAccount> list = new ArrayList<>();
-        for (int i = start; i < accounts.length && list.size() < max; i++) {
-            list.add(new Account(accounts[i]));
+
+        for (IAccount account: Database.getInstance().getAccounts(max, start)) {
+            list.add(new Account(account));
         }
 
         return list.toArray(new IAccount[0]);
@@ -45,19 +46,21 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public IAccount[] search(String[] words) {
-        return search(words, 20);
+        return search(words, 10);
     }
 
     @Override
     public IAccount[] search(String[] words, int maxResults) {
         final List<Pair<Account, Integer>> result = new ArrayList<>();
 
-        for (IAccount account : Database.getInstance().getAccounts()) {
+        onMaxResults:
+        for (String word : words) {
             // TODO: Investigate whether linear search is the right one to use
             int matchCount = 0;
 
-            for (String word : words) {
+            for (IAccount account : Database.getInstance().searchAccounts(word)) {
                 // TODO: Investigate whether linear search is the right one to use
+
                 if (trueContains(account.getFirstName(), word)) {
                     matchCount += 1;
                 }
@@ -67,14 +70,12 @@ public class AccountManagement implements IAccountManagement {
                 if (trueContains(account.getEmail(), word)) {
                     matchCount += 1;
                 }
-            }
 
-            if (matchCount > 0) {
                 result.add(new Pair<>(new Account(account), matchCount));
 
                 //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
-                    break;
+                    break onMaxResults;
                 }
             }
         }
@@ -88,21 +89,21 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public IAccount[] getByName(String firstName) {
-        return getByName(firstName, null, null);
+        return getByName(firstName, null);
     }
 
     @Override
     public IAccount[] getByName(String firstName, String lastName) {
-        return getByName(firstName, null, lastName);
-    }
-
-    @Override
-    public IAccount[] getByName(String firstName, String middleName, String lastName) {
-        assert firstName != null || middleName != null || lastName != null;
+        assert firstName != null || lastName != null;
 
         final List<Account> result = new ArrayList<>();
 
-        for (IAccount account : Database.getInstance().getAccounts()) {
+        String searchWord = firstName;
+        if (searchWord == null) {
+            searchWord = lastName;
+        }
+
+        for (IAccount account : Database.getInstance().searchAccounts(searchWord)) {
             if ((firstName == null || trueEquals(account.getFirstName(), firstName))
                     && (lastName == null || trueEquals(account.getLastName(), lastName))) {
                 result.add(new Account(account));

@@ -2,9 +2,6 @@ package com.company.data;
 
 import com.company.common.*;
 
-import java.util.List;
-import java.util.Map;
-
 public interface DatabaseFacade {
     @SuppressWarnings("SameReturnValue")
     static DatabaseFacade getInstance() {
@@ -14,7 +11,9 @@ public interface DatabaseFacade {
     boolean checkAccess();
 
 
-    IProducer[] getProducers();
+    IProducer[] searchProducers(String word);
+
+    IProducer[] getProducers(Integer limit, Integer offset);
 
     IProducer getProducer(Integer id);
 
@@ -23,7 +22,11 @@ public interface DatabaseFacade {
     void updateProducer(IProducer producer);
 
 
-    IProduction[] getProductions();
+    IProduction[] searchProductions(String word);
+
+    IProduction[] getProductions(Integer limit, Integer offset);
+
+    IProduction[] getProductionByCredit(ICredit credit);
 
     IProduction getProduction(Integer id);
 
@@ -32,7 +35,9 @@ public interface DatabaseFacade {
     void updateProduction(IProduction production);
 
 
-    ICredit[] getCredits();
+    ICredit[] searchCredits(String word);
+
+    ICredit[] getCredits(Integer limit, Integer offset);
 
     ICredit getCredit(Integer id, CreditType type);
 
@@ -40,10 +45,12 @@ public interface DatabaseFacade {
 
     void updateCredit(ICredit credit);
 
-
     boolean deleteCredit(Integer id);
 
-    ICreditGroup[] getCreditGroups();
+
+    ICreditGroup[] searchCreditGroups(String word);
+
+    ICreditGroup[] getCreditGroups(Integer limit, Integer offset);
 
     ICreditGroup getCreditGroup(Integer id);
 
@@ -52,7 +59,9 @@ public interface DatabaseFacade {
     void updateCreditGroup(ICreditGroup creditGroup);
 
 
-    IAccount[] getAccounts();
+    IAccount[] searchAccounts(String word);
+
+    IAccount[] getAccounts(Integer limit, Integer offset);
 
     IAccount getAccount(Integer id);
 
@@ -65,6 +74,4 @@ public interface DatabaseFacade {
     void updateAccount(IAccount account);
 
     void updateAccount(IAccount account, String hashedPassword);
-
-    Map<ICreditGroup, List<IProduction>> getCreditedFor(ICredit credit);
 }

@@ -1,6 +1,8 @@
 package com.company.presentation.layout;
 
 import com.company.common.*;
+import com.company.domain.AccountManagement;
+import com.company.domain.IAccountManagement;
 import com.company.presentation.*;
 import com.company.presentation.layout.parts.ImageRowController;
 import com.company.presentation.layout.parts.TextRowController;
@@ -10,6 +12,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.company.common.Tools.getResourceAsImage;
 import static com.company.common.Tools.isEven;
@@ -21,8 +25,10 @@ public class OverviewController extends VBox implements UpdateHandler {
     @FXML
     private ComboBox<?> sortByBtn;
 
+    private final IAccountManagement aMgt = new AccountManagement();
     private final CallbackHandler callback;
     private Type type;
+    private List<TextRowController> textRowControllers = new ArrayList<>();
 
     public OverviewController(CallbackHandler callback) {
         this.callback = callback;
@@ -52,6 +58,9 @@ public class OverviewController extends VBox implements UpdateHandler {
                     cRow.setText(account.getFullName() + ", " + account.getEmail());
                 } else {
                     cRow.setText(((ICreditGroup) dto.getDTO()).getName());
+                    cRow.setClickable(false);
+                    cRow.showEdit(aMgt.getCurrentUser().getAccessLevel().equals(AccessLevel.ADMINISTRATOR));
+                    textRowControllers.add(cRow);
                 }
 
                 if (!isEven(i)) {
@@ -76,11 +85,7 @@ public class OverviewController extends VBox implements UpdateHandler {
 
                 image = credit.getImage();
                 if (image == null) {
-                    if (isEven(i)) {
-                        image = "TV_2_RGB.png";
-                    } else {
-                        image = "TV_2_Hvid_RGB.png";
-                    }
+                    image = "defaultCreditPerson.jpg";
                 }
             } else if (type == Type.PRODUCER) {
                 IProducer producer = (IProducer) dto.getDTO();
@@ -89,39 +94,27 @@ public class OverviewController extends VBox implements UpdateHandler {
 
                 image = producer.getLogo();
                 if (image == null) {
-                    if (isEven(i)) {
-                        image = "TV_2_RGB.png";
-                    } else {
-                        image = "TV_2_Hvid_RGB.png";
-                    }
+                    image = "defaultProducer.png";
                 }
-            } else if (type == Type.PRODUCTION) {
+            } else {
                 IProduction production = (IProduction) dto.getDTO();
 
                 text = production.getName();
 
                 image = production.getImage();
                 if (image == null) {
-                    if (isEven(i)) {
-                        image = "TV_2_RGB.png";
-                    } else {
-                        image = "TV_2_Hvid_RGB.png";
-                    }
+                    image = "defaultProduction.png";
                 }
             }
 
-            ImageRowController cRow = new ImageRowController(type, dto, callback);
-            if (image != null) {
-                cRow.setText(text);
-            }
-            if (image != null) {
-                cRow.setImage(getResourceAsImage("/images/" + image));
-            }
+            ImageRowController iRow = new ImageRowController(type, dto, callback);
+            iRow.setText(text);
+            iRow.setImage(getResourceAsImage("/images/" + image));
             if (!isEven(i)) {
-                cRow.setBackground(Colors.ODD_COLOR);
+                iRow.setBackground(Colors.ODD_COLOR);
             }
 
-            main.getChildren().add(i, cRow);
+            main.getChildren().add(i, iRow);
             i++;
         }
     }
@@ -136,12 +129,10 @@ public class OverviewController extends VBox implements UpdateHandler {
 
     @Override
     public void update() {
-
-    }
-
-    @FXML
-    private void initialize() {
-        assert main != null : "fx:id=\"main\" was not injected: check your FXML file 'Overview.fxml'.";
-        assert sortByBtn != null : "fx:id=\"sortByBtn\" was not injected: check your FXML file 'Overview.fxml'.";
+        if (textRowControllers.size() > 0) {
+            for (TextRowController textRowController: textRowControllers) {
+                textRowController.showEdit(aMgt.getCurrentUser().getAccessLevel().equals(AccessLevel.ADMINISTRATOR));
+            }
+        }
     }
 }

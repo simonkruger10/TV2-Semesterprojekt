@@ -2,9 +2,6 @@ package com.company.data;
 
 import com.company.common.*;
 
-import java.util.List;
-import java.util.Map;
-
 public class Database implements DatabaseFacade {
     private static DatabaseFacade instance;
     private final DatabaseFacade database;
@@ -26,10 +23,14 @@ public class Database implements DatabaseFacade {
         return this.database.checkAccess();
     }
 
+    @Override
+    public IProducer[] searchProducers(String word) {
+        return this.database.searchProducers(word);
+    }
 
     @Override
-    public IProducer[] getProducers() {
-        return this.database.getProducers();
+    public IProducer[] getProducers(Integer limit, Integer offset) {
+        return this.database.getProducers(limit, offset);
     }
 
     @Override
@@ -47,12 +48,20 @@ public class Database implements DatabaseFacade {
         this.database.updateProducer(producer);
     }
 
-
     @Override
-    public IProduction[] getProductions() {
-        return this.database.getProductions();
+    public IProduction[] searchProductions(String word) {
+        return this.database.searchProductions(word);
     }
 
+    @Override
+    public IProduction[] getProductions(Integer limit, Integer offset) {
+        return this.database.getProductions(limit, offset);
+    }
+
+    @Override
+    public IProduction[] getProductionByCredit(ICredit credit) {
+        return this.database.getProductionByCredit(credit);
+    }
     @Override
     public IProduction getProduction(Integer id) {
         return this.database.getProduction(id);
@@ -68,10 +77,14 @@ public class Database implements DatabaseFacade {
         this.database.updateProduction(production);
     }
 
+    @Override
+    public ICredit[] searchCredits(String word) {
+        return this.database.searchCredits(word);
+    }
 
     @Override
-    public ICredit[] getCredits() {
-        return this.database.getCredits();
+    public ICredit[] getCredits(Integer limit, Integer offset) {
+        return this.database.getCredits(limit, offset);
     }
 
     @Override
@@ -94,10 +107,14 @@ public class Database implements DatabaseFacade {
         return this.database.deleteCredit(id);
     }
 
+    @Override
+    public ICreditGroup[] searchCreditGroups(String word) {
+        return this.database.searchCreditGroups(word);
+    }
 
     @Override
-    public ICreditGroup[] getCreditGroups() {
-        return this.database.getCreditGroups();
+    public ICreditGroup[] getCreditGroups(Integer limit, Integer offset) {
+        return this.database.getCreditGroups(limit, offset);
     }
 
     @Override
@@ -115,10 +132,14 @@ public class Database implements DatabaseFacade {
         this.database.updateCreditGroup(creditGroup);
     }
 
+    @Override
+    public IAccount[] searchAccounts(String word) {
+        return this.database.searchAccounts(word);
+    }
 
     @Override
-    public IAccount[] getAccounts() {
-        return this.database.getAccounts();
+    public IAccount[] getAccounts(Integer limit, Integer offset) {
+        return this.database.getAccounts(limit, offset);
     }
 
     @Override
@@ -149,10 +170,5 @@ public class Database implements DatabaseFacade {
     @Override
     public void updateAccount(IAccount account, String hashedPassword) {
         this.database.updateAccount(account, hashedPassword);
-    }
-
-    @Override
-    public Map<ICreditGroup, List<IProduction>> getCreditedFor(ICredit credit) {
-        return this.database.getCreditedFor(credit);
     }
 }

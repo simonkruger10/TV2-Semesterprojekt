@@ -11,6 +11,8 @@ public interface ICredit {
 
     String getLastName();
 
+    String getName();
+
     String getImage();
 
     String getEmail();
