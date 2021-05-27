@@ -8,11 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Credit extends Person implements ICredit {
-    private CreditType type = CreditType.UNIT;
+    private CreditType type = CreditType.PERSON;
     private String image;
-    private String name;
     private final Map<Integer, ICreditGroup> creditGroup = new HashMap<>();
 
     public Credit() {
@@ -25,7 +25,7 @@ public class Credit extends Person implements ICredit {
         this.setMiddleName(credit.getMiddleName());
         this.setLastName(credit.getLastName());
         this.setImage(credit.getImage());
-        this.setName(credit.getName());
+        this.setEmail(credit.getEmail());
 
         for (ICreditGroup creditGroup: credit.getCreditGroups()) {
             this.addCreditGroup(new CreditGroup(creditGroup));
@@ -51,17 +51,6 @@ public class Credit extends Person implements ICredit {
         this.image = image;
     }
 
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
     @Override
     public ICreditGroup[] getCreditGroups() {
         if(creditGroup != null)
@@ -75,4 +64,15 @@ public class Credit extends Person implements ICredit {
         this.creditGroup.put(creditGroup.getID(), creditGroup);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ICredit)) return false;
+        ICredit icredit = (ICredit) o;
+        Credit credit = new Credit(icredit);
+        return type == credit.type &&
+                Objects.equals(image, credit.image) &&
+                Objects.equals(creditGroup, credit.creditGroup) &&
+                super.equals(o);
+    }
 }

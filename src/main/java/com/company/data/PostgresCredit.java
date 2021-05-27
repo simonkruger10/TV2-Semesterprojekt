@@ -19,10 +19,7 @@ public class PostgresCredit {
         credit.setFirstName(queryResult.getString("name"));
         credit.setMiddleName(queryResult.getString("m_name"));
         credit.setLastName(queryResult.getString("l_name"));
-        String image = queryResult.getString("image");
-        if (image != null) {
-            credit.setImage(credit.getImage());
-        }
+        credit.setImage(queryResult.getString("image"));
         credit.setEmail(queryResult.getString("email"));
         credit.setID(queryResult.getInt("id"));
 
@@ -47,7 +44,7 @@ public class PostgresCredit {
             while (queryResult.next()) {
                 int id = queryResult.getInt("id");
                 Credit credit = (Credit) credits.get(id);
-                credit.setName(queryResult.getString("name"));
+                credit.setFirstName(queryResult.getString("name"));
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -71,7 +68,7 @@ public class PostgresCredit {
             query.setInt(1, id);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next())
-                credit.setName(queryResult.getString("name"));
+                credit.setFirstName(queryResult.getString("name"));
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -89,6 +86,7 @@ public class PostgresCredit {
             query.setString(4, credit.getImage());
             query.setString(5, credit.getEmail());
             ResultSet resultSet = query.executeQuery();
+            resultSet.next();
             resultCredit = createFromQueryResult(resultSet, CreditType.PERSON);
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
