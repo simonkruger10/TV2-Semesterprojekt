@@ -2,6 +2,8 @@ package com.company.domain.dto;
 
 import com.company.common.ICreditGroup;
 
+import java.util.Objects;
+
 public class CreditGroup extends Identifier implements ICreditGroup {
     private String name = null;
     private String description = null;
@@ -36,6 +38,20 @@ public class CreditGroup extends Identifier implements ICreditGroup {
         this.description = description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CreditGroup)) return false;
+        CreditGroup that = (CreditGroup) o;
+        return Objects.equals(name, that.name)
+                && Objects.equals(description, that.description)
+                && super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description);
+    }
 
     public void setCopyOf(ICreditGroup creditGroup) {
         assert creditGroup != null;
