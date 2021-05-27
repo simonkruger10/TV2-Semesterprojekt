@@ -6,20 +6,29 @@ import com.company.common.ICreditGroup;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Credit extends Person implements ICredit {
-    private CreditType type = CreditType.UNIT;
+    private CreditType type = CreditType.PERSON;
     private String image;
-    private String name;
     private final Map<Integer, ICreditGroup> creditGroup = new HashMap<>();
 
     public Credit() {
     }
 
     public Credit(ICredit credit) {
-        this.setCopyOf(credit);
-    }
+        assert credit != null;
+        this.setID(credit.getID());
+        this.setType(credit.getType());
+        this.setFirstName(credit.getFirstName());
+        this.setLastName(credit.getLastName());
+        this.setImage(credit.getImage());
+        this.setEmail(credit.getEmail());
 
+        for (ICreditGroup creditGroup: credit.getCreditGroups()) {
+            this.addCreditGroup(new CreditGroup(creditGroup));
+        }
+    }
 
     @Override
     public CreditType getType() {
@@ -40,17 +49,6 @@ public class Credit extends Person implements ICredit {
         this.image = image;
     }
 
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
     @Override
     public ICreditGroup[] getCreditGroups() {
         return creditGroup.values().toArray(new ICreditGroup[0]);
@@ -61,18 +59,15 @@ public class Credit extends Person implements ICredit {
         this.creditGroup.put(creditGroup.getID(), creditGroup);
     }
 
-
-    public void setCopyOf(ICredit credit) {
-        assert credit != null;
-
-        this.setID(credit.getID());
-        this.setType(credit.getType());
-        this.setFirstName(credit.getFirstName());
-        this.setLastName(credit.getLastName());
-        this.setImage(credit.getImage());
-        this.setName(credit.getName());
-        for (ICreditGroup creditGroup: credit.getCreditGroups()) {
-            this.addCreditGroup(new CreditGroup(creditGroup));
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ICredit)) return false;
+        ICredit icredit = (ICredit) o;
+        Credit credit = new Credit(icredit);
+        return type == credit.type &&
+                Objects.equals(image, credit.image) &&
+                Objects.equals(creditGroup, credit.creditGroup) &&
+                super.equals(o);
     }
 }

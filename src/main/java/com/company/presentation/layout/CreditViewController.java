@@ -101,12 +101,4 @@ public class CreditViewController extends VBox implements UpdateHandler {
         AccessLevel accessLevel = new AccountManagement().getCurrentUser().getAccessLevel();
         trueVisible(editCreditBtn, accessLevel.greater(AccessLevel.CONSUMER));
     }
-
-    @FXML
-    private void initialize() {
-        assert firstName != null : "fx:id=\"firstName\" was not injected: check your FXML file 'CreditView.fxml'.";
-        assert groupName != null : "fx:id=\"groupName\" was not injected: check your FXML file 'CreditView.fxml'.";
-        assert lastName != null : "fx:id=\"lastName\" was not injected: check your FXML file 'CreditView.fxml'.";
-        assert editCreditBtn != null : "fx:id=\"editCreditBtn\" was not injected: check your FXML file 'CreditView.fxml'.";
-    }
 }

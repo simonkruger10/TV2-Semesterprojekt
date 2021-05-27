@@ -54,6 +54,7 @@ public class Tools {
 
     public static Image getResourceAsImage(String fileName) {
         URL image = getResourceAsUrl(fileName);
+        assert image != null;
         return new Image(image.toString());
     }
 
