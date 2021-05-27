@@ -28,9 +28,6 @@ public class CreditViewController extends VBox implements UpdateHandler {
     private Text firstName;
 
     @FXML
-    private Text middleName;
-
-    @FXML
     private Text groupName;
 
     @FXML
@@ -62,7 +59,6 @@ public class CreditViewController extends VBox implements UpdateHandler {
     public void viewCredit(Integer id) {
         credit = new CreditManagement().getByID(id, null);
         firstName.setText(credit.getFirstName());
-        middleName.setText(credit.getMiddleName());
         lastName.setText(credit.getLastName());
 
         Map<ICreditGroup, List<IProduction>> creditedFor = new CreditManagement().getCreditedFor(credit);
@@ -72,6 +68,7 @@ public class CreditViewController extends VBox implements UpdateHandler {
             names.append(cg.getName());
             names.append(":");
             names.append("\n\t");
+
             IProduction[] productions = creditedFor.get(cg).toArray(new IProduction[0]);
             List<String> productionNames = Arrays.stream(productions)
                     .map(iProduction -> iProduction.getName())
@@ -101,7 +98,6 @@ public class CreditViewController extends VBox implements UpdateHandler {
     @FXML
     private void initialize() {
         assert firstName != null : "fx:id=\"firstName\" was not injected: check your FXML file 'CreditView.fxml'.";
-        assert middleName != null : "fx:id=\"middleName\" was not injected: check your FXML file 'CreditView.fxml'.";
         assert groupName != null : "fx:id=\"groupName\" was not injected: check your FXML file 'CreditView.fxml'.";
         assert lastName != null : "fx:id=\"lastName\" was not injected: check your FXML file 'CreditView.fxml'.";
         assert editCreditBtn != null : "fx:id=\"editCreditBtn\" was not injected: check your FXML file 'CreditView.fxml'.";

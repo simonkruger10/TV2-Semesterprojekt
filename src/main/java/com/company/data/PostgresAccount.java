@@ -17,7 +17,6 @@ public class PostgresAccount {
     public static Account createFromQueryResult(ResultSet queryResult) throws SQLException {
         Account account = new Account();
         account.setFirstName(queryResult.getString("f_name"));
-        account.setMiddleName(queryResult.getString("m_name"));
         account.setLastName(queryResult.getString("l_name"));
         account.setEmail(queryResult.getString("email"));
         for (AccessLevel accessLevel : AccessLevel.values()) {
@@ -91,14 +90,13 @@ public class PostgresAccount {
 
     public IAccount addAccount(IAccount account, String hashedPassword) {
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO account (id, f_name, m_name, l_name, email, access_level, password) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO account (id, f_name, l_name, email, access_level, password) VALUES (?,?,?,?,?,?,?)");
             query.setInt(1, account.getID());
             query.setString(2, account.getFirstName());
-            query.setString(3, account.getMiddleName());
-            query.setString(4, account.getLastName());
-            query.setString(5, account.getEmail());
-            query.setString(6, String.valueOf(account.getAccessLevel()));
-            query.setString(7, hashedPassword);
+            query.setString(3, account.getLastName());
+            query.setString(4, account.getEmail());
+            query.setString(5, String.valueOf(account.getAccessLevel()));
+            query.setString(6, hashedPassword);
             query.executeQuery();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -108,13 +106,12 @@ public class PostgresAccount {
 
     public void updateAccount(IAccount account) {
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=? WHERE id = ?");
+            PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE account SET f_name =?, l_name=?, email=?, access_level=? WHERE id = ?");
             query.setString(1, account.getFirstName());
-            query.setString(2, account.getMiddleName());
-            query.setString(3, account.getLastName());
-            query.setString(4, account.getEmail());
-            query.setInt(5, account.getAccessLevel().getLevel());
-            query.setInt(6, account.getID());
+            query.setString(2, account.getLastName());
+            query.setString(3, account.getEmail());
+            query.setInt(4, account.getAccessLevel().getLevel());
+            query.setInt(5, account.getID());
             query.executeQuery();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -125,12 +122,11 @@ public class PostgresAccount {
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=?,password=? WHERE id=?");
             query.setString(1, account.getFirstName());
-            query.setString(2, account.getMiddleName());
-            query.setString(3, account.getLastName());
-            query.setString(4, account.getEmail());
-            query.setInt(5, account.getAccessLevel().getLevel());
-            query.setString(6, hashedPassword);
-            query.setInt(7, account.getID());
+            query.setString(2, account.getLastName());
+            query.setString(3, account.getEmail());
+            query.setInt(4, account.getAccessLevel().getLevel());
+            query.setString(5, hashedPassword);
+            query.setInt(6, account.getID());
             query.executeQuery();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();

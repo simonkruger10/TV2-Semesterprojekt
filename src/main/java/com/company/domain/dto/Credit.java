@@ -68,7 +68,6 @@ public class Credit extends Person implements ICredit {
         this.setID(credit.getID());
         this.setType(credit.getType());
         this.setFirstName(credit.getFirstName());
-        this.setMiddleName(credit.getMiddleName());
         this.setLastName(credit.getLastName());
         this.setImage(credit.getImage());
         this.setName(credit.getName());

@@ -4,69 +4,54 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
 <!--suppress XmlHighlighting -->
+
 <fx:root type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <HBox alignment="TOP_RIGHT">
-        <Button fx:id="editCreditBtn" disable="true" mnemonicParsing="false" onMouseClicked="#editCredit"
-                text="Edit Credit">
+        <Button fx:id="editCreditBtn" disable="true" mnemonicParsing="false" onMouseClicked="#editCredit" text="Edit Credit">
             <font>
-                <Font name="Arial" size="12.0"/>
+                <Font name="Arial" size="12.0" />
             </font>
         </Button>
     </HBox>
     <GridPane hgap="30.0" vgap="10.0">
         <columnConstraints>
-            <ColumnConstraints hgrow="NEVER"/>
-            <ColumnConstraints hgrow="SOMETIMES"/>
+            <ColumnConstraints hgrow="NEVER" />
+            <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <Label text="First Name">
             <font>
-                <Font name="System Bold" size="15.0"/>
+                <Font name="System Bold" size="15.0" />
             </font>
         </Label>
-        <Label text="Middle Name" GridPane.rowIndex="1">
+        <Label text="Last Name" GridPane.rowIndex="1">
             <font>
-                <Font name="System Bold" size="15.0"/>
+                <Font name="System Bold" size="15.0" />
             </font>
         </Label>
-        <Label text="Last Name" GridPane.rowIndex="2">
+        <Label text="Credited for" GridPane.rowIndex="2">
             <font>
-                <Font name="System Bold" size="15.0"/>
-            </font>
-        </Label>
-        <Label text="Credited for" GridPane.rowIndex="3">
-            <font>
-                <Font name="System Bold" size="15.0"/>
+                <Font name="System Bold" size="15.0" />
             </font>
         </Label>
         <Text fx:id="firstName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1">
             <font>
-                <Font size="15.0"/>
+                <Font size="15.0" />
             </font>
         </Text>
-        <Text fx:id="middleName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1"
-              GridPane.rowIndex="1">
+        <Text fx:id="lastName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <font>
-                <Font size="15.0"/>
+                <Font size="15.0" />
             </font>
         </Text>
-        <Text fx:id="lastName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1"
-              GridPane.rowIndex="2">
+        <Text fx:id="groupName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <font>
-                <Font size="15.0"/>
-            </font>
-        </Text>
-        <Text fx:id="groupName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1"
-              GridPane.rowIndex="3">
-            <font>
-                <Font size="15.0"/>
+                <Font size="15.0" />
             </font>
         </Text>
     </GridPane>

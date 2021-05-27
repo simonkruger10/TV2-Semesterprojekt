@@ -28,13 +28,10 @@ public class Account extends Person implements IAccount {
 
     public void setCopyOf(IAccount account) {
         assert account != null;
-        if (account != null) {
-            this.setID(account.getID());
-            this.setFirstName(account.getFirstName());
-            this.setMiddleName(account.getMiddleName());
-            this.setLastName(account.getLastName());
-            this.setEmail(account.getEmail());
-            this.setAccessLevel(account.getAccessLevel());
-        }
+        this.setID(account.getID());
+        this.setFirstName(account.getFirstName());
+        this.setLastName(account.getLastName());
+        this.setEmail(account.getEmail());
+        this.setAccessLevel(account.getAccessLevel());
     }
 }
