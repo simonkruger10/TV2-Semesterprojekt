@@ -51,10 +51,7 @@ public class Credit extends Person implements ICredit {
 
     @Override
     public ICreditGroup[] getCreditGroups() {
-        if(creditGroup != null)
-            return creditGroup.values().toArray(new ICreditGroup[0]);
-        else
-            return new ICreditGroup[0];
+        return creditGroup.values().toArray(new ICreditGroup[0]);
     }
 
 

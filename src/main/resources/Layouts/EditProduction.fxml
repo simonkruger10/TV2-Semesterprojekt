@@ -37,16 +37,14 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <!--suppress XmlHighlighting -->
 
 <fx:root spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
-    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Add Credit">
+    <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Edit Production">
         <font>
           <Font size="24.0" />
         </font>
@@ -54,57 +52,32 @@
           <Insets bottom="20.0" />
         </VBox.margin>
     </Label>
-    <TextField fx:id="firstNameText" promptText="First name">
-        <font>
-          <Font size="16.0" />
-        </font>
-    </TextField>
-    <TextField fx:id="lastNameText" promptText="Last name">
-        <font>
-          <Font size="16.0" />
-        </font>
-    </TextField>
-   <TextField fx:id="emailText" promptText="E-mail">
-      <font>
-         <Font size="16.0" />
-      </font>
-   </TextField>
-    <TextField fx:id="creditGroupText" promptText="Credit group">
-        <font>
-          <Font size="16.0" />
-        </font>
-    </TextField>
-    <TextField fx:id="productionText" promptText="Production">
+    <TextField fx:id="productionTitleText" promptText="*Display former* Title">
         <font>
             <Font size="16.0" />
         </font>
     </TextField>
-   <VBox alignment="CENTER">
-      <children>
-         <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@../images/fft3jrctrZNcgAxgN1w5Givtzip.png" />
-            </image>
-            <VBox.margin>
-               <Insets top="10.0" />
-            </VBox.margin>
-         </ImageView>
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add picture (jpeg, png)">
-            <VBox.margin>
-               <Insets top="10.0" />
-            </VBox.margin>
-            <font>
-               <Font name="Arial Italic" size="13.0" />
-            </font>
-         </Text>
-      </children>
-   </VBox>
+   <TextField fx:id="productionDateText" promptText="*Display former* Production Date">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </TextField>
+    <TextField fx:id="producersText" promptText="*Display former* Producers">
+        <font>
+          <Font size="16.0" />
+        </font>
+    </TextField>
+   <TextField fx:id="moviePictureText" promptText="*Display former* logo + file">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </TextField>
    <CheckBox fx:id="organisationCheck" mnemonicParsing="false" onMouseClicked="#onCheckClicked" text="Organisation">
       <VBox.margin>
          <Insets left="5.0" top="5.0" />
       </VBox.margin>
    </CheckBox>
-    <Button fx:id="addCreditBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addCredit" prefHeight="50.0" text="Add">
+    <Button fx:id="editProductionBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addCredit" prefHeight="50.0" text="Edit">
         <font>
           <Font name="Arial" size="12.0" />
         </font>
@@ -112,4 +85,14 @@
           <Insets top="5.0" />
         </VBox.margin>
     </Button>
+   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+      <children>
+         <TextField fx:id="moviePictureText1" promptText="Search for existing ">
+            <font>
+               <Font size="16.0" />
+            </font>
+         </TextField>
+      </children>
+   </HBox>
+   <HBox prefHeight="100.0" prefWidth="200.0" />
 </fx:root>

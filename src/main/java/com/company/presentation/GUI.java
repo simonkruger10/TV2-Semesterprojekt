@@ -1,7 +1,7 @@
 package com.company.presentation;
 
-import com.company.domain.AccountManagement;
-import com.company.domain.IAccountManagement;
+import com.company.common.*;
+import com.company.domain.*;
 import com.company.presentation.layout.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -16,7 +16,12 @@ import static com.company.common.Tools.getResourceAsImage;
 
 
 public class GUI extends Application implements CallbackHandler {
-    private final IAccountManagement aMgt = new AccountManagement();
+    private final IAccountManagement accountMgt = new AccountManagement();
+    private final CreditManagement creditMgt = new CreditManagement();
+    private final CreditGroupManagement creditGroupMgt = new CreditGroupManagement();
+    private final ProductionManagement productionMgt = new ProductionManagement();
+    private final ProducerManagement producerMgt = new ProducerManagement();
+
     private final HomepageController homepageController;
     private Node currentContent;
     private Node previousContent;
@@ -53,37 +58,32 @@ public class GUI extends Application implements CallbackHandler {
 
     @Override
     public void list(Type type) {
+        OverviewController overview = new OverviewController(this);
+
+        IDTO[] dtos = null;
         if (type == Type.ACCOUNT) {
-            setContent(new AccountsOverviewController(this));
+            dtos = convertToIDTO(accountMgt.list());
         } else if (type == Type.CREDIT) {
-            setContent(new CreditsOverviewController(this));
+            dtos = convertToIDTO(creditMgt.list());
         } else if (type == Type.CREDIT_GROUP) {
-            // TODO: implants credit groups view
+            dtos = convertToIDTO(creditGroupMgt.list());
         } else if (type == Type.PRODUCTION) {
-            setContent(new ProductionsOverviewController(this));
+            dtos = convertToIDTO(productionMgt.list());
         } else if (type == Type.PRODUCER) {
-            // TODO: implant producers view
+            dtos = convertToIDTO(producerMgt.list());
         } else if (type == Type.SEARCH) {
             // TODO: implant search view
         }
+
+        if (dtos != null) {
+            overview.showList(type, dtos);
+        }
+        setContent(overview);
     }
 
     @Override
     public void show(Type type) {
-        show(type, null);
-    }
-
-    @Override
-    public void show(Type type, Integer id) {
-        if (type == Type.ACCOUNT) {
-            // TODO: implants account view
-        } else if (type == Type.CREDIT) {
-            setContent(new CreditViewController(id, this));
-        } else if (type == Type.CREDIT_GROUP) {
-            // TODO: implants credit group view
-        } else if (type == Type.PRODUCTION) {
-            setContent(new ProductionViewController(id,this));
-        } else if (type == Type.LOGIN) {
+        if (type == Type.LOGIN) {
             setContent(new LoginController(this));
         } else if (type == Type.RECENTLY_AND_REVIEW) {
             setContent(new RecentlyAndReviewController());
@@ -91,10 +91,22 @@ public class GUI extends Application implements CallbackHandler {
     }
 
     @Override
-    public void show(Type type, AlertType alertType, String message) {
-        if (type == Type.MESSAGE) {
-            new MessageDialog(alertType, message);
+    public void show(Type type, IDTO dto) {
+        if (type == Type.ACCOUNT) {
+            // TODO: implants account view
+        } else if (type == Type.CREDIT) {
+            setContent(new CreditViewController((ICredit) dto.getDTO(), this));
+        } else if (type == Type.CREDIT_GROUP) {
+            // TODO: implants credit group view
+        } else if (type == Type.PRODUCTION) {
+            IProduction production = (IProduction) dto.getDTO();
+            setContent(new ProductionViewController(productionMgt.getByID(production.getID()),this));
         }
+    }
+
+    @Override
+    public void show(AlertType alertType, String message) {
+        new MessageDialog(alertType, message);
     }
 
     @Override
@@ -111,7 +123,7 @@ public class GUI extends Application implements CallbackHandler {
     }
 
     @Override
-    public void edit(Type type, Integer id) {
+    public void edit(Type type, IDTO dto) {
         if (type == Type.ACCOUNT) {
             // TODO: implants edit account
         } else if (type == Type.CREDIT) {
@@ -126,7 +138,7 @@ public class GUI extends Application implements CallbackHandler {
 
     @Override
     public void logout() {
-        new AccountManagement().logout();
+        accountMgt.logout();
         update();
     }
 
@@ -140,9 +152,8 @@ public class GUI extends Application implements CallbackHandler {
 
     @Override
     public void loginFailed(AlertType alertType, String message) {
-        show(Type.MESSAGE, alertType, message);
+        show(alertType, message);
     }
-
 
     private void update() {
         UpdateHandler updateInterface;
@@ -154,19 +165,29 @@ public class GUI extends Application implements CallbackHandler {
 
         // Update container content
         updateInterface = (UpdateHandler) currentContent;
-        if (!updateInterface.hasAccess(aMgt.getCurrentUser().getAccessLevel())) {
+        if (!updateInterface.hasAccess(accountMgt.getCurrentUser().getAccessLevel())) {
             show(Type.RECENTLY_AND_REVIEW);
         }
         updateInterface.update();
     }
 
-    public void setContent(Node node) {
+    private void setContent(Node node) {
         previousContent = currentContent;
         currentContent = node;
         homepageController.setContent(node);
     }
 
-    public void quit() {
+    private <T> IDTO[] convertToIDTO(T[] list) {
+        IDTO[] dtos = new IDTO[list.length];
+        for (int i = 0; i < list.length; i++) {
+            int finalI = i;
+            dtos[i] = (IDTO<T>) () -> list[finalI];
+        }
+        return dtos;
+    }
+
+    private void quit() {
         Platform.exit();
     }
+
 }

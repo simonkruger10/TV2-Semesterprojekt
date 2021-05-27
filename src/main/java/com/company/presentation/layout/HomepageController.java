@@ -1,10 +1,11 @@
 package com.company.presentation.layout;
 
-import java.io.IOException;
-
-import com.company.common.*;
-import com.company.domain.*;
+import com.company.common.AccessLevel;
+import com.company.common.Tools;
+import com.company.domain.AccountManagement;
+import com.company.domain.IAccountManagement;
 import com.company.presentation.CallbackHandler;
+import com.company.presentation.IDTO;
 import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
 import javafx.beans.value.ChangeListener;
@@ -21,6 +22,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
+import java.io.IOException;
 
 import static com.company.common.Tools.trueVisible;
 
@@ -48,6 +51,12 @@ public class HomepageController extends VBox implements UpdateHandler {
 
     @FXML
     private Button addCreditBtn;
+
+    @FXML
+    private Button creditGroupsBtn;
+
+    @FXML
+    private Button addCreditGroupBtn;
 
     @FXML
     private Button producersBtn;
@@ -139,6 +148,16 @@ public class HomepageController extends VBox implements UpdateHandler {
     }
 
     @FXML
+    private void showCreditGroups(MouseEvent event) {
+        callBack.list(Type.CREDIT_GROUP);
+    }
+
+    @FXML
+    private void addCreditGroup(MouseEvent event) {
+        callBack.add(Type.CREDIT_GROUP);
+    }
+
+    @FXML
     private void showCredits(MouseEvent event) {
         callBack.list(Type.CREDIT);
     }
@@ -160,7 +179,12 @@ public class HomepageController extends VBox implements UpdateHandler {
 
     @FXML
     private void showAccount(MouseEvent event) {
-        callBack.show(Type.ACCOUNT, aMgt.getCurrentUser().getID());
+        callBack.show(Type.ACCOUNT, new IDTO() {
+            @Override
+            public Object getDTO() {
+                return aMgt.getCurrentUser();
+            }
+        });
     }
 
 
@@ -189,6 +213,7 @@ public class HomepageController extends VBox implements UpdateHandler {
         trueVisible(addCreditBtn, state);
 
         state = accessLevel.equals(AccessLevel.ADMINISTRATOR);
+        trueVisible(addCreditGroupBtn, state);
         trueVisible(producersBtn, state);
         trueVisible(addProducerBtn, state);
         trueVisible(accountsBtn, state);
@@ -202,19 +227,5 @@ public class HomepageController extends VBox implements UpdateHandler {
         } else {
             content.getChildren().add(node);
         }
-    }
-
-    @FXML
-    private void initialize() {
-        assert homeBtn != null : "fx:id=\"home\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert helloMessage != null : "fx:id=\"helloMessage\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert loginBtn != null : "fx:id=\"loginBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert searchBarField != null : "fx:id=\"searchBarField\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert productionsBtn != null : "fx:id=\"productionsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert creditsBtn != null : "fx:id=\"creditsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert producersBtn != null : "fx:id=\"producersBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert accountsBtn != null : "fx:id=\"accountsBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert accountBtn != null : "fx:id=\"accountBtn\" was not injected: check your FXML file 'Homepage.fxml'.";
-        assert content != null : "fx:id=\"content\" was not injected: check your FXML file 'Homepage.fxml'.";
     }
 }

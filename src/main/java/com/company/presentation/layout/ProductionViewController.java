@@ -2,11 +2,7 @@ package com.company.presentation.layout;
 
 import com.company.common.*;
 import com.company.domain.AccountManagement;
-import com.company.domain.ProductionManagement;
-import com.company.presentation.Colors;
-import com.company.presentation.GUI;
-import com.company.presentation.Type;
-import com.company.presentation.UpdateHandler;
+import com.company.presentation.*;
 import com.company.presentation.layout.parts.HeaderRowController;
 import com.company.presentation.layout.parts.TextRowController;
 import javafx.fxml.FXML;
@@ -40,7 +36,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
     private final GUI callback;
     private IProduction production;
 
-    public ProductionViewController(Integer id, GUI callback) {
+    public ProductionViewController(IProduction production, GUI callback) {
         this.callback = callback;
 
         try {
@@ -53,22 +49,22 @@ public class ProductionViewController extends VBox implements UpdateHandler {
         }
 
         update();
-        loadProduction(id);
+        loadProduction(production);
     }
 
-    public void loadProduction(Integer id) {
-        production = new ProductionManagement().getByID(id);
+    public void loadProduction(IProduction production) {
+        this.production = production;
 
         title.setText(production.getName());
         String image = production.getImage();
         if (image != null) {
-            this.image.setImage(getResourceAsImage(image));
+            this.image.setImage(getResourceAsImage("/images/" + image));
         }
 
         // Group credits by creditGroup
         HashMap<String, List<ICredit>> grouped = new HashMap<>();
         for (ICredit credit : production.getCredits()) {
-            for (ICreditGroup creditGroup: credit.getCreditGroups()) { //TODO this will not allow credits without a creditGroup to be shown.
+            for (ICreditGroup creditGroup : credit.getCreditGroups()) { //TODO this will not allow credits without a creditGroup to be shown.
                 String key = creditGroup.getName();
                 if (grouped.get(key) == null) {
                     grouped.put(key, new ArrayList<>());
@@ -89,8 +85,8 @@ public class ProductionViewController extends VBox implements UpdateHandler {
             // Rows
             int i = 0;
             rows.getChildren().add(headerRowController);
-            for (ICredit credit: grouped.get(groupName)) {
-                TextRowController cRow = new TextRowController(Type.CREDIT, credit.getID(), callback);
+            for (ICredit credit : grouped.get(groupName)) {
+                TextRowController cRow = new TextRowController(Type.CREDIT, () -> credit, callback);
                 cRow.setText(credit.getFullName());
                 if (!isEven(i)) {
                     cRow.setBackground(Colors.ODD_COLOR);
@@ -103,7 +99,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
 
     @FXML
     private void editProduction(MouseEvent event) {
-        callback.edit(Type.PRODUCTION, production.getID());
+        callback.edit(Type.PRODUCTION, (IDTO<IProduction>) () -> production);
     }
 
     @Override
@@ -115,13 +111,5 @@ public class ProductionViewController extends VBox implements UpdateHandler {
     public void update() {
         AccessLevel accessLevel = new AccountManagement().getCurrentUser().getAccessLevel();
         trueVisible(editProductionBtn, accessLevel.greater(AccessLevel.CONSUMER));
-    }
-
-    @FXML
-    private void initialize() {
-        assert title != null : "fx:id=\"title\" was not injected: check your FXML file 'ProductionView.fxml'.";
-        assert editProductionBtn != null : "fx:id=\"editCreditBtn\" was not injected: check your FXML file 'ProductionView.fxml'.";
-        assert image != null : "fx:id=\"image\" was not injected: check your FXML file 'ProductionView.fxml'.";
-        assert rows != null : "fx:id=\"roles\" was not injected: check your FXML file 'ProductionView.fxml'.";
     }
 }

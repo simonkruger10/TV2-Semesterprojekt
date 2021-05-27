@@ -49,7 +49,7 @@ Setup Database
 8. Return to the database tool window. Click on the "Data Source Properties", go to schemas and choose the newly created "tv2_semesterprojekt_f3f70b5a". 
 Drop it down and apply default schemas. Hit "Apply", then "OK". 
    
-9. Lastly, right-click on the "tables.sql" under resources. Edit a new configuration, add the newly created "tv2_semesterprojekt_f3f70b5a" as the target data source. Execute "tables.sql" **AND** "dummy_data.sql". Hit "Apply", then "OK".
+9. Lastly, right-click on the "tables.sql" under resources. Edit a new configuration, add the newly created "tv2_semesterprojekt_f3f70b5a" as the target data source. Execute "tables.sql", "dummy_data.sql" and "set_tv2_owner.sql" in the following order. Hit "Apply", then "OK".
 
 ## Run source code
 

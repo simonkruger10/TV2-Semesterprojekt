@@ -18,7 +18,10 @@ public class PostgresCredit {
         credit.setType(type);
         credit.setFirstName(queryResult.getString("name"));
         credit.setLastName(queryResult.getString("l_name"));
-        credit.setImage(queryResult.getString("image"));
+        String image = queryResult.getString("image");
+        if (image != null) {
+            credit.setImage(image);
+        }
         credit.setEmail(queryResult.getString("email"));
         credit.setID(queryResult.getInt("id"));
 
@@ -48,7 +51,8 @@ public class PostgresCredit {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        return credits.values().toArray((new ICredit[0]));
+
+        return credits.values().toArray(new ICredit[0]);
     }
 
     public ICredit getCredit(Integer id, CreditType type) {
