@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import java.security.AccessControlException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -261,7 +260,6 @@ public class CreditTest {
         boolean creditFound = false;
         for (ICredit c : allCredits) {
             //This assumes that Credit.equals works as intended.
-
             if (newCredit.getID().equals(c.getID()) &&
                     newCredit.getFullName().equals(c.getFullName()) &&
                     newCredit.getEmail().equals(c.getEmail())) {
