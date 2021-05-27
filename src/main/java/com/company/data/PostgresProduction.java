@@ -28,15 +28,11 @@ public class PostgresProduction {
         production.setDescription(queryResult.getString("description"));
         String image = queryResult.getString("Image");
         if (image != null) {
-            production.setImage(production.getImage());
+            production.setImage(image);
         }
         production.setReleaseDay(queryResult.getInt("release_day"));
         production.setReleaseMonth(queryResult.getInt("release_month"));
         production.setReleaseYear(queryResult.getInt("release_year"));
-
-        if (image != null) {
-            production.setImage(production.getImage());
-        }
 
         return production;
     }

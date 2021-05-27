@@ -16,7 +16,12 @@ import static com.company.common.Tools.getResourceAsImage;
 
 
 public class GUI extends Application implements CallbackHandler {
-    private final IAccountManagement aMgt = new AccountManagement();
+    private final IAccountManagement accountMgt = new AccountManagement();
+    private final CreditManagement creditMgt = new CreditManagement();
+    private final CreditGroupManagement creditGroupMgt = new CreditGroupManagement();
+    private final ProductionManagement productionMgt = new ProductionManagement();
+    private final ProducerManagement producerMgt = new ProducerManagement();
+
     private final HomepageController homepageController;
     private Node currentContent;
     private Node previousContent;
@@ -55,60 +60,24 @@ public class GUI extends Application implements CallbackHandler {
     public void list(Type type) {
         OverviewController overview = new OverviewController(this);
 
+        IDTO[] dtos = null;
         if (type == Type.ACCOUNT) {
-            IAccount[] accounts = new AccountManagement().list();
-
-            IDTO[] dtos = new IDTO[accounts.length];
-            for (int i = 0; i < accounts.length; i++) {
-                int finalI = i;
-                dtos[i] = (IDTO<IAccount>) () -> accounts[finalI];
-            }
-
-            overview.showList(type, dtos);
+            dtos = convertToIDTO(accountMgt.list());
         } else if (type == Type.CREDIT) {
-            ICredit[] credits = new CreditManagement().list();
-
-            IDTO[] dtos = new IDTO[credits.length];
-            for (int i = 0; i < credits.length; i++) {
-                int finalI = i;
-                dtos[i] = (IDTO<ICredit>) () -> credits[finalI];
-            }
-
-            overview.showList(type, dtos);
+            dtos = convertToIDTO(creditMgt.list());
         } else if (type == Type.CREDIT_GROUP) {
-            ICreditGroup[] creditGroups = new CreditGroupManagement().list();
-
-            IDTO[] dtos = new IDTO[creditGroups.length];
-            for (int i = 0; i < creditGroups.length; i++) {
-                int finalI = i;
-                dtos[i] = (IDTO<ICreditGroup>) () -> creditGroups[finalI];
-            }
-
-            overview.showList(type, dtos);
+            dtos = convertToIDTO(creditGroupMgt.list());
         } else if (type == Type.PRODUCTION) {
-            IProduction[] productions = new ProductionManagement().list();
-
-            IDTO[] dtos = new IDTO[productions.length];
-            for (int i = 0; i < productions.length; i++) {
-                int finalI = i;
-                dtos[i] = (IDTO<IProduction>) () -> productions[finalI];
-            }
-
-            overview.showList(type, dtos);
+            dtos = convertToIDTO(productionMgt.list());
         } else if (type == Type.PRODUCER) {
-            IProducer[] producers = new ProducerManagement().list();
-
-            IDTO[] dtos = new IDTO[producers.length];
-            for (int i = 0; i < producers.length; i++) {
-                int finalI = i;
-                dtos[i] = (IDTO<IProducer>) () -> producers[finalI];
-            }
-
-            overview.showList(type, dtos);
+            dtos = convertToIDTO(producerMgt.list());
         } else if (type == Type.SEARCH) {
             // TODO: implant search view
         }
 
+        if (dtos != null) {
+            overview.showList(type, dtos);
+        }
         setContent(overview);
     }
 
@@ -130,7 +99,8 @@ public class GUI extends Application implements CallbackHandler {
         } else if (type == Type.CREDIT_GROUP) {
             // TODO: implants credit group view
         } else if (type == Type.PRODUCTION) {
-            setContent(new ProductionViewController((IProduction) dto.getDTO(),this));
+            IProduction production = (IProduction) dto.getDTO();
+            setContent(new ProductionViewController(productionMgt.getByID(production.getID()),this));
         }
     }
 
@@ -168,7 +138,7 @@ public class GUI extends Application implements CallbackHandler {
 
     @Override
     public void logout() {
-        new AccountManagement().logout();
+        accountMgt.logout();
         update();
     }
 
@@ -195,19 +165,29 @@ public class GUI extends Application implements CallbackHandler {
 
         // Update container content
         updateInterface = (UpdateHandler) currentContent;
-        if (!updateInterface.hasAccess(aMgt.getCurrentUser().getAccessLevel())) {
+        if (!updateInterface.hasAccess(accountMgt.getCurrentUser().getAccessLevel())) {
             show(Type.RECENTLY_AND_REVIEW);
         }
         updateInterface.update();
     }
 
-    public void setContent(Node node) {
+    private void setContent(Node node) {
         previousContent = currentContent;
         currentContent = node;
         homepageController.setContent(node);
     }
 
-    public void quit() {
+    private <T> IDTO[] convertToIDTO(T[] list) {
+        IDTO[] dtos = new IDTO[list.length];
+        for (int i = 0; i < list.length; i++) {
+            int finalI = i;
+            dtos[i] = (IDTO<T>) () -> list[finalI];
+        }
+        return dtos;
+    }
+
+    private void quit() {
         Platform.exit();
     }
+
 }
