@@ -41,6 +41,8 @@ public interface DatabaseFacade {
     void updateCredit(ICredit credit);
 
 
+    boolean deleteCredit(Integer id);
+
     ICreditGroup[] getCreditGroups();
 
     ICreditGroup getCreditGroup(Integer id);

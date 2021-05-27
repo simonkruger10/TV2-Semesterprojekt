@@ -127,6 +127,11 @@ public class Postgresql implements DatabaseFacade {
     }
 
     @Override
+    public boolean deleteCredit(Integer id) {
+        return postgresCredit.deleteCredit(id);
+    }
+
+    @Override
     public ICreditGroup[] getCreditGroups() {
         return postgresCreditGroup.getCreditGroups();
     }

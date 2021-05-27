@@ -22,10 +22,13 @@ public class CreditTest {
     private Credit newCredit, existingCredit;
     private Production newProduction, existingProduction;
     private Producer existingProducer;
+    boolean newCreditHasBeenAddedToTheDatabase;
 
     @Before
     public void setUp() {
         creditManagement = new CreditManagement();
+        newCreditHasBeenAddedToTheDatabase = false;
+
         newCredit = new Credit();
         newCredit.setFirstName("Bob");
         newCredit.setLastName("Marley");
@@ -113,24 +116,21 @@ public class CreditTest {
     }
 
     /**
+     * Unit test af databasen's addCredit metode.
      * Assumes that Postgres.getProduction(Interger id) works correctly.
      */
     @Test
-    public void addNewCreditToExistingProduction() {
+    public void addNewCredit() {
         //Assert that the credit IS NOT in the database
         ICredit[] allCredits = Database.getInstance().getCredits();
         for (ICredit c : allCredits) {
             //This assumes that Credit.equals works as intended.
             assertNotEquals(c, newCredit);
         }
-        //And that the credit is not attached to the production.
-        IProduction productionFromDatabase = Database.getInstance().getProduction(1);
-        for (ICredit c : productionFromDatabase.getCredits()) {
-            assertNotEquals(c, newCredit);
-        }
 
         //Add the credit to the database
         Credit returnedCredit = new Credit(Database.getInstance().addCredit(newCredit));
+        newCreditHasBeenAddedToTheDatabase = true;
         newCredit.setID(returnedCredit.getID()); //the equals method also compares id
 
         assertEquals(returnedCredit, newCredit);
@@ -150,9 +150,9 @@ public class CreditTest {
 
     @After
     public void after() {
-        //PostgresCredit postgresCredit = new PostgresCredit();
-        //postgresCredit.deleteCredit(newCredit.getID());
+        if (newCreditHasBeenAddedToTheDatabase) {
+            assertTrue(Database.getInstance().deleteCredit(newCredit.getID()));
+            newCreditHasBeenAddedToTheDatabase = false;
+        }
     }
-
-
 }

@@ -78,7 +78,7 @@ public class PostgresCredit {
         ICredit resultCredit = null;
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement(
-                    "INSERT INTO credit_person(name, l_name, image, email) VALUES (?,?,?,?,?) RETURNING *");
+                    "INSERT INTO credit_person(name, l_name, image, email) VALUES (?,?,?,?) RETURNING *");
             query.setString(1, credit.getFirstName());
             query.setString(2, credit.getLastName());
             query.setString(3, credit.getImage());
@@ -106,5 +106,25 @@ public class PostgresCredit {
             sqlException.printStackTrace();
         }
 
+    }
+
+    public boolean deleteCredit(Integer id) {
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement(
+                    "with numOfDeletedRows as (DELETE FROM credit_person WHERE id=? returning 1)" +
+                            "select count(*) from numOfDeletedRows");
+            query.setInt(1, id);
+            ResultSet resultSet = query.executeQuery();
+            resultSet.next();
+            int rowsDeleted = resultSet.getInt("count");
+
+            if (rowsDeleted > 1) {
+                throw new RuntimeException("More than one line was deleted with id: '"+id+"'");
+            }
+            return rowsDeleted == 1;
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return false;
     }
 }
