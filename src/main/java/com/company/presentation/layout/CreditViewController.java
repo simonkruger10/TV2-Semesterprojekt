@@ -4,6 +4,7 @@ import com.company.common.*;
 import com.company.domain.AccountManagement;
 import com.company.domain.CreditManagement;
 import com.company.presentation.CallbackHandler;
+import com.company.presentation.IDTO;
 import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
 import javafx.fxml.FXML;
@@ -39,7 +40,7 @@ public class CreditViewController extends VBox implements UpdateHandler {
     private ICredit credit;
     private final CallbackHandler callback;
 
-    public CreditViewController(Integer id, CallbackHandler callback) {
+    public CreditViewController(ICredit credit, CallbackHandler callback) {
         this.callback = callback;
 
         try {
@@ -53,11 +54,12 @@ public class CreditViewController extends VBox implements UpdateHandler {
 
         update();
 
-        viewCredit(id);
+        viewCredit(credit);
     }
 
-    public void viewCredit(Integer id) {
-        credit = new CreditManagement().getByID(id, null);
+    public void viewCredit(ICredit credit) {
+        this.credit = credit;
+
         firstName.setText(credit.getFirstName());
         lastName.setText(credit.getLastName());
 
@@ -81,7 +83,12 @@ public class CreditViewController extends VBox implements UpdateHandler {
 
     @FXML
     private void editCredit(MouseEvent event) {
-        callback.edit(Type.CREDIT, credit.getID());
+        callback.edit(Type.CREDIT, new IDTO<ICredit>() {
+            @Override
+            public ICredit getDTO() {
+                return credit;
+            }
+        });
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.company.presentation;
 
-import com.company.domain.AccountManagement;
-import com.company.domain.IAccountManagement;
+import com.company.common.*;
+import com.company.domain.*;
 import com.company.presentation.layout.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -53,37 +53,68 @@ public class GUI extends Application implements CallbackHandler {
 
     @Override
     public void list(Type type) {
+        OverviewController overview = new OverviewController(this);
+
         if (type == Type.ACCOUNT) {
-            setContent(new AccountsOverviewController(this));
+            IAccount[] accounts = new AccountManagement().list();
+
+            IDTO[] dtos = new IDTO[accounts.length];
+            for (int i = 0; i < accounts.length; i++) {
+                int finalI = i;
+                dtos[i] = (IDTO<IAccount>) () -> accounts[finalI];
+            }
+
+            overview.showList(type, dtos);
         } else if (type == Type.CREDIT) {
-            setContent(new CreditsOverviewController(this));
+            ICredit[] credits = new CreditManagement().list();
+
+            IDTO[] dtos = new IDTO[credits.length];
+            for (int i = 0; i < credits.length; i++) {
+                int finalI = i;
+                dtos[i] = (IDTO<ICredit>) () -> credits[finalI];
+            }
+
+            overview.showList(type, dtos);
         } else if (type == Type.CREDIT_GROUP) {
-            // TODO: implants credit groups view
+            ICreditGroup[] creditGroups = new CreditGroupManagement().list();
+
+            IDTO[] dtos = new IDTO[creditGroups.length];
+            for (int i = 0; i < creditGroups.length; i++) {
+                int finalI = i;
+                dtos[i] = (IDTO<ICreditGroup>) () -> creditGroups[finalI];
+            }
+
+            overview.showList(type, dtos);
         } else if (type == Type.PRODUCTION) {
-            setContent(new ProductionsOverviewController(this));
+            IProduction[] productions = new ProductionManagement().list();
+
+            IDTO[] dtos = new IDTO[productions.length];
+            for (int i = 0; i < productions.length; i++) {
+                int finalI = i;
+                dtos[i] = (IDTO<IProduction>) () -> productions[finalI];
+            }
+
+            overview.showList(type, dtos);
         } else if (type == Type.PRODUCER) {
-            // TODO: implant producers view
+            IProducer[] producers = new ProducerManagement().list();
+
+            IDTO[] dtos = new IDTO[producers.length];
+            for (int i = 0; i < producers.length; i++) {
+                int finalI = i;
+                dtos[i] = (IDTO<IProducer>) () -> producers[finalI];
+            }
+
+            overview.showList(type, dtos);
         } else if (type == Type.SEARCH) {
             // TODO: implant search view
         }
+
+        setContent(overview);
     }
 
     @Override
     public void show(Type type) {
-        show(type, null);
-    }
-
-    @Override
-    public void show(Type type, Integer id) {
-        if (type == Type.ACCOUNT) {
-            // TODO: implants account view
-        } else if (type == Type.CREDIT) {
-            setContent(new CreditViewController(id, this));
-        } else if (type == Type.CREDIT_GROUP) {
-            // TODO: implants credit group view
-        } else if (type == Type.PRODUCTION) {
-            setContent(new ProductionViewController(id,this));
-        } else if (type == Type.LOGIN) {
+        if (type == Type.LOGIN) {
             setContent(new LoginController(this));
         } else if (type == Type.RECENTLY_AND_REVIEW) {
             setContent(new RecentlyAndReviewController());
@@ -91,10 +122,21 @@ public class GUI extends Application implements CallbackHandler {
     }
 
     @Override
-    public void show(Type type, AlertType alertType, String message) {
-        if (type == Type.MESSAGE) {
-            new MessageDialog(alertType, message);
+    public void show(Type type, IDTO dto) {
+        if (type == Type.ACCOUNT) {
+            // TODO: implants account view
+        } else if (type == Type.CREDIT) {
+            setContent(new CreditViewController((ICredit) dto.getDTO(), this));
+        } else if (type == Type.CREDIT_GROUP) {
+            // TODO: implants credit group view
+        } else if (type == Type.PRODUCTION) {
+            setContent(new ProductionViewController((IProduction) dto.getDTO(),this));
         }
+    }
+
+    @Override
+    public void show(AlertType alertType, String message) {
+        new MessageDialog(alertType, message);
     }
 
     @Override
@@ -111,7 +153,7 @@ public class GUI extends Application implements CallbackHandler {
     }
 
     @Override
-    public void edit(Type type, Integer id) {
+    public void edit(Type type, IDTO dto) {
         if (type == Type.ACCOUNT) {
             // TODO: implants edit account
         } else if (type == Type.CREDIT) {
@@ -140,9 +182,8 @@ public class GUI extends Application implements CallbackHandler {
 
     @Override
     public void loginFailed(AlertType alertType, String message) {
-        show(Type.MESSAGE, alertType, message);
+        show(alertType, message);
     }
-
 
     private void update() {
         UpdateHandler updateInterface;

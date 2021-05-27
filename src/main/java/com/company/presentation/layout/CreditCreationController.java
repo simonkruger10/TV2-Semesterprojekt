@@ -8,6 +8,7 @@ import com.company.domain.CreditManagement;
 import com.company.domain.dto.Credit;
 import com.company.domain.dto.CreditGroup;
 import com.company.presentation.CallbackHandler;
+import com.company.presentation.IDTO;
 import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
 import javafx.fxml.FXML;
@@ -65,7 +66,12 @@ public class CreditCreationController extends VBox implements UpdateHandler {
         }
         credit.addCreditGroup(new CreditGroup(creditGroup));
 
-        callback.show(Type.CREDIT, new CreditManagement().create(credit).getID());
+        callback.show(Type.CREDIT, new IDTO() {
+            @Override
+            public Object getDTO() {
+                return new CreditManagement().create(credit);
+            }
+        });
     }
 
     @Override

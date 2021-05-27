@@ -2,6 +2,7 @@ package com.company.presentation.layout.parts;
 
 import com.company.common.Tools;
 import com.company.presentation.CallbackHandler;
+import com.company.presentation.IDTO;
 import com.company.presentation.Type;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,12 +27,12 @@ public class ImageRowController extends VBox {
     private Text text;
 
     private final Type type;
-    private final Integer id;
+    private final IDTO dto;
     private final CallbackHandler callBack;
 
-    public ImageRowController(Type type, Integer id, CallbackHandler callBack) {
+    public ImageRowController(Type type, IDTO dto, CallbackHandler callBack) {
         this.type = type;
-        this.id = id;
+        this.dto = dto;
         this.callBack = callBack;
 
         try {
@@ -62,6 +63,6 @@ public class ImageRowController extends VBox {
 
     @FXML
     private void show(MouseEvent event) {
-        callBack.show(type, id);
+        callBack.show(type, dto);
     }
 }
