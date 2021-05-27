@@ -34,15 +34,17 @@ public class PostgresProducer {
         return producer;
     }
 
-    public IProducer[] getProducers() {
+    public IProducer[] getProducers(Integer limit, Integer offset) {
         List<IProducer> producers = new ArrayList<IProducer>();
+
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM producer");
+            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM producer LIMIT ? OFFSET ?");
+            query.setInt(1, limit);
+            query.setInt(2, offset);
+
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Producer producer = createFromQueryResult(queryResult);
-                producer.setAccount(postgresql.getAccount(queryResult.getInt("account_id")));
-                producers.add(producer);
+                producers.add(createFromQueryResult(queryResult));
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -52,36 +54,42 @@ public class PostgresProducer {
 
     public IProducer getProducer(Integer id) {
         Producer producer = new Producer();
+
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM producer WHERE id=?");
             query.setInt(1, id);
+
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
                 producer = createFromQueryResult(queryResult);
                 producer.setAccount(postgresql.getAccount(queryResult.getInt("account_id")));
-            } else {
-                throw (new Exception("Production with id \"" + id + "\" not found"));
-            }
-        } catch (SQLException sqlException) {
+            } // TODO: throw exception instead of return null
+        } catch (Exception sqlException) {
             sqlException.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
         return producer;
     }
 
     public IProducer addProducer(IProducer producer) {
+        Producer createdProducer = null;
+
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO producer (id, name, logo, account_id) VALUES (?,?,?,?)");
-            query.setInt(1, producer.getID());
-            query.setString(2, producer.getName());
-            query.setString(3, producer.getLogo());
-            query.setInt(4, producer.getAccount().getID());
-            query.executeQuery();
+            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO producer (name, logo, account_id) VALUES (?,?,?,?) RETURNING *");
+            query.setString(1, producer.getName());
+            query.setString(2, producer.getLogo());
+            query.setInt(3, producer.getAccount().getID());
+
+            ResultSet queryResult = query.executeQuery();
+            if (queryResult.next()) {
+                createdProducer = createFromQueryResult(queryResult);
+                createdProducer.setAccount(postgresql.getAccount(queryResult.getInt("account_id")));
+            } // TODO: throw exception instead of return null
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        return producer;
+
+        return createdProducer;
     }
 
     /**
@@ -97,9 +105,14 @@ public class PostgresProducer {
             query.setString(2, producer.getLogo());
             query.setInt(3, producer.getAccount().getID());
             query.setInt(4, producer.getID());
-            query.executeQuery();
+
+            query.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+    }
+
+    public IProducer[] searchProducers(String word) {
+        return new IProducer[0];
     }
 }

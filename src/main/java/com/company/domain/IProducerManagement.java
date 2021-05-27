@@ -1,5 +1,6 @@
 package com.company.domain;
 
+import com.company.common.ICredit;
 import com.company.common.IProducer;
 
 public interface IProducerManagement {

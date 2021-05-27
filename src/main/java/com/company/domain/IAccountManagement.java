@@ -14,7 +14,6 @@ public interface IAccountManagement {
 
     IAccount[] getByName(String firstName);
     IAccount[] getByName(String firstName, String lastName);
-    IAccount[] getByName(String firstName, String middleName, String lastName);
 
     IAccount getByEmail(String email);
 

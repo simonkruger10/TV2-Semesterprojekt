@@ -1,8 +1,11 @@
 package com.company.presentation.layout;
 
-import com.company.common.*;
+import com.company.common.AccessLevel;
+import com.company.common.ICredit;
+import com.company.common.IProduction;
+import com.company.common.Tools;
 import com.company.domain.AccountManagement;
-import com.company.domain.CreditManagement;
+import com.company.domain.ProductionManagement;
 import com.company.presentation.CallbackHandler;
 import com.company.presentation.IDTO;
 import com.company.presentation.Type;
@@ -16,10 +19,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.company.common.Tools.trueVisible;
 
@@ -63,22 +63,11 @@ public class CreditViewController extends VBox implements UpdateHandler {
         firstName.setText(credit.getFirstName());
         lastName.setText(credit.getLastName());
 
-        Map<ICreditGroup, List<IProduction>> creditedFor = new CreditManagement().getCreditedFor(credit);
-        List<String> lines = new ArrayList<>();
-        for (ICreditGroup cg : creditedFor.keySet()) {
-            StringBuilder names = new StringBuilder();
-            names.append(cg.getName());
-            names.append(":");
-            names.append("\n\t");
-
-            IProduction[] productions = creditedFor.get(cg).toArray(new IProduction[0]);
-            List<String> productionNames = Arrays.stream(productions)
-                    .map(iProduction -> iProduction.getName())
-                    .collect(Collectors.toList());
-            names.append(String.join("\n\t", productionNames));
-            lines.add(names.toString());
+        List<String> titles = new ArrayList<>();
+        for (IProduction production : new ProductionManagement().getProductionByCredit(credit)) {
+            titles.add(production.getName());
         }
-        groupName.setText(String.join("\n", lines));
+        groupName.setText(String.join("\n", titles));
     }
 
     @FXML

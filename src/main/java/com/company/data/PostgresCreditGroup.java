@@ -22,45 +22,60 @@ public class PostgresCreditGroup {
         return cg;
     }
 
-    public ICreditGroup[] getCreditGroups() {
+    public ICreditGroup[] getCreditGroups(Integer limit, Integer offset) {
         List<ICreditGroup> creditGroups = new ArrayList<ICreditGroup>();
+
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM credit_group");
+            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM credit_group LIMIT ? OFFSET ?");
+            query.setInt(1, limit);
+            query.setInt(2, offset);
+
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                CreditGroup creditGroup = createFromQueryResult(queryResult);
-                creditGroups.add(creditGroup);
+                creditGroups.add(createFromQueryResult(queryResult));
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+
         return creditGroups.toArray(new ICreditGroup[0]);
     }
 
     public ICreditGroup getCreditGroup(Integer id) {
-        CreditGroup creditGroup = new CreditGroup();
+        CreditGroup creditGroup = null;
+
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM credit_group WHERE id = ?");
             query.setInt(1, id);
+
             ResultSet queryResult = query.executeQuery();
-            creditGroup = createFromQueryResult(queryResult);
+            if (queryResult.next()) {
+                creditGroup = createFromQueryResult(queryResult);
+            } // TODO: throw exception instead of return null
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+
         return creditGroup;
     }
 
     public ICreditGroup addCreditGroup(ICreditGroup creditGroup) {
+        CreditGroup createdCreditGroup = null;
+
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO credit_group (id, name, description) VALUES (?, ?, ?)");
-            query.setInt(1, creditGroup.getID());
+            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO credit_group (name, description) VALUES (?, ?, ?) RETURNING *");
             query.setString(2, creditGroup.getName());
             query.setString(3, creditGroup.getDescription());
-            query.executeQuery();
+
+            ResultSet queryResult = query.executeQuery();
+            if (queryResult.next()) {
+                createdCreditGroup = createFromQueryResult(queryResult);
+            } // TODO: throw exception instead of return null
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        return creditGroup;
+
+        return createdCreditGroup;
     }
 
     public void updateCreditGroup(ICreditGroup creditGroup) {
@@ -69,9 +84,14 @@ public class PostgresCreditGroup {
             query.setInt(3, creditGroup.getID());
             query.setString(1, creditGroup.getName());
             query.setString(2, creditGroup.getDescription());
-            query.executeQuery();
+
+            query.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+    }
+
+    public ICreditGroup[] searchCreditGroups(String word) {
+        return new ICreditGroup[0];
     }
 }

@@ -1,10 +1,10 @@
 package com.company.data;
 
 import com.company.common.*;
-import com.company.data.entities.*;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Postgresql implements DatabaseFacade {
     protected static Connection connection = null;
@@ -24,45 +24,19 @@ public class Postgresql implements DatabaseFacade {
         }
     }
 
-    @Override
-    public Map<ICreditGroup, List<IProduction>> getCreditedFor(ICredit credit) {
-        Map<ICreditGroup, List<IProduction>> creditedFor = new HashMap<>();
-        try {
-            PreparedStatement query = connection.prepareStatement(
-                    "SELECT production.*, credit_group.id as cg_id, credit_group.name as cg_name, " +
-                            "credit_group.description as cg_description \n" +
-                            "FROM production_credit_person_relation as pcpr\n" +
-                            "JOIN production ON pcpr.production_id = production.id\n" +
-                            "JOIN credit_group ON pcpr.credit_group_id = credit_group.id\n" +
-                            "WHERE pcpr.credit_id = ?");
-            query.setInt(1, credit.getID());
-            ResultSet queryResult = query.executeQuery();
-
-            while (queryResult.next()) {
-                CreditGroup creditGroup = new CreditGroup();
-                creditGroup.setDescription(queryResult.getString("cg_description"));
-                creditGroup.setName(queryResult.getString("cg_name"));
-                creditGroup.setID(queryResult.getInt("cg_id"));
-                IProduction production = PostgresProduction.createFromQueryResult(queryResult);
-                creditedFor.computeIfAbsent(creditGroup, k -> new ArrayList<>());
-                creditedFor.get(creditGroup).add(production);
-            }
-
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-
-        return creditedFor;
-    }
-
     @Override //TODO What does this method do? Is it used anywhere, and what should it check?
     public boolean checkAccess() {
         return false;
     }
 
     @Override
-    public IProducer[] getProducers() {
-        return postgresProducer.getProducers();
+    public IProducer[] searchProducers(String word) {
+        return postgresProducer.searchProducers(word);
+    }
+
+    @Override
+    public IProducer[] getProducers(Integer limit, Integer offset) {
+        return postgresProducer.getProducers(limit, offset);
     }
 
     @Override
@@ -86,8 +60,18 @@ public class Postgresql implements DatabaseFacade {
     }
 
     @Override
-    public IProduction[] getProductions() {
-        return postgresProduction.getProductions();
+    public IProduction[] searchProductions(String word) {
+        return postgresProduction.searchProductions(word);
+    }
+
+    @Override
+    public IProduction[] getProductions(Integer limit, Integer offset) {
+        return postgresProduction.getProductions(limit, offset);
+    }
+
+    @Override
+    public IProduction[] getProductionByCredit(ICredit credit) {
+        return postgresProduction.getProductionByCredit(credit);
     }
 
     @Override
@@ -107,8 +91,13 @@ public class Postgresql implements DatabaseFacade {
     }
 
     @Override
-    public ICredit[] getCredits() {
-        return postgresCredit.getCredits();
+    public ICredit[] searchCredits(String word) {
+        return postgresCredit.searchCredits(word);
+    }
+
+    @Override
+    public ICredit[] getCredits(Integer limit, Integer offset) {
+        return postgresCredit.getCredits(limit, offset);
     }
 
     @Override
@@ -132,8 +121,13 @@ public class Postgresql implements DatabaseFacade {
     }
 
     @Override
-    public ICreditGroup[] getCreditGroups() {
-        return postgresCreditGroup.getCreditGroups();
+    public ICreditGroup[] searchCreditGroups(String word) {
+        return postgresCreditGroup.searchCreditGroups(word);
+    }
+
+    @Override
+    public ICreditGroup[] getCreditGroups(Integer limit, Integer offset) {
+        return postgresCreditGroup.getCreditGroups(limit, offset);
     }
 
     @Override
@@ -152,8 +146,13 @@ public class Postgresql implements DatabaseFacade {
     }
 
     @Override
-    public IAccount[] getAccounts() {
-        return postgresAccount.getAccounts();
+    public IAccount[] searchAccounts(String word) {
+        return postgresAccount.searchAccounts(word);
+    }
+
+    @Override
+    public IAccount[] getAccounts(Integer limit, Integer offset) {
+        return postgresAccount.getAccounts(limit, offset);
     }
 
     @Override
@@ -184,9 +183,5 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public void updateAccount(IAccount account, String hashedPassword) {
         postgresAccount.updateAccount(account, hashedPassword);
-    }
-
-    protected PostgresProducer getPostgresProducer() {
-        return this.postgresProducer;
     }
 }

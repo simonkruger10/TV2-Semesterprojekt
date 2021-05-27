@@ -7,14 +7,12 @@ import com.company.data.DatabaseFacade;
 import com.company.domain.AccountManagement;
 import com.company.domain.CreditManagement;
 import com.company.domain.dto.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.security.AccessControlException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -125,7 +123,7 @@ public class CreditTest {
     @Test
     public void addNewCredit() {
         //Assert that the credit IS NOT in the database
-        ICredit[] allCredits = dbInstance.getCredits();
+        ICredit[] allCredits = dbInstance.getCredits(10, 0);
         for (ICredit c : allCredits) {
             //This assumes that Credit.equals works as intended.
             assertNotEquals(c, newCredit);
@@ -139,7 +137,7 @@ public class CreditTest {
         assertEquals(returnedCredit, newCredit);
 
         //Assert that the credit IS in the database
-        allCredits = dbInstance.getCredits();
+        allCredits = dbInstance.getCredits(10, 0);
         boolean creditFound = false;
         for (ICredit c : allCredits) {
             //This assumes that Credit.equals works as intended.
@@ -256,7 +254,7 @@ public class CreditTest {
         assertFalse(hasRunException); //We should NOT have run into any errors this time.
 
         //Assert that the credit IS in the database
-        ICredit[] allCredits = dbInstance.getCredits();
+        ICredit[] allCredits = dbInstance.getCredits(10, 0);
 
         boolean creditFound = false;
         for (ICredit c : allCredits) {

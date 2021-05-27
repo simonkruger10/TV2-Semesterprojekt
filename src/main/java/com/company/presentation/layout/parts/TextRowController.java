@@ -6,15 +6,22 @@ import com.company.presentation.IDTO;
 import com.company.presentation.Type;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 
+import static com.company.common.Tools.trueVisible;
+
 public class TextRowController extends HBox {
     @FXML
     private Text text;
+
+    @FXML
+    private Button editBtn;
 
     private final Type type;
     private final IDTO dto;
@@ -33,6 +40,9 @@ public class TextRowController extends HBox {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        setClickable(true);
+        showEdit(false);
     }
 
     public void setText(String text) {
@@ -43,9 +53,26 @@ public class TextRowController extends HBox {
         this.setStyle("-fx-background-color: " + hex + ";");
     }
 
+    public void setClickable(boolean state) {
+        if (state) {
+            setCursor(Cursor.HAND);
+        } else {
+            setCursor(Cursor.DEFAULT);
+        }
+    }
+
+    public void showEdit(boolean state) {
+        trueVisible(this.editBtn, state);
+    }
+
     @FXML
     private void show(MouseEvent event) {
         callback.show(type, dto);
+    }
+
+    @FXML
+    private void edit(MouseEvent event) {
+        callback.edit(type, dto);
     }
 }
 

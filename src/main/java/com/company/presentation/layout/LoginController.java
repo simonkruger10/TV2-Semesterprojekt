@@ -10,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
@@ -41,9 +43,20 @@ public class LoginController extends VBox implements UpdateHandler {
         }
     }
 
+    @FXML
+    private void onKeyReleased(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            login();
+        }
+    }
+
     //Login button pressed
     @FXML
     private void login(MouseEvent mouseEvent) {
+        login();
+    }
+
+    private void login() {
         String email = emailPanel.getText();
         String password = passwordPanel.getText();
 

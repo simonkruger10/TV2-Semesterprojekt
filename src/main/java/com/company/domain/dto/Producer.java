@@ -52,6 +52,8 @@ public class Producer extends Identifier implements IProducer {
         this.setID(producer.getID());
         this.setName(producer.getName());
         this.setLogo(producer.getLogo());
-        this.setAccount(new Account(producer.getAccount()));
+        if (producer.getAccount() != null) {
+            this.setAccount(new Account(producer.getAccount()));
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.company.domain;
 
+import com.company.common.ICredit;
 import com.company.common.IProduction;
 
 public interface IProductionManagement {
@@ -11,6 +12,8 @@ public interface IProductionManagement {
     IProduction[] search(String[] words, int maxResults);
 
     IProduction[] getByName(String name);
+
+    IProduction[] getProductionByCredit(ICredit credit);
 
     IProduction getByID(Integer id);
 

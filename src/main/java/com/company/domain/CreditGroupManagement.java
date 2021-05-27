@@ -28,11 +28,10 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
     @Override
     public ICreditGroup[] list(int start, int max) {
-        ICreditGroup[] creditGroups = Database.getInstance().getCreditGroups();
-
         final List<ICreditGroup> list = new ArrayList<>();
-        for (int i = start; i < creditGroups.length && list.size() < max; i++) {
-            list.add(new CreditGroup(creditGroups[i]));
+
+        for (ICreditGroup creditGroups: Database.getInstance().getCreditGroups(max, start)) {
+            list.add(new CreditGroup(creditGroups));
         }
 
         return list.toArray(new ICreditGroup[0]);
@@ -48,23 +47,25 @@ public class CreditGroupManagement implements ICreditGroupManagement {
     public ICreditGroup[] search(String[] words, int maxResults) {
         final List<Pair<CreditGroup, Integer>> result = new ArrayList<>();
 
-        for (ICreditGroup creditGroup : Database.getInstance().getCreditGroups()) {
+        onMaxResults:
+        for (String word : words) {
             // TODO: Investigate whether linear search is the right one to use
             int matchCount = 0;
 
-            for (String word : words) {
+            for (ICreditGroup creditGroup : Database.getInstance().searchCreditGroups(word)) {
                 // TODO: Investigate whether linear search is the right one to use
                 if (trueContains(creditGroup.getName(), word)) {
                     matchCount += 1;
                 }
-            }
+                if (trueContains(creditGroup.getDescription(), word)) {
+                    matchCount += 1;
+                }
 
-            if (matchCount > 0) {
                 result.add(new Pair<>(new CreditGroup(creditGroup), matchCount));
 
                 //TODO This might result in getting a few bad results, and never finding the the top X ones
                 if (result.size() >= maxResults) {
-                    break;
+                    break onMaxResults;
                 }
             }
         }
@@ -80,7 +81,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
     public ICreditGroup getByName(String name) {
         assert name != null;
 
-        for (ICreditGroup creditGroup : Database.getInstance().getCreditGroups()) {
+        for (ICreditGroup creditGroup : Database.getInstance().searchCreditGroups(name)) {
             if (trueEquals(creditGroup.getName(), name)) {
                 return new CreditGroup(creditGroup);
             }

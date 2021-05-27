@@ -4,7 +4,7 @@ import com.company.common.*;
 import com.company.domain.AccountManagement;
 import com.company.presentation.*;
 import com.company.presentation.layout.parts.HeaderRowController;
-import com.company.presentation.layout.parts.TextRowController;
+import com.company.presentation.layout.parts.ImageRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -86,8 +86,13 @@ public class ProductionViewController extends VBox implements UpdateHandler {
             int i = 0;
             rows.getChildren().add(headerRowController);
             for (ICredit credit : grouped.get(groupName)) {
-                TextRowController cRow = new TextRowController(Type.CREDIT, () -> credit, callback);
+                ImageRowController cRow = new ImageRowController(Type.CREDIT, () -> credit, callback);
                 cRow.setText(credit.getFullName());
+                image = credit.getImage();
+                if (image == null) {
+                    image = "defaultCreditPerson.jpg";
+                }
+                cRow.setImage(getResourceAsImage("/images/" + image));
                 if (!isEven(i)) {
                     cRow.setBackground(Colors.ODD_COLOR);
                 }

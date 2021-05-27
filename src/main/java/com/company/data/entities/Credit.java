@@ -10,6 +10,7 @@ import java.util.Objects;
 
 public class Credit extends Person implements ICredit {
     private CreditType type = CreditType.PERSON;
+    private String name;
     private String image;
     private final Map<Integer, ICreditGroup> creditGroup = new HashMap<>();
 
@@ -22,6 +23,7 @@ public class Credit extends Person implements ICredit {
         this.setType(credit.getType());
         this.setFirstName(credit.getFirstName());
         this.setLastName(credit.getLastName());
+        this.setName(credit.getName());
         this.setImage(credit.getImage());
         this.setEmail(credit.getEmail());
 
@@ -39,6 +41,14 @@ public class Credit extends Person implements ICredit {
         this.type = type;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @Override
     public String getImage() {

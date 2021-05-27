@@ -40,47 +40,46 @@
 <?import javafx.scene.text.*?>
 
 <!--suppress XmlHighlighting -->
-<fx:root alignment="CENTER" fillWidth="false" spacing="20.0" type="VBox" xmlns="http://javafx.com/javafx/11.0.1"
-         xmlns:fx="http://javafx.com/fxml/1">
+
+<fx:root alignment="CENTER" fillWidth="false" onKeyReleased="#onKeyReleased" spacing="20.0" type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
-        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
     </padding>
     <HBox alignment="CENTER" style="-fx-background-color: #FFFFFF; -fx-border-color: #707070;">
         <VBox alignment="TOP_CENTER" spacing="40.0">
             <HBox.margin>
-                <Insets/>
+                <Insets />
             </HBox.margin>
             <padding>
-                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
             </padding>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Log ind">
                 <font>
-                    <Font name="Arial Black" size="40.0"/>
+                    <Font name="Arial Black" size="40.0" />
                 </font>
             </Text>
             <TextField fx:id="emailPanel" prefHeight="44.0" prefWidth="320.0" promptText="E-mail">
                 <font>
-                    <Font size="20.0"/>
+                    <Font size="20.0" />
                 </font>
             </TextField>
             <PasswordField fx:id="passwordPanel" prefHeight="44.0" prefWidth="320.0" promptText="Password">
                 <font>
-                    <Font size="20.0"/>
+                    <Font size="20.0" />
                 </font>
             </PasswordField>
-            <Button mnemonicParsing="false" onMouseClicked="#login" prefHeight="49.0" prefWidth="160.0"
-                    style="-fx-background-color: #3BA800;" text="Log ind" textFill="WHITE">
+            <Button mnemonicParsing="false" onMouseClicked="#login" prefHeight="49.0" prefWidth="160.0" style="-fx-background-color: #3BA800;" text="Log ind" textFill="WHITE">
                 <font>
-                    <Font name="Arial Bold" size="26.0"/>
+                    <Font name="Arial Bold" size="26.0" />
                 </font>
                 <VBox.margin>
-                    <Insets bottom="20.0" top="20.0"/>
+                    <Insets bottom="20.0" top="20.0" />
                 </VBox.margin>
                 <cursor>
-                    <Cursor fx:constant="HAND"/>
+                    <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Line endX="201.0" startX="-100.0"/>
+            <Line endX="201.0" startX="-100.0" />
         </VBox>
     </HBox>
 </fx:root>

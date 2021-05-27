@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostgresAccount {
-    public PostgresAccount() {
-    }
-
     public static Account createFromQueryResult(ResultSet queryResult) throws SQLException {
         Account account = new Account();
         account.setFirstName(queryResult.getString("f_name"));
@@ -27,26 +24,32 @@ public class PostgresAccount {
         return account;
     }
 
-    public IAccount[] getAccounts() {
+    public IAccount[] getAccounts(Integer limit, Integer offset) {
         List<IAccount> accounts = new ArrayList<IAccount>();
+
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM account");
+            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM account LIMIT ? OFFSET ?");
+            query.setInt(1, limit);
+            query.setInt(2, offset);
+
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
-                Account account = createFromQueryResult(queryResult);
-                accounts.add(account);
+                accounts.add(createFromQueryResult(queryResult));
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+
         return accounts.toArray(new IAccount[0]);
     }
 
     public IAccount getAccount(Integer id) {
-        Account account = new Account();
+        Account account = null;
+
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM account WHERE id = ?");
             query.setInt(1, id);
+
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
                 account = createFromQueryResult(queryResult);
@@ -58,50 +61,62 @@ public class PostgresAccount {
     }
 
     public IAccount getAccount(String email) {
-        Account account = new Account();
+        Account account = null;
+
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM account WHERE email = ?");
             query.setString(1, email);
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
                 account = createFromQueryResult(queryResult);
-            }
+            } // TODO: throw exception instead of return null
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+
         return account;
     }
 
     public IAccount getAccount(String email, String hashedPassword) {
-        Account account = new Account();
+        Account account = null;
+
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM account WHERE email = ? AND password =?");
             query.setString(1, email);
             query.setString(2, hashedPassword);
+
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
                 account = createFromQueryResult(queryResult);
-            }
+            } // TODO: throw exception instead of return null
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+
         return account;
     }
 
     public IAccount addAccount(IAccount account, String hashedPassword) {
+        Account createdAccount = null;
+
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO account (id, f_name, l_name, email, access_level, password) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO account (id, f_name, l_name, email, access_level, password) VALUES (?,?,?,?,?,?,?) RETURNING *");
             query.setInt(1, account.getID());
             query.setString(2, account.getFirstName());
             query.setString(3, account.getLastName());
             query.setString(4, account.getEmail());
-            query.setString(5, String.valueOf(account.getAccessLevel()));
+            query.setInt(5, account.getAccessLevel().getLevel());
             query.setString(6, hashedPassword);
-            query.executeQuery();
+
+            ResultSet queryResult = query.executeQuery();
+            if (queryResult.next()) {
+                createdAccount = createFromQueryResult(queryResult);
+            } // TODO: throw exception instead of return null
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        return account;
+
+        return createdAccount;
     }
 
     public void updateAccount(IAccount account) {
@@ -112,7 +127,8 @@ public class PostgresAccount {
             query.setString(3, account.getEmail());
             query.setInt(4, account.getAccessLevel().getLevel());
             query.setInt(5, account.getID());
-            query.executeQuery();
+
+            query.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
@@ -120,16 +136,21 @@ public class PostgresAccount {
 
     public void updateAccount(IAccount account, String hashedPassword) {
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE account SET f_name =?, m_name=?, l_name=?, email=?, access_level=?,password=? WHERE id=?");
+            PreparedStatement query = Postgresql.connection.prepareStatement("UPDATE account SET f_name =?, l_name=?, email=?, access_level=?, password=? WHERE id=?");
             query.setString(1, account.getFirstName());
             query.setString(2, account.getLastName());
             query.setString(3, account.getEmail());
             query.setInt(4, account.getAccessLevel().getLevel());
             query.setString(5, hashedPassword);
             query.setInt(6, account.getID());
-            query.executeQuery();
+
+            query.execute();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+    }
+
+    public IAccount[] searchAccounts(String word) {
+        return new IAccount[0];
     }
 }
