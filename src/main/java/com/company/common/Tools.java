@@ -54,8 +54,10 @@ public class Tools {
 
     public static Image getResourceAsImage(String fileName) {
         URL image = getResourceAsUrl(fileName);
-        assert image != null;
-        return new Image(image.toString());
+        if (image != null) {
+            return new Image(image.toString());
+        }
+        return null;
     }
 
     public static String readFileAsString(File file) throws FileNotFoundException {

@@ -13,8 +13,6 @@ public interface ICredit {
 
     String getImage();
 
-    String getName();
-
     String getEmail();
 
     ICreditGroup[] getCreditGroups();

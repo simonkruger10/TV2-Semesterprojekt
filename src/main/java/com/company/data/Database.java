@@ -89,6 +89,11 @@ public class Database implements DatabaseFacade {
         this.database.updateCredit(credit);
     }
 
+    @Override
+    public boolean deleteCredit(Integer id) {
+        return this.database.deleteCredit(id);
+    }
+
 
     @Override
     public ICreditGroup[] getCreditGroups() {

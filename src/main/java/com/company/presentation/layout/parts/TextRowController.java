@@ -2,6 +2,7 @@ package com.company.presentation.layout.parts;
 
 import com.company.common.Tools;
 import com.company.presentation.CallbackHandler;
+import com.company.presentation.IDTO;
 import com.company.presentation.Type;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,12 +17,12 @@ public class TextRowController extends HBox {
     private Text text;
 
     private final Type type;
-    private final Integer id;
+    private final IDTO dto;
     private final CallbackHandler callback;
 
-    public TextRowController(Type type, Integer id, CallbackHandler callback) {
+    public TextRowController(Type type, IDTO dto, CallbackHandler callback) {
         this.type = type;
-        this.id = id;
+        this.dto = dto;
         this.callback = callback;
 
         try {
@@ -44,7 +45,7 @@ public class TextRowController extends HBox {
 
     @FXML
     private void show(MouseEvent event) {
-        callback.show(type, id);
+        callback.show(type, dto);
     }
 }
 
