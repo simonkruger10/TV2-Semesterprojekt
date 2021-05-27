@@ -113,6 +113,21 @@ public class PostgresProducer {
     }
 
     public IProducer[] searchProducers(String word) {
-        return new IProducer[0];
+        List<IProducer> producers = new ArrayList<>();
+
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM producer WHERE LOWER(name) LIKE ?");
+            query.setString(1, "%" + word.toLowerCase() + "%");
+
+            ResultSet queryResult = query.executeQuery();
+            while (queryResult.next()) {
+                producers.add(createFromQueryResult(queryResult));
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return producers.toArray(new IProducer[0]);
     }
 }

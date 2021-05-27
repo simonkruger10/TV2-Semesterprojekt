@@ -19,12 +19,12 @@ public class CreditManagement implements ICreditManagement {
 
     @Override
     public ICredit[] list() {
-        return list(0, 20);
+        return list(0, 10);
     }
 
     @Override
     public ICredit[] list(int start) {
-        return list(start, 20);
+        return list(start, 10);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CreditManagement implements ICreditManagement {
 
     @Override
     public ICredit[] search(String[] words) {
-        return search(words, 20);
+        return search(words, 10);
     }
 
     @Override

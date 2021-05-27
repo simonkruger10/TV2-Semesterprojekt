@@ -24,12 +24,12 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public IAccount[] list() {
-        return list(0, 20);
+        return list(0, 10);
     }
 
     @Override
     public IAccount[] list(int start) {
-        return list(start, 20);
+        return list(start, 10);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public IAccount[] search(String[] words) {
-        return search(words, 20);
+        return search(words, 10);
     }
 
     @Override

@@ -92,6 +92,22 @@ public class PostgresCreditGroup {
     }
 
     public ICreditGroup[] searchCreditGroups(String word) {
-        return new ICreditGroup[0];
+        List<ICreditGroup> producers = new ArrayList<>();
+
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM credit_group WHERE LOWER(name) LIKE ? OR LOWER(description) LIKE ?");
+            query.setString(1, "%" + word.toLowerCase() + "%");
+            query.setString(2, "%" + word.toLowerCase() + "%");
+
+            ResultSet queryResult = query.executeQuery();
+            while (queryResult.next()) {
+                producers.add(createFromQueryResult(queryResult));
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return producers.toArray(new ICreditGroup[0]);
     }
 }

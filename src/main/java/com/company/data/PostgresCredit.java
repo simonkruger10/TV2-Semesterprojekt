@@ -155,6 +155,33 @@ public class PostgresCredit {
     }
 
     public ICredit[] searchCredits(String word) {
-        return new ICredit[0];
+        List<ICredit> producers = new ArrayList<>();
+
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement(
+                    "SELECT 'credit_person' as type, cp.id, cp.f_name, cp.l_name, cp.image, cp.email FROM credit_person as cp " +
+                            "WHERE LOWER(cp.f_name) LIKE ? OR LOWER(cp.l_name) LIKE ? " +
+                            "UNION " +
+                            "SELECT 'credit_unit' as type, cu.id, cu.name as f_name, null as l_name, null as image, null as email FROM credit_unit as cu " +
+                            "WHERE LOWER(cu.name) LIKE ?"
+            );
+            query.setString(1, "%" + word.toLowerCase() + "%");
+            query.setString(2, "%" + word.toLowerCase() + "%");
+            query.setString(3, "%" + word.toLowerCase() + "%");
+
+            ResultSet queryResult = query.executeQuery();
+            while (queryResult.next()) {
+                if (queryResult.getString("type").equals("credit_person")) {
+                    producers.add(createFromQueryResult(queryResult, CreditType.PERSON));
+                } else {
+                    producers.add(createFromQueryResult(queryResult, CreditType.UNIT));
+                }
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return producers.toArray(new ICredit[0]);
     }
 }

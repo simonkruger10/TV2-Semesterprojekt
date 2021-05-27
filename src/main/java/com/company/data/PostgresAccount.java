@@ -151,6 +151,23 @@ public class PostgresAccount {
     }
 
     public IAccount[] searchAccounts(String word) {
-        return new IAccount[0];
+        List<IAccount> producers = new ArrayList<>();
+
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM account WHERE LOWER(f_name) LIKE ? OR LOWER(l_name) LIKE ? OR LOWER(email) LIKE ?");
+            query.setString(1, "%" + word.toLowerCase() + "%");
+            query.setString(2, "%" + word.toLowerCase() + "%");
+            query.setString(3, "%" + word.toLowerCase() + "%");
+
+            ResultSet queryResult = query.executeQuery();
+            while (queryResult.next()) {
+                producers.add(createFromQueryResult(queryResult));
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return producers.toArray(new IAccount[0]);
     }
 }

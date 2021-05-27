@@ -18,12 +18,12 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
     @Override
     public ICreditGroup[] list() {
-        return list(0, 20);
+        return list(0, 10);
     }
 
     @Override
     public ICreditGroup[] list(int start) {
-        return list(start, 20);
+        return list(start, 10);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
 
     @Override
     public ICreditGroup[] search(String[] words) {
-        return search(words, 20);
+        return search(words, 10);
     }
 
     @Override

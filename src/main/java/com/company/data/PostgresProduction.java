@@ -130,7 +130,7 @@ public class PostgresProduction {
     }
 
     public IProduction[] getProductions(Integer limit, Integer offset) {
-        List<IProduction> productions = new ArrayList<IProduction>();
+        List<IProduction> productions = new ArrayList<>();
 
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM production LIMIT ? OFFSET ?");
@@ -255,10 +255,25 @@ public class PostgresProduction {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-
     }
 
     public IProduction[] searchProductions(String word) {
-        return new IProduction[0];
+        List<IProduction> productions = new ArrayList<>();
+
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM production WHERE LOWER(name) LIKE ? OR LOWER(description) LIKE ?");
+            query.setString(1, "%" + word.toLowerCase() + "%");
+            query.setString(2, "%" + word.toLowerCase() + "%");
+
+            ResultSet queryResult = query.executeQuery();
+            while (queryResult.next()) {
+                productions.add(createFromQueryResult(queryResult));
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return productions.toArray(new IProduction[0]);
     }
 }

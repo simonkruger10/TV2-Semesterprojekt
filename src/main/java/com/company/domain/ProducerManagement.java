@@ -16,12 +16,12 @@ public class ProducerManagement implements IProducerManagement {
 
     @Override
     public IProducer[] list() {
-        return list(0, 20);
+        return list(0, 10);
     }
 
     @Override
     public IProducer[] list(int start) {
-        return list(start, 20);
+        return list(start, 10);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ProducerManagement implements IProducerManagement {
 
     @Override
     public IProducer[] search(String[] words) {
-        return search(words, 20);
+        return search(words, 10);
     }
 
     @Override
