@@ -22,6 +22,7 @@ public class OverviewController extends VBox implements UpdateHandler {
     private ComboBox<?> sortByBtn;
 
     private final CallbackHandler callback;
+    private Type type;
 
     public OverviewController(CallbackHandler callback) {
         this.callback = callback;
@@ -37,6 +38,8 @@ public class OverviewController extends VBox implements UpdateHandler {
     }
 
     public void showList(Type type, IDTO[] dtos) {
+        this.type = type;
+
         // Start the count from the number of children
         int i = main.getChildren().size();
 
@@ -74,9 +77,9 @@ public class OverviewController extends VBox implements UpdateHandler {
                 image = credit.getImage();
                 if (image == null) {
                     if (isEven(i)) {
-                        image = "/images/TV_2_RGB.png";
+                        image = "TV_2_RGB.png";
                     } else {
-                        image = "/images/TV_2_Hvid_RGB.png";
+                        image = "TV_2_Hvid_RGB.png";
                     }
                 }
             } else if (type == Type.PRODUCER) {
@@ -87,9 +90,9 @@ public class OverviewController extends VBox implements UpdateHandler {
                 image = producer.getLogo();
                 if (image == null) {
                     if (isEven(i)) {
-                        image = "/images/TV_2_RGB.png";
+                        image = "TV_2_RGB.png";
                     } else {
-                        image = "/images/TV_2_Hvid_RGB.png";
+                        image = "TV_2_Hvid_RGB.png";
                     }
                 }
             } else if (type == Type.PRODUCTION) {
@@ -100,9 +103,9 @@ public class OverviewController extends VBox implements UpdateHandler {
                 image = production.getImage();
                 if (image == null) {
                     if (isEven(i)) {
-                        image = "/images/TV_2_RGB.png";
+                        image = "TV_2_RGB.png";
                     } else {
-                        image = "/images/TV_2_Hvid_RGB.png";
+                        image = "TV_2_Hvid_RGB.png";
                     }
                 }
             }
@@ -112,7 +115,7 @@ public class OverviewController extends VBox implements UpdateHandler {
                 cRow.setText(text);
             }
             if (image != null) {
-                cRow.setImage(getResourceAsImage(image));
+                cRow.setImage(getResourceAsImage("/images/" + image));
             }
             if (!isEven(i)) {
                 cRow.setBackground(Colors.ODD_COLOR);
@@ -125,6 +128,9 @@ public class OverviewController extends VBox implements UpdateHandler {
 
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
+        if (type == Type.PRODUCER || type == Type.ACCOUNT) {
+            return accessLevel.equals(AccessLevel.ADMINISTRATOR);
+        }
         return true;
     }
 

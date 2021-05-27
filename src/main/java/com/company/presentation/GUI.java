@@ -55,60 +55,24 @@ public class GUI extends Application implements CallbackHandler {
     public void list(Type type) {
         OverviewController overview = new OverviewController(this);
 
+        IDTO[] dtos = null;
         if (type == Type.ACCOUNT) {
-            IAccount[] accounts = new AccountManagement().list();
-
-            IDTO[] dtos = new IDTO[accounts.length];
-            for (int i = 0; i < accounts.length; i++) {
-                int finalI = i;
-                dtos[i] = (IDTO<IAccount>) () -> accounts[finalI];
-            }
-
-            overview.showList(type, dtos);
+            dtos = convertToIDTO(new AccountManagement().list());
         } else if (type == Type.CREDIT) {
-            ICredit[] credits = new CreditManagement().list();
-
-            IDTO[] dtos = new IDTO[credits.length];
-            for (int i = 0; i < credits.length; i++) {
-                int finalI = i;
-                dtos[i] = (IDTO<ICredit>) () -> credits[finalI];
-            }
-
-            overview.showList(type, dtos);
+            dtos = convertToIDTO(new CreditManagement().list());
         } else if (type == Type.CREDIT_GROUP) {
-            ICreditGroup[] creditGroups = new CreditGroupManagement().list();
-
-            IDTO[] dtos = new IDTO[creditGroups.length];
-            for (int i = 0; i < creditGroups.length; i++) {
-                int finalI = i;
-                dtos[i] = (IDTO<ICreditGroup>) () -> creditGroups[finalI];
-            }
-
-            overview.showList(type, dtos);
+            dtos = convertToIDTO(new CreditGroupManagement().list());
         } else if (type == Type.PRODUCTION) {
-            IProduction[] productions = new ProductionManagement().list();
-
-            IDTO[] dtos = new IDTO[productions.length];
-            for (int i = 0; i < productions.length; i++) {
-                int finalI = i;
-                dtos[i] = (IDTO<IProduction>) () -> productions[finalI];
-            }
-
-            overview.showList(type, dtos);
+            dtos = convertToIDTO(new ProductionManagement().list());
         } else if (type == Type.PRODUCER) {
-            IProducer[] producers = new ProducerManagement().list();
-
-            IDTO[] dtos = new IDTO[producers.length];
-            for (int i = 0; i < producers.length; i++) {
-                int finalI = i;
-                dtos[i] = (IDTO<IProducer>) () -> producers[finalI];
-            }
-
-            overview.showList(type, dtos);
+            dtos = convertToIDTO(new ProducerManagement().list());
         } else if (type == Type.SEARCH) {
             // TODO: implant search view
         }
 
+        if (dtos != null) {
+            overview.showList(type, dtos);
+        }
         setContent(overview);
     }
 
@@ -201,13 +165,23 @@ public class GUI extends Application implements CallbackHandler {
         updateInterface.update();
     }
 
-    public void setContent(Node node) {
+    private void setContent(Node node) {
         previousContent = currentContent;
         currentContent = node;
         homepageController.setContent(node);
     }
 
-    public void quit() {
+    private <T> IDTO[] convertToIDTO(T[] list) {
+        IDTO[] dtos = new IDTO[list.length];
+        for (int i = 0; i < list.length; i++) {
+            int finalI = i;
+            dtos[i] = (IDTO<T>) () -> list[finalI];
+        }
+        return dtos;
+    }
+
+    private void quit() {
         Platform.exit();
     }
+
 }
