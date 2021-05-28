@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--suppress XmlHighlighting -->
+
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<!--suppress XmlHighlighting -->
-
 <fx:root onMouseClicked="#show" type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <HBox fx:id="holder" alignment="CENTER_LEFT" minHeight="85.0" prefHeight="85.0" style="-fx-background-color: #FFFFFF;">
+    <HBox fx:id="holder" alignment="CENTER_LEFT" minHeight="85.0" prefHeight="85.0" spacing="10.0" style="-fx-background-color: #FFFFFF;">
         <cursor>
             <Cursor fx:constant="HAND" />
         </cursor>
         <ImageView fx:id="image" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
             <HBox.margin>
-              <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
+              <Insets />
             </HBox.margin>
         </ImageView>
         <Text fx:id="text" strokeType="OUTSIDE" strokeWidth="0.0" text="Shrek (2001)" HBox.hgrow="ALWAYS">
@@ -23,8 +24,27 @@
                 <Font size="24.0" />
             </font>
         </Text>
+        <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+            <Button fx:id="editBtn" mnemonicParsing="false" onMouseClicked="#edit" text="Edit">
+                <font>
+                    <Font name="Arial" size="12.0" />
+                </font>
+                <HBox.margin>
+                    <Insets top="5.0" />
+                </HBox.margin>
+                <padding>
+                    <Insets bottom="10.0" left="30.0" right="32.0" top="10.0" />
+                </padding>
+            </Button>
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+        </HBox>
         <VBox.margin>
           <Insets top="10.0" />
         </VBox.margin>
+      <padding>
+         <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+      </padding>
     </HBox>
 </fx:root>

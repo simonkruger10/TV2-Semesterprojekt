@@ -1,7 +1,8 @@
 package com.company.presentation.layout;
 
 import com.company.common.*;
-import com.company.domain.*;
+import com.company.domain.AccountManagement;
+import com.company.domain.ProductionManagement;
 import com.company.presentation.GUI;
 import com.company.presentation.IDTO;
 import com.company.presentation.Type;
@@ -9,6 +10,7 @@ import com.company.presentation.UpdateHandler;
 import com.company.presentation.layout.parts.ImageRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -66,12 +68,7 @@ public class ProducerViewController extends VBox implements UpdateHandler {
         this.producer = producer;
 
         title.setText(producer.getName());
-
-        String image = producer.getLogo();
-        if (image == null) {
-            image = "defaultProducer.png";
-        }
-        this.image.setImage(getResourceAsImage("/images/" + image));
+        image.setImage(getResourceAsImage("/images/" + producer.getLogo()));
 
         IAccount account = producer.getAccount();
         if (account != null) {
@@ -82,13 +79,11 @@ public class ProducerViewController extends VBox implements UpdateHandler {
         for (IProduction production: new ProductionManagement().getProducedBy(producer)) {
             ImageRowController imageRowController = new ImageRowController(Type.PRODUCTION, () -> production, callback);
             imageRowController.setText(production.getName());
-            image = production.getImage();
-            if (image == null) {
-                image = "defaultProduction.png";
-            }
-            imageRowController.setImage(getResourceAsImage("/images/" + image));
+            imageRowController.setImage(getResourceAsImage("/images/" + production.getImage()));
             productions.getChildren().add(imageRowController);
         }
+
+        update();
     }
 
     @FXML
@@ -105,6 +100,13 @@ public class ProducerViewController extends VBox implements UpdateHandler {
     public void update() {
         AccessLevel accessLevel = new AccountManagement().getCurrentUser().getAccessLevel();
         trueVisible(editBtn, accessLevel.greater(AccessLevel.CONSUMER));
-        trueVisible(account, accessLevel.equals(AccessLevel.PRODUCER) || accessLevel.equals(AccessLevel.ADMINISTRATOR));
+
+        boolean state = accessLevel.equals(AccessLevel.PRODUCER) || accessLevel.equals(AccessLevel.ADMINISTRATOR);
+        trueVisible(account, state);
+        for (Node node: productions.getChildren()) {
+            if (node instanceof ImageRowController) {
+                ((ImageRowController) node).showEdit(state);
+            }
+        }
     }
 }

@@ -66,7 +66,7 @@ public class TextRowController extends VBox {
     }
 
     public void showEdit(boolean state) {
-        trueVisible(this.editBtn, state);
+        trueVisible(editBtn, state);
     }
 
     @FXML

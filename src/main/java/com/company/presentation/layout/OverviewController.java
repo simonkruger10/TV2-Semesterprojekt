@@ -8,14 +8,13 @@ import com.company.presentation.layout.parts.ImageRowController;
 import com.company.presentation.layout.parts.TextRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.company.common.Tools.getResourceAsImage;
 import static com.company.common.Tools.isEven;
@@ -36,7 +35,6 @@ public class OverviewController extends VBox implements UpdateHandler {
     private final IAccountManagement aMgt = new AccountManagement();
     private final CallbackHandler callback;
     private Type type;
-    private final List<TextRowController> textRowControllers = new ArrayList<>();
 
     public OverviewController(CallbackHandler callback) {
         this.callback = callback;
@@ -67,8 +65,6 @@ public class OverviewController extends VBox implements UpdateHandler {
                 } else {
                     cRow.setText(((ICreditGroup) dto.getDTO()).getName());
                     cRow.setClickable(false);
-                    cRow.showEdit(aMgt.getCurrentUser().getAccessLevel().equals(AccessLevel.ADMINISTRATOR));
-                    textRowControllers.add(cRow);
                 }
 
                 if (!isEven(i)) {
@@ -78,53 +74,58 @@ public class OverviewController extends VBox implements UpdateHandler {
                 main.getChildren().add(i, cRow);
                 i++;
             }
-
-            return;
-        }
-
-        String text = null;
-        String image = null;
-
-        for (IDTO dto : dtos) {
-            if (type == Type.CREDIT) {
+        }  else if (type == Type.CREDIT) {
+            for (IDTO dto : dtos) {
                 ICredit credit = (ICredit) dto.getDTO();
+                if (credit.getType().equals(CreditType.PERSON)) {
+                    ImageRowController iRow = new ImageRowController(type, dto, callback);
+                    iRow.setText(credit.getFullName());
+                    iRow.setImage(getResourceAsImage("/images/" + credit.getImage()));
+                    if (!isEven(i)) {
+                        iRow.setBackground(Colors.ODD_COLOR);
+                    }
 
-                text = credit.getFullName();
+                    main.getChildren().add(i, iRow);
+                } else {
+                    TextRowController cRow = new TextRowController(type, dto, callback);
+                    cRow.setText(credit.getFullName());
+                    if (!isEven(i)) {
+                        cRow.setBackground(Colors.ODD_COLOR);
+                    }
 
-                image = credit.getImage();
-                if (image == null) {
-                    image = "defaultCreditPerson.jpg";
+                    main.getChildren().add(i, cRow);
                 }
-            } else if (type == Type.PRODUCER) {
-                IProducer producer = (IProducer) dto.getDTO();
 
-                text = producer.getName();
-
-                image = producer.getLogo();
-                if (image == null) {
-                    image = "defaultProducer.png";
-                }
-            } else {
-                IProduction production = (IProduction) dto.getDTO();
-
-                text = production.getName();
-
-                image = production.getImage();
-                if (image == null) {
-                    image = "defaultProduction.png";
-                }
+                i++;
             }
+        } else {
+            String text = null;
+            String image = null;
 
-            ImageRowController iRow = new ImageRowController(type, dto, callback);
-            iRow.setText(text);
-            iRow.setImage(getResourceAsImage("/images/" + image));
-            if (!isEven(i)) {
-                iRow.setBackground(Colors.ODD_COLOR);
+            for (IDTO dto : dtos) {
+                if (type == Type.PRODUCER) {
+                    IProducer producer = (IProducer) dto.getDTO();
+                    text = producer.getName();
+                    image = producer.getLogo();
+                } else {
+                    IProduction production = (IProduction) dto.getDTO();
+                    text = production.getName();
+                    image = production.getImage();
+                }
+
+                ImageRowController iRow = new ImageRowController(type, dto, callback);
+                iRow.setText(text);
+                iRow.setImage(getResourceAsImage("/images/" + image));
+                if (!isEven(i)) {
+                    iRow.setBackground(Colors.ODD_COLOR);
+                }
+
+                main.getChildren().add(i, iRow);
+                i++;
             }
-
-            main.getChildren().add(i, iRow);
-            i++;
         }
+
+        update();
     }
 
     @FXML
@@ -139,7 +140,7 @@ public class OverviewController extends VBox implements UpdateHandler {
 
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
-        if (type == Type.PRODUCER || type == Type.ACCOUNT) {
+        if (type == Type.ACCOUNT) {
             return accessLevel.equals(AccessLevel.ADMINISTRATOR);
         }
         return true;
@@ -147,9 +148,13 @@ public class OverviewController extends VBox implements UpdateHandler {
 
     @Override
     public void update() {
-        if (textRowControllers.size() > 0) {
-            for (TextRowController textRowController: textRowControllers) {
-                textRowController.showEdit(aMgt.getCurrentUser().getAccessLevel().equals(AccessLevel.ADMINISTRATOR));
+        AccessLevel accessLevel = aMgt.getCurrentUser().getAccessLevel();
+        boolean state = accessLevel.equals(AccessLevel.ADMINISTRATOR);
+        for (Node node: main.getChildren()) {
+            if (node instanceof ImageRowController) {
+                ((ImageRowController) node).showEdit(state);
+            } else if (node instanceof TextRowController) {
+                ((TextRowController) node).showEdit(state);
             }
         }
     }

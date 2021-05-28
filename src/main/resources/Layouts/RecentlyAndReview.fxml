@@ -32,18 +32,15 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<fx:root alignment="CENTER" type="VBox" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER" type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recently added credits">
         <font>
-            <Font name="Arial" size="25.0" />
+            <Font name="Arial" size="36.0" />
         </font>
         <VBox.margin>
             <Insets bottom="30.0" />
@@ -96,10 +93,10 @@
     </HBox>
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credits for review / Possible duplications">
         <VBox.margin>
-            <Insets bottom="30.0" top="30.0" />
+            <Insets bottom="30.0" top="90.0" />
         </VBox.margin>
         <font>
-            <Font name="Arial" size="25.0" />
+            <Font name="Arial" size="36.0" />
         </font>
     </Text>
     <HBox fx:id="latestReviewSlider" alignment="CENTER" spacing="20.0">

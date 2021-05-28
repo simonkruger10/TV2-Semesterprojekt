@@ -10,8 +10,10 @@ import com.company.presentation.CallbackHandler;
 import com.company.presentation.IDTO;
 import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
+import com.company.presentation.layout.parts.ImageRowController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -19,8 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.company.common.Tools.getResourceAsImage;
 import static com.company.common.Tools.trueVisible;
@@ -34,10 +34,10 @@ public class CreditViewController extends VBox implements UpdateHandler {
     private Text firstName;
 
     @FXML
-    private Text groupName;
+    private Text lastName;
 
     @FXML
-    private Text lastName;
+    private VBox creditedFor;
 
     @FXML
     private Button editCreditBtn;
@@ -65,29 +65,23 @@ public class CreditViewController extends VBox implements UpdateHandler {
     public void viewCredit(ICredit credit) {
         this.credit = credit;
 
-        String image = credit.getImage();
-        if (image == null) {
-            image = "defaultCreditPerson.jpg";
-        }
-        this.image.setImage(getResourceAsImage("/images/" + image));
         firstName.setText(credit.getFirstName());
         lastName.setText(credit.getLastName());
+        image.setImage(getResourceAsImage("/images/" + credit.getImage()));
 
-        List<String> titles = new ArrayList<>();
         for (IProduction production : new ProductionManagement().getProductionByCredit(credit)) {
-            titles.add(production.getName());
+            ImageRowController iRow = new ImageRowController(Type.PRODUCTION, (IDTO<IProduction>) () -> production, callback);
+            iRow.setText(production.getName());
+            iRow.setImage(getResourceAsImage("/images/" + production.getImage()));
+            creditedFor.getChildren().add(iRow);
         }
-        groupName.setText(String.join("\n", titles));
+
+        update();
     }
 
     @FXML
     private void editCredit(MouseEvent event) {
-        callback.edit(Type.CREDIT, new IDTO<ICredit>() {
-            @Override
-            public ICredit getDTO() {
-                return credit;
-            }
-        });
+        callback.edit(Type.CREDIT, (IDTO<ICredit>) () -> credit);
     }
 
     @Override
@@ -99,5 +93,12 @@ public class CreditViewController extends VBox implements UpdateHandler {
     public void update() {
         AccessLevel accessLevel = new AccountManagement().getCurrentUser().getAccessLevel();
         trueVisible(editCreditBtn, accessLevel.greater(AccessLevel.CONSUMER));
+
+        boolean state = accessLevel.equals(AccessLevel.PRODUCER) || accessLevel.equals(AccessLevel.ADMINISTRATOR);
+        for (Node node: creditedFor.getChildren()) {
+            if (node instanceof ImageRowController) {
+                ((ImageRowController) node).showEdit(state);
+            }
+        }
     }
 }

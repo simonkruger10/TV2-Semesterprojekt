@@ -105,7 +105,7 @@
                <Cursor fx:constant="HAND" />
             </cursor>
          </Button>
-         <Button fx:id="addCreditGroupBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addCreditGroup" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Credit Group" textFill="WHITE">
+         <Button fx:id="addCreditGroupBtn" disable="true" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addCreditGroup" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Credit Group" textFill="WHITE">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor>
@@ -125,12 +125,12 @@
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="addAccountBtn" disable="true" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Account" textFill="WHITE">
+            <Button fx:id="addAccountBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#addAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Add Account" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="accountBtn" disable="true" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Account" textFill="WHITE">
+            <Button fx:id="accountBtn" maxWidth="1.7976931348623157E308" minHeight="30.0" mnemonicParsing="false" onMouseClicked="#showAccount" style="-fx-background-color: linear-gradient(#ff5400, #be1d00)linear-gradient(#ff5400, #be1d00);" text="Account" textFill="WHITE">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>

@@ -1,14 +1,11 @@
 package com.company.presentation.layout;
 
-import com.company.common.AccessLevel;
-import com.company.common.ICreditGroup;
-import com.company.common.Tools;
+import com.company.common.*;
 import com.company.domain.CreditGroupManagement;
 import com.company.domain.CreditManagement;
 import com.company.domain.dto.Credit;
 import com.company.domain.dto.CreditGroup;
 import com.company.presentation.CallbackHandler;
-import com.company.presentation.IDTO;
 import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
 import javafx.fxml.FXML;
@@ -18,7 +15,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -26,7 +23,7 @@ import java.io.IOException;
 import static com.company.common.Tools.getResourceAsImage;
 import static com.company.common.Tools.trueVisible;
 
-public class CreditCreationController extends VBox implements UpdateHandler {
+public class CreditCreationController extends HBox implements UpdateHandler {
     @FXML
     private TextField nameText;
 
@@ -61,6 +58,7 @@ public class CreditCreationController extends VBox implements UpdateHandler {
     private Button addCreditBtn;
 
     private final CallbackHandler callback;
+    private boolean edit = false;
 
     public CreditCreationController(CallbackHandler callback) {
         this.callback = callback;
@@ -73,23 +71,24 @@ public class CreditCreationController extends VBox implements UpdateHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        image.setImage(getResourceAsImage("/images/defaultCreditPerson.jpg"));
     }
 
-    public void loadCredit(IDTO dto) {
-        Credit credit = (Credit) dto.getDTO();
+    public void loadCredit(ICredit credit) {
+        this.edit = true;
 
         nameText.setText(credit.getName());
 
         firstNameText.setText(credit.getFirstName());
         lastNameText.setText(credit.getLastName());
         emailText.setText(credit.getEmail());
-        String image = credit.getImage();
-        if (image == null) {
-            image = "defaultCreditPerson.jpg";
-        }
-        this.image.setImage(getResourceAsImage("/images/" + image));
+        image.setImage(getResourceAsImage("/images/" + credit.getImage()));
 
-        callback.show(Type.CREDIT, () -> new CreditManagement().create(credit));
+        trueVisible(personCheck, false);
+        trueVisible(creditGroupText, false);
+        trueVisible(productionText, false);
+        toggleView(credit.getType().equals(CreditType.PERSON));
     }
 
     @FXML
@@ -98,6 +97,13 @@ public class CreditCreationController extends VBox implements UpdateHandler {
         credit.setFirstName(firstNameText.getText());
         credit.setLastName(lastNameText.getText());
         credit.setEmail(emailText.getText());
+        if (personCheck.isSelected()) {
+            credit.setType(CreditType.PERSON);
+        } else {
+            credit.setType(CreditType.UNIT);
+        }
+        String[] parts = image.getImage().getUrl().split("([^\\/]+$)"); // Getting basename of the url
+        credit.setImage(parts[parts.length - 1]);
 
         CreditGroupManagement cMgt = new CreditGroupManagement();
         String creditGroupName = creditGroupText.getText();
@@ -107,7 +113,12 @@ public class CreditCreationController extends VBox implements UpdateHandler {
         }
         credit.addCreditGroup(new CreditGroup(creditGroup));
 
-        callback.show(Type.CREDIT, () -> new CreditManagement().create(credit));
+        if (edit) {
+            new CreditManagement().update(credit);
+            callback.show(Type.CREDIT, () -> credit);
+        } else {
+            callback.show(Type.CREDIT, () -> new CreditManagement().create(credit));
+        }
     }
 
     @FXML
@@ -117,8 +128,12 @@ public class CreditCreationController extends VBox implements UpdateHandler {
 
     @FXML
     public void onCheckClicked(MouseEvent event) {
-        boolean state = personCheck.isSelected();
+        toggleView(personCheck.isSelected());
+    }
+
+    private void toggleView(boolean state) {
         trueVisible(nameText, !state);
+
         trueVisible(firstNameText, state);
         trueVisible(lastNameText, state);
         trueVisible(emailText, state);

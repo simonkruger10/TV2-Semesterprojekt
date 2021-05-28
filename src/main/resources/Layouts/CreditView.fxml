@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <!--suppress XmlHighlighting -->
 
-<fx:root type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root spacing="10.0" type="VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <HBox alignment="TOP_RIGHT">
-        <Button fx:id="editCreditBtn" disable="true" mnemonicParsing="false" onMouseClicked="#editCredit" text="Edit Credit">
+        <Button fx:id="editCreditBtn" mnemonicParsing="false" onMouseClicked="#editCredit" text="Edit Credit">
             <font>
                 <Font name="Arial" size="12.0" />
             </font>
@@ -41,11 +47,6 @@
                     <Font name="System Bold" size="15.0" />
                 </font>
             </Label>
-            <Label text="Credited for" GridPane.rowIndex="2">
-                <font>
-                    <Font name="System Bold" size="15.0" />
-                </font>
-            </Label>
             <Text fx:id="firstName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1">
                 <font>
                     <Font size="15.0" />
@@ -56,11 +57,12 @@
                     <Font size="15.0" />
                 </font>
             </Text>
-            <Text fx:id="groupName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                <font>
-                    <Font size="15.0" />
-                </font>
-            </Text>
         </GridPane>
     </HBox>
+      <Label text="Credited for">
+          <font>
+              <Font name="System Bold" size="15.0" />
+          </font>
+      </Label>
+   <VBox fx:id="creditedFor" />
 </fx:root>

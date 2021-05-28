@@ -38,11 +38,4 @@ public class RecentlyAndReviewController extends VBox implements UpdateHandler {
     public void update() {
 
     }
-
-    @FXML
-    private void initialize() {
-        assert latestAddedSlider != null : "fx:id=\"latestAddedSlider\" was not injected: check your FXML file 'RecentlyAndReviewController.fxml'.";
-        assert latestReviewSlider != null : "fx:id=\"latestReviewSlider\" was not injected: check your FXML file 'RecentlyAndReviewController.fxml'.";
-
-    }
 }

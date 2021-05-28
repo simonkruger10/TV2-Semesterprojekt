@@ -5,7 +5,6 @@ import com.company.common.Tools;
 import com.company.domain.AccountManagement;
 import com.company.domain.IAccountManagement;
 import com.company.presentation.CallbackHandler;
-import com.company.presentation.IDTO;
 import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
 import javafx.beans.value.ChangeListener;
@@ -179,12 +178,7 @@ public class HomepageController extends VBox implements UpdateHandler {
 
     @FXML
     private void showAccount(MouseEvent event) {
-        callBack.show(Type.ACCOUNT, new IDTO() {
-            @Override
-            public Object getDTO() {
-                return aMgt.getCurrentUser();
-            }
-        });
+        callBack.show(Type.ACCOUNT, aMgt::getCurrentUser);
     }
 
 

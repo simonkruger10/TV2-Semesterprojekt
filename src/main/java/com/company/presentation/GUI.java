@@ -1,5 +1,6 @@
 package com.company.presentation;
 
+import com.company.common.IAccount;
 import com.company.common.ICredit;
 import com.company.common.IProducer;
 import com.company.common.IProduction;
@@ -88,7 +89,7 @@ public class GUI extends Application implements CallbackHandler {
     @Override
     public void show(Type type, IDTO dto) {
         if (type == Type.ACCOUNT) {
-            // TODO: implant search view
+            setContent(new AccountViewController((IAccount) dto.getDTO(),this));
         } else if (type == Type.CREDIT) {
             ICredit credit = (ICredit) dto.getDTO();
             setContent(new CreditViewController(creditMgt.getByID(credit.getID(), credit.getType()), this));
@@ -111,7 +112,7 @@ public class GUI extends Application implements CallbackHandler {
     @Override
     public void add(Type type) {
         if (type == Type.ACCOUNT) {
-            // TODO: implants add account
+            setContent(new EditAccountController(this));
         } else if (type == Type.CREDIT) {
             setContent(new CreditCreationController(this));
         } else if (type == Type.CREDIT_GROUP) {
@@ -124,9 +125,14 @@ public class GUI extends Application implements CallbackHandler {
     @Override
     public void edit(Type type, IDTO dto) {
         if (type == Type.ACCOUNT) {
-            // TODO: implants edit account
+            EditAccountController editAccountController = new EditAccountController(this);
+            editAccountController.loadAccount((IAccount) dto.getDTO());
+            setContent(editAccountController);
         } else if (type == Type.CREDIT) {
-            // TODO: implants edit credit
+            ICredit credit = (ICredit) dto.getDTO();
+            CreditCreationController creditCreationController = new CreditCreationController(this);
+            creditCreationController.loadCredit(creditMgt.getByID(credit.getID(), credit.getType()));
+            setContent(creditCreationController);
         } else if (type == Type.CREDIT_GROUP) {
             // TODO: implants edit credit group
         } else {
