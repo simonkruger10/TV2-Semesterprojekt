@@ -110,6 +110,20 @@ public class ProductionManagement implements IProductionManagement {
     }
 
     @Override
+    public IProduction[] getProducedBy(IProducer producer) {
+        assert producer != null;
+        assert producer.getID() != null;
+
+        IProduction[] dbProductions = Database.getInstance().getProductions(producer);
+        IProduction[] productions = new IProduction[dbProductions.length];
+        for (int i = 0; i < dbProductions.length; i++) {
+            productions[i] = new Production(dbProductions[i]);
+        }
+
+        return productions;
+    }
+
+    @Override
     public IProduction getByID(Integer id) {
         assert id != null;
 

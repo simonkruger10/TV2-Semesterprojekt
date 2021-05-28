@@ -1,6 +1,7 @@
 package com.company.domain;
 
 import com.company.common.ICredit;
+import com.company.common.IProducer;
 import com.company.common.IProduction;
 
 public interface IProductionManagement {
@@ -14,6 +15,8 @@ public interface IProductionManagement {
     IProduction[] getByName(String name);
 
     IProduction[] getProductionByCredit(ICredit credit);
+
+    IProduction[] getProducedBy(IProducer producer);
 
     IProduction getByID(Integer id);
 
