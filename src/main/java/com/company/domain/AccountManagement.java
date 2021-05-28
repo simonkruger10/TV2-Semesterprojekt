@@ -132,7 +132,7 @@ public class AccountManagement implements IAccountManagement {
     @Override
     public void login(String email, String password) throws NoSuchAlgorithmException {
         IAccount account = Database.getInstance().getAccount(email, hashPassword(password));
-        if (account.getAccessLevel() == null) {
+        if (account == null) {
             throw new RuntimeException("Could not find the user");
         }
 

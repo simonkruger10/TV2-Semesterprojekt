@@ -5,6 +5,7 @@ import com.company.common.Tools;
 import com.company.domain.AccountManagement;
 import com.company.presentation.CallbackHandler;
 import com.company.presentation.UpdateHandler;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert.AlertType;
@@ -41,6 +42,8 @@ public class LoginController extends VBox implements UpdateHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        Platform.runLater(() -> emailPanel.requestFocus());
     }
 
     @FXML

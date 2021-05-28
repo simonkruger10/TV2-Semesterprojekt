@@ -13,6 +13,7 @@ import com.company.presentation.UpdateHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -21,10 +22,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.company.common.Tools.getResourceAsImage;
 import static com.company.common.Tools.trueVisible;
 
 
 public class CreditViewController extends VBox implements UpdateHandler {
+    @FXML
+    private ImageView image;
+
     @FXML
     private Text firstName;
 
@@ -60,6 +65,11 @@ public class CreditViewController extends VBox implements UpdateHandler {
     public void viewCredit(ICredit credit) {
         this.credit = credit;
 
+        String image = credit.getImage();
+        if (image == null) {
+            image = "defaultCreditPerson.jpg";
+        }
+        this.image.setImage(getResourceAsImage("/images/" + image));
         firstName.setText(credit.getFirstName());
         lastName.setText(credit.getLastName());
 

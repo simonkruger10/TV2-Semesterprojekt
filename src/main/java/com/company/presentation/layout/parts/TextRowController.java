@@ -10,13 +10,17 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 
 import static com.company.common.Tools.trueVisible;
 
-public class TextRowController extends HBox {
+public class TextRowController extends VBox {
+    @FXML
+    private HBox holder;
+
     @FXML
     private Text text;
 
@@ -50,7 +54,7 @@ public class TextRowController extends HBox {
     }
 
     public void setBackground(String hex) {
-        this.setStyle("-fx-background-color: " + hex + ";");
+        holder.setStyle("-fx-background-color: " + hex + ";");
     }
 
     public void setClickable(boolean state) {

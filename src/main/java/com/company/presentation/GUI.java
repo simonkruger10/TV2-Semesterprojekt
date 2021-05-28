@@ -1,16 +1,16 @@
 package com.company.presentation;
 
-import com.company.common.*;
+import com.company.common.ICredit;
+import com.company.common.IProducer;
+import com.company.common.IProduction;
 import com.company.domain.*;
 import com.company.presentation.layout.*;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import static com.company.common.Tools.getResourceAsImage;
 
@@ -42,12 +42,7 @@ public class GUI extends Application implements CallbackHandler {
         primaryStage.setMinWidth(1024);
         primaryStage.setMinHeight(630);
         primaryStage.setScene(new Scene(homepageController));
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                quit();
-            }
-        });
+        primaryStage.setOnCloseRequest(windowEvent -> quit());
         primaryStage.show();
     }
 
@@ -93,15 +88,18 @@ public class GUI extends Application implements CallbackHandler {
     @Override
     public void show(Type type, IDTO dto) {
         if (type == Type.ACCOUNT) {
-            // TODO: implants account view
+            // TODO: implant search view
         } else if (type == Type.CREDIT) {
             ICredit credit = (ICredit) dto.getDTO();
             setContent(new CreditViewController(creditMgt.getByID(credit.getID(), credit.getType()), this));
         } else if (type == Type.CREDIT_GROUP) {
-            // TODO: implants credit group view
+            // TODO: implants account view
         } else if (type == Type.PRODUCTION) {
             IProduction production = (IProduction) dto.getDTO();
             setContent(new ProductionViewController(productionMgt.getByID(production.getID()),this));
+        } else if (type == Type.PRODUCER) {
+            IProducer producer = (IProducer) dto.getDTO();
+            setContent(new ProducerViewController(producerMgt.getByID(producer.getID()),this));
         }
     }
 

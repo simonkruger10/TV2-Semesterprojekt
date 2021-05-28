@@ -214,7 +214,6 @@ public class HomepageController extends VBox implements UpdateHandler {
 
         state = accessLevel.equals(AccessLevel.ADMINISTRATOR);
         trueVisible(addCreditGroupBtn, state);
-        trueVisible(producersBtn, state);
         trueVisible(addProducerBtn, state);
         trueVisible(accountsBtn, state);
         trueVisible(addAccountBtn, state);

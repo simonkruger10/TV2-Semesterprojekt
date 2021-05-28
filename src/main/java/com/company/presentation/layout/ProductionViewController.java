@@ -31,6 +31,12 @@ public class ProductionViewController extends VBox implements UpdateHandler {
     private ImageView image;
 
     @FXML
+    private VBox company_left;
+
+    @FXML
+    private VBox company_right;
+
+    @FXML
     private VBox rows;
 
     private final GUI callback;
@@ -57,9 +63,11 @@ public class ProductionViewController extends VBox implements UpdateHandler {
 
         title.setText(production.getName());
         String image = production.getImage();
-        if (image != null) {
-            this.image.setImage(getResourceAsImage("/images/" + image));
+        if (image == null) {
+            image = "defaultProduction.png";
         }
+        this.image.setImage(getResourceAsImage("/images/" + image));
+        this.company_left.getChildren().add(new Text(production.getProducer().getName()));
 
         // Group credits by creditGroup
         HashMap<String, List<ICredit>> grouped = new HashMap<>();

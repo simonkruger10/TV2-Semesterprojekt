@@ -14,13 +14,22 @@ import com.company.presentation.UpdateHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 
+import static com.company.common.Tools.getResourceAsImage;
+import static com.company.common.Tools.trueVisible;
+
 public class CreditCreationController extends VBox implements UpdateHandler {
+    @FXML
+    private TextField nameText;
+
     @FXML
     private TextField firstNameText;
 
@@ -28,10 +37,25 @@ public class CreditCreationController extends VBox implements UpdateHandler {
     private TextField lastNameText;
 
     @FXML
+    private TextField emailText;
+
+    @FXML
     private TextField creditGroupText;
 
     @FXML
     private TextField productionText;
+
+    @FXML
+    private ImageView image;
+
+    @FXML
+    private Button browse;
+
+    @FXML
+    private Text imageText;
+
+    @FXML
+    private CheckBox personCheck;
 
     @FXML
     private Button addCreditBtn;
@@ -51,27 +75,56 @@ public class CreditCreationController extends VBox implements UpdateHandler {
         }
     }
 
+    public void loadCredit(IDTO dto) {
+        Credit credit = (Credit) dto.getDTO();
+
+        nameText.setText(credit.getName());
+
+        firstNameText.setText(credit.getFirstName());
+        lastNameText.setText(credit.getLastName());
+        emailText.setText(credit.getEmail());
+        String image = credit.getImage();
+        if (image == null) {
+            image = "defaultCreditPerson.jpg";
+        }
+        this.image.setImage(getResourceAsImage("/images/" + image));
+
+        callback.show(Type.CREDIT, () -> new CreditManagement().create(credit));
+    }
+
     @FXML
     public void addCredit(MouseEvent event) {
         Credit credit = new Credit();
         credit.setFirstName(firstNameText.getText());
         credit.setLastName(lastNameText.getText());
+        credit.setEmail(emailText.getText());
 
         CreditGroupManagement cMgt = new CreditGroupManagement();
         String creditGroupName = creditGroupText.getText();
-
         ICreditGroup creditGroup = cMgt.getByName(creditGroupName);
         if (creditGroup == null) {
             creditGroup = new CreditGroupManagement().create(new CreditGroup(creditGroupName));
         }
         credit.addCreditGroup(new CreditGroup(creditGroup));
 
-        callback.show(Type.CREDIT, new IDTO() {
-            @Override
-            public Object getDTO() {
-                return new CreditManagement().create(credit);
-            }
-        });
+        callback.show(Type.CREDIT, () -> new CreditManagement().create(credit));
+    }
+
+    @FXML
+    void onBrowseClicked(MouseEvent event) {
+
+    }
+
+    @FXML
+    public void onCheckClicked(MouseEvent event) {
+        boolean state = personCheck.isSelected();
+        trueVisible(nameText, !state);
+        trueVisible(firstNameText, state);
+        trueVisible(lastNameText, state);
+        trueVisible(emailText, state);
+        trueVisible(image, state);
+        trueVisible(browse, state);
+        trueVisible(imageText, state);
     }
 
     @Override
@@ -82,13 +135,5 @@ public class CreditCreationController extends VBox implements UpdateHandler {
     @Override
     public void update() {
 
-    }
-
-    @FXML
-    private void initialize() {
-        assert firstNameText != null : "fx:id=\"firstNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
-        assert lastNameText != null : "fx:id=\"lastNameText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
-        assert creditGroupText != null : "fx:id=\"creditGroupText\" was not injected: check your FXML file 'CreditCreation.fxml'.";
-        assert addCreditBtn != null : "fx:id=\"addCreditBtn\" was not injected: check your FXML file 'CreditCreation.fxml'.";
     }
 }

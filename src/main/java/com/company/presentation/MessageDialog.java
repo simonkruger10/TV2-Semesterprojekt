@@ -1,11 +1,17 @@
 package com.company.presentation;
 
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
+
+import static com.company.common.Tools.getResourceAsImage;
 
 public class MessageDialog extends Alert {
 
     public MessageDialog(AlertType alertType, String message) {
         super(alertType);
+
+        Stage stage = (Stage) getDialogPane().getScene().getWindow();
+        stage.getIcons().add(getResourceAsImage("/images/icon.png"));
 
         if (alertType == AlertType.CONFIRMATION) {
             this.setTitle("Confirmation");

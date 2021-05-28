@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -14,45 +16,51 @@
             </font>
         </Button>
     </HBox>
-    <GridPane hgap="30.0" vgap="10.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="NEVER" />
-            <ColumnConstraints hgrow="SOMETIMES" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
-        </rowConstraints>
-        <Label text="First Name">
-            <font>
-                <Font name="System Bold" size="15.0" />
-            </font>
-        </Label>
-        <Label text="Last Name" GridPane.rowIndex="1">
-            <font>
-                <Font name="System Bold" size="15.0" />
-            </font>
-        </Label>
-        <Label text="Credited for" GridPane.rowIndex="2">
-            <font>
-                <Font name="System Bold" size="15.0" />
-            </font>
-        </Label>
-        <Text fx:id="firstName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Text>
-        <Text fx:id="lastName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Text>
-        <Text fx:id="groupName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="2">
-            <font>
-                <Font size="15.0" />
-            </font>
-        </Text>
-    </GridPane>
+    <HBox fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+        <ImageView fx:id="image" fitHeight="337.0" fitWidth="225.0" pickOnBounds="true" preserveRatio="true">
+         <HBox.margin>
+            <Insets />
+         </HBox.margin></ImageView>
+        <GridPane hgap="30.0" vgap="10.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <Label text="First Name">
+                <font>
+                    <Font name="System Bold" size="15.0" />
+                </font>
+            </Label>
+            <Label text="Last Name" GridPane.rowIndex="1">
+                <font>
+                    <Font name="System Bold" size="15.0" />
+                </font>
+            </Label>
+            <Label text="Credited for" GridPane.rowIndex="2">
+                <font>
+                    <Font name="System Bold" size="15.0" />
+                </font>
+            </Label>
+            <Text fx:id="firstName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Text>
+            <Text fx:id="lastName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Text>
+            <Text fx:id="groupName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <font>
+                    <Font size="15.0" />
+                </font>
+            </Text>
+        </GridPane>
+    </HBox>
 </fx:root>
