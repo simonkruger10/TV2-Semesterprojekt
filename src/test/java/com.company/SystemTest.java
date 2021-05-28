@@ -1,12 +1,17 @@
 package com.company;
 
 import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
 import com.company.common.IProduction;
+import com.company.domain.CreditManagement;
 import com.company.domain.ProductionManagement;
 import com.company.domain.dto.CreditGroup;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -26,7 +31,7 @@ public class SystemTest {
         //Request a list of productions
         IProduction[] productions = new ProductionManagement().list();
         assertThat("There are 20 productions in the database, and it should list all of them",
-                productions.length == 20, is(true));
+                productions.length, is(10));
 
         //Click on the first production
         int firstProductionId = productions[0].getID();
@@ -51,18 +56,11 @@ public class SystemTest {
         creditGroup.setName("Medvirkende");
         assertThat("Credit's CreditGroup is \"Medvirkende\"",credit.getCreditGroups()[0], is(creditGroup));
 
-        //Check that the credit is listed with all of its associations.
-        // getCreditedFor have been changes to: IProduction[] creditedFor = new ProductionManagement().getProductionByCredit(credit);
-        /*Map<ICreditGroup, List<IProduction>> creditedFor = new CreditManagement().getCreditedFor(credit);
-        ICreditGroup e = null;
-        for (Map.Entry<ICreditGroup, List<IProduction>> entry : creditedFor.entrySet()) {
-            e = entry.getKey();
-        }
-        assertThat(creditedFor.isEmpty(), is(false));
-        List<IProduction> medvirkende = creditedFor.get(e);
-        assertThat(medvirkende != null, is(true));
-        assertThat(medvirkende.get(1).getName(), is("Druk"));
-        assertThat(medvirkende.get(0).getName(), is("Flammen og Citronen"));*/
+        //Check that the credit is listed with all of its assosiated productions.
+        IProduction[] creditedFor = new ProductionManagement().getProductionByCredit(credit);
+        assertThat(creditedFor.length == 0, is(false));
+        assertThat(creditedFor[0].getName(), is("Druk"));
+        assertThat(creditedFor[1].getName(), is("Flammen og Citronen"));
     }
 
     @After
