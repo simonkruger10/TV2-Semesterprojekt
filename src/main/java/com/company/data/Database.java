@@ -68,6 +68,11 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
+    public IProduction[] getProductions(IProducer producer) {
+        return this.database.getProductions(producer);
+    }
+
+    @Override
     public IProduction addProduction(IProduction production) {
         return this.database.addProduction(production);
     }

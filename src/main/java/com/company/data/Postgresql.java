@@ -75,6 +75,11 @@ public class Postgresql implements DatabaseFacade {
     }
 
     @Override
+    public IProduction[] getProductions(IProducer producer) {
+        return postgresProduction.getProductions(producer);
+    }
+
+    @Override
     public IProduction getProduction(Integer id) {
         return postgresProduction.getProduction(id);
     }

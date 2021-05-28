@@ -28,6 +28,8 @@ public interface DatabaseFacade {
 
     IProduction[] getProductionByCredit(ICredit credit);
 
+    IProduction[] getProductions(IProducer producer);
+
     IProduction getProduction(Integer id);
 
     IProduction addProduction(IProduction production);

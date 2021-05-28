@@ -169,6 +169,22 @@ public class PostgresProduction {
         return production;
     }
 
+    public IProduction[] getProductions(IProducer producer) {
+        PreparedStatement query;
+        List<IProduction> productions = new ArrayList<>();
+        try {
+            query = Postgresql.connection.prepareStatement("Select * FROM production WHERE producer_id = ?");
+            query.setInt(1, producer.getID());
+            ResultSet results = query.executeQuery();
+            while (results.next()) {
+                productions.add(createFromQueryResult(results));
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return productions.toArray(new IProduction[0]);
+    }
+
     public IProduction[] getProductionByCredit(ICredit credit) {
         List<IProduction> creditedFor = new ArrayList<>();
 
