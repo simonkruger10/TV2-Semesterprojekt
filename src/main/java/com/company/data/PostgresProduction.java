@@ -169,33 +169,6 @@ public class PostgresProduction {
         return production;
     }
 
-    public IProduction addProduction(IProduction production) {
-        Production createdProduction = null;
-
-        try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO production (name, release_day, release_month, release_year, description, image, producer_id) VALUES (?,?,?,?,?,?,?) RETURNING *");
-            setArguments(production, query);
-
-            ResultSet queryResult = query.executeQuery();
-            if (queryResult.next()) {
-                createdProduction = createFromQueryResult(queryResult);
-                createdProduction.setProducer(postgresql.getProducer(queryResult.getInt("producer_id")));
-
-                addCreditRelations("INSERT INTO production_credit_person_relation (production_id, credit_person_id, credit_group_id) VALUES (?,?,?)",
-                        production, CreditType.PERSON);
-                addCreditRelations("INSERT INTO production_credit_unit_relation (production_id, credit_unit_id, credit_group_id) VALUES (?,?,?)",
-                        production, CreditType.UNIT);
-
-                attachCreditsToProduction(createdProduction);
-            } // TODO: throw exception instead of return null
-
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-
-        return createdProduction;
-    }
-
     public IProduction[] getProductionByCredit(ICredit credit) {
         List<IProduction> creditedFor = new ArrayList<>();
 
@@ -230,23 +203,56 @@ public class PostgresProduction {
         return creditedFor.toArray(new IProduction[0]);
     }
 
+    public IProduction addProduction(IProduction production) {
+        Production createdProduction = null;
+
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement(
+                    "INSERT INTO production (name, release_day, release_month, release_year, " +
+                            "description, image, producer_id) " +
+                            "VALUES (?,?,?,?,?,?,?) RETURNING *");
+            setArguments(production, query);
+
+            ResultSet queryResult = query.executeQuery();
+            if (queryResult.next()) {
+                createdProduction = createFromQueryResult(queryResult);
+                createdProduction.setProducer(postgresql.getProducer(queryResult.getInt("producer_id")));
+
+                addCreditRelations("INSERT INTO production_credit_person_relation (production_id, credit_person_id, credit_group_id) VALUES (?,?,?)",
+                        production, CreditType.PERSON);
+                addCreditRelations("INSERT INTO production_credit_unit_relation (production_id, credit_unit_id, credit_group_id) VALUES (?,?,?)",
+                        production, CreditType.UNIT);
+
+                attachCreditsToProduction(createdProduction);
+            } // TODO: throw exception instead of return null
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return createdProduction;
+    }
+
     public void updateProduction(IProduction production) {
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement(
-                    "UPDATE production SET name =?, release_day =?, release_month =?, release_year =?, description =?, image=?, producer_id =? WHERE id=?"
+                    "UPDATE production SET name =?, release_day =?, release_month =?, release_year =?, " +
+                            "description =?, image=?, producer_id =? WHERE id=?"
             );
             setArguments(production, query);
             query.setInt(8, production.getID());
             query.execute();
 
-            query = Postgresql.connection.prepareStatement("DELETE FROM production_credit_person_relation WHERE production_id = ?");
+            query = Postgresql.connection.prepareStatement(
+                    "DELETE FROM production_credit_person_relation WHERE production_id = ?");
             query.setInt(1, production.getID());
             query.execute();
 
             addCreditRelations("INSERT INTO production_credit_person_relation (production_id, credit_person_id, credit_group_id) VALUES (?,?,?)",
                     production, CreditType.PERSON);
 
-            query = Postgresql.connection.prepareStatement("DELETE FROM production_credit_unit_relation WHERE production_id = ?");
+            query = Postgresql.connection.prepareStatement(
+                    "DELETE FROM production_credit_unit_relation WHERE production_id = ?");
             query.setInt(1, production.getID());
             query.execute();
 
