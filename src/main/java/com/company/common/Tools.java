@@ -6,10 +6,14 @@ import javafx.scene.image.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Tools {
+    //TODO this cache is a temporary hack made before a deadline
+    // investigate using JavaFX's library to cache resources.
+    private static HashMap<String, Image> imageCache = new HashMap<>();
     // https://www.regular-expressions.info/email.html
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^(?=[a-zA-Z0-9][a-zA-Z0-9@._%+-]{5,253}+$)" + //Contains only valid characters
@@ -53,9 +57,14 @@ public class Tools {
     }
 
     public static Image getResourceAsImage(String fileName) {
-        URL image = getResourceAsUrl(fileName);
-        assert image != null;
-        return new Image(image.toString());
+        Image image = imageCache.get(fileName);
+        if(image == null) {
+            URL path = getResourceAsUrl(fileName);
+            assert path != null;
+            image = new Image(path.toString());
+            imageCache.put(fileName, image);
+        }
+        return image;
     }
 
     public static String readFileAsString(File file) throws FileNotFoundException {
