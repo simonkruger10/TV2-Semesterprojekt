@@ -24,18 +24,23 @@ import java.util.List;
 import static com.company.common.Tools.*;
 
 public class ProductionViewController extends VBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private Text title;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button editProductionBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private ImageView image;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextArea description;
 
+    @SuppressWarnings("unused")
     @FXML
     private VBox rows;
 
@@ -127,7 +132,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
     }
 
     @FXML
-    private void editProduction(MouseEvent event) {
+    private void editProduction(@SuppressWarnings("unused") MouseEvent event) {
         callback.edit(Type.PRODUCTION, (IDTO<IProduction>) () -> production);
     }
 

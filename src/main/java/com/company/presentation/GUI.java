@@ -60,6 +60,7 @@ public class GUI extends Application implements CallbackHandler {
 
         int offset = 10 * (page - 1);
 
+        //noinspection rawtypes
         IDTO[] dtos = null;
         Integer maxPages = 1;
         if (type == Type.ACCOUNT) {
@@ -98,7 +99,7 @@ public class GUI extends Application implements CallbackHandler {
     }
 
     @Override
-    public void show(Type type, IDTO dto) {
+    public void show(Type type, @SuppressWarnings("rawtypes") IDTO dto) {
         if (type == Type.ACCOUNT) {
             setContent(new AccountViewController((IAccount) dto.getDTO(),this));
         } else if (type == Type.CREDIT) {
@@ -129,13 +130,13 @@ public class GUI extends Application implements CallbackHandler {
             setContent(new CreditCreationController(this));
         } else if (type == Type.CREDIT_GROUP) {
             // TODO: implants add credit group
-        } else {
+        } else if (type == Type.PRODUCER) {
             // TODO: implants add production
         }
     }
 
     @Override
-    public void edit(Type type, IDTO dto) {
+    public void edit(Type type, @SuppressWarnings("rawtypes") IDTO dto) {
         if (type == Type.ACCOUNT) {
             EditAccountController editAccountController = new EditAccountController(this);
             editAccountController.loadAccount((IAccount) dto.getDTO());
@@ -147,7 +148,7 @@ public class GUI extends Application implements CallbackHandler {
             setContent(creditCreationController);
         } else if (type == Type.CREDIT_GROUP) {
             // TODO: implants edit credit group
-        } else {
+        } else if (type == Type.PRODUCER) {
             // TODO: implants edit production
         }
     }
@@ -172,7 +173,7 @@ public class GUI extends Application implements CallbackHandler {
         show(alertType, message);
     }
 
-    private Integer calMaxPages(Integer count, Integer countEachPage) {
+    private Integer calMaxPages(Integer count, @SuppressWarnings("SameParameterValue") Integer countEachPage) {
         int maxPages = count / countEachPage;
         if (count%countEachPage > 0) {
             return ++maxPages;
@@ -202,6 +203,7 @@ public class GUI extends Application implements CallbackHandler {
         homepageController.setContent(node);
     }
 
+    @SuppressWarnings("rawtypes")
     private <T> IDTO[] convertToIDTO(T[] list) {
         IDTO[] dtos = new IDTO[list.length];
         for (int i = 0; i < list.length; i++) {

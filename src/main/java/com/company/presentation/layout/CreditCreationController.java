@@ -20,43 +20,56 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import static com.company.common.Tools.*;
 
 public class CreditCreationController extends HBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private Label title;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField nameText;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField firstNameText;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField lastNameText;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField emailText;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField creditGroupText;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField productionText;
 
+    @SuppressWarnings("unused")
     @FXML
     private ImageView image;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button browse;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text imageText;
 
+    @SuppressWarnings("unused")
     @FXML
     private CheckBox personCheck;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button addCreditBtn;
 
@@ -80,6 +93,7 @@ public class CreditCreationController extends HBox implements UpdateHandler {
 
     public void loadCredit(ICredit credit) {
         this.credit = credit;
+        System.out.println(Arrays.toString(this.credit.getCreditGroups()));
 
         nameText.setText(credit.getName());
 
@@ -99,32 +113,35 @@ public class CreditCreationController extends HBox implements UpdateHandler {
     }
 
     @FXML
-    public void addCredit(MouseEvent event) {
+    public void addCredit(@SuppressWarnings("unused") MouseEvent event) {
         Credit credit;
         if (this.credit == null) {
             credit = new Credit();
+
+            if (personCheck.isSelected()) {
+                credit.setType(CreditType.PERSON);
+            } else {
+                credit.setType(CreditType.UNIT);
+            }
         } else {
             credit = new Credit(this.credit);
         }
 
-        if (personCheck.isSelected()) {
-            credit.setType(CreditType.PERSON);
-        } else {
-            credit.setType(CreditType.UNIT);
-        }
         credit.setName(nameText.getText());
         credit.setFirstName(firstNameText.getText());
         credit.setLastName(lastNameText.getText());
         credit.setEmail(emailText.getText());
         credit.setImage(basename(image.getImage().getUrl()));
 
-        CreditGroupManagement cMgt = new CreditGroupManagement();
-        String creditGroupName = creditGroupText.getText();
-        ICreditGroup creditGroup = cMgt.getByName(creditGroupName);
-        if (creditGroup == null) {
-            creditGroup = new CreditGroupManagement().create(new CreditGroup(creditGroupName));
+        if (this.credit == null) {
+            CreditGroupManagement cMgt = new CreditGroupManagement();
+            String creditGroupName = creditGroupText.getText();
+            ICreditGroup creditGroup = cMgt.getByName(creditGroupName);
+            if (creditGroup == null) {
+                creditGroup = new CreditGroupManagement().create(new CreditGroup(creditGroupName));
+            }
+            credit.addCreditGroup(new CreditGroup(creditGroup));
         }
-        credit.addCreditGroup(new CreditGroup(creditGroup));
 
         if (this.credit == null) {
             callback.show(Type.CREDIT, () -> new CreditManagement().create(credit));
@@ -134,13 +151,14 @@ public class CreditCreationController extends HBox implements UpdateHandler {
         }
     }
 
+    @SuppressWarnings("EmptyMethod")
     @FXML
-    void onBrowseClicked(MouseEvent event) {
+    void onBrowseClicked(@SuppressWarnings("unused") MouseEvent event) {
 
     }
 
     @FXML
-    public void onCheckClicked(MouseEvent event) {
+    public void onCheckClicked(@SuppressWarnings("unused") MouseEvent event) {
         toggleView(personCheck.isSelected());
     }
 
@@ -160,6 +178,7 @@ public class CreditCreationController extends HBox implements UpdateHandler {
         return accessLevel.greater(AccessLevel.CONSUMER);
     }
 
+    @SuppressWarnings("EmptyMethod")
     @Override
     public void update() {
 

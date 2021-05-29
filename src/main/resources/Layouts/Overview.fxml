@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<!--suppress XmlHighlighting, XmlHighlighting -->
 <fx:root type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <HBox alignment="CENTER_RIGHT" VBox.vgrow="ALWAYS">
         <padding>

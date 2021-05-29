@@ -13,6 +13,7 @@ import java.util.List;
 
 public class PostgresProduction {
     private final Postgresql postgresql;
+    @SuppressWarnings("FieldCanBeLocal")
     private final int batchMaxSize = 1000;
 
     public PostgresProduction(Postgresql postgresql) {

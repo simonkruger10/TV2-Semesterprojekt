@@ -20,15 +20,19 @@ import java.io.IOException;
 import static com.company.common.Tools.trueVisible;
 
 public class AccountViewController extends VBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private Button editBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text firstName;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text lastName;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text email;
 
@@ -60,7 +64,7 @@ public class AccountViewController extends VBox implements UpdateHandler {
     }
 
     @FXML
-    private void edit(MouseEvent event) {
+    private void edit(@SuppressWarnings("unused") MouseEvent event) {
         callback.edit(Type.ACCOUNT, (IDTO<IAccount>) () -> account);
     }
 

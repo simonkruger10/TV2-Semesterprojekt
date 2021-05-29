@@ -58,7 +58,6 @@ public class CreditGroupViewController extends VBox implements UpdateHandler {
 
     private ICreditGroup creditGroup;
     private final CallbackHandler callback;
-    private Integer currentPage;
 
     public CreditGroupViewController(ICreditGroup creditGroup, CallbackHandler callback) {
         this.callback = callback;
@@ -123,8 +122,6 @@ public class CreditGroupViewController extends VBox implements UpdateHandler {
             currentPage = 1;
         }
 
-        this.currentPage = currentPage;
-
         int startPage = currentPage;
         if (maxPages - startPage < 3) {
             while (maxPages - startPage < 7 && startPage > 1) {
@@ -172,7 +169,7 @@ public class CreditGroupViewController extends VBox implements UpdateHandler {
     }
 
     //TODO this calMaxPages is a temporary hack made before a deadline
-    private Integer calMaxPages(Integer count, Integer countEachPage) {
+    private Integer calMaxPages(Integer count, @SuppressWarnings("SameParameterValue") Integer countEachPage) {
         int maxPages = count / countEachPage;
         if (count%countEachPage > 0) {
             return ++maxPages;
@@ -180,14 +177,17 @@ public class CreditGroupViewController extends VBox implements UpdateHandler {
         return maxPages;
     }
 
+    @SuppressWarnings("EmptyMethod")
     @FXML
     public void onPrv(MouseEvent event) {
     }
 
+    @SuppressWarnings("EmptyMethod")
     @FXML
     public void onGoto(MouseEvent event) {
     }
 
+    @SuppressWarnings("EmptyMethod")
     @FXML
     public void onNext(MouseEvent event) {
     }

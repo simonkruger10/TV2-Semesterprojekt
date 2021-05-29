@@ -70,14 +70,14 @@ public class OverviewController extends VBox implements UpdateHandler {
         }
     }
 
-    public void showList(Type type, IDTO[] dtos) {
+    public void showList(Type type, @SuppressWarnings("rawtypes") IDTO[] dtos) {
         this.type = type;
 
         // Start the count from the number of children
         int i = main.getChildren().size();
 
         if (type == Type.ACCOUNT || type == Type.CREDIT_GROUP) {
-            for (IDTO dto : dtos) {
+            for (@SuppressWarnings("rawtypes") IDTO dto : dtos) {
                 TextRowController cRow = new TextRowController(type, dto, callback);
 
                 if (type == Type.ACCOUNT) {
@@ -95,7 +95,7 @@ public class OverviewController extends VBox implements UpdateHandler {
                 i++;
             }
         } else if (type == Type.CREDIT) {
-            for (IDTO dto : dtos) {
+            for (@SuppressWarnings("rawtypes") IDTO dto : dtos) {
                 ICredit credit = (ICredit) dto.getDTO();
                 if (credit.getType().equals(CreditType.UNIT)) {
                     TextRowController cRow = new TextRowController(type, dto, callback);
@@ -122,7 +122,7 @@ public class OverviewController extends VBox implements UpdateHandler {
             String text = null;
             String image = null;
 
-            for (IDTO dto : dtos) {
+            for (@SuppressWarnings("rawtypes") IDTO dto : dtos) {
                 if (type == Type.PRODUCER) {
                     IProducer producer = (IProducer) dto.getDTO();
                     text = producer.getName();

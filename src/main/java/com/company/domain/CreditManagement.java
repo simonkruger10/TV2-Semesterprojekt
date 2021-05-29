@@ -193,7 +193,7 @@ public class CreditManagement implements ICreditManagement {
                 throw new RuntimeException("Image cannot be null or empty.");
             }
         }
-        if (credit.getCreditGroups() == null || credit.getCreditGroups().length == 0) {
+        if (credit.getCreditGroups().length == 0) {
             throw new RuntimeException("The person must be assigned a Credit Group.");
         }
     }

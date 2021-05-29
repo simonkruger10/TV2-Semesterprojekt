@@ -1,7 +1,5 @@
 package com.company.presentation.layout;
 
-import java.io.IOException;
-
 import com.company.common.AccessLevel;
 import com.company.common.Tools;
 import com.company.presentation.UpdateHandler;
@@ -10,10 +8,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
+
 public class RecentlyAndReviewController extends VBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private HBox latestAddedSlider;
 
+    @SuppressWarnings("unused")
     @FXML
     private HBox latestReviewSlider;
 

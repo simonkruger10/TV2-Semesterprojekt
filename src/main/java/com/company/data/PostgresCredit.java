@@ -14,11 +14,15 @@ import java.util.List;
 
 public class PostgresCredit {
     public static Credit createFromQueryResult(ResultSet queryResult, CreditType type) throws SQLException {
+        return createFromQueryResult(queryResult, type, "name");
+    }
+
+    public static Credit createFromQueryResult(ResultSet queryResult, CreditType type, String unitName) throws SQLException {
         Credit credit = new Credit();
         credit.setID(queryResult.getInt("id"));
         credit.setType(type);
         if (type == CreditType.UNIT) {
-            credit.setName(queryResult.getString("name"));
+            credit.setName(queryResult.getString(unitName));
         } else {
             credit.setFirstName(queryResult.getString("f_name"));
             credit.setLastName(queryResult.getString("l_name"));
@@ -27,6 +31,31 @@ public class PostgresCredit {
         }
 
         return credit;
+    }
+
+    void attachCreditGroupsToCredit(Credit credit) throws SQLException {
+        PreparedStatement query = Postgresql.connection.prepareStatement(
+                "SELECT 'credit_person' as type, cg.id as cg_id, cg.name as cg_name, cg.description " +
+                        "FROM production_credit_person_relation as pcpr " +
+                        "         JOIN credit_group cg on cg.id = pcpr.credit_group_id " +
+                        "WHERE pcpr.credit_person_id = ? " +
+                        "UNION " +
+                        "SELECT 'credit_unit' as type, cg.id as cg_id, cg.name as cg_name, cg.description " +
+                        "FROM production_credit_unit_relation as pcur " +
+                        "         JOIN credit_group cg on cg.id = pcur.credit_group_id " +
+                        "WHERE pcur.credit_unit_id = ?"
+        );
+        query.setInt(1, credit.getID());
+        query.setInt(2, credit.getID());
+
+        ResultSet queryResult = query.executeQuery();
+        while (queryResult.next()) {
+            CreditGroup creditGroup = new CreditGroup();
+            creditGroup.setID(queryResult.getInt("cg_id"));
+            creditGroup.setName(queryResult.getString("cg_name"));
+            creditGroup.setDescription(queryResult.getString("description"));
+            credit.addCreditGroup(creditGroup);
+        }
     }
 
     public ICredit[] getCredits(Integer limit, Integer offset) {
@@ -45,15 +74,14 @@ public class PostgresCredit {
 
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
+                Credit credit;
                 if (queryResult.getString("type").equals("credit_person")) {
-                    credits.add(createFromQueryResult(queryResult, CreditType.PERSON));
+                    credit = createFromQueryResult(queryResult, CreditType.PERSON);
                 } else {
-                    Credit credit = new Credit();
-                    credit.setID(queryResult.getInt("id"));
-                    credit.setType(CreditType.UNIT);
-                    credit.setName(queryResult.getString("f_name"));
-                    credits.add(credit);
+                    credit = createFromQueryResult(queryResult, CreditType.UNIT, "f_name");
                 }
+                attachCreditGroupsToCredit(credit);
+                credits.add(credit);
             }
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
@@ -67,15 +95,16 @@ public class PostgresCredit {
 
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement(
-                    "SELECT 'credit_person' as type, c.id as c_id, c.f_name as c_name, c.l_name, c.email, c.image " +
+                    "SELECT 'credit_person' as type, c.id as c_id, c.f_name as f_name, c.l_name, c.email, c.image " +
                             "FROM production_credit_person_relation as pcpr " +
                             "         JOIN credit_person c on c.id = pcpr.credit_person_id " +
                             "WHERE pcpr.credit_group_id = ? " +
                             "UNION " +
-                            "SELECT 'credit_unit' as type, c.id as c_id, c.name as c_name, null as l_name, null as email, null as image " +
+                            "SELECT 'credit_unit' as type, c.id as c_id, c.name as f_name, null as l_name, null as email, null as image " +
                             "FROM production_credit_unit_relation as pcur " +
                             "         JOIN credit_unit c on c.id = pcur.credit_unit_id " +
-                            "WHERE pcur.credit_group_id = ?"
+                            "WHERE pcur.credit_group_id = ? " +
+                            "ORDER BY f_name, l_name"
             );
             query.setInt(1, creditGroup.getID());
             query.setInt(2, creditGroup.getID());
@@ -83,21 +112,13 @@ public class PostgresCredit {
             ResultSet queryResult = query.executeQuery();
             CreditGroup newCreditGroup = new CreditGroup(creditGroup);
             while (queryResult.next()) {
-                // Creating credit
-                Credit credit = new Credit();
-                credit.setID(queryResult.getInt("c_id"));
-                if (queryResult.getString("type").equals("credit_unit")) {
-                    credit.setType(CreditType.UNIT);
-                    credit.setName(queryResult.getString("c_name"));
+                Credit credit;
+                if (queryResult.getString("type").equals("credit_person")) {
+                    credit = createFromQueryResult(queryResult, CreditType.PERSON);
                 } else {
-                    credit.setType(CreditType.PERSON);
-                    credit.setFirstName(queryResult.getString("c_name"));
-                    credit.setLastName(queryResult.getString("l_name"));
-                    credit.setEmail(queryResult.getString("email"));
-                    credit.setImage(queryResult.getString("image"));
+                    credit = createFromQueryResult(queryResult, CreditType.UNIT, "f_name");
                 }
-                credit.addCreditGroup(newCreditGroup);
-
+                attachCreditGroupsToCredit(credit);
                 credits.add(credit);
             }
         } catch (SQLException sqlException) {
@@ -202,7 +223,7 @@ public class PostgresCredit {
     }
 
     public ICredit[] searchCredits(String word) {
-        List<ICredit> producers = new ArrayList<>();
+        List<ICredit> credits = new ArrayList<>();
 
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement(
@@ -219,9 +240,9 @@ public class PostgresCredit {
             ResultSet queryResult = query.executeQuery();
             while (queryResult.next()) {
                 if (queryResult.getString("type").equals("credit_person")) {
-                    producers.add(createFromQueryResult(queryResult, CreditType.PERSON));
+                    credits.add(createFromQueryResult(queryResult, CreditType.PERSON));
                 } else {
-                    producers.add(createFromQueryResult(queryResult, CreditType.UNIT));
+                    credits.add(createFromQueryResult(queryResult, CreditType.UNIT));
                 }
             }
 
@@ -229,7 +250,7 @@ public class PostgresCredit {
             sqlException.printStackTrace();
         }
 
-        return producers.toArray(new ICredit[0]);
+        return credits.toArray(new ICredit[0]);
     }
 
     public Integer countCredits() {
