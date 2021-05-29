@@ -127,11 +127,6 @@ public class RecentlyAndReviewController extends VBox implements UpdateHandler {
         set(image8, title8, credit);
     }
 
-    private void set(ImageView imageNode, Text textNode, IProduction production) {
-        imageNode.setImage(getResourceAsImage("/images/" + production.getImage()));
-        textNode.setText(production.getName());
-    }
-
     private void set(ImageView imageNode, Text textNode, ICredit credit) {
         if (credit.getType() == CreditType.UNIT) {
             textNode.setText(credit.getName());
