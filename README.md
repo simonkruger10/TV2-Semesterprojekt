@@ -38,7 +38,7 @@ Setup Database
       **NOTE: It is imperative that you remember your password**
 
 3. In IntelliJ open the database tool window (View | Tool Windows | Database).
-4. Click on the "Data Source Properties". Then, add a PostgresSQL database (Data Source | PostgresSQL) to the project.
+4. Click on the "Data Source Properties". Then, add a PostgresSQL database to the project.
    Change the username to "postgres", and the password to the one you chose when installing PostgresSQL. Don’t change the database name.
 
    **Download the database driver, if prompted in the bottom of the window.**

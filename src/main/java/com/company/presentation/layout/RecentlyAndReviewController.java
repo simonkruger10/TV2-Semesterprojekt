@@ -109,18 +109,22 @@ public class RecentlyAndReviewController extends VBox implements UpdateHandler {
         ImageView[] imageViews = new ImageView[]{image1, image2, image3, image4};
         Text[] texts = new Text[]{title1, title2, title3, title4};
 
-        final IProduction[] productions = new ProductionManagement().list(0, 4);
-        for (int i = 0; i < productions.length; i++) {
-            set(imageViews[i], texts[i], productions[i]);
-        }
-
-        imageViews = new ImageView[]{image5, image6, image7, image8};
-        texts = new Text[]{title5, title6, title7, title8};
-
-        final ICredit[] credits = new CreditManagement().list(0, 4);
-        for (int i = 0; i < productions.length; i++) {
+        ICredit[] credits = new CreditManagement().list(0, 4);
+        for (int i = 0; i < credits.length; i++) {
             set(imageViews[i], texts[i], credits[i]);
         }
+
+        ICredit credit = new CreditManagement().getByID(1, CreditType.PERSON);
+        set(image5, title5, credit);
+
+        credit = new CreditManagement().getByID(2, CreditType.PERSON);
+        set(image6, title6, credit);
+
+        credit = new CreditManagement().getByID(3, CreditType.PERSON);
+        set(image7, title7, credit);
+
+        credit = new CreditManagement().getByID(4, CreditType.PERSON);
+        set(image8, title8, credit);
     }
 
     private void set(ImageView imageNode, Text textNode, IProduction production) {
