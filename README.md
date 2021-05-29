@@ -49,7 +49,9 @@ Setup Database
 8. Return to the database tool window. Click on the "Data Source Properties", go to schemas and choose the newly created "tv2_semesterprojekt_f3f70b5a". 
 Drop it down and apply default schemas. Hit "Apply", then "OK". 
    
-9. Lastly, right-click on the "tables.sql" under resources. Edit a new configuration, add the newly created "tv2_semesterprojekt_f3f70b5a" as the target data source. Execute "tables.sql", "dummy_data.sql" and "set_tv2_owner.sql" in the following order. Hit "Apply", then "OK".
+9. Lastly, right-click on the "tables.sql" under resources. 
+   Edit a new configuration, add the newly created "tv2_semesterprojekt_f3f70b5a" as the target data source. 
+   Execute "tables.sql", "dummy_data.sql" and "set_tv2_owner.sql" in that order. Hit "Apply", then "OK".
 
 ## Run source code
 
@@ -68,3 +70,11 @@ Drop it down and apply default schemas. Hit "Apply", then "OK".
 
 1. Located the .jar in the "target" folder
 1. Right-click on the .jar file and select "Run 'TV2-Semesterprojekt-...'"
+
+## Login
+
+When launching the prototype, it is possible to login with an account.
+All username/email's can be found in the accounts table under the database tab.
+The password to each user is the text preceding the '@' character in the email.
+
+IE. for the user 'admin@system.tld' the password is 'admin'
