@@ -18,20 +18,24 @@ import java.io.IOException;
 import static com.company.common.Tools.trueVisible;
 
 public class TextRowController extends VBox {
+    @SuppressWarnings("unused")
     @FXML
     private HBox holder;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text text;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button editBtn;
 
     private final Type type;
+    @SuppressWarnings("rawtypes")
     private final IDTO dto;
     private final CallbackHandler callback;
 
-    public TextRowController(Type type, IDTO dto, CallbackHandler callback) {
+    public TextRowController(Type type, @SuppressWarnings("rawtypes") IDTO dto, CallbackHandler callback) {
         this.type = type;
         this.dto = dto;
         this.callback = callback;
@@ -70,12 +74,12 @@ public class TextRowController extends VBox {
     }
 
     @FXML
-    private void show(MouseEvent event) {
+    private void show(@SuppressWarnings("unused") MouseEvent event) {
         callback.show(type, dto);
     }
 
     @FXML
-    private void edit(MouseEvent event) {
+    private void edit(@SuppressWarnings("unused") MouseEvent event) {
         callback.edit(type, dto);
     }
 }

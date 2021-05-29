@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 public class Tools {
     //TODO this cache is a temporary hack made before a deadline
     // investigate using JavaFX's library to cache resources.
-    private static HashMap<String, Image> imageCache = new HashMap<>();
-    private static HashMap<String, URL> urlCache = new HashMap<>();
+    private static final HashMap<String, Image> imageCache = new HashMap<>();
+    private static final HashMap<String, URL> urlCache = new HashMap<>();
 
     // https://www.regular-expressions.info/email.html
     private static final Pattern EMAIL_PATTERN =
@@ -23,7 +23,7 @@ public class Tools {
                     "(?:-[a-zA-Z0-9]++)*+\\.){1,8}" +             //It must have text after the '.' and there can be 8 sub-domains
                     "+[a-zA-Z]{2,63}+$");                         //And there must be some text/country/domain-code to end the email.
 
-    private static final Pattern BASENAME_PATTERN = Pattern.compile("([^\\/]+$)");
+    private static final Pattern BASENAME_PATTERN = Pattern.compile("([^/]+$)");
 
     public static boolean trueContains(String phrase, String keyword) {
         return phrase != null && keyword != null && !keyword.trim().isEmpty()
@@ -35,6 +35,7 @@ public class Tools {
                 && string1.equalsIgnoreCase(string2);
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean trueEquals(Integer number, Integer number1) {
         return number != null && number.equals(number1);
     }

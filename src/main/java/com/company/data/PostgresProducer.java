@@ -75,7 +75,7 @@ public class PostgresProducer {
         Producer createdProducer = null;
 
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO producer (name, logo, account_id) VALUES (?,?,?,?) RETURNING *");
+            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO producer (name, logo, account_id) VALUES (?,?,?) RETURNING *");
             query.setString(1, producer.getName());
             query.setString(2, producer.getLogo());
             query.setInt(3, producer.getAccount().getID());

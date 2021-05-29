@@ -33,10 +33,11 @@ public class ImageRowController extends VBox {
     private Button editBtn;
 
     private final Type type;
+    @SuppressWarnings("rawtypes")
     private final IDTO dto;
     private final CallbackHandler callback;
 
-    public ImageRowController(Type type, IDTO dto, CallbackHandler callback) {
+    public ImageRowController(Type type, @SuppressWarnings("rawtypes") IDTO dto, CallbackHandler callback) {
         this.type = type;
         this.dto = dto;
         this.callback = callback;

@@ -24,24 +24,31 @@ import static com.company.common.Tools.getResourceAsImage;
 import static com.company.common.Tools.trueVisible;
 
 public class ProducerViewController extends VBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private Text title;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button editBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private ImageView image;
 
+    @SuppressWarnings("unused")
     @FXML
     private VBox account;
 
+    @SuppressWarnings("unused")
     @FXML
     private Label accountName;
 
+    @SuppressWarnings("unused")
     @FXML
     private Label accountEmail;
 
+    @SuppressWarnings("unused")
     @FXML
     private VBox productions;
 

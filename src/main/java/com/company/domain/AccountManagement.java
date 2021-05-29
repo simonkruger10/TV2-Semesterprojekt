@@ -125,7 +125,7 @@ public class AccountManagement implements IAccountManagement {
     @Override
     public IAccount getByEmail(String email) {
         assert email != null;
-        if (currentUser.getAccessLevel().greater(AccessLevel.GUEST)) {
+        if (!currentUser.getAccessLevel().greater(AccessLevel.GUEST)) {
             throw new AccessControlException("Insufficient permission.");
         }
         return new Account(Database.getInstance().getAccount(email));
@@ -135,7 +135,7 @@ public class AccountManagement implements IAccountManagement {
     @Override
     public IAccount getByID(Integer id) {
         assert id != null;
-        if (currentUser.getAccessLevel().greater(AccessLevel.GUEST)) {
+        if (!currentUser.getAccessLevel().greater(AccessLevel.GUEST)) {
             throw new AccessControlException("Insufficient permission.");
         }
         return new Account(Database.getInstance().getAccount(id));
