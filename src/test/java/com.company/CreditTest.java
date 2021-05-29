@@ -35,6 +35,7 @@ public class CreditTest {
         newCredit.setFirstName("Bob");
         newCredit.setLastName("Marley");
         newCredit.setEmail("bob@marley.tld");
+        newCredit.setImage("defaultCreditPerson.jpg");
 
         existingCredit = new Credit();
         existingCredit.setFirstName("Mads");
@@ -87,6 +88,7 @@ public class CreditTest {
         creditDupe.setFirstName("Bob");
         creditDupe.setLastName("Marley");
         creditDupe.setEmail("bob@marley.tld");
+        creditDupe.setImage("defaultCreditPerson.jpg");
 
         assertEquals(newCredit, creditDupe);
 
