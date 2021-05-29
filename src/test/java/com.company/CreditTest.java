@@ -205,13 +205,13 @@ public class CreditTest {
             new AccountManagement().login("admin@system.tld", "admin");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            assertTrue(false);
+            fail();
         }
         //Argument cannot be null
         try {
             creditManagement.create(null);
         } catch (AccessControlException ace){
-            assertTrue(false); //We should pass the access check at this point.
+            fail(); //We should pass the access check at this point.
         } catch (RuntimeException re) {
             assertEquals(re.getMessage(), "Credit cannot be null.");
             hasRunException = true;
