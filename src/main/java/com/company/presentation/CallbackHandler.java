@@ -4,6 +4,7 @@ import javafx.scene.control.Alert.AlertType;
 
 public interface CallbackHandler {
     void list(Type type);
+    void list(Type type, Integer page);
 
     void show(Type type);
     void show(Type type, IDTO dto);

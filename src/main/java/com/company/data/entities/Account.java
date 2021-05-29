@@ -27,5 +27,4 @@ public class Account extends Person implements IAccount {
     public void setAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
-
 }

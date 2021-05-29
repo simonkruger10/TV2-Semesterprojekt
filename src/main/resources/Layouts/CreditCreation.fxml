@@ -40,77 +40,73 @@
 
 <!--suppress XmlHighlighting -->
 
-
 <fx:root alignment="TOP_CENTER" type="HBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <VBox maxWidth="400.0" minWidth="400.0" spacing="10.0">
-        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Add Credit">
+        <Label fx:id="title" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Add Credit">
             <font>
-              <Font size="24.0"/>
+              <Font size="24.0" />
             </font>
             <VBox.margin>
-              <Insets bottom="20.0"/>
+              <Insets bottom="20.0" />
             </VBox.margin>
         </Label>
         <TextField fx:id="nameText" managed="false" promptText="Name" visible="false">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </TextField>
         <TextField fx:id="firstNameText" promptText="First name">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </TextField>
         <TextField fx:id="lastNameText" promptText="Last name">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </TextField>
         <TextField fx:id="emailText" promptText="E-mail">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </TextField>
         <TextField fx:id="creditGroupText" promptText="Credit group">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </TextField>
-        <TextField fx:id="productionText" promptText="Production">
+        <TextField fx:id="productionText" disable="true" promptText="Production">
             <font>
-                <Font size="16.0"/>
+                <Font size="16.0" />
             </font>
         </TextField>
         <HBox alignment="CENTER">
-            <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
+            <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
         </HBox>
-        <Button fx:id="browse" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                onMouseClicked="#onBrowseClicked" text="Browse...">
+        <Button fx:id="browse" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#onBrowseClicked" text="Browse...">
             <padding>
-                <Insets bottom="10.0" top="10.0"/>
+                <Insets bottom="10.0" top="10.0" />
             </padding>
         </Button>
         <Text fx:id="imageText" strokeType="OUTSIDE" strokeWidth="0.0" text="Add picture (jpeg, png)">
             <VBox.margin>
-                <Insets/>
+                <Insets />
             </VBox.margin>
             <font>
-                <Font name="Arial Italic" size="13.0"/>
+                <Font name="Arial Italic" size="13.0" />
             </font>
         </Text>
-        <CheckBox fx:id="personCheck" mnemonicParsing="false" onMouseClicked="#onCheckClicked" selected="true"
-                  text="Person">
+        <CheckBox fx:id="personCheck" mnemonicParsing="false" onMouseClicked="#onCheckClicked" selected="true" text="Person">
           <VBox.margin>
-              <Insets left="5.0" top="10.0"/>
+              <Insets left="5.0" top="10.0" />
           </VBox.margin>
         </CheckBox>
-        <Button fx:id="addCreditBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
-                mnemonicParsing="false" onMouseClicked="#addCredit" prefHeight="50.0" text="Add">
+        <Button fx:id="addCreditBtn" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" mnemonicParsing="false" onMouseClicked="#addCredit" prefHeight="50.0" text="Save">
             <font>
-              <Font name="Arial" size="12.0"/>
+              <Font name="Arial" size="12.0" />
             </font>
             <VBox.margin>
-              <Insets top="5.0"/>
+              <Insets top="5.0" />
             </VBox.margin>
         </Button>
     </VBox>

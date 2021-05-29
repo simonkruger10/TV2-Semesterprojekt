@@ -20,7 +20,20 @@ public class Production extends Identifier implements IProduction {
     }
 
     public Production(IProduction production) {
-        this.setCopyOf(production);
+        assert production != null;
+
+        this.setID(production.getID());
+        this.setName(production.getName());
+        this.setReleaseDay(production.getReleaseDay());
+        this.setReleaseMonth(production.getReleaseMonth());
+        this.setReleaseYear(production.getReleaseYear());
+        this.setDescription(production.getDescription());
+        this.setImage(production.getImage());
+        this.setProducer(production.getProducer());
+
+        for (ICredit credit : production.getCredits()) {
+            this.setCredit(new Credit(credit));
+        }
     }
 
 
@@ -104,22 +117,5 @@ public class Production extends Identifier implements IProduction {
 
     public void setCredit(ICredit credit) {
         credits.put(credit.getID(), (Credit) credit);
-    }
-
-    public void setCopyOf(IProduction production) {
-        assert production != null;
-
-		this.setID(production.getID());
-        this.setName(production.getName());
-        this.setReleaseDay(production.getReleaseDay());
-        this.setReleaseMonth(production.getReleaseMonth());
-        this.setReleaseYear(production.getReleaseYear());
-        this.setDescription(production.getDescription());
-        this.setImage(production.getImage());
-        this.setProducer(production.getProducer());
-
-        for (ICredit credit : production.getCredits()) {
-	        this.setCredit(new Credit(credit));
-        }
     }
 }

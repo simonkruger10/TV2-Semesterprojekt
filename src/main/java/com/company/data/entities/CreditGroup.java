@@ -2,8 +2,6 @@ package com.company.data.entities;
 
 import com.company.common.ICreditGroup;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Objects;
 
 public class CreditGroup extends Identifier implements ICreditGroup {
@@ -15,6 +13,7 @@ public class CreditGroup extends Identifier implements ICreditGroup {
 
     public CreditGroup(ICreditGroup creditGroup) {
         assert creditGroup != null;
+
         this.setName(creditGroup.getName());
         this.setDescription(creditGroup.getDescription());
     }

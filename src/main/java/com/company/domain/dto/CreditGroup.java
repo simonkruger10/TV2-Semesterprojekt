@@ -16,7 +16,11 @@ public class CreditGroup extends Identifier implements ICreditGroup {
     }
 
     public CreditGroup(ICreditGroup creditGroup) {
-        this.setCopyOf(creditGroup);
+        assert creditGroup != null;
+
+        this.setID(creditGroup.getID());
+        this.setName(creditGroup.getName());
+        this.setDescription(creditGroup.getDescription());
     }
 
 
@@ -51,13 +55,5 @@ public class CreditGroup extends Identifier implements ICreditGroup {
     @Override
     public int hashCode() {
         return Objects.hash(name, description);
-    }
-
-    public void setCopyOf(ICreditGroup creditGroup) {
-        assert creditGroup != null;
-
-        this.setID(creditGroup.getID());
-        this.setName(creditGroup.getName());
-        this.setDescription(creditGroup.getDescription());
     }
 }

@@ -63,9 +63,9 @@ public class PostgresCreditGroup {
         CreditGroup createdCreditGroup = null;
 
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO credit_group (name, description) VALUES (?, ?, ?) RETURNING *");
-            query.setString(2, creditGroup.getName());
-            query.setString(3, creditGroup.getDescription());
+            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO credit_group (name, description) VALUES (?, ?) RETURNING *");
+            query.setString(1, creditGroup.getName());
+            query.setString(2, creditGroup.getDescription());
 
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
@@ -109,5 +109,19 @@ public class PostgresCreditGroup {
         }
 
         return producers.toArray(new ICreditGroup[0]);
+    }
+
+    public Integer countCreditGroups() {
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT count(id) FROM credit_group");
+            ResultSet queryResult = query.executeQuery();
+            if (queryResult.next()) {
+                return queryResult.getInt("count");
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return null;
     }
 }

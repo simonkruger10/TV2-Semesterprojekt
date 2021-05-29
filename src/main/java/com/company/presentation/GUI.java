@@ -1,9 +1,6 @@
 package com.company.presentation;
 
-import com.company.common.IAccount;
-import com.company.common.ICredit;
-import com.company.common.IProducer;
-import com.company.common.IProduction;
+import com.company.common.*;
 import com.company.domain.*;
 import com.company.presentation.layout.*;
 import javafx.application.Application;
@@ -22,8 +19,8 @@ public class GUI extends Application implements CallbackHandler {
     private final CreditGroupManagement creditGroupMgt = new CreditGroupManagement();
     private final ProductionManagement productionMgt = new ProductionManagement();
     private final ProducerManagement producerMgt = new ProducerManagement();
-
     private final HomepageController homepageController;
+
     private Node currentContent;
     private Node previousContent;
 
@@ -54,25 +51,39 @@ public class GUI extends Application implements CallbackHandler {
 
     @Override
     public void list(Type type) {
+        list(type, 1);
+    }
+
+    @Override
+    public void list(Type type, Integer page) {
         OverviewController overview = new OverviewController(this);
 
+        int offset = 10 * (page - 1);
+
         IDTO[] dtos = null;
+        Integer maxPages = 1;
         if (type == Type.ACCOUNT) {
-            dtos = convertToIDTO(accountMgt.list());
+            dtos = convertToIDTO(accountMgt.list(offset));
+            maxPages = calMaxPages(accountMgt.count(), 10);
         } else if (type == Type.CREDIT) {
-            dtos = convertToIDTO(creditMgt.list());
+            dtos = convertToIDTO(creditMgt.list(offset));
+            maxPages = calMaxPages(creditMgt.count(), 10);
         } else if (type == Type.CREDIT_GROUP) {
-            dtos = convertToIDTO(creditGroupMgt.list());
+            dtos = convertToIDTO(creditGroupMgt.list(offset));
+            maxPages = calMaxPages(creditGroupMgt.count(), 10);
         } else if (type == Type.PRODUCTION) {
-            dtos = convertToIDTO(productionMgt.list());
+            dtos = convertToIDTO(productionMgt.list(offset));
+            maxPages = calMaxPages(productionMgt.count(), 10);
         } else if (type == Type.PRODUCER) {
-            dtos = convertToIDTO(producerMgt.list());
+            dtos = convertToIDTO(producerMgt.list(offset));
+            maxPages = calMaxPages(producerMgt.count(), 10);
         } else if (type == Type.SEARCH) {
             // TODO: implant search view
         }
 
         if (dtos != null) {
             overview.showList(type, dtos);
+            overview.showNav(page, maxPages);
         }
         setContent(overview);
     }
@@ -94,7 +105,8 @@ public class GUI extends Application implements CallbackHandler {
             ICredit credit = (ICredit) dto.getDTO();
             setContent(new CreditViewController(creditMgt.getByID(credit.getID(), credit.getType()), this));
         } else if (type == Type.CREDIT_GROUP) {
-            // TODO: implants account view
+            ICreditGroup creditGroup = (ICreditGroup) dto.getDTO();
+            setContent(new CreditGroupViewController(creditGroupMgt.getByID(creditGroup.getID()), this));
         } else if (type == Type.PRODUCTION) {
             IProduction production = (IProduction) dto.getDTO();
             setContent(new ProductionViewController(productionMgt.getByID(production.getID()),this));
@@ -158,6 +170,14 @@ public class GUI extends Application implements CallbackHandler {
     @Override
     public void loginFailed(AlertType alertType, String message) {
         show(alertType, message);
+    }
+
+    private Integer calMaxPages(Integer count, Integer countEachPage) {
+        int maxPages = count / countEachPage;
+        if (count%countEachPage > 0) {
+            return ++maxPages;
+        }
+        return maxPages;
     }
 
     private void update() {

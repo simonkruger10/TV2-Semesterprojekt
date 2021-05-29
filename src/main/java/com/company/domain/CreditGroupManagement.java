@@ -143,6 +143,10 @@ public class CreditGroupManagement implements ICreditGroupManagement {
         Database.getInstance().updateCreditGroup(creditGroup);
     }
 
+    @Override
+    public Integer count() {
+        return Database.getInstance().countCreditGroups();
+    }
 
     private void controlsRequirements(ICreditGroup creditGroup) {
         if (creditGroup == null || isNullOrEmpty(creditGroup.getName())) {

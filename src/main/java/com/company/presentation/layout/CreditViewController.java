@@ -1,9 +1,6 @@
 package com.company.presentation.layout;
 
-import com.company.common.AccessLevel;
-import com.company.common.ICredit;
-import com.company.common.IProduction;
-import com.company.common.Tools;
+import com.company.common.*;
 import com.company.domain.AccountManagement;
 import com.company.domain.ProductionManagement;
 import com.company.presentation.CallbackHandler;
@@ -17,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -28,7 +26,19 @@ import static com.company.common.Tools.trueVisible;
 
 public class CreditViewController extends VBox implements UpdateHandler {
     @FXML
+    private Button editCreditBtn;
+
+    @FXML
     private ImageView image;
+
+    @FXML
+    private GridPane unit;
+
+    @FXML
+    private Text name;
+
+    @FXML
+    private GridPane person;
 
     @FXML
     private Text firstName;
@@ -38,9 +48,6 @@ public class CreditViewController extends VBox implements UpdateHandler {
 
     @FXML
     private VBox creditedFor;
-
-    @FXML
-    private Button editCreditBtn;
 
     private ICredit credit;
     private final CallbackHandler callback;
@@ -64,10 +71,19 @@ public class CreditViewController extends VBox implements UpdateHandler {
 
     public void viewCredit(ICredit credit) {
         this.credit = credit;
+        boolean isUnit = credit.getType().equals(CreditType.UNIT);
 
-        firstName.setText(credit.getFirstName());
-        lastName.setText(credit.getLastName());
-        image.setImage(getResourceAsImage("/images/" + credit.getImage()));
+        trueVisible(unit, isUnit);
+        trueVisible(image, !isUnit);
+        trueVisible(person, !isUnit);
+
+        if (isUnit) {
+            name.setText(credit.getName());
+        } else {
+            firstName.setText(credit.getFirstName());
+            lastName.setText(credit.getLastName());
+            image.setImage(getResourceAsImage("/images/" + credit.getImage()));
+        }
 
         for (IProduction production : new ProductionManagement().getProductionByCredit(credit)) {
             ImageRowController iRow = new ImageRowController(Type.PRODUCTION, (IDTO<IProduction>) () -> production, callback);

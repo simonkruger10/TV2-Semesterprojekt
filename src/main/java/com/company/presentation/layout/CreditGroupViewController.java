@@ -2,7 +2,7 @@ package com.company.presentation.layout;
 
 import com.company.common.*;
 import com.company.domain.AccountManagement;
-import com.company.domain.IAccountManagement;
+import com.company.domain.CreditManagement;
 import com.company.presentation.*;
 import com.company.presentation.layout.parts.ImageRowController;
 import com.company.presentation.layout.parts.TextRowController;
@@ -10,20 +10,24 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 
 import static com.company.common.Tools.*;
 
-public class OverviewController extends VBox implements UpdateHandler {
+
+public class CreditGroupViewController extends VBox implements UpdateHandler {
     @FXML
-    private VBox main;
+    private Text creditGroupRole;
 
     @FXML
-    private ComboBox<?> sortByBtn;
+    private Button editCreditGroupBtn;
+
+    @FXML
+    private VBox credits;
 
     @FXML
     private Button prvBtn;
@@ -52,96 +56,61 @@ public class OverviewController extends VBox implements UpdateHandler {
     @FXML
     private Button nextBtn;
 
-    private final IAccountManagement aMgt = new AccountManagement();
+    private ICreditGroup creditGroup;
     private final CallbackHandler callback;
-    private Type type;
     private Integer currentPage;
 
-    public OverviewController(CallbackHandler callback) {
+    public CreditGroupViewController(ICreditGroup creditGroup, CallbackHandler callback) {
         this.callback = callback;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/Overview.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/CreditGroupView.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        update();
+        viewCreditGroup(creditGroup);
     }
 
-    public void showList(Type type, IDTO[] dtos) {
-        this.type = type;
+    public void viewCreditGroup(ICreditGroup creditGroup) {
+        this.creditGroup = creditGroup;
 
-        // Start the count from the number of children
-        int i = main.getChildren().size();
+        creditGroupRole.setText(creditGroup.getName());
 
-        if (type == Type.ACCOUNT || type == Type.CREDIT_GROUP) {
-            for (IDTO dto : dtos) {
-                TextRowController cRow = new TextRowController(type, dto, callback);
+        ICredit[] list = new CreditManagement().getByCreditGroup(creditGroup);
 
-                if (type == Type.ACCOUNT) {
-                    IAccount account = (IAccount) dto.getDTO();
-                    cRow.setText(account.getFullName() + ", " + account.getEmail());
-                } else {
-                    cRow.setText(((ICreditGroup) dto.getDTO()).getName());
-                }
-
-                if (!isEven(i)) {
-                    cRow.setBackground(Colors.ODD_COLOR);
-                }
-
-                main.getChildren().add(i, cRow);
-                i++;
-            }
-        } else if (type == Type.CREDIT) {
-            for (IDTO dto : dtos) {
-                ICredit credit = (ICredit) dto.getDTO();
-                if (credit.getType().equals(CreditType.UNIT)) {
-                    TextRowController cRow = new TextRowController(type, dto, callback);
-                    cRow.setText(credit.getName());
-                    if (!isEven(i)) {
-                        cRow.setBackground(Colors.ODD_COLOR);
-                    }
-
-                    main.getChildren().add(i, cRow);
-                } else {
-                    ImageRowController iRow = new ImageRowController(type, dto, callback);
-                    iRow.setText(credit.getFullName());
-                    iRow.setImage(getResourceAsImage("/images/" + credit.getImage()));
-                    if (!isEven(i)) {
-                        iRow.setBackground(Colors.ODD_COLOR);
-                    }
-
-                    main.getChildren().add(i, iRow);
-                }
-
-                i++;
-            }
-        } else {
-            String text = null;
-            String image = null;
-
-            for (IDTO dto : dtos) {
-                if (type == Type.PRODUCER) {
-                    IProducer producer = (IProducer) dto.getDTO();
-                    text = producer.getName();
-                    image = producer.getLogo();
-                } else {
-                    IProduction production = (IProduction) dto.getDTO();
-                    text = production.getName();
-                    image = production.getImage();
-                }
-
-                ImageRowController iRow = new ImageRowController(type, dto, callback);
-                iRow.setText(text);
-                iRow.setImage(getResourceAsImage("/images/" + image));
+        int i = 0;
+        for (ICredit credit : list) {
+            // Rows
+            if (credit.getType().equals(CreditType.PERSON)) {
+                ImageRowController iRow = new ImageRowController(Type.CREDIT, () -> credit, callback);
+                iRow.setText(credit.getFullName());
+                iRow.setImage(getResourceAsImage("/images/" + credit.getImage()));
                 if (!isEven(i)) {
                     iRow.setBackground(Colors.ODD_COLOR);
                 }
 
-                main.getChildren().add(i, iRow);
-                i++;
+                credits.getChildren().add(iRow);
+            } else {
+                TextRowController cRow = new TextRowController(Type.CREDIT, () -> credit, callback);
+                cRow.setText(credit.getFullName());
+                if (!isEven(i)) {
+                    cRow.setBackground(Colors.ODD_COLOR);
+                }
+
+                credits.getChildren().add(cRow);
+            }
+
+            i++;
+
+            //TODO this break is a temporary hack made before a deadline
+            if (i >= 10) {
+                showNav(1, calMaxPages(list.length, 10));
+                break;
             }
         }
 
@@ -202,36 +171,44 @@ public class OverviewController extends VBox implements UpdateHandler {
         }
     }
 
+    //TODO this calMaxPages is a temporary hack made before a deadline
+    private Integer calMaxPages(Integer count, Integer countEachPage) {
+        int maxPages = count / countEachPage;
+        if (count%countEachPage > 0) {
+            return ++maxPages;
+        }
+        return maxPages;
+    }
+
     @FXML
     public void onPrv(MouseEvent event) {
-        callback.list(type, currentPage - 1);
     }
 
     @FXML
     public void onGoto(MouseEvent event) {
-        Button button = (Button) event.getSource();
-        Integer pageNumber = Integer.parseInt(button.getText());
-        callback.list(type, pageNumber);
     }
 
     @FXML
     public void onNext(MouseEvent event) {
-        callback.list(type, currentPage + 1);
+    }
+
+    @FXML
+    private void edit(MouseEvent event) {
+        callback.edit(Type.CREDIT_GROUP, (IDTO<ICreditGroup>) () -> creditGroup);
     }
 
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
-        if (type == Type.ACCOUNT) {
-            return accessLevel.equals(AccessLevel.ADMINISTRATOR);
-        }
         return true;
     }
 
     @Override
     public void update() {
-        AccessLevel accessLevel = aMgt.getCurrentUser().getAccessLevel();
+        AccessLevel accessLevel = new AccountManagement().getCurrentUser().getAccessLevel();
+        trueVisible(editCreditGroupBtn, accessLevel.greater(AccessLevel.CONSUMER));
+
         boolean state = accessLevel.equals(AccessLevel.ADMINISTRATOR);
-        for (Node node : main.getChildren()) {
+        for (Node node : credits.getChildren()) {
             if (node instanceof ImageRowController) {
                 ((ImageRowController) node).showEdit(state);
             } else if (node instanceof TextRowController) {

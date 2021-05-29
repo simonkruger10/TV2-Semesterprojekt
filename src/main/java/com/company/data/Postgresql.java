@@ -24,11 +24,6 @@ public class Postgresql implements DatabaseFacade {
         }
     }
 
-    @Override //TODO What does this method do? Is it used anywhere, and what should it check?
-    public boolean checkAccess() {
-        return false;
-    }
-
     @Override
     public IProducer[] searchProducers(String word) {
         return postgresProducer.searchProducers(word);
@@ -57,6 +52,11 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public void updateProducer(IProducer producer) {
         postgresProducer.updateProducer(producer);
+    }
+
+    @Override
+    public Integer countProducers() {
+        return postgresProducer.countProducers();
     }
 
     @Override
@@ -96,6 +96,11 @@ public class Postgresql implements DatabaseFacade {
     }
 
     @Override
+    public Integer countProductions() {
+        return postgresProduction.countProductions();
+    }
+
+    @Override
     public ICredit[] searchCredits(String word) {
         return postgresCredit.searchCredits(word);
     }
@@ -103,6 +108,11 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public ICredit[] getCredits(Integer limit, Integer offset) {
         return postgresCredit.getCredits(limit, offset);
+    }
+
+    @Override
+    public ICredit[] getCredits(ICreditGroup creditGroup) {
+        return postgresCredit.getCredits(creditGroup);
     }
 
     @Override
@@ -123,6 +133,11 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public boolean deleteCredit(Integer id) {
         return postgresCredit.deleteCredit(id);
+    }
+
+    @Override
+    public Integer countCredits() {
+        return postgresCredit.countCredits();
     }
 
     @Override
@@ -148,6 +163,11 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public void updateCreditGroup(ICreditGroup creditGroup) {
         postgresCreditGroup.updateCreditGroup(creditGroup);
+    }
+
+    @Override
+    public Integer countCreditGroups() {
+        return postgresCreditGroup.countCreditGroups();
     }
 
     @Override
@@ -188,5 +208,10 @@ public class Postgresql implements DatabaseFacade {
     @Override
     public void updateAccount(IAccount account, String hashedPassword) {
         postgresAccount.updateAccount(account, hashedPassword);
+    }
+
+    @Override
+    public Integer countAccounts() {
+        return postgresAccount.countAccounts();
     }
 }

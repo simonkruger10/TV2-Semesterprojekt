@@ -3,17 +3,17 @@ package com.company.common;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Scanner;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Tools {
     //TODO this cache is a temporary hack made before a deadline
     // investigate using JavaFX's library to cache resources.
     private static HashMap<String, Image> imageCache = new HashMap<>();
+    private static HashMap<String, URL> urlCache = new HashMap<>();
+
     // https://www.regular-expressions.info/email.html
     private static final Pattern EMAIL_PATTERN =
             Pattern.compile("^(?=[a-zA-Z0-9][a-zA-Z0-9@._%+-]{5,253}+$)" + //Contains only valid characters
@@ -22,6 +22,8 @@ public class Tools {
                         "(?=[a-zA-Z0-9-]{1,63}+\\.)[a-zA-Z0-9]++" +  //There must at least be some text ending with a '.'
                     "(?:-[a-zA-Z0-9]++)*+\\.){1,8}" +             //It must have text after the '.' and there can be 8 sub-domains
                     "+[a-zA-Z]{2,63}+$");                         //And there must be some text/country/domain-code to end the email.
+
+    private static final Pattern BASENAME_PATTERN = Pattern.compile("([^\\/]+$)");
 
     public static boolean trueContains(String phrase, String keyword) {
         return phrase != null && keyword != null && !keyword.trim().isEmpty()
@@ -47,34 +49,24 @@ public class Tools {
 
     public static URL getResourceAsUrl(String fileName) {
         assert fileName != null;
-        return Tools.class.getResource(fileName);
-    }
 
-    public static File getResourceAsFile(String fileName) {
-        URL file = getResourceAsUrl(fileName);
-        assert file != null;
-        return new File(file.getFile());
+        URL url = urlCache.get(fileName);
+        if(url == null) {
+            url = Tools.class.getResource(fileName);
+            urlCache.put(fileName, url);
+        }
+        return url;
     }
 
     public static Image getResourceAsImage(String fileName) {
+        assert fileName != null;
+
         Image image = imageCache.get(fileName);
         if(image == null) {
-            URL path = getResourceAsUrl(fileName);
-            assert path != null;
-            image = new Image(path.toString());
+            image = new Image(getResourceAsUrl(fileName).toString());
             imageCache.put(fileName, image);
         }
         return image;
-    }
-
-    public static String readFileAsString(File file) throws FileNotFoundException {
-        Scanner scanner = new Scanner(file);
-        StringBuilder text = new StringBuilder();
-        while (scanner.hasNext()) {
-            text.append(scanner.nextLine());
-            text.append("\n");
-        }
-        return text.toString();
     }
 
     public static String createFullName(String firstName, String lastName) {
@@ -98,5 +90,13 @@ public class Tools {
         // This method may need to be in the gui package
         node.setVisible(state);
         node.setManaged(state);
+    }
+
+    public static String basename(String string) {
+        final Matcher matcher = BASENAME_PATTERN.matcher(string);
+        if (matcher.find()) {
+            return matcher.group(0);
+        }
+        return null;
     }
 }

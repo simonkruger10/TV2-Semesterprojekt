@@ -220,5 +220,6 @@ public class HomepageController extends VBox implements UpdateHandler {
         } else {
             content.getChildren().add(node);
         }
+        scrollBar.setVvalue(0);
     }
 }

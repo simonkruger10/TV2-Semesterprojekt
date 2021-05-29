@@ -8,8 +8,6 @@ public interface DatabaseFacade {
         return null;
     }
 
-    boolean checkAccess();
-
 
     IProducer[] searchProducers(String word);
 
@@ -21,6 +19,8 @@ public interface DatabaseFacade {
 
     void updateProducer(IProducer producer);
 
+
+    Integer countProducers();
 
     IProduction[] searchProductions(String word);
 
@@ -37,9 +37,13 @@ public interface DatabaseFacade {
     void updateProduction(IProduction production);
 
 
+    Integer countProductions();
+
     ICredit[] searchCredits(String word);
 
     ICredit[] getCredits(Integer limit, Integer offset);
+
+    ICredit[] getCredits(ICreditGroup creditGroup);
 
     ICredit getCredit(Integer id, CreditType type);
 
@@ -49,6 +53,8 @@ public interface DatabaseFacade {
 
     boolean deleteCredit(Integer id);
 
+
+    Integer countCredits();
 
     ICreditGroup[] searchCreditGroups(String word);
 
@@ -60,6 +66,8 @@ public interface DatabaseFacade {
 
     void updateCreditGroup(ICreditGroup creditGroup);
 
+
+    Integer countCreditGroups();
 
     IAccount[] searchAccounts(String word);
 
@@ -76,4 +84,6 @@ public interface DatabaseFacade {
     void updateAccount(IAccount account);
 
     void updateAccount(IAccount account, String hashedPassword);
+
+    Integer countAccounts();
 }

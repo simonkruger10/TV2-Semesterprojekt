@@ -10,10 +10,7 @@ import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
@@ -23,6 +20,9 @@ import java.security.NoSuchAlgorithmException;
 import static com.company.common.Tools.isNullOrEmpty;
 
 public class EditAccountController extends VBox implements UpdateHandler {
+    @FXML
+    private Label title;
+
     @FXML
     private TextField firstNameText;
 
@@ -42,13 +42,13 @@ public class EditAccountController extends VBox implements UpdateHandler {
     private Button addBtn;
 
     private final CallbackHandler callback;
-    private boolean edit = false;
+    private IAccount account = null;
 
     public EditAccountController(CallbackHandler callback) {
         this.callback = callback;
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/EditAccountView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Tools.getResourceAsUrl("/Layouts/EditAccount.fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
@@ -58,48 +58,64 @@ public class EditAccountController extends VBox implements UpdateHandler {
     }
 
     public void loadAccount(IAccount account) {
-        this.edit = true;
+        this.account = account;
 
         firstNameText.setText(account.getFirstName());
         lastNameText.setText(account.getLastName());
         emailText.setText(account.getEmail());
 
+        title.setText("Edit Account");
         passwordText1.setPromptText("New Password");
         passwordText2.setPromptText("New Password Again");
     }
 
     @FXML
     public void add(MouseEvent event) {
-        Account account = new Account();
+        Account account;
+        if (this.account == null) {
+            account = new Account();
+        } else {
+            account = new Account(this.account);
+        }
+
         account.setFirstName(firstNameText.getText());
         account.setLastName(lastNameText.getText());
         account.setEmail(emailText.getText());
+        account.setAccessLevel(AccessLevel.ADMINISTRATOR);
 
         String newPassword = passwordText1.getText();
-        if (isNullOrEmpty(newPassword) && !edit) {
-            callback.show(Alert.AlertType.ERROR, "Password is required!");
+        if (isNullOrEmpty(newPassword) && this.account == null) {
+            callback.show(Alert.AlertType.WARNING, "Password is required!");
             return;
         }
 
-        if (!isNullOrEmpty(newPassword) && !newPassword.equals(passwordText2.getText())) {
-            callback.show(Alert.AlertType.ERROR, "The two passwords do not match!");
-            return;
+        if (!isNullOrEmpty(newPassword)) {
+            if (isNullOrEmpty(newPassword)) {
+                callback.show(Alert.AlertType.WARNING, "You must fill in both password fields!");
+                return;
+            }
+            if (!newPassword.equals(passwordText2.getText())) {
+                callback.show(Alert.AlertType.WARNING, "The two passwords do not match!");
+                return;
+            }
         }
 
         try {
-            if (edit) {
+            if (this.account == null) {
+                IAccount newAccount = new AccountManagement().create(account, newPassword);
+                callback.show(Type.ACCOUNT, () -> newAccount);
+            } else {
                 if (isNullOrEmpty(newPassword)) {
                     new AccountManagement().update(account);
                 } else {
                     new AccountManagement().update(account, newPassword);
                 }
                 callback.show(Type.ACCOUNT, () -> account);
-            } else {
-                IAccount newAccount = new AccountManagement().create(account, newPassword);
-                callback.show(Type.ACCOUNT, () -> newAccount);
             }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+        } catch (RuntimeException e) {
+            callback.show(Alert.AlertType.WARNING, e.getMessage());
         }
     }
 

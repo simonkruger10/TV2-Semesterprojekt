@@ -17,4 +17,6 @@ public interface ICreditGroupManagement {
     ICreditGroup create(ICreditGroup credit);
 
     void update(ICreditGroup credit);
+
+    Integer count();
 }

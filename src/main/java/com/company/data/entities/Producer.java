@@ -3,9 +3,6 @@ package com.company.data.entities;
 import com.company.common.IAccount;
 import com.company.common.IProducer;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 public class Producer extends Identifier implements IProducer {
     private String name = null;
     private String logo = null;
@@ -16,6 +13,7 @@ public class Producer extends Identifier implements IProducer {
 
     public Producer(IProducer producer) {
         assert producer != null;
+
         this.setName(producer.getName());
         this.setLogo(producer.getLogo());
         this.setAccount(new Account(producer.getAccount()));

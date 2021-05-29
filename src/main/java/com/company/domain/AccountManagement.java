@@ -34,6 +34,10 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public IAccount[] list(int start, int max) {
+        if (!isAdmin()) {
+            throw new AccessControlException("Insufficient permission.");
+        }
+
         final List<IAccount> list = new ArrayList<>();
 
         for (IAccount account: Database.getInstance().getAccounts(max, start)) {
@@ -51,6 +55,10 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public IAccount[] search(String[] words, int maxResults) {
+        if (!isAdmin()) {
+            throw new AccessControlException("Insufficient permission.");
+        }
+
         final List<Pair<Account, Integer>> result = new ArrayList<>();
 
         onMaxResults:
@@ -117,14 +125,19 @@ public class AccountManagement implements IAccountManagement {
     @Override
     public IAccount getByEmail(String email) {
         assert email != null;
-        return Database.getInstance().getAccount(email);
+        if (currentUser.getAccessLevel().greater(AccessLevel.GUEST)) {
+            throw new AccessControlException("Insufficient permission.");
+        }
+        return new Account(Database.getInstance().getAccount(email));
     }
 
 
     @Override
     public IAccount getByID(Integer id) {
         assert id != null;
-
+        if (currentUser.getAccessLevel().greater(AccessLevel.GUEST)) {
+            throw new AccessControlException("Insufficient permission.");
+        }
         return new Account(Database.getInstance().getAccount(id));
     }
 
@@ -147,6 +160,9 @@ public class AccountManagement implements IAccountManagement {
 
     @Override
     public IAccount getCurrentUser() {
+        if (currentUser.getAccessLevel().greater(AccessLevel.GUEST)) {
+            return Database.getInstance().getAccount(currentUser.getID());
+        }
         return currentUser;
     }
 
@@ -199,12 +215,19 @@ public class AccountManagement implements IAccountManagement {
         }
 
         if (isNullOrEmpty(password)) {
-            Database.getInstance().updateAccount(account, null);
+            Database.getInstance().updateAccount(account);
         } else {
             Database.getInstance().updateAccount(account, hashPassword(password));
         }
     }
 
+    @Override
+    public Integer count() {
+        if (!isAdmin()) {
+            throw new AccessControlException("Insufficient permission.");
+        }
+        return Database.getInstance().countAccounts();
+    }
 
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isAdmin() {
@@ -213,8 +236,8 @@ public class AccountManagement implements IAccountManagement {
 
     private void controlsRequirements(IAccount account) {
         AccessLevel accessLevel = account.getAccessLevel();
-        if (!isNullOrEmpty(account.getFirstName()) && !isNullOrEmpty(account.getEmail())
-                && accessLevel != null && accessLevel.greater(AccessLevel.GUEST)) {
+        if (isNullOrEmpty(account.getFirstName()) || isNullOrEmpty(account.getEmail())
+                || accessLevel == null || accessLevel.equals(AccessLevel.GUEST)) {
             throw new RuntimeException("First name, email and access level is required.");
         }
     }

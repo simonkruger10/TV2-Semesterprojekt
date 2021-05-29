@@ -17,12 +17,6 @@ public class Database implements DatabaseFacade {
         return instance;
     }
 
-
-    @Override
-    public boolean checkAccess() {
-        return this.database.checkAccess();
-    }
-
     @Override
     public IProducer[] searchProducers(String word) {
         return this.database.searchProducers(word);
@@ -46,6 +40,11 @@ public class Database implements DatabaseFacade {
     @Override
     public void updateProducer(IProducer producer) {
         this.database.updateProducer(producer);
+    }
+
+    @Override
+    public Integer countProducers() {
+        return this.database.countProducers();
     }
 
     @Override
@@ -83,6 +82,11 @@ public class Database implements DatabaseFacade {
     }
 
     @Override
+    public Integer countProductions() {
+        return this.database.countProductions();
+    }
+
+    @Override
     public ICredit[] searchCredits(String word) {
         return this.database.searchCredits(word);
     }
@@ -90,6 +94,11 @@ public class Database implements DatabaseFacade {
     @Override
     public ICredit[] getCredits(Integer limit, Integer offset) {
         return this.database.getCredits(limit, offset);
+    }
+
+    @Override
+    public ICredit[] getCredits(ICreditGroup creditGroup) {
+        return this.database.getCredits(creditGroup);
     }
 
     @Override
@@ -110,6 +119,11 @@ public class Database implements DatabaseFacade {
     @Override
     public boolean deleteCredit(Integer id) {
         return this.database.deleteCredit(id);
+    }
+
+    @Override
+    public Integer countCredits() {
+        return this.database.countCredits();
     }
 
     @Override
@@ -135,6 +149,11 @@ public class Database implements DatabaseFacade {
     @Override
     public void updateCreditGroup(ICreditGroup creditGroup) {
         this.database.updateCreditGroup(creditGroup);
+    }
+
+    @Override
+    public Integer countCreditGroups() {
+        return this.database.countCreditGroups();
     }
 
     @Override
@@ -175,5 +194,10 @@ public class Database implements DatabaseFacade {
     @Override
     public void updateAccount(IAccount account, String hashedPassword) {
         this.database.updateAccount(account, hashedPassword);
+    }
+
+    @Override
+    public Integer countAccounts() {
+        return this.database.countAccounts();
     }
 }

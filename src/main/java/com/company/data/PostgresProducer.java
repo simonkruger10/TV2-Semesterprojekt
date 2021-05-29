@@ -130,4 +130,18 @@ public class PostgresProducer {
 
         return producers.toArray(new IProducer[0]);
     }
+
+    public Integer countProducers() {
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT count(id) FROM producer");
+            ResultSet queryResult = query.executeQuery();
+            if (queryResult.next()) {
+                return queryResult.getInt("count");
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return null;
+    }
 }

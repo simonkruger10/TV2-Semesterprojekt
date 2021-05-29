@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,10 +21,12 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 
-import static com.company.common.Tools.getResourceAsImage;
-import static com.company.common.Tools.trueVisible;
+import static com.company.common.Tools.*;
 
 public class CreditCreationController extends HBox implements UpdateHandler {
+    @FXML
+    private Label title;
+
     @FXML
     private TextField nameText;
 
@@ -58,7 +61,7 @@ public class CreditCreationController extends HBox implements UpdateHandler {
     private Button addCreditBtn;
 
     private final CallbackHandler callback;
-    private boolean edit = false;
+    private ICredit credit = null;
 
     public CreditCreationController(CallbackHandler callback) {
         this.callback = callback;
@@ -76,34 +79,44 @@ public class CreditCreationController extends HBox implements UpdateHandler {
     }
 
     public void loadCredit(ICredit credit) {
-        this.edit = true;
+        this.credit = credit;
 
         nameText.setText(credit.getName());
 
-        firstNameText.setText(credit.getFirstName());
-        lastNameText.setText(credit.getLastName());
-        emailText.setText(credit.getEmail());
-        image.setImage(getResourceAsImage("/images/" + credit.getImage()));
+        if (credit.getType().equals(CreditType.PERSON)) {
+            firstNameText.setText(credit.getFirstName());
+            lastNameText.setText(credit.getLastName());
+            emailText.setText(credit.getEmail());
+            image.setImage(getResourceAsImage("/images/" + credit.getImage()));
+        }
 
         trueVisible(personCheck, false);
         trueVisible(creditGroupText, false);
         trueVisible(productionText, false);
         toggleView(credit.getType().equals(CreditType.PERSON));
+
+        title.setText("Edit Credit");
     }
 
     @FXML
     public void addCredit(MouseEvent event) {
-        Credit credit = new Credit();
-        credit.setFirstName(firstNameText.getText());
-        credit.setLastName(lastNameText.getText());
-        credit.setEmail(emailText.getText());
+        Credit credit;
+        if (this.credit == null) {
+            credit = new Credit();
+        } else {
+            credit = new Credit(this.credit);
+        }
+
         if (personCheck.isSelected()) {
             credit.setType(CreditType.PERSON);
         } else {
             credit.setType(CreditType.UNIT);
         }
-        String[] parts = image.getImage().getUrl().split("([^\\/]+$)"); // Getting basename of the url
-        credit.setImage(parts[parts.length - 1]);
+        credit.setName(nameText.getText());
+        credit.setFirstName(firstNameText.getText());
+        credit.setLastName(lastNameText.getText());
+        credit.setEmail(emailText.getText());
+        credit.setImage(basename(image.getImage().getUrl()));
 
         CreditGroupManagement cMgt = new CreditGroupManagement();
         String creditGroupName = creditGroupText.getText();
@@ -113,11 +126,11 @@ public class CreditCreationController extends HBox implements UpdateHandler {
         }
         credit.addCreditGroup(new CreditGroup(creditGroup));
 
-        if (edit) {
+        if (this.credit == null) {
+            callback.show(Type.CREDIT, () -> new CreditManagement().create(credit));
+        } else {
             new CreditManagement().update(credit);
             callback.show(Type.CREDIT, () -> credit);
-        } else {
-            callback.show(Type.CREDIT, () -> new CreditManagement().create(credit));
         }
     }
 

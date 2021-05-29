@@ -23,4 +23,6 @@ public interface IProductionManagement {
     IProduction create(IProduction credit);
 
     void update(IProduction credit);
+
+    Integer count();
 }

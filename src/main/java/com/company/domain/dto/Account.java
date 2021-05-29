@@ -12,7 +12,13 @@ public class Account extends Person implements IAccount {
     }
 
     public Account(IAccount account) {
-        this.setCopyOf(account);
+        assert account != null;
+
+        this.setID(account.getID());
+        this.setFirstName(account.getFirstName());
+        this.setLastName(account.getLastName());
+        this.setEmail(account.getEmail());
+        this.setAccessLevel(account.getAccessLevel());
     }
 
 
@@ -23,15 +29,5 @@ public class Account extends Person implements IAccount {
 
     public void setAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
-    }
-
-
-    public void setCopyOf(IAccount account) {
-        assert account != null;
-        this.setID(account.getID());
-        this.setFirstName(account.getFirstName());
-        this.setLastName(account.getLastName());
-        this.setEmail(account.getEmail());
-        this.setAccessLevel(account.getAccessLevel());
     }
 }

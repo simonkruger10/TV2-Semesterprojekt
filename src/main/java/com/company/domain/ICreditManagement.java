@@ -2,6 +2,7 @@ package com.company.domain;
 
 import com.company.common.CreditType;
 import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
 
 public interface ICreditManagement {
     ICredit[] list();
@@ -16,7 +17,11 @@ public interface ICreditManagement {
 
     ICredit getByID(Integer id, CreditType type);
 
+    ICredit[] getByCreditGroup(ICreditGroup creditGroup);
+
     ICredit create(ICredit credit);
 
     void update(ICredit credit);
+
+    Integer count();
 }

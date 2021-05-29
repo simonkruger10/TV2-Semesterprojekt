@@ -3,6 +3,7 @@ package com.company.domain;
 import com.company.common.AccessLevel;
 import com.company.common.CreditType;
 import com.company.common.ICredit;
+import com.company.common.ICreditGroup;
 import com.company.data.Database;
 import com.company.domain.dto.Credit;
 import javafx.util.Pair;
@@ -79,7 +80,6 @@ public class CreditManagement implements ICreditManagement {
                 .toArray(ICredit[]::new);                           //Convert the List<Key> into Key[]
     }
 
-
     @Override
     public ICredit[] getByName(String firstName) {
         return getByName(firstName, null);
@@ -113,6 +113,16 @@ public class CreditManagement implements ICreditManagement {
 
         return new Credit(Database.getInstance().getCredit(id, type));
     }
+
+    @Override
+    public ICredit[] getByCreditGroup(ICreditGroup creditGroup) {
+        final List<ICredit> credits = new ArrayList<>();
+        for (ICredit credit: Database.getInstance().getCredits(creditGroup)) {
+            credits.add(new Credit(credit));
+        }
+        return credits.toArray(new ICredit[0]);
+    }
+
 
     @Override
     public ICredit create(ICredit credit) {
@@ -149,6 +159,11 @@ public class CreditManagement implements ICreditManagement {
         Database.getInstance().updateCredit(new Credit(credit));
     }
 
+    @Override
+    public Integer count() {
+        return Database.getInstance().countCredits();
+    }
+
 
     private void controlsAccess() {
         if (aMgt.getCurrentUser().getAccessLevel() != AccessLevel.PRODUCER && !aMgt.isAdmin()) {
@@ -160,8 +175,23 @@ public class CreditManagement implements ICreditManagement {
         if (credit == null) {
             throw new RuntimeException("Credit cannot be null.");
         }
-        if (isNullOrEmpty(credit.getFirstName())) {
-            throw new RuntimeException("First name cannot be null or empty.");
+        if (credit.getType() == null) {
+            throw new RuntimeException("Credit type cannot be null.");
+        }
+        if (credit.getType() == CreditType.UNIT) {
+            if (isNullOrEmpty(credit.getName())) {
+                throw new RuntimeException("Name cannot be null or empty.");
+            }
+        } else {
+            if (isNullOrEmpty(credit.getFirstName())) {
+                throw new RuntimeException("First name cannot be null or empty.");
+            }
+            if (isNullOrEmpty(credit.getLastName())) {
+                throw new RuntimeException("Last name cannot be null or empty.");
+            }
+            if (isNullOrEmpty(credit.getImage())) {
+                throw new RuntimeException("Image cannot be null or empty.");
+            }
         }
         if (credit.getCreditGroups() == null || credit.getCreditGroups().length == 0) {
             throw new RuntimeException("The person must be assigned a Credit Group.");

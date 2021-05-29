@@ -28,4 +28,6 @@ public interface IAccountManagement {
 
     void update(IAccount account) throws NoSuchAlgorithmException;
     void update(IAccount account, String password) throws NoSuchAlgorithmException;
+
+    Integer count();
 }

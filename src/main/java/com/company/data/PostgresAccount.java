@@ -13,6 +13,7 @@ import java.util.List;
 public class PostgresAccount {
     public static Account createFromQueryResult(ResultSet queryResult) throws SQLException {
         Account account = new Account();
+        account.setID(queryResult.getInt("id"));
         account.setFirstName(queryResult.getString("f_name"));
         account.setLastName(queryResult.getString("l_name"));
         account.setEmail(queryResult.getString("email"));
@@ -100,13 +101,12 @@ public class PostgresAccount {
         Account createdAccount = null;
 
         try {
-            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO account (id, f_name, l_name, email, access_level, password) VALUES (?,?,?,?,?,?,?) RETURNING *");
-            query.setInt(1, account.getID());
-            query.setString(2, account.getFirstName());
-            query.setString(3, account.getLastName());
-            query.setString(4, account.getEmail());
-            query.setInt(5, account.getAccessLevel().getLevel());
-            query.setString(6, hashedPassword);
+            PreparedStatement query = Postgresql.connection.prepareStatement("INSERT INTO account (f_name, l_name, email, access_level, password) VALUES (?,?,?,?,?) RETURNING *");
+            query.setString(1, account.getFirstName());
+            query.setString(2, account.getLastName());
+            query.setString(3, account.getEmail());
+            query.setInt(4, account.getAccessLevel().getLevel());
+            query.setString(5, hashedPassword);
 
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
@@ -169,5 +169,19 @@ public class PostgresAccount {
         }
 
         return producers.toArray(new IAccount[0]);
+    }
+
+    public Integer countAccounts() {
+        try {
+            PreparedStatement query = Postgresql.connection.prepareStatement("SELECT count(id) FROM account");
+            ResultSet queryResult = query.executeQuery();
+            if (queryResult.next()) {
+                return queryResult.getInt("count");
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
+        return null;
     }
 }

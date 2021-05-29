@@ -119,9 +119,14 @@ public class ProducerManagement implements IProducerManagement {
         Database.getInstance().updateProducer(new Producer(producer));
     }
 
+    @Override
+    public Integer count() {
+        return Database.getInstance().countProducers();
+    }
+
 
     private void controlsRequirements(IProducer producer) {
-        if (producer == null || isNullOrEmpty(producer.getName())) {
+        if (producer == null || isNullOrEmpty(producer.getName()) || isNullOrEmpty(producer.getLogo())) {
             throw new RuntimeException("Name is required.");
         }
     }

@@ -18,4 +18,6 @@ public interface IProducerManagement {
     IProducer create(IProducer producer);
 
     void update(IProducer producer);
+
+    Integer count();
 }

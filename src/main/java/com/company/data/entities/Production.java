@@ -22,6 +22,7 @@ public class Production extends Identifier implements IProduction {
 
     public Production(IProduction production) {
         assert production != null;
+
         this.setName(production.getName());
         this.setReleaseDay(production.getReleaseDay());
         this.setReleaseMonth(production.getReleaseMonth());
