@@ -33,25 +33,23 @@ Setup SDK
 Setup Database
 
 1. Install PostgresSQL on your computer.
-
 2. Set password for PostgresSQL
    
       **NOTE: It is imperative that you remember your password**
 
 3. In IntelliJ open the database tool window (View | Tool Windows | Database).
+4. Click on the "Data Source Properties". Then, add a PostgresSQL database (Data Source | PostgresSQL) to the project.
+   Change the username to "postgres", and the password to the one you chose when installing PostgresSQL. Don’t change the database name.
 
-4. Click on the "Data Source Properties". Then, add a PostgresSQL database (Data Source | PostgresSQL) to the project. Change the username to "postgres", and the password to the one you chose when installing PostgresSQL. Don’t change the database name. Hit "Apply", then "OK". 
+   **Download the database driver, if prompted in the bottom of the window.**
 
-**Download the database driver, if prompted in the bottom of the window.**
-
+5. Hit "Apply", then "OK". 
 7. Right-click on the "database.sql" under resources (src/main/resources) and choices run. Click add, then choose "postgres@localhost" as target data source.
-
-8. Return to the database tool window. Click on the "Data Source Properties", go to schemas and choose the newly created "tv2_semesterprojekt_f3f70b5a". 
-Drop it down and apply default schemas. Hit "Apply", then "OK". 
-   
+8. Return to the database tool window. Click on the "Data Source Properties", go to schemas and choose the newly created "tv2_semesterprojekt_f3f70b5a".
+   Drop it down and apply default schemas. Hit "Apply", then "OK". 
 9. Lastly, right-click on the "tables.sql" under resources. 
-   Edit a new configuration, add the newly created "tv2_semesterprojekt_f3f70b5a" as the target data source. 
-   Execute "tables.sql", "dummy_data.sql" and "set_tv2_owner.sql" in that order. Hit "Apply", then "OK".
+   Add the newly created "tv2_semesterprojekt_f3f70b5a" as the target data source. 
+   Under execute add "tables.sql", "dummy_data.sql" and "set_tv2_owner.sql" in that order. Hit "Apply", then "Run".
 
 ## Run source code
 
@@ -60,7 +58,7 @@ Drop it down and apply default schemas. Hit "Apply", then "OK".
 
 ## Build Java Archive (.jar)
 
-1. Click at the "Maven" text located at the edge of the program to the right
+1. In IntelliJ open the maven tool window (View | Tool Windows | Maven)
 2. Double-click on "TV2 semesterprojekt" to expand it
 3. Double-click on "Lifecycle" to expand it
 4. Double-click on "install"
@@ -69,7 +67,7 @@ Drop it down and apply default schemas. Hit "Apply", then "OK".
 ## Run Java Archive (.jar)
 
 1. Located the .jar in the "target" folder
-1. Right-click on the .jar file and select "Run 'TV2-Semesterprojekt-...'"
+2. Right-click on the .jar file and select "Run 'TV2-Semesterprojekt-...'"
 
 ## Login
 

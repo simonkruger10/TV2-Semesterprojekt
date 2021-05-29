@@ -115,9 +115,10 @@ public class HomepageController extends VBox implements UpdateHandler {
             throw new RuntimeException(e);
         }
 
-        contentHolder.heightProperty().addListener(new ChangeListener<>() {
+        //noinspection rawtypes
+        contentHolder.heightProperty().addListener(new ChangeListener() {
             @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+            public void changed(ObservableValue observableValue, Object oldValue, Object newValue) {
                 scrollBar.setPrefHeight((Double) newValue);
             }
         });
