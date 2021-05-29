@@ -14,6 +14,7 @@ import static com.company.common.Tools.trueEquals;
 public class ProducerManagement implements IProducerManagement {
     private final AccountManagement aMgt = new AccountManagement();
 
+    @SuppressWarnings("unused")
     @Override
     public IProducer[] list() {
         return list(0, 10);
@@ -36,6 +37,7 @@ public class ProducerManagement implements IProducerManagement {
     }
 
 
+    @SuppressWarnings("unused")
     @Override
     public IProducer[] search(String[] words) {
         return search(words, 10);
@@ -62,6 +64,7 @@ public class ProducerManagement implements IProducerManagement {
     }
 
 
+    @SuppressWarnings("unused")
     @Override
     public IProducer getByName(String name) {
         assert name != null;
@@ -84,6 +87,7 @@ public class ProducerManagement implements IProducerManagement {
     }
 
 
+    @SuppressWarnings("unused")
     @Override
     public IProducer create(IProducer producer) {
         // TODO: Is it only administrators that can create new a producer?
@@ -101,6 +105,7 @@ public class ProducerManagement implements IProducerManagement {
     }
 
 
+    @SuppressWarnings("unused")
     @Override
     public void update(IProducer producer) {
         controlsRequirements(producer);

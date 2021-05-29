@@ -63,11 +63,13 @@ public class AccountViewController extends VBox implements UpdateHandler {
         email.setText(account.getEmail());
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void edit(@SuppressWarnings("unused") MouseEvent event) {
         callback.edit(Type.ACCOUNT, (IDTO<IAccount>) () -> account);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
         return accessLevel.equals(AccessLevel.PRODUCER) || accessLevel.equals(AccessLevel.ADMINISTRATOR);

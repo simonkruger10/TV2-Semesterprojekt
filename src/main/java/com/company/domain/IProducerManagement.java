@@ -2,6 +2,7 @@ package com.company.domain;
 
 import com.company.common.IProducer;
 
+@SuppressWarnings("unused")
 public interface IProducerManagement {
     IProducer[] list();
     IProducer[] list(int start);

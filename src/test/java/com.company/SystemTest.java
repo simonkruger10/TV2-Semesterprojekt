@@ -1,17 +1,12 @@
 package com.company;
 
 import com.company.common.ICredit;
-import com.company.common.ICreditGroup;
 import com.company.common.IProduction;
-import com.company.domain.CreditManagement;
 import com.company.domain.ProductionManagement;
 import com.company.domain.dto.CreditGroup;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,8 +14,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * This SystemTest replaces the role of a GUI, and imitates the requests of a user to the domain.
  */
+@SuppressWarnings("SpellCheckingInspection")
 public class SystemTest {
 
+    @SuppressWarnings("EmptyMethod")
     @Before
     public void setup() {
 
@@ -63,6 +60,7 @@ public class SystemTest {
         assertThat(creditedFor[1].getName(), is("Flammen og Citronen"));
     }
 
+    @SuppressWarnings("EmptyMethod")
     @After
     public void cleanup() {
 

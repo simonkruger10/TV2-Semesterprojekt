@@ -14,6 +14,7 @@ public class Postgresql implements DatabaseFacade {
     private final PostgresCreditGroup postgresCreditGroup = new PostgresCreditGroup();
     private final PostgresAccount postgresAccount = new PostgresAccount();
 
+    @SuppressWarnings("SpellCheckingInspection")
     public Postgresql() {
         try {
             DriverManager.registerDriver(new org.postgresql.Driver());

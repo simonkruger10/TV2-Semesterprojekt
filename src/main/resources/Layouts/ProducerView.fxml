@@ -65,22 +65,20 @@
                <Font name="Arial" size="25.0" />
             </font>
          </Text>
-         <GridPane hgap="10.0" vgap="10.0">
-           <columnConstraints>
-             <ColumnConstraints fillWidth="false" hgrow="NEVER" />
-             <ColumnConstraints fillWidth="false" hgrow="ALWAYS" />
-           </columnConstraints>
-           <rowConstraints>
-             <RowConstraints fillHeight="false" vgrow="ALWAYS" />
-             <RowConstraints fillHeight="false" vgrow="ALWAYS" />
-           </rowConstraints>
-            <children>
-               <Label text="Navn" />
-               <Label text="Email" GridPane.rowIndex="1" />
-               <Label fx:id="accountName" text="Label" GridPane.columnIndex="1" />
-               <Label fx:id="accountEmail" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            </children>
-         </GridPane>
+          <GridPane hgap="10.0" vgap="10.0">
+              <columnConstraints>
+                  <ColumnConstraints fillWidth="false" hgrow="NEVER"/>
+                  <ColumnConstraints fillWidth="false" hgrow="ALWAYS"/>
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints fillHeight="false" vgrow="ALWAYS"/>
+                  <RowConstraints fillHeight="false" vgrow="ALWAYS"/>
+              </rowConstraints>
+              <Label text="Navn"/>
+              <Label text="Email" GridPane.rowIndex="1"/>
+              <Label fx:id="accountName" text="Label" GridPane.columnIndex="1"/>
+              <Label fx:id="accountEmail" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+          </GridPane>
          <padding>
             <Insets left="20.0" />
          </padding>

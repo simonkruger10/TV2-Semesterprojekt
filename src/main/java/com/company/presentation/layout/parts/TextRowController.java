@@ -73,13 +73,15 @@ public class TextRowController extends VBox {
         trueVisible(editBtn, state);
     }
 
+    @SuppressWarnings("unused")
     @FXML
-    private void show(@SuppressWarnings("unused") MouseEvent event) {
+    private void show(MouseEvent event) {
         callback.show(type, dto);
     }
 
+    @SuppressWarnings("unused")
     @FXML
-    private void edit(@SuppressWarnings("unused") MouseEvent event) {
+    private void edit(MouseEvent event) {
         callback.edit(type, dto);
     }
 }

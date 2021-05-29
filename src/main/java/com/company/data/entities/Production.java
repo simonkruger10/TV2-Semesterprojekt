@@ -20,6 +20,7 @@ public class Production extends Identifier implements IProduction {
     public Production() {
     }
 
+    @SuppressWarnings("unused")
     public Production(IProduction production) {
         assert production != null;
 

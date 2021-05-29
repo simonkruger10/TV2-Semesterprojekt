@@ -62,6 +62,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
         loadProduction(production);
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public void loadProduction(IProduction production) {
         this.production = production;
 
@@ -80,6 +81,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
         for (ICredit credit : sortedCredits) {
             for (ICreditGroup creditGroup : credit.getCreditGroups()) { //TODO this will not allow credits without a creditGroup to be shown.
                 String key = creditGroup.getName();
+                //noinspection Java8MapApi
                 if (grouped.get(key) == null) {
                     grouped.put(key, new ArrayList<>());
                 }
@@ -131,11 +133,13 @@ public class ProductionViewController extends VBox implements UpdateHandler {
         update();
     }
 
+    @SuppressWarnings("unused")
     @FXML
-    private void editProduction(@SuppressWarnings("unused") MouseEvent event) {
+    private void editProduction(MouseEvent event) {
         callback.edit(Type.PRODUCTION, (IDTO<IProduction>) () -> production);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
         return true;

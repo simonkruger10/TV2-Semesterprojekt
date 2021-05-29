@@ -112,6 +112,7 @@ public class CreditCreationController extends HBox implements UpdateHandler {
         title.setText("Edit Credit");
     }
 
+    @SuppressWarnings("unused")
     @FXML
     public void addCredit(@SuppressWarnings("unused") MouseEvent event) {
         Credit credit;
@@ -151,14 +152,15 @@ public class CreditCreationController extends HBox implements UpdateHandler {
         }
     }
 
-    @SuppressWarnings("EmptyMethod")
+    @SuppressWarnings({"EmptyMethod", "unused"})
     @FXML
-    void onBrowseClicked(@SuppressWarnings("unused") MouseEvent event) {
+    void onBrowseClicked(MouseEvent event) {
 
     }
 
+    @SuppressWarnings("unused")
     @FXML
-    public void onCheckClicked(@SuppressWarnings("unused") MouseEvent event) {
+    public void onCheckClicked(MouseEvent event) {
         toggleView(personCheck.isSelected());
     }
 
@@ -173,12 +175,13 @@ public class CreditCreationController extends HBox implements UpdateHandler {
         trueVisible(imageText, state);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
         return accessLevel.greater(AccessLevel.CONSUMER);
     }
 
-    @SuppressWarnings("EmptyMethod")
+    @SuppressWarnings({"EmptyMethod", "unused"})
     @Override
     public void update() {
 

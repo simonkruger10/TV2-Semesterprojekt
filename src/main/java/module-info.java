@@ -4,6 +4,7 @@ module com.company {
     requires javafx.graphics;
     requires javafx.base;
     requires java.sql;
+    //noinspection Java9RedundantRequiresStatement
     requires org.postgresql.jdbc;
     opens com.company;
     opens com.company.common;

@@ -26,7 +26,7 @@ public class PostgresAccount {
     }
 
     public IAccount[] getAccounts(Integer limit, Integer offset) {
-        List<IAccount> accounts = new ArrayList<IAccount>();
+        List<IAccount> accounts = new ArrayList<>();
 
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM account LIMIT ? OFFSET ?");

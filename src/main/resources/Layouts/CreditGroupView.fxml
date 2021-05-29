@@ -49,7 +49,7 @@
          </Text>
       </HBox>
       <HBox alignment="TOP_RIGHT" spacing="10.0">
-         <Button fx:id="editCreditGroupBtn" disable="true" mnemonicParsing="false" onMouseClicked="#edit" text="Edit Credit Group">
+         <Button fx:id="editCreditGroupBtn" mnemonicParsing="false" onMouseClicked="#edit" text="Edit Credit Group">
             <font>
                <Font name="Arial" size="12.0" />
             </font>
@@ -61,14 +61,14 @@
       <padding>
          <Insets top="5.0" />
       </padding>
-      <Button fx:id="prvBtn" disable="true" maxWidth="75.0" minWidth="75.0" onMouseClicked="#onPrv" text="&lt; Previous" managed="false" visible="false" />
-      <Button fx:id="slot1" disable="true" onMouseClicked="#onGoto" text="1" managed="false" visible="false" />
-      <Button fx:id="slot2" disable="true" onMouseClicked="#onGoto" text="2" managed="false" visible="false" />
-      <Button fx:id="slot3" disable="true" onMouseClicked="#onGoto" text="3" managed="false" visible="false" />
-      <Button fx:id="slot4" disable="true" onMouseClicked="#onGoto" text="4" managed="false" visible="false" />
-      <Button fx:id="slot5" disable="true" onMouseClicked="#onGoto" text="5" managed="false" visible="false" />
-      <Button fx:id="slot6" disable="true" onMouseClicked="#onGoto" text="6" managed="false" visible="false" />
-      <Button fx:id="slot7" disable="true" onMouseClicked="#onGoto" text="7" managed="false" visible="false" />
-      <Button fx:id="nextBtn" disable="true" maxWidth="75.0" minWidth="75.0" onMouseClicked="#onNext" text="Next &gt;" managed="false" visible="false" />
+      <Button fx:id="prvBtn" maxWidth="75.0" minWidth="75.0" onMouseClicked="#onPrv" text="&lt; Previous" managed="false" visible="false" />
+      <Button fx:id="slot1" onMouseClicked="#onGoto" text="1" managed="false" visible="false" />
+      <Button fx:id="slot2" onMouseClicked="#onGoto" text="2" managed="false" visible="false" />
+      <Button fx:id="slot3" onMouseClicked="#onGoto" text="3" managed="false" visible="false" />
+      <Button fx:id="slot4" onMouseClicked="#onGoto" text="4" managed="false" visible="false" />
+      <Button fx:id="slot5" onMouseClicked="#onGoto" text="5" managed="false" visible="false" />
+      <Button fx:id="slot6" onMouseClicked="#onGoto" text="6" managed="false" visible="false" />
+      <Button fx:id="slot7" onMouseClicked="#onGoto" text="7" managed="false" visible="false" />
+      <Button fx:id="nextBtn" maxWidth="75.0" minWidth="75.0" onMouseClicked="#onNext" text="Next &gt;" managed="false" visible="false" />
    </HBox>
 </fx:root>

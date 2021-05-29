@@ -16,11 +16,14 @@ import java.security.NoSuchAlgorithmException;
 
 import static org.junit.Assert.*;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class CreditTest {
 
     private CreditManagement creditManagement;
     private Credit newCredit, existingCredit;
+    @SuppressWarnings({"FieldCanBeLocal", "RedundantSuppression"})
     private Production newProduction, existingProduction;
+    @SuppressWarnings("FieldCanBeLocal")
     private Producer existingProducer;
     boolean newCreditHasBeenAddedToTheDatabase;
     private DatabaseFacade dbInstance;

@@ -4,6 +4,7 @@ import com.company.common.ICredit;
 import com.company.common.IProducer;
 import com.company.common.IProduction;
 
+@SuppressWarnings("unused")
 public interface IProductionManagement {
     IProduction[] list();
     IProduction[] list(int start);

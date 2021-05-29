@@ -19,7 +19,7 @@
                 <Insets right="10.0" />
             </HBox.margin>
         </Text>
-        <ComboBox fx:id="sortByBtn" disable="true" promptText="Navn (Alfabetisk)" />
+        <ComboBox fx:id="sortByBtn" promptText="Navn (Alfabetisk)" />
     </HBox>
     <VBox fx:id="main" />
     <HBox alignment="CENTER" spacing="15.0" VBox.vgrow="ALWAYS">

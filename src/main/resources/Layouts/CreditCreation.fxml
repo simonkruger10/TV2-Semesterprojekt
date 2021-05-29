@@ -75,7 +75,7 @@
                 <Font size="16.0" />
             </font>
         </TextField>
-        <TextField fx:id="productionText" disable="true" promptText="Production">
+        <TextField fx:id="productionText" promptText="Production">
             <font>
                 <Font size="16.0" />
             </font>
@@ -83,7 +83,7 @@
         <HBox alignment="CENTER">
             <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
         </HBox>
-        <Button fx:id="browse" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#onBrowseClicked" text="Browse...">
+        <Button fx:id="browse" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#onBrowseClicked" text="Browse...">
             <padding>
                 <Insets bottom="10.0" top="10.0" />
             </padding>

@@ -32,12 +32,17 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<fx:root alignment="CENTER" type="VBox" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root alignment="CENTER" type="VBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recently added credits">
         <font>
             <Font name="Arial" size="36.0" />
@@ -46,102 +51,116 @@
             <Insets bottom="30.0" />
         </VBox.margin>
     </Text>
-    <HBox fx:id="latestAddedSlider" alignment="CENTER" spacing="20.0">
-        <padding>
-            <Insets left="20.0" right="20.0" />
-        </padding>
-        <VBox alignment="CENTER">
-            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/TV_2_RGB.png" />
-            </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Druk">
-                <font>
-                    <Font name="Arial Bold Italic" size="24.0" />
-                </font>
-            </Text>
-        </VBox>
-        <VBox alignment="CENTER">
-            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/TV_2_RGB.png" />
-            </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hjælp, jeg er en fisk">
-                <font>
-                    <Font name="Arial Bold Italic" size="24.0" />
-                </font>
-            </Text>
-        </VBox>
-        <VBox alignment="CENTER">
-            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/TV_2_RGB.png" />
-            </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Flammen og citronen">
-                <font>
-                    <Font name="Arial Bold Italic" size="24.0" />
-                </font>
-            </Text>
-        </VBox>
-        <VBox alignment="CENTER">
-            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/TV_2_RGB.png" />
-            </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kartellet">
-                <font>
-                    <Font name="Arial Bold Italic" size="24.0" />
-                </font>
-            </Text>
-        </VBox>
-    </HBox>
+    <GridPane hgap="10.0" vgap="5.0">
+        <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+            <RowConstraints vgrow="SOMETIMES"/>
+            <RowConstraints vgrow="SOMETIMES"/>
+            <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+        </rowConstraints>
+        <ImageView fx:id="image1" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/TV_2_RGB.png"/>
+        </ImageView>
+        <ImageView fx:id="image2" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                   GridPane.columnIndex="2">
+            <Image url="@../images/TV_2_RGB.png"/>
+        </ImageView>
+        <ImageView fx:id="image3" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                   GridPane.columnIndex="1">
+            <Image url="@../images/TV_2_RGB.png"/>
+        </ImageView>
+        <ImageView fx:id="image4" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                   GridPane.columnIndex="3">
+            <Image url="@../images/TV_2_RGB.png"/>
+        </ImageView>
+        <Text fx:id="title1" strokeType="OUTSIDE" strokeWidth="0.0" text="Druk" GridPane.rowIndex="3">
+           <font>
+               <Font name="Arial Bold Italic" size="24.0"/>
+           </font>
+        </Text>
+        <Text fx:id="title2" strokeType="OUTSIDE" strokeWidth="0.0" text="Flammen og citronen" GridPane.columnIndex="1"
+              GridPane.rowIndex="3">
+           <font>
+               <Font name="Arial Bold Italic" size="24.0"/>
+           </font>
+        </Text>
+        <Text fx:id="title3" strokeType="OUTSIDE" strokeWidth="0.0" text="Badehotellet" GridPane.columnIndex="2"
+              GridPane.rowIndex="3">
+           <font>
+               <Font name="Arial Bold Italic" size="24.0"/>
+           </font>
+        </Text>
+        <Text fx:id="title4" strokeType="OUTSIDE" strokeWidth="0.0" text="Stormester" GridPane.columnIndex="3"
+              GridPane.rowIndex="3">
+           <font>
+               <Font name="Arial Bold Italic" size="24.0"/>
+           </font>
+        </Text>
+    </GridPane>
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Credits for review / Possible duplications">
         <VBox.margin>
-            <Insets bottom="30.0" top="90.0" />
+            <Insets bottom="30.0" top="50.0" />
         </VBox.margin>
         <font>
             <Font name="Arial" size="36.0" />
         </font>
     </Text>
-    <HBox fx:id="latestReviewSlider" alignment="CENTER" spacing="20.0">
-        <padding>
-            <Insets left="20.0" right="20.0" />
-        </padding>
-        <VBox alignment="CENTER">
-            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/TV_2_RGB.png" />
-            </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Druk">
-                <font>
-                    <Font name="Arial Bold Italic" size="24.0" />
-                </font>
-            </Text>
-        </VBox>
-        <VBox alignment="CENTER">
-            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/TV_2_RGB.png" />
-            </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Flammen og citronen">
-                <font>
-                    <Font name="Arial Bold Italic" size="24.0" />
-                </font>
-            </Text>
-        </VBox>
-        <VBox alignment="CENTER">
-            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/TV_2_RGB.png" />
-            </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Badehotellet">
-                <font>
-                    <Font name="Arial Bold Italic" size="24.0" />
-                </font>
-            </Text>
-        </VBox>
-        <VBox alignment="CENTER">
-            <ImageView fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/TV_2_RGB.png" />
-            </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Stormester">
-                <font>
-                    <Font name="Arial Bold Italic" size="24.0" />
-                </font>
-            </Text>
-        </VBox>
-    </HBox>
+    <GridPane hgap="10.0" vgap="5.0">
+        <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+            <RowConstraints vgrow="SOMETIMES"/>
+            <RowConstraints vgrow="SOMETIMES"/>
+            <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+        </rowConstraints>
+        <ImageView fx:id="image5" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/TV_2_RGB.png"/>
+        </ImageView>
+        <ImageView fx:id="image6" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                   GridPane.columnIndex="2">
+            <Image url="@../images/TV_2_RGB.png"/>
+        </ImageView>
+        <ImageView fx:id="image7" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                   GridPane.columnIndex="1">
+            <Image url="@../images/TV_2_RGB.png"/>
+        </ImageView>
+        <ImageView fx:id="image8" fitHeight="141.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                   GridPane.columnIndex="3">
+            <Image url="@../images/TV_2_RGB.png"/>
+        </ImageView>
+        <Text fx:id="title5" strokeType="OUTSIDE" strokeWidth="0.0" text="Druk" GridPane.rowIndex="3">
+            <font>
+                <Font name="Arial Bold Italic" size="24.0"/>
+            </font>
+        </Text>
+        <Text fx:id="title6" strokeType="OUTSIDE" strokeWidth="0.0" text="Flammen og citronen" GridPane.columnIndex="1"
+              GridPane.rowIndex="3">
+            <font>
+                <Font name="Arial Bold Italic" size="24.0"/>
+            </font>
+        </Text>
+        <Text fx:id="title7" strokeType="OUTSIDE" strokeWidth="0.0" text="Badehotellet" GridPane.columnIndex="2"
+              GridPane.rowIndex="3">
+            <font>
+                <Font name="Arial Bold Italic" size="24.0"/>
+            </font>
+        </Text>
+        <Text fx:id="title8" strokeType="OUTSIDE" strokeWidth="0.0" text="Stormester" GridPane.columnIndex="3"
+              GridPane.rowIndex="3">
+            <font>
+                <Font name="Arial Bold Italic" size="24.0"/>
+            </font>
+        </Text>
+    </GridPane>
 </fx:root>

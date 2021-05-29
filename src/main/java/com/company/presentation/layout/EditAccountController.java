@@ -20,24 +20,31 @@ import java.security.NoSuchAlgorithmException;
 import static com.company.common.Tools.isNullOrEmpty;
 
 public class EditAccountController extends VBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private Label title;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField firstNameText;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField lastNameText;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField emailText;
 
+    @SuppressWarnings("unused")
     @FXML
     private PasswordField passwordText1;
 
+    @SuppressWarnings("unused")
     @FXML
     private PasswordField passwordText2;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button addBtn;
 
@@ -69,6 +76,7 @@ public class EditAccountController extends VBox implements UpdateHandler {
         passwordText2.setPromptText("New Password Again");
     }
 
+    @SuppressWarnings("unused")
     @FXML
     public void add(MouseEvent event) {
         Account account;
@@ -119,11 +127,13 @@ public class EditAccountController extends VBox implements UpdateHandler {
         }
     }
 
+    @SuppressWarnings("unused")
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
         return accessLevel.greater(AccessLevel.CONSUMER);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void update() {
 

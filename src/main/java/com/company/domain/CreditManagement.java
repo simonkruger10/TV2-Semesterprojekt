@@ -18,6 +18,7 @@ import static com.company.common.Tools.*;
 public class CreditManagement implements ICreditManagement {
     private final AccountManagement aMgt = new AccountManagement();
 
+    @SuppressWarnings("unused")
     @Override
     public ICredit[] list() {
         return list(0, 10);
@@ -39,7 +40,7 @@ public class CreditManagement implements ICreditManagement {
         return list.toArray(new ICredit[0]);
     }
 
-
+    @SuppressWarnings("unused")
     @Override
     public ICredit[] search(String[] words) {
         return search(words, 10);
@@ -80,6 +81,7 @@ public class CreditManagement implements ICreditManagement {
                 .toArray(ICredit[]::new);                           //Convert the List<Key> into Key[]
     }
 
+    @SuppressWarnings("unused")
     @Override
     public ICredit[] getByName(String firstName) {
         return getByName(firstName, null);

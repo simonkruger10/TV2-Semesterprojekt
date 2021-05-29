@@ -22,11 +22,13 @@ public class AccountManagement implements IAccountManagement {
     @SuppressWarnings({"FieldCanBeLocal", "SpellCheckingInspection"})
     private final String saltValue = "qOfzSKTYGNhmf4bT73ZMxmHe5C3FR756HANUIOmejTLs5PZb6mqAlVJPyOXeEwJ23NyySubPx51YILZWqdDG6BvB3XNYCJpw8HJXJ4Wh5lM8DcWiDqjnQRqeyf8nUshPmiDt38RDlQGQ";
 
+    @SuppressWarnings("unused")
     @Override
     public IAccount[] list() {
         return list(0, 10);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public IAccount[] list(int start) {
         return list(start, 10);
@@ -48,6 +50,7 @@ public class AccountManagement implements IAccountManagement {
     }
 
 
+    @SuppressWarnings("unused")
     @Override
     public IAccount[] search(String[] words) {
         return search(words, 10);
@@ -95,6 +98,7 @@ public class AccountManagement implements IAccountManagement {
     }
 
 
+    @SuppressWarnings("unused")
     @Override
     public IAccount[] getByName(String firstName) {
         return getByName(firstName, null);
@@ -152,6 +156,7 @@ public class AccountManagement implements IAccountManagement {
         currentUser = new Account(account);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void logout() {
         currentUser = new Account();
@@ -221,6 +226,7 @@ public class AccountManagement implements IAccountManagement {
         }
     }
 
+    @SuppressWarnings("unused")
     @Override
     public Integer count() {
         if (!isAdmin()) {

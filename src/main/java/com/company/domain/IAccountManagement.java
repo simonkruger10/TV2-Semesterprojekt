@@ -4,6 +4,7 @@ import com.company.common.IAccount;
 
 import java.security.NoSuchAlgorithmException;
 
+@SuppressWarnings("unused")
 public interface IAccountManagement {
     IAccount[] list();
     IAccount[] list(int start);

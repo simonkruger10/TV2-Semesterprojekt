@@ -16,6 +16,7 @@ import static com.company.common.Tools.*;
 public class CreditGroupManagement implements ICreditGroupManagement {
     private final AccountManagement aMgt = new AccountManagement();
 
+    @SuppressWarnings("unused")
     @Override
     public ICreditGroup[] list() {
         return list(0, 10);
@@ -37,7 +38,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
         return list.toArray(new ICreditGroup[0]);
     }
 
-
+    @SuppressWarnings("unused")
     @Override
     public ICreditGroup[] search(String[] words) {
         return search(words, 10);
@@ -118,7 +119,7 @@ public class CreditGroupManagement implements ICreditGroupManagement {
         return new CreditGroup(creditGroup);
     }
 
-
+    @SuppressWarnings("unused")
     @Override
     public void update(ICreditGroup creditGroup) {
         assert creditGroup != null;

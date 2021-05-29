@@ -54,6 +54,7 @@ public class GUI extends Application implements CallbackHandler {
         list(type, 1);
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public void list(Type type, Integer page) {
         OverviewController overview = new OverviewController(this);
@@ -122,6 +123,7 @@ public class GUI extends Application implements CallbackHandler {
         new MessageDialog(alertType, message);
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public void add(Type type) {
         if (type == Type.ACCOUNT) {
@@ -135,6 +137,7 @@ public class GUI extends Application implements CallbackHandler {
         }
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public void edit(Type type, @SuppressWarnings("rawtypes") IDTO dto) {
         if (type == Type.ACCOUNT) {

@@ -19,36 +19,47 @@ import java.io.IOException;
 import static com.company.common.Tools.*;
 
 public class OverviewController extends VBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private VBox main;
 
+    @SuppressWarnings("unused")
     @FXML
     private ComboBox<?> sortByBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button prvBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot1;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot2;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot3;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot4;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot5;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot6;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot7;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button nextBtn;
 
@@ -119,8 +130,8 @@ public class OverviewController extends VBox implements UpdateHandler {
                 i++;
             }
         } else {
-            String text = null;
-            String image = null;
+            String text;
+            String image;
 
             for (@SuppressWarnings("rawtypes") IDTO dto : dtos) {
                 if (type == Type.PRODUCER) {
@@ -202,11 +213,13 @@ public class OverviewController extends VBox implements UpdateHandler {
         }
     }
 
+    @SuppressWarnings("unused")
     @FXML
     public void onPrv(MouseEvent event) {
         callback.list(type, currentPage - 1);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     public void onGoto(MouseEvent event) {
         Button button = (Button) event.getSource();
@@ -214,11 +227,13 @@ public class OverviewController extends VBox implements UpdateHandler {
         callback.list(type, pageNumber);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     public void onNext(MouseEvent event) {
         callback.list(type, currentPage + 1);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
         if (type == Type.ACCOUNT) {

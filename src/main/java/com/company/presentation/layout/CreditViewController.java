@@ -25,27 +25,35 @@ import static com.company.common.Tools.trueVisible;
 
 
 public class CreditViewController extends VBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private Button editCreditBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private ImageView image;
 
+    @SuppressWarnings("unused")
     @FXML
     private GridPane unit;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text name;
 
+    @SuppressWarnings("unused")
     @FXML
     private GridPane person;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text firstName;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text lastName;
 
+    @SuppressWarnings("unused")
     @FXML
     private VBox creditedFor;
 
@@ -95,11 +103,13 @@ public class CreditViewController extends VBox implements UpdateHandler {
         update();
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void editCredit(MouseEvent event) {
         callback.edit(Type.CREDIT, (IDTO<ICredit>) () -> credit);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
         return true;

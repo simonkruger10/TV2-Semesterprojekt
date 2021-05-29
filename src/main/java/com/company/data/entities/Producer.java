@@ -11,6 +11,7 @@ public class Producer extends Identifier implements IProducer {
     public Producer() {
     }
 
+    @SuppressWarnings("unused")
     public Producer(IProducer producer) {
         assert producer != null;
 

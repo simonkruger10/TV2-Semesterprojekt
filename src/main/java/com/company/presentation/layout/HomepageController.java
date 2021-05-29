@@ -27,63 +27,82 @@ import java.io.IOException;
 import static com.company.common.Tools.trueVisible;
 
 public class HomepageController extends VBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private ImageView homeBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text helloMessage;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text loginBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private TextField searchBarField;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button productionsBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button addProductionBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button creditsBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button addCreditBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button creditGroupsBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button addCreditGroupBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button producersBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button addProducerBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button accountsBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button addAccountBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button accountBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private HBox contentHolder;
 
+    @SuppressWarnings("unused")
     @FXML
     private ScrollPane scrollBar;
 
+    @SuppressWarnings("unused")
     @FXML
     private VBox content;
 
     private final IAccountManagement aMgt = new AccountManagement();
     private final CallbackHandler callBack;
 
+    @SuppressWarnings("Convert2Lambda")
     public HomepageController(CallbackHandler callBack) {
         this.callBack = callBack;
 
@@ -96,7 +115,7 @@ public class HomepageController extends VBox implements UpdateHandler {
             throw new RuntimeException(e);
         }
 
-        contentHolder.heightProperty().addListener(new ChangeListener<Number>() {
+        contentHolder.heightProperty().addListener(new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
                 scrollBar.setPrefHeight((Double) newValue);
@@ -107,11 +126,13 @@ public class HomepageController extends VBox implements UpdateHandler {
     }
 
 
+    @SuppressWarnings("unused")
     @FXML
     private void goHome(MouseEvent event) {
         callBack.show(Type.RECENTLY_AND_REVIEW);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void onLogin(MouseEvent event) {
         if (aMgt.getCurrentUser().getAccessLevel().equals(AccessLevel.GUEST)) {
@@ -121,61 +142,73 @@ public class HomepageController extends VBox implements UpdateHandler {
         }
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void search(KeyEvent event) {
         callBack.list(Type.SEARCH);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void showProductions(MouseEvent event) {
         callBack.list(Type.PRODUCTION);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void addProduction(MouseEvent event) {
         callBack.add(Type.PRODUCTION);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void showProducers(MouseEvent event) {
         callBack.list(Type.PRODUCER);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void addProducer(MouseEvent event) {
         callBack.add(Type.PRODUCER);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void showCreditGroups(MouseEvent event) {
         callBack.list(Type.CREDIT_GROUP);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void addCreditGroup(MouseEvent event) {
         callBack.add(Type.CREDIT_GROUP);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void showCredits(MouseEvent event) {
         callBack.list(Type.CREDIT);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void addCredit(MouseEvent event) {
         callBack.add(Type.CREDIT);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void showAccounts(MouseEvent event) {
         callBack.list(Type.ACCOUNT);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void addAccount(MouseEvent event) {
         callBack.add(Type.ACCOUNT);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void showAccount(MouseEvent event) {
         callBack.show(Type.ACCOUNT, aMgt::getCurrentUser);

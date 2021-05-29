@@ -23,9 +23,11 @@ import static com.company.common.Tools.isEmailValid;
 import static com.company.common.Tools.isNullOrEmpty;
 
 public class LoginController extends VBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private TextField emailPanel;
 
+    @SuppressWarnings("unused")
     @FXML
     private PasswordField passwordPanel;
 
@@ -46,6 +48,7 @@ public class LoginController extends VBox implements UpdateHandler {
         Platform.runLater(() -> emailPanel.requestFocus());
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void onKeyReleased(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
@@ -54,6 +57,7 @@ public class LoginController extends VBox implements UpdateHandler {
     }
 
     //Login button pressed
+    @SuppressWarnings("unused")
     @FXML
     private void login(MouseEvent mouseEvent) {
         login();

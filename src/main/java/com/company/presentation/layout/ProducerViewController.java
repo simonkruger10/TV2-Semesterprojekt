@@ -93,11 +93,13 @@ public class ProducerViewController extends VBox implements UpdateHandler {
         update();
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void edit(MouseEvent event) {
         callback.edit(Type.PRODUCER, (IDTO<IProducer>) () -> producer);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
         return true;

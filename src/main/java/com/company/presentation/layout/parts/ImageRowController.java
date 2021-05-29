@@ -6,7 +6,6 @@ import com.company.presentation.IDTO;
 import com.company.presentation.Type;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,15 +19,19 @@ import java.io.IOException;
 import static com.company.common.Tools.trueVisible;
 
 public class ImageRowController extends VBox {
+    @SuppressWarnings("unused")
     @FXML
     private HBox holder;
 
+    @SuppressWarnings("unused")
     @FXML
     private ImageView image;
 
+    @SuppressWarnings("unused")
     @FXML
     private Text text;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button editBtn;
 
@@ -64,19 +67,17 @@ public class ImageRowController extends VBox {
         holder.setStyle("-fx-background-color: " + hex + ";");
     }
 
-    public void setTopMargin(int top) {
-        VBox.setMargin(this, new Insets(top, 0, 0, 0));
-    }
-
     public void showEdit(boolean state) {
         trueVisible(editBtn, state);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void show(MouseEvent event) {
         callback.show(type, dto);
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void edit(MouseEvent event) {
         callback.edit(type, dto);

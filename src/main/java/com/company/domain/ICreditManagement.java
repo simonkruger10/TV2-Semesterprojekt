@@ -4,6 +4,7 @@ import com.company.common.CreditType;
 import com.company.common.ICredit;
 import com.company.common.ICreditGroup;
 
+@SuppressWarnings("unused")
 public interface ICreditManagement {
     ICredit[] list();
     ICredit[] list(int start);

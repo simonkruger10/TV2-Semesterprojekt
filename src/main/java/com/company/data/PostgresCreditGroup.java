@@ -23,7 +23,7 @@ public class PostgresCreditGroup {
     }
 
     public ICreditGroup[] getCreditGroups(Integer limit, Integer offset) {
-        List<ICreditGroup> creditGroups = new ArrayList<ICreditGroup>();
+        List<ICreditGroup> creditGroups = new ArrayList<>();
 
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM credit_group LIMIT ? OFFSET ?");

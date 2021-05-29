@@ -2,6 +2,7 @@ package com.company.domain;
 
 import com.company.common.ICreditGroup;
 
+@SuppressWarnings("unused")
 public interface ICreditGroupManagement {
     ICreditGroup[] list();
     ICreditGroup[] list(int start);

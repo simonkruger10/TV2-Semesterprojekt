@@ -2,6 +2,7 @@ package com.company.data.entities;
 
 import com.company.common.Tools;
 
+@SuppressWarnings("unused")
 public abstract class Person extends Identifier {
     private String firstName = null;
     private String lastName = null;

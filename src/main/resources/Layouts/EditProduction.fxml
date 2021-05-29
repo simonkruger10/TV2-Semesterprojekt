@@ -85,14 +85,12 @@
           <Insets top="5.0" />
         </VBox.margin>
     </Button>
-   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-      <children>
-         <TextField fx:id="moviePictureText1" promptText="Search for existing ">
-            <font>
-               <Font size="16.0" />
-            </font>
-         </TextField>
-      </children>
-   </HBox>
+    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+        <TextField fx:id="moviePictureText1" promptText="Search for existing ">
+           <font>
+               <Font size="16.0"/>
+           </font>
+        </TextField>
+    </HBox>
    <HBox prefHeight="100.0" prefWidth="200.0" />
 </fx:root>

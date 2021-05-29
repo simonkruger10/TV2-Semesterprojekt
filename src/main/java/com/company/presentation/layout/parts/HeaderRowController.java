@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 
 public class HeaderRowController extends VBox {
+    @SuppressWarnings("unused")
     @FXML
     private Text text;
 

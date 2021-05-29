@@ -41,6 +41,7 @@ public class ProductionManagement implements IProductionManagement {
     }
 
 
+    @SuppressWarnings("unused")
     @Override
     public IProduction[] search(String[] words) {
         return search(words, 10);
@@ -81,6 +82,7 @@ public class ProductionManagement implements IProductionManagement {
     }
 
 
+    @SuppressWarnings("unused")
     @Override
     public IProduction[] getByName(String name) {
         assert name != null;
@@ -131,6 +133,7 @@ public class ProductionManagement implements IProductionManagement {
     }
 
 
+    @SuppressWarnings("unused")
     @Override
     public IProduction create(IProduction production) {
         controlsRequirements(production);
@@ -154,6 +157,7 @@ public class ProductionManagement implements IProductionManagement {
     }
 
 
+    @SuppressWarnings("unused")
     @Override
     public void update(IProduction production) {
         IProduction oldProduction = getByID(production.getID());

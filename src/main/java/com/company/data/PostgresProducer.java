@@ -24,7 +24,6 @@ public class PostgresProducer {
      *
      * @param queryResult a ResultSet containing one or more rows from the Producer Table, reads the values "id, name, logo"
      * @return A Producer object containing an id, name and logo value.
-     * @throws SQLException
      */
     public static Producer createFromQueryResult(ResultSet queryResult) throws SQLException {
         Producer producer = new Producer();
@@ -35,7 +34,7 @@ public class PostgresProducer {
     }
 
     public IProducer[] getProducers(Integer limit, Integer offset) {
-        List<IProducer> producers = new ArrayList<IProducer>();
+        List<IProducer> producers = new ArrayList<>();
 
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT * FROM producer LIMIT ? OFFSET ?");

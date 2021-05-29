@@ -3,7 +3,7 @@ package com.company.data;
 import com.company.common.*;
 
 public interface DatabaseFacade {
-    @SuppressWarnings("SameReturnValue")
+    @SuppressWarnings({"SameReturnValue", "unused"})
     static DatabaseFacade getInstance() {
         return null;
     }

@@ -252,7 +252,7 @@ public class PostgresCredit {
     }
 
     public Integer countCredits() {
-        Integer count = 0;
+        int count = 0;
 
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement("SELECT count(id) FROM credit_unit");

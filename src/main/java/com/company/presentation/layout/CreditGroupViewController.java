@@ -20,39 +20,51 @@ import static com.company.common.Tools.*;
 
 
 public class CreditGroupViewController extends VBox implements UpdateHandler {
+    @SuppressWarnings("unused")
     @FXML
     private Text creditGroupRole;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button editCreditGroupBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private VBox credits;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button prvBtn;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot1;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot2;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot3;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot4;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot5;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot6;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button slot7;
 
+    @SuppressWarnings("unused")
     @FXML
     private Button nextBtn;
 
@@ -177,26 +189,28 @@ public class CreditGroupViewController extends VBox implements UpdateHandler {
         return maxPages;
     }
 
-    @SuppressWarnings("EmptyMethod")
+    @SuppressWarnings({"EmptyMethod", "unused"})
     @FXML
     public void onPrv(MouseEvent event) {
     }
 
-    @SuppressWarnings("EmptyMethod")
+    @SuppressWarnings({"EmptyMethod", "unused"})
     @FXML
     public void onGoto(MouseEvent event) {
     }
 
-    @SuppressWarnings("EmptyMethod")
+    @SuppressWarnings({"EmptyMethod", "unused"})
     @FXML
     public void onNext(MouseEvent event) {
     }
 
+    @SuppressWarnings("unused")
     @FXML
     private void edit(MouseEvent event) {
         callback.edit(Type.CREDIT_GROUP, (IDTO<ICreditGroup>) () -> creditGroup);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public boolean hasAccess(AccessLevel accessLevel) {
         return true;

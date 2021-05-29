@@ -39,7 +39,6 @@ public class PostgresProduction {
      * and attaches them to each credit.
      *
      * @param production A Production with at least an ID. The Production to be given credits from the database.
-     * @throws SQLException
      */
     void attachCreditsToProduction(Production production) throws SQLException {
         PreparedStatement query = Postgresql.connection.prepareStatement(
@@ -91,7 +90,6 @@ public class PostgresProduction {
      * @param production Production which will be saved or updated
      * @param query      The query which saves or updates a Production in the database. The Query's arguments must be:
      *                   name, release_day, release_month, release_year, description, image, producer_id
-     * @throws SQLException
      */
     void setArguments(IProduction production, PreparedStatement query) throws SQLException {
         //Argument order: name, release_day, release_month, release_year, description, image, producer_id
@@ -125,8 +123,8 @@ public class PostgresProduction {
             }
 
             query.executeBatch();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
