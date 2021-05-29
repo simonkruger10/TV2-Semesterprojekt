@@ -17,9 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import static com.company.common.Tools.*;
 
@@ -72,7 +70,9 @@ public class ProductionViewController extends VBox implements UpdateHandler {
 
         // Group credits by creditGroup
         HashMap<String, List<ICredit>> grouped = new HashMap<>();
-        for (ICredit credit : production.getCredits()) {
+        ICredit[] sortedCredits = production.getCredits();
+        Arrays.sort(sortedCredits, Comparator.comparing(ICredit::getFullName));
+        for (ICredit credit : sortedCredits) {
             for (ICreditGroup creditGroup : credit.getCreditGroups()) { //TODO this will not allow credits without a creditGroup to be shown.
                 String key = creditGroup.getName();
                 if (grouped.get(key) == null) {
