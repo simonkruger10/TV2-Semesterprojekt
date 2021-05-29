@@ -80,7 +80,6 @@ public class PostgresCredit {
                 } else {
                     credit = createFromQueryResult(queryResult, CreditType.UNIT, "f_name");
                 }
-                attachCreditGroupsToCredit(credit);
                 credits.add(credit);
             }
         } catch (SQLException sqlException) {
@@ -95,12 +94,12 @@ public class PostgresCredit {
 
         try {
             PreparedStatement query = Postgresql.connection.prepareStatement(
-                    "SELECT 'credit_person' as type, c.id as c_id, c.f_name as f_name, c.l_name, c.email, c.image " +
+                    "SELECT 'credit_person' as type, c.id, c.f_name as f_name, c.l_name, c.email, c.image " +
                             "FROM production_credit_person_relation as pcpr " +
                             "         JOIN credit_person c on c.id = pcpr.credit_person_id " +
                             "WHERE pcpr.credit_group_id = ? " +
                             "UNION " +
-                            "SELECT 'credit_unit' as type, c.id as c_id, c.name as f_name, null as l_name, null as email, null as image " +
+                            "SELECT 'credit_unit' as type, c.id, c.name as f_name, null as l_name, null as email, null as image " +
                             "FROM production_credit_unit_relation as pcur " +
                             "         JOIN credit_unit c on c.id = pcur.credit_unit_id " +
                             "WHERE pcur.credit_group_id = ? " +
@@ -110,7 +109,6 @@ public class PostgresCredit {
             query.setInt(2, creditGroup.getID());
 
             ResultSet queryResult = query.executeQuery();
-            CreditGroup newCreditGroup = new CreditGroup(creditGroup);
             while (queryResult.next()) {
                 Credit credit;
                 if (queryResult.getString("type").equals("credit_person")) {
@@ -118,7 +116,6 @@ public class PostgresCredit {
                 } else {
                     credit = createFromQueryResult(queryResult, CreditType.UNIT, "f_name");
                 }
-                attachCreditGroupsToCredit(credit);
                 credits.add(credit);
             }
         } catch (SQLException sqlException) {
@@ -170,6 +167,7 @@ public class PostgresCredit {
             ResultSet resultSet = query.executeQuery();
             if (resultSet.next()) {
                 resultCredit = createFromQueryResult(resultSet, credit.getType());
+                attachCreditGroupsToCredit(resultCredit);
             } // TODO: throw exception instead of return null
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
