@@ -140,6 +140,7 @@ public class PostgresCredit {
             ResultSet queryResult = query.executeQuery();
             if (queryResult.next()) {
                 credit = createFromQueryResult(queryResult, type);
+                attachCreditGroupsToCredit(credit);
             } // TODO: throw exception instead of return null
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
