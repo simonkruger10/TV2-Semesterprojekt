@@ -133,6 +133,8 @@ public class GUI extends Application implements CallbackHandler {
         } else if (type == Type.CREDIT_GROUP) {
             // TODO: implants add credit group
         } else if (type == Type.PRODUCER) {
+            // TODO: implants add producer
+        } else if (type == Type.PRODUCTION) {
             // TODO: implants add production
         }
     }
@@ -152,6 +154,8 @@ public class GUI extends Application implements CallbackHandler {
         } else if (type == Type.CREDIT_GROUP) {
             // TODO: implants edit credit group
         } else if (type == Type.PRODUCER) {
+            // TODO: implants edit producer
+        } else if (type == Type.PRODUCTION) {
             // TODO: implants edit production
         }
     }
