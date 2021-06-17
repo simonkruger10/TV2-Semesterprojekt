@@ -119,7 +119,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
                     rows.getChildren().add(iRow);
                 } else {
                     TextRowController cRow = new TextRowController(Type.CREDIT, () -> credit, callback);
-                    cRow.setText(credit.getFullName());
+                    cRow.setText(credit.getName());
                     if (!isEven(i)) {
                         cRow.setBackground(Colors.ODD_COLOR);
                     }
