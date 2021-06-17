@@ -132,7 +132,11 @@ public class AccountManagement implements IAccountManagement {
         if (!currentUser.getAccessLevel().greater(AccessLevel.GUEST)) {
             throw new AccessControlException("Insufficient permission.");
         }
-        return new Account(Database.getInstance().getAccount(email));
+        IAccount account = Database.getInstance().getAccount(email);
+        if (account != null) {
+            return new Account(account);
+        }
+        return null;
     }
 
 
