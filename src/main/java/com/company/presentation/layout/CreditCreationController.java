@@ -10,10 +10,7 @@ import com.company.presentation.Type;
 import com.company.presentation.UpdateHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -133,6 +130,11 @@ public class CreditCreationController extends HBox implements UpdateHandler {
         credit.setLastName(lastNameText.getText());
         credit.setEmail(emailText.getText());
         credit.setImage(basename(image.getImage().getUrl()));
+
+        if (credit.getType().equals(CreditType.PERSON) && !isEmailValid(credit.getEmail())) {
+            callback.show(Alert.AlertType.WARNING, "The e-mail is invalid.");
+            return;
+        }
 
         if (this.credit == null) {
             CreditGroupManagement cMgt = new CreditGroupManagement();

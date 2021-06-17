@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
+import static com.company.common.Tools.isEmailValid;
 import static com.company.common.Tools.isNullOrEmpty;
 
 public class EditAccountController extends VBox implements UpdateHandler {
@@ -90,6 +91,11 @@ public class EditAccountController extends VBox implements UpdateHandler {
         account.setLastName(lastNameText.getText());
         account.setEmail(emailText.getText());
         account.setAccessLevel(AccessLevel.ADMINISTRATOR);
+
+        if (!isEmailValid(account.getEmail())) {
+            callback.show(Alert.AlertType.WARNING, "The e-mail is invalid.");
+            return;
+        }
 
         String newPassword = passwordText1.getText();
         if (isNullOrEmpty(newPassword) && this.account == null) {
