@@ -67,11 +67,7 @@ public class ProductionViewController extends VBox implements UpdateHandler {
         this.production = production;
 
         title.setText(production.getName());
-        String image = production.getImage();
-        if (image == null) {
-            image = "defaultProduction.png";
-        }
-        this.image.setImage(getResourceAsImage("/images/" + image));
+        image.setImage(getResourceAsImage("/images/" + production.getImage()));
         description.setText(production.getDescription());
 
         // Group credits by creditGroup
