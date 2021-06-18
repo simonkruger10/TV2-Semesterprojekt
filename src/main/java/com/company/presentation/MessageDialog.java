@@ -2,13 +2,16 @@ package com.company.presentation;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import static com.company.common.Tools.getResourceAsImage;
 
 public class MessageDialog extends Alert {
 
-    public MessageDialog(AlertType alertType, String message) {
+    public MessageDialog(Window parent, AlertType alertType, String message) {
         super(alertType);
+
+        initOwner(parent);
 
         Stage stage = (Stage) getDialogPane().getScene().getWindow();
         stage.getIcons().add(getResourceAsImage("/images/icon.png"));

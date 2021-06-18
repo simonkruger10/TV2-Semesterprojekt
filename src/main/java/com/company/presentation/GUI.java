@@ -120,7 +120,7 @@ public class GUI extends Application implements CallbackHandler {
 
     @Override
     public void show(AlertType alertType, String message) {
-        new MessageDialog(alertType, message);
+        new MessageDialog(homepageController.getScene().getWindow(), alertType, message);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
