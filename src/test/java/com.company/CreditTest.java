@@ -40,11 +40,16 @@ public class CreditTest {
         newCredit.setEmail("bob@marley.tld");
         newCredit.setImage("defaultCreditPerson.jpg");
 
+        CreditGroup existingCreditGroup = new CreditGroup();
+        existingCreditGroup.setName("Medvirkende");
+        existingCreditGroup.setID(1);
+
         existingCredit = new Credit();
         existingCredit.setFirstName("Mads");
         existingCredit.setLastName("Mikkelsen");
         existingCredit.setImage("oQBzMxGTMOIVrFGUqHnWK5lB61G.jpg");
         existingCredit.setEmail("mail_madsmikkelsen@system.tld");
+        existingCredit.addCreditGroup(existingCreditGroup);
         existingCredit.setID(1);
 
         existingProducer = new Producer();
